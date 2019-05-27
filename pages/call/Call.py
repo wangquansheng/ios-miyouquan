@@ -63,6 +63,7 @@ class CallPage(BasePage):
         '多方电话': (MobileBy.XPATH, '//*[@text="多方电话"]'),
         '多方视频': (MobileBy.XPATH, '//*[@text="多方视频"]'),
         '我知道了': (MobileBy.XPATH, '//*[@text="我知道了"]'),
+        'num1': (MobileBy.ID, 'cc_call_keypad_1'),
     }
 
     @TestLogger.log()
@@ -630,3 +631,7 @@ class CallPage(BasePage):
             timeout=30,
             auto_accept_permission_alert=True,
             condition=lambda d: self.is_text_present("说点什么..."))
+
+    @TestLogger.log()
+    def click_ios_1(self):
+        self.click_element(self.__locators['num1'])

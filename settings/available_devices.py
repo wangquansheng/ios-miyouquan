@@ -402,7 +402,7 @@ DEVICES_CONFIG_LXD = {
         "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "Android",
-            "platformVersion": "9",
+            "platformVersion": "8.1.0",
             "deviceName": "7XB4C18907018917",
             "udid": "7XB4C18907018917",
             "automationName": "UiAutomator2",
@@ -414,6 +414,7 @@ DEVICES_CONFIG_LXD = {
             {
                 'TYPE': CardType.CHINA_MOBILE,
                 'CARD_NUMBER': '19874361585'
+                # 'CARD_NUMBER': '15875537278'
             },
         ]
     },
@@ -444,18 +445,17 @@ DEVICES_CONFIG_YMS = {
 
 DEVICES_CONFIG_MATES = {
     'M960BDQN229CH': {
-        "MODEL": SupportedModel.HUAWEI_P20,
-        "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
+        # "MODEL": SupportedModel.HUAWEI_P20,
+        "SERVER_URL": 'http://localhost:8100/status',
         "DEFAULT_CAPABILITY": {
-            "platformName": "Android",
-            "platformVersion": "9",
-            "deviceName": "DWT7N18614014715",
-            "udid": "DWT7N18614014715",
-            "automationName": "UiAutomator2",
-            "newCommandTimeout": 600,
-            "appPackage": "com.chinasofti.rcs",
-            # "appActivity": "com.cmcc.cmrcs.android.ui.activities.WelcomeActivity"
-            "appActivity": "com.cmic.module_main.ui.activity.WelcomeActivity",
+              "platformName": "ios",
+              "platformVersion": "12.1",
+              "deviceName": "iPhone XR",
+              "udid": "00008020-00011C1E2108002E",
+              "automationName": "XCUITest",
+              "app": "com.cmcc.enterprise-classID",
+              "xcodeOrgId": "42J4UB47JC",
+              "xcodeSigningId": "iPhone Developer"
         },
         'CARDS': [
             {
@@ -483,7 +483,7 @@ DEVICES_CONFIG_nova3 = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '19876463626'
+                'CARD_NUMBER': '19876463625'
             },
         ]
     },
@@ -495,7 +495,7 @@ DEVICES_CONFIG_YMS2 = {
         "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "Android",
-            "platformVersion": "9",
+            "platformVersion": "8.0.0",
             "deviceName": "RKKDU18321000975",
             "udid": "RKKDU18321000975",
             "automationName": "UiAutomator2",
@@ -506,25 +506,25 @@ DEVICES_CONFIG_YMS2 = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '19849476421'
+                'CARD_NUMBER': '15875537272'
             },
         ]
     },
 }
 
-DEVICES_CONFIG_DEBUG_WQS = {
-    'M960BDQN229CH': {
-        "MODEL": SupportedModel.HUAWEI_P20,
-        "SERVER_URL": 'http://127.0.0.1:4724/wd/hub',
+DEVICES_CONFIG_IOS = {
+    'iphone': {
+        "MODEL": SupportedModel.iPhone_XR,
+        "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
         "DEFAULT_CAPABILITY": {
-            "platformName": "Android",
-            "platformVersion": "9",
-            "deviceName": "DWT7N18614014715",
-            "udid": "DWT7N18614014715",
-            "automationName": "UiAutomator2",
-            "newCommandTimeout": 600,
-            "appPackage": "com.chinasofti.rcs",
-            "appActivity": "com.cmic.module_main.ui.activity.WelcomeActivity",
+              "platformName": "ios",
+              "platformVersion": "12.1",
+              "deviceName": "iPhone XR",
+              "udid": "00008020-00011C1E2108002E",
+              "automationName": "XCUITest",
+              "app": "com.cmcc.enterprise-classID",
+              "xcodeOrgId": "42J4UB47JC",
+              "xcodeSigningId": "iPhone Developer"
         },
         'CARDS': [
             {
@@ -533,49 +533,23 @@ DEVICES_CONFIG_DEBUG_WQS = {
             },
         ]
     },
-}
-
-DEVICES_CONFIG_DEBUG_YYX = {
-    'M960BDQN229CH': {
-        "MODEL": SupportedModel.HUAWEI_P20,
-        "SERVER_URL": 'http://127.0.0.1:4725/wd/hub',
+    'M960BDQN229CHiphone8': {
+        "MODEL": SupportedModel.iPhone_XR,
+        "SERVER_URL": 'http://127.0.0.1:4724/wd/hub',
         "DEFAULT_CAPABILITY": {
-            "platformName": "Android",
-            "platformVersion": "9",
-            "deviceName": "JUBNU18816112025",
-            "udid": "JUBNU18816112025",
-            "automationName": "UiAutomator2",
-            "newCommandTimeout": 600,
-            "appPackage": "com.chinasofti.rcs",
-            "appActivity": "com.cmic.module_main.ui.activity.WelcomeActivity",
+              "platformName": "ios",
+              "platformVersion": "11.4.1",
+              "deviceName": "iPhone8plus",
+              "udid": "c72a846c88da4ff39aefe9451bcdde6f072b3f19",
+              "automationName": "XCUITest",
+              "app": "com.cmcc.enterprise-classID",
+              "xcodeOrgId": "42J4UB47JC",
+              "xcodeSigningId": "iPhone Developer"
         },
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '19864759568'
-            },
-        ]
-    },
-}
-
-DEVICES_CONFIG_DEBUG_YMS = {
-    'M960BDQN229CH': {
-        "MODEL": SupportedModel.HUAWEI_P20,
-        "SERVER_URL": 'http://127.0.0.1:4727/wd/hub',
-        "DEFAULT_CAPABILITY": {
-            "platformName": "Android",
-            "platformVersion": "9",
-            "deviceName": "RKKDU18321000975",
-            "udid": "RKKDU18321000975",
-            "automationName": "UiAutomator2",
-            "newCommandTimeout": 600,
-            "appPackage": "com.chinasofti.rcs",
-            "appActivity": "com.cmic.module_main.ui.activity.WelcomeActivity",
-        },
-        'CARDS': [
-            {
-                'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '19849476421'
+                'CARD_NUMBER': '19876283465'
             },
         ]
     },
