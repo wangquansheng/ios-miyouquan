@@ -136,6 +136,7 @@ class MobileDriver(ABC):
 
     @TestLogger.log('连接到手机')
     def connect_mobile(self):
+        platform_name = self._desired_caps['platformName']
         if self.driver is None:
             try:
                 self._driver = webdriver.Remote(self._remote_url, self._desired_caps, self._browser_profile,
@@ -159,7 +160,7 @@ class MobileDriver(ABC):
                 raise RuntimeError('无法连接到 appium server: {}'.format(self._remote_url))
         else:
             pass
-        if self.is_android:
+        if platform_name == "android":
             app_version_info = self.get_app_version_info()
             real_model = self.get_mobile_model_info()
             network_state_info = self.get_mobile_network_connection_info()
@@ -179,7 +180,22 @@ class MobileDriver(ABC):
                     networkState=network_state_info
                 )
             )
-        self.model_info["ReadableName"] = self.get_mobile_model_info()
+            self.model_info["ReadableName"] = self.get_mobile_model_info()
+        if platform_name == "ios":
+            print(
+                """
+已连接到手机：
+===================== Mobile Name =====================
+%(mobileName)s
+===================== APP Version =====================
+%(appVersion)s
+=======================================================
+                """ % dict(
+                    mobileName=self._desired_caps['deviceName'],
+                    appVersion=self._desired_caps['platformVersion'],
+                    # networkState="ok"
+                )
+            )
 
     @TestLogger.log('断开手机连接')
     def disconnect_mobile(self):
@@ -316,8 +332,9 @@ class MobileDriver(ABC):
             auto_accept_permission_alert=True
     ):
         wait = WebDriverWait(self.driver, timeout)
-        if auto_accept_permission_alert:
-            condition = self._auto_click_permission_alert_wrapper(condition)
+        if self.get_platform() == 'android':
+            if auto_accept_permission_alert:
+                condition = self._auto_click_permission_alert_wrapper(condition)
         # if callable(unexpected):
         #     condition = self._error_listener(unexpected, *args, **kwargs)(condition)
         return wait.until(condition)
@@ -330,8 +347,9 @@ class MobileDriver(ABC):
             auto_accept_permission_alert=True
     ):
         wait = WebDriverWait(self.driver, timeout)
-        if auto_accept_permission_alert:
-            condition = self._auto_click_permission_alert_wrapper(condition)
+        if self.get_platform() == 'android':
+            if auto_accept_permission_alert:
+                condition = self._auto_click_permission_alert_wrapper(condition)
         # if callable(unexpected):
         #     condition = self._error_listener(unexpected, *args, **kwargs)(condition)
         return wait.until_not(condition)

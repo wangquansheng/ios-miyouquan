@@ -3,3 +3,4 @@ class SupportedModel(object):
     MEIZU_PRO_6_PLUS = {'ReadableName': '魅族 PRO 6 PLUS', 'Model': 'PRO 6 Plus'}
     RED_MI_NOTE_4X = {'ReadableName': '红米 Note 4X', 'Model': 'Redmi Note 4X'}
     HUAWEI_P20 = {'ReadableName': '华为 P20', 'Model': 'HUAWEI P20'}
+    iPhone_XR = {'ReadableName': 'iPhone_XR', 'Model': 'iPhoneXR'}
