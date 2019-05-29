@@ -534,7 +534,7 @@ DEVICES_CONFIG_IOS = {
         ]
     },
     'M960BDQN229CHiphone8': {
-        "MODEL": SupportedModel.iPhone_XR,
+        "MODEL": SupportedModel.iPhone8plus,
         "SERVER_URL": 'http://127.0.0.1:4724/wd/hub',
         "DEFAULT_CAPABILITY": {
               "platformName": "ios",

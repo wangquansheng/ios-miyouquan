@@ -64,6 +64,9 @@ class CallPage(BasePage):
         '多方视频': (MobileBy.XPATH, '//*[@text="多方视频"]'),
         '我知道了': (MobileBy.XPATH, '//*[@text="我知道了"]'),
         'num1': (MobileBy.ID, 'cc_call_keypad_1'),
+        '直接拨号或开始搜索_ios': (MobileBy.XPATH, '//*[@value="直接拨号或开始搜索"]'),
+        '拨号': (MobileBy.ID, 'cc call startcall normal'),
+        '电话': (MobileBy.ID, 'cc profile call normal'),
     }
 
     @TestLogger.log()
@@ -382,6 +385,10 @@ class CallPage(BasePage):
         """输入拨打号码"""
         self.input_text(self.__locators["直接拨号或开始搜索"], text)
 
+    def dial_number_ios(self, text):
+        """输入拨打号码"""
+        self.input_text(self.__locators["直接拨号或开始搜索_ios"], text)
+
     @TestLogger.log()
     def press_delete_entry(self):
         """长按删除通话记录"""
@@ -635,3 +642,8 @@ class CallPage(BasePage):
     @TestLogger.log()
     def click_ios_1(self):
         self.click_element(self.__locators['num1'])
+
+    @TestLogger.log()
+    def click_call_num(self):
+        self.click_element(self.__locators['电话'])
+

@@ -19,6 +19,7 @@ REQUIRED_MOBILES = {
     'Android-移动-电信': '',
     'Android-移动-移动': 'double_mobile',
     'Android-XX-XX': 'others_double',
+    'IOS-移动-移动': 'M960BDQN229CHiphone8',
 }
 
 
@@ -166,7 +167,8 @@ class CallAll(TestCase):
         preconditions.connect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
     def default_tearDown(self):
-        current_mobile().disconnect_mobile()
+        preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+        preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动-移动'])
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_shenlisi_0001(self):
@@ -176,7 +178,18 @@ class CallAll(TestCase):
         time.sleep(1)
         cpg.click_text("通话")
         cpg.click_text("拨号")
+        time.sleep(1)
+        cpg.click_text("20:07")
+        time.sleep(1)
+        cpg.click_call_num()
         # CheckPoint:1.进入到通话记录列表界面，底部“通话”按钮变成“拨号盘”，拨号盘按钮显示9蓝点
-        cpg.click_ios_1()
-        cpg.page_should_contain_text('和飞信电话')
+        time.sleep(1)
+        cpg.click_text("呼叫")
+        device2 = preconditions.connect_mobile(REQUIRED_MOBILES['IOS-移动-移动'])
+        time.sleep(10)
+        device2.click_text("接受")
+
+
+
+
 

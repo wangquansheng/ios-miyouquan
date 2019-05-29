@@ -5,10 +5,18 @@ from library.core.utils.applicationcache import current_mobile, current_driver, 
 from pages import *
 import time
 
+
 def connect_mobile(category):
     """选择手机手机"""
     client = switch_to_mobile(category)
     client.connect_mobile()
+    return client
+
+
+def disconnect_mobile(category):
+    """选择手机手机"""
+    client = switch_to_mobile(category)
+    client.disconnect_mobile()
     return client
 
 

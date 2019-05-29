@@ -7,4 +7,5 @@ MOBILE_DRIVER_CREATORS = {
     SupportedModel.RED_MI_NOTE_4X['Model']: lambda kw: RedmiNote4X(**kw),
     SupportedModel.HUAWEI_P20['Model']: lambda kw: HuaweiP20(**kw),
     SupportedModel.iPhone_XR['Model']: lambda kw: iPhoneXR(**kw),
+    SupportedModel.iPhone8plus['Model']: lambda kw: iPhone8plus(**kw),
 }
