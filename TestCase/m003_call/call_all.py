@@ -29,7 +29,7 @@ class Preconditions(object):
     @staticmethod
     def make_already_in_call():
         """确保进入通话界面"""
-        preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
+        preconditions.connect_mobile(REQUIRED_MOBILES['IOS-移动'])
         current_mobile().hide_keyboard_if_display()
         cpg = CallPage()
         message_page = MessagePage()
@@ -164,31 +164,78 @@ class CallAll(TestCase):
 
     def default_setUp(self):
         """进入Call页面,清空通话记录"""
-        preconditions.connect_mobile(REQUIRED_MOBILES['IOS-移动'])
+        # preconditions.connect_mobile(REQUIRED_MOBILES['IOS-移动'])
+        Preconditions.make_already_in_call()
+        # CalllogBannerPage().skip_multiparty_call()
+        # CallPage().delete_all_call_entry()
 
     def default_tearDown(self):
         preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
-        preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动-移动'])
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0001(self):
         """检查进入到通话界面，“通话”按钮变为“拨号盘”"""
         # Step:1.点击通话tab
         cpg = CallPage()
-        time.sleep(1)
-        cpg.click_text("通话")
-        cpg.click_text("拨号")
-        time.sleep(1)
-        cpg.click_text("20:07")
-        time.sleep(1)
-        cpg.click_call_num()
+        cpg.click_dial()
         # CheckPoint:1.进入到通话记录列表界面，底部“通话”按钮变成“拨号盘”，拨号盘按钮显示9蓝点
-        time.sleep(1)
-        cpg.click_text("呼叫")
-        device2 = preconditions.connect_mobile(REQUIRED_MOBILES['IOS-移动-移动'])
-        time.sleep(10)
-        device2.click_text("接受")
+        cpg.page_should_contain_text('拨号')
+        cpg.page_should_contain_text("直接拨号或开始搜索")
+        cpg.click_dial()
 
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0004(self):
+        """检查拨号盘展开"""
+        cpg = CallPage()
+        # Step:1.点击“拨号盘"按钮
+        cpg.click_dial()
+        # CheckPoint:1.拨号盘展示，输入框提示“直接拨号或者开始搜索”，菜单栏被隐藏
+        cpg.page_should_contain_text('直接拨号或开始搜索')
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0006(self):
+        """检查展开拨号盘，通话记录为空"""
+        # Step:1.查看通话记录
+        cpg = CallPage()
+        # CheckPoint:1.页面中间显示图片以及提示语
+        cpg.page_should_contain_text("给你的好友打个电话吧")
+        cpg.page_should_contain_text('多方电话')
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0007(self):
+        """检查拨号盘按键可点击"""
+        cpg = CallPage()
+        cpg.click_dial()
+        # Step:1.点击按键“1”
+        cpg.click_one()
+        # Step:2.点击按键“2”
+        cpg.click_two()
+        # Step:3.点击按键“3”
+        cpg.click_three()
+        # Step:4.点击按键“4”
+        cpg.click_four()
+        # Step:5.点击按键“5”
+        cpg.click_five()
+        # Step:6.点击按键“6”
+        cpg.click_six()
+        # Step:7.点击按键“7”
+        cpg.click_seven()
+        # Step:8.点击按键“8”
+        cpg.click_eight()
+        # Step:9.点击按键“9”
+        cpg.click_nine()
+        # Step:10.点击按键“0”
+        cpg.click_zero()
+        # Step:11.点击按键“*”
+        cpg.click_star()
+        # Step:12.点击按键“#”
+        cpg.click_sharp()
+        # CheckPoint:1.步骤1-12：拨号盘各键输入正常
+        cpg.page_should_contain_text("1234567890*#")
+        # 清除拨号盘，返回通话界面
+        cpg.press_delete()
+        cpg.click_dial()
 
 
 

@@ -13,26 +13,27 @@ class CallPage(BasePage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
     __locators = {
-        '通话': (MobileBy.ID, 'com.chinasofti.rcs:id/tvCall'),
+        '通话': (MobileBy.ID, '通话'),
+        '拨号': (MobileBy.ID, '拨号'),
         '多方通话': (MobileBy.ID, "com.chinasofti.rcs:id/btnFreeCall"),
         '返回箭头': (MobileBy.ID, 'com.chinasofti.rcs:id/mutil_arror'),
         "消息": (MobileBy.ID, "com.chinasofti.rcs:id/tvMessage"),
         "拨号盘": (MobileBy.ID, "com.chinasofti.rcs:id/tvCall"),
-        '拨号键1': (MobileBy.ID, 'com.chinasofti.rcs:id/iv1'),
-        '拨号键2': (MobileBy.ID, 'com.chinasofti.rcs:id/iv2'),
-        '拨号键3': (MobileBy.ID, 'com.chinasofti.rcs:id/iv3'),
-        '拨号键4': (MobileBy.ID, 'com.chinasofti.rcs:id/iv4'),
-        '拨号键5': (MobileBy.ID, 'com.chinasofti.rcs:id/iv5'),
-        '拨号键6': (MobileBy.ID, 'com.chinasofti.rcs:id/iv6'),
-        '拨号键7': (MobileBy.ID, 'com.chinasofti.rcs:id/iv7'),
-        '拨号键8': (MobileBy.ID, 'com.chinasofti.rcs:id/iv8'),
-        '拨号键9': (MobileBy.ID, 'com.chinasofti.rcs:id/iv9'),
-        '拨号键0': (MobileBy.ID, 'com.chinasofti.rcs:id/iv0'),
-        '拨号键*': (MobileBy.ID, 'com.chinasofti.rcs:id/ivStar'),
-        '拨号键#': (MobileBy.ID, 'com.chinasofti.rcs:id/ivSharp'),
-        '删除X': (MobileBy.ID, 'com.chinasofti.rcs:id/ivDelete'),
+        '拨号键1': (MobileBy.ID, 'cc_call_keypad_1'),
+        '拨号键2': (MobileBy.ID, 'cc_call_keypad_2'),
+        '拨号键3': (MobileBy.ID, 'cc_call_keypad_3'),
+        '拨号键4': (MobileBy.ID, 'cc_call_keypad_4'),
+        '拨号键5': (MobileBy.ID, 'cc_call_keypad_5'),
+        '拨号键6': (MobileBy.ID, 'cc_call_keypad_6'),
+        '拨号键7': (MobileBy.ID, 'cc_call_keypad_7'),
+        '拨号键8': (MobileBy.ID, 'cc_call_keypad_8'),
+        '拨号键9': (MobileBy.ID, 'cc_call_keypad_9'),
+        '拨号键0': (MobileBy.ID, 'cc_call_keypad_0'),
+        '拨号键*': (MobileBy.ID, 'cc_call_keypad_*'),
+        '拨号键#': (MobileBy.ID, 'cc_call_keypad_#'),
+        '删除X': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeButton[3]'),
         '拨号盘收缩删除X': (MobileBy.ID, 'com.chinasofti.rcs:id/ivDeleteHide'),
-        '拨打电话按键': (MobileBy.ID, 'com.chinasofti.rcs:id/ivVoiceCall'),
+        '拨打电话按键': (MobileBy.ID, 'cc call startcall normal'),
         '通话界面高清显示图片': (MobileBy.ID, 'com.chinasofti.rcs:id/ivNoRecords'),
         '直接拨号或开始搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/edt_t9_keyboard'),
         '新建联系人': (MobileBy.XPATH, "//*[contains(@text, '新建联系人')]"),
@@ -52,7 +53,7 @@ class CallPage(BasePage):
         "指定提示": (MobileBy.XPATH, "//*[contains(@text, '点击按钮发起电话')]"),
         '知道了': (MobileBy.XPATH, '//*[@text="知道了"]'),
         '始终允许': (MobileBy.ID, "com.android.packageinstaller:id/permission_allow_button"),
-        "多方视频图标": (MobileBy.ID, "com.chinasofti.rcs:id/ivMultipartyVideo"),
+        "多方视频图标": (MobileBy.ID, "cc call groupvideo normal"),
         "通话记录时间": (MobileBy.ID, "com.chinasofti.rcs:id/tvCallTime"),
         "profileName": (MobileBy.ID, "com.chinasofti.rcs:id/tv_profile_name"),
         "+号": (MobileBy.ID, 'com.chinasofti.rcs:id/action_add'),
@@ -65,8 +66,8 @@ class CallPage(BasePage):
         '我知道了': (MobileBy.XPATH, '//*[@text="我知道了"]'),
         'num1': (MobileBy.ID, 'cc_call_keypad_1'),
         '直接拨号或开始搜索_ios': (MobileBy.XPATH, '//*[@value="直接拨号或开始搜索"]'),
-        '拨号': (MobileBy.ID, 'cc call startcall normal'),
-        '电话': (MobileBy.ID, 'cc profile call normal'),
+        # '拨号': (MobileBy.ID, 'cc call startcall normal'),
+        # '电话': (MobileBy.ID, 'cc profile call normal'),
     }
 
     @TestLogger.log()
@@ -644,6 +645,6 @@ class CallPage(BasePage):
         self.click_element(self.__locators['num1'])
 
     @TestLogger.log()
-    def click_call_num(self):
-        self.click_element(self.__locators['电话'])
+    def click_dial(self):
+        self.click_element(self.__locators['拨号'])
 
