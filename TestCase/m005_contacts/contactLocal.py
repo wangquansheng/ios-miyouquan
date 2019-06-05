@@ -158,6 +158,63 @@ class Preconditions(LoginPreconditions):
         #     detail_page.wait_for_page_load()
         #     detail_page.click_back_icon()
 
+class ContactsLocalhigh(TestCase):
+    """
+    模块：联系-本地联系人
+    文件位置：全量/115全量测试用例-联系(1322).xlsx--高等级用例(优先编写)
+    表格：通讯录-本地通讯录
+    author: 余梦思
+    """
+
+    def default_setUp(self):
+        """确保每个用例执行前在通讯录页面"""
+        Preconditions.make_already_in_message_page()
+        MessagePage().wait_for_page_load()
+        MessagePage().click_contacts()
+        time.sleep(2)
+        ContactsPage().click_phone_contact()
+
+    def default_tearDown(self):
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0130(self):
+        """测试表单字段，姓名非空校验"""
+        ContactsPage().click_add()
+        time.sleep(1)
+        CreateContactPage().click_input_name()
+        CreateContactPage().click_input_number()
+        CreateContactPage().is_toast_exist('姓名不能为空，请重新输入')
+        time.sleep(2)
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0137(self):
+        """测试表单字段，手机号非空校验"""
+        ContactsPage().click_add()
+        time.sleep(1)
+        creat_contact=CreateContactPage()
+        creat_contact.click_input_name()
+        creat_contact.input_name('ceshi')
+        creat_contact.click_input_number()
+        creat_contact.click_input_name()
+        creat_contact.is_toast_exist('电话不能为空，请重新输入')
+        time.sleep(2)
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0138(self):
+        """测试表单字段，手机号码长度校验，小于3个字符"""
+        ContactsPage().click_add()
+        time.sleep(1)
+        creat_contact=CreateContactPage()
+        creat_contact.click_input_name()
+        creat_contact.input_name('ceshi')
+        creat_contact.click_input_number()
+        creat_contact.input_number('12')
+        creat_contact.click_save()
+        creat_contact.is_toast_exist('号码输入有误，请重新输入')
+        time.sleep(2)
+
 
 
 
