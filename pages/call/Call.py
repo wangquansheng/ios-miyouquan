@@ -14,10 +14,10 @@ class CallPage(BasePage):
 
     __locators = {
         '通话': (MobileBy.ID, '通话'),
-        '拨号': (MobileBy.ID, '拨号'),
+        '拨号': (MobileBy.ID, '拨号盘'),
         '多方通话': (MobileBy.ID, "com.chinasofti.rcs:id/btnFreeCall"),
         '返回箭头': (MobileBy.ID, 'com.chinasofti.rcs:id/mutil_arror'),
-        "消息": (MobileBy.ID, "com.chinasofti.rcs:id/tvMessage"),
+        "消息": (MobileBy.ID, "消息"),
         "拨号盘": (MobileBy.ID, "com.chinasofti.rcs:id/tvCall"),
         '拨号键1': (MobileBy.ID, 'cc_call_keypad_1'),
         '拨号键2': (MobileBy.ID, 'cc_call_keypad_2'),
@@ -32,10 +32,10 @@ class CallPage(BasePage):
         '拨号键*': (MobileBy.ID, 'cc_call_keypad_*'),
         '拨号键#': (MobileBy.ID, 'cc_call_keypad_#'),
         '删除X': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeButton[3]'),
-        '拨号盘收缩删除X': (MobileBy.ID, 'com.chinasofti.rcs:id/ivDeleteHide'),
+        '拨号盘收缩删除X': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeButton'),
         '拨打电话按键': (MobileBy.ID, 'cc call startcall normal'),
         '通话界面高清显示图片': (MobileBy.ID, 'com.chinasofti.rcs:id/ivNoRecords'),
-        '直接拨号或开始搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/edt_t9_keyboard'),
+        '直接拨号或开始搜索': (MobileBy.XPATH, '//*[@value="直接拨号或开始搜索"]'),
         '新建联系人': (MobileBy.XPATH, "//*[contains(@text, '新建联系人')]"),
         '发送消息': (MobileBy.XPATH, "//*[contains(@text, '发送消息')]"),
         '结束通话': (MobileBy.ID, 'com.android.incallui:id/endButton'),
@@ -47,9 +47,9 @@ class CallPage(BasePage):
         '通话记录': (MobileBy.ID, 'com.chinasofti.rcs:id/tvName'),
         '0731210086': (MobileBy.XPATH, "//*[contains(@text, '0731210086')]"),
         '删除通话记录': (MobileBy.ID, "com.chinasofti.rcs:id/tvContent"),
-        '通话profile': (MobileBy.ID, "com.chinasofti.rcs:id/sdDetail"),
+        '通话profile': (MobileBy.XPATH, "call list details normal@2x"),
         "多方电话提示框": (MobileBy.ID, "com.chinasofti.rcs:id/mutil_btnFreeCall"),
-        "返回": (MobileBy.ID, "com.chinasofti.rcs:id/back"),
+        "返回": (MobileBy.ID, "back"),
         "指定提示": (MobileBy.XPATH, "//*[contains(@text, '点击按钮发起电话')]"),
         '知道了': (MobileBy.XPATH, '//*[@text="知道了"]'),
         '始终允许': (MobileBy.ID, "com.android.packageinstaller:id/permission_allow_button"),
@@ -61,13 +61,11 @@ class CallPage(BasePage):
         '语音通话': (MobileBy.XPATH, '//*[@text="语音通话"]'),
         '继续拨打': (MobileBy.XPATH, '//*[@text="继续拨打"]'),
         '暂不开启': (MobileBy.XPATH, '//*[@text="暂不开启"]'),
-        '多方电话': (MobileBy.XPATH, '//*[@text="多方电话"]'),
+        '飞信电话': (MobileBy.XPATH, '//*[@value="飞信电话"]'),
         '多方视频': (MobileBy.XPATH, '//*[@text="多方视频"]'),
         '我知道了': (MobileBy.XPATH, '//*[@text="我知道了"]'),
         'num1': (MobileBy.ID, 'cc_call_keypad_1'),
         '直接拨号或开始搜索_ios': (MobileBy.XPATH, '//*[@value="直接拨号或开始搜索"]'),
-        # '拨号': (MobileBy.ID, 'cc call startcall normal'),
-        # '电话': (MobileBy.ID, 'cc profile call normal'),
     }
 
     @TestLogger.log()
@@ -641,8 +639,8 @@ class CallPage(BasePage):
             condition=lambda d: self.is_text_present("说点什么..."))
 
     @TestLogger.log()
-    def click_ios_1(self):
-        self.click_element(self.__locators['num1'])
+    def click_feixin_call(self):
+        self.click_element(self.__locators['飞信电话'])
 
     @TestLogger.log()
     def click_dial(self):
