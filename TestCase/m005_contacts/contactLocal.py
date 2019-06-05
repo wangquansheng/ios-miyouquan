@@ -266,6 +266,57 @@ class ContactsLocalhigh(TestCase):
         contant_detail.click_sure_delete()
 
 
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0154(self):
+        """测试表单字段，职位边界值校验，输入1个字符"""
+        ContactsPage().click_add()
+        time.sleep(1)
+        creat_contact=CreateContactPage()
+        creat_contact.click_input_name()
+        creat_contact.input_name('ceshi')
+        creat_contact.click_input_number()
+        creat_contact.input_number('123')
+        creat_contact.page_up()
+        creat_contact.click_input_position()
+        creat_contact.input_position('a')
+        creat_contact.click_save()
+        time.sleep(2)
+        ContactDetailsPage().page_should_contain_text('飞信电话')
+        time.sleep(2)
+
+    def tearDown_test_contacts_chenjixiang_0154(self):
+        contant_detail = ContactDetailsPage()
+        contant_detail.click_edit_contact()
+        time.sleep(2)
+        contant_detail.hide_keyboard()
+        contant_detail.change_delete_number()
+        contant_detail.click_sure_delete()
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0161(self):
+        """测试表单字段，邮箱边界值校验，输入1个字符"""
+        ContactsPage().click_add()
+        time.sleep(1)
+        creat_contact=CreateContactPage()
+        creat_contact.click_input_name()
+        creat_contact.input_name('ceshi')
+        creat_contact.click_input_number()
+        creat_contact.input_number('123')
+        creat_contact.page_up()
+        creat_contact.click_input_email()
+        creat_contact.input_email_address('a')
+        creat_contact.click_save()
+        time.sleep(2)
+        ContactDetailsPage().page_should_contain_text('飞信电话')
+        time.sleep(2)
+
+    def tearDown_test_contacts_chenjixiang_0161(self):
+        contant_detail = ContactDetailsPage()
+        contant_detail.click_edit_contact()
+        time.sleep(2)
+        contant_detail.hide_keyboard()
+        contant_detail.change_delete_number()
+        contant_detail.click_sure_delete()
 
 if __name__=="__main__":
     unittest.main()
