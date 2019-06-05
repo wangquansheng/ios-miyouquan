@@ -474,5 +474,41 @@ class ContactsLocalhigh(TestCase):
         creat_contact.click_back()
 
 
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0201(self):
+        """个人profile页,编辑联系人-手机号码不为空"""
+        ContactsPage().select_contacts_by_name('大佬1')
+        cdp = ContactDetailsPage()
+        time.sleep(2)
+        cdp.click_edit_contact()
+        time.sleep(1)
+        # 手机号为空,保存按钮不可点击
+        creat_contact = CreateContactPage()
+        creat_contact.click_input_number()
+        creat_contact.click_clear_text()
+        self.assertFalse(creat_contact.is_sure_icon_is_clickable())
+        creat_contact.click_sure()
+        creat_contact.is_toast_exist('电话不能为空，请重新输入')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0206(self):
+        """测试表单字段，手机号码特殊字符输入"""
+        ContactsPage().select_contacts_by_name('大佬1')
+        cdp = ContactDetailsPage()
+        time.sleep(2)
+        cdp.click_edit_contact()
+        time.sleep(1)
+        # 姓名为空,保存按钮不可点击
+        creat_contact = CreateContactPage()
+        creat_contact.click_input_number()
+        creat_contact.click_clear_text()
+        creat_contact.input_number('#')
+        creat_contact.is_toast_exist('号码输入有误，请重新输入')
+        time.sleep(2)
+        creat_contact.click_back()
+
+
+
+
 if __name__=="__main__":
     unittest.main()
