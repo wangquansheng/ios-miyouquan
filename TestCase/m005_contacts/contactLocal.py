@@ -389,6 +389,32 @@ class ContactsLocalhigh(TestCase):
         self.assertEqual(contact_number,number)
 
 
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0179(self):
+        """测试页面信息展示，未上传头像"""
+        ContactsPage().select_contacts_by_name('大佬1')
+        cdp = ContactDetailsPage()
+        time.sleep(2)
+        cdp.page_should_contain_element_first_letter()
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0180(self):
+        """测试页面信息展示，已上传头像"""
+        ContactsPage().select_contacts_by_name('测试号码')
+        cdp = ContactDetailsPage()
+        cdp.wait_for_page_load()
+        time.sleep(2)
+        cdp.page_contain_contacts_avatar()
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0181(self):
+        """测试点击联系人头像，未上传头像"""
+        ContactsPage().select_contacts_by_name('大佬1')
+        cdp = ContactDetailsPage()
+        cdp.wait_for_page_load()
+        time.sleep(2)
+        cdp.click_avatar()
+        cdp.is_exists_big_avatar()
 
 
 
