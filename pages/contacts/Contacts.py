@@ -7,72 +7,147 @@ import time
 
 class ContactsPage(FooterPage):
     """通讯录页面"""
-    ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
+    # ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
     __locators = {
-        'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
-        'android:id/content': (MobileBy.ID, 'android:id/content'),
-        'com.chinasofti.rcs:id/activity_main': (MobileBy.ID, 'com.chinasofti.rcs:id/activity_main'),
-        'com.chinasofti.rcs:id/home_tag_view_pager': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/home_tag_view_pager'),
-        'com.chinasofti.rcs:id/constraintLayout_home_tab': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/constraintLayout_home_tab'),
-        'com.chinasofti.rcs:id/viewPager': (MobileBy.ID, 'com.chinasofti.rcs:id/viewPager'),
-        '通讯录': (MobileBy.ID, 'com.chinasofti.rcs:id/tvContact'),
-        '+号': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_add'),
-        '搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/et_search'),
-        'com.chinasofti.rcs:id/recyclerView_contactList': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/recyclerView_contactList'),
-        '通讯录列表': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_list'),
-        '列表项': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_list"]/*'),
-        '群聊': (MobileBy.ID, 'com.chinasofti.rcs:id/first_item'),
-        '标签分组': (MobileBy.ID, 'com.chinasofti.rcs:id/second_item'),
-        '公众号': (MobileBy.ID, 'com.chinasofti.rcs:id/third_item'),
-        '创建团队': (MobileBy.XPATH, '//*[@text="创建团队"]'),
-        'com.chinasofti.rcs:id/contact_group_chat_item_id': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/contact_group_chat_item_id'),
-        'com.chinasofti.rcs:id/contact_image': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_image'),
-        '和通讯录': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-        'com.chinasofti.rcs:id/rl_group_list_item': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_group_list_item'),
-        'D': (MobileBy.ID, ''),
-        'dx1645': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-        '15338821645': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_phone'),
-        'F': (MobileBy.ID, ''),
-        'frank': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-        '联系人名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name'),
-        '18681151872': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_phone'),
-        'H': (MobileBy.ID, ''),
-        '和飞信电话': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-        '12560': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_phone'),
-        'X': (MobileBy.ID, ''),
-        'xzq': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-        'com.chinasofti.rcs:id/contact_index_bar_view': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/contact_index_bar_view'),
-        'com.chinasofti.rcs:id/contact_index_bar_container': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/contact_index_bar_container'),
-        'com.chinasofti.rcs:id/viewLine': (MobileBy.ID, 'com.chinasofti.rcs:id/viewLine'),
-        'com.chinasofti.rcs:id/view_bg_home_tab': (MobileBy.ID, 'com.chinasofti.rcs:id/view_bg_home_tab'),
-        '消息': (MobileBy.ID, 'com.chinasofti.rcs:id/tvMessage'),
-        '通话': (MobileBy.ID, 'com.chinasofti.rcs:id/tvCall'),
-        '工作台': (MobileBy.ID, 'com.chinasofti.rcs:id/tvCircle'),
-        '我': (MobileBy.ID, 'com.chinasofti.rcs:id/tvMe'),
-        '弹出框点击允许': (MobileBy.ID, 'com.android.packageinstaller:id/permission_allow_button'),
-        '弹出框点击禁止': (MobileBy.ID, 'com.android.packageinstaller:id/permission_deny_button'),
-        '始终允许': (MobileBy.XPATH, "//*[contains(@text, '始终允许')]"),
-        '和通讯录联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
-        '和通讯录更多': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_more'),
-        '团队管理': (MobileBy.ID, 'com.chinasofti.rcs:id/quit_confirm_tv'),
-        '显示':(MobileBy.ID,'com.chinasofti.rcs:id/btn_ok'),
-        '不显示': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
-        '企业群标识': (MobileBy.ID, 'com.chinasofti.rcs:id/group_ep'),
-        '群聊列表返回': (MobileBy.ID, 'com.chinasofti.rcs:id/select_picture_custom_toolbar_back_btn'),
-        '团队名称': (MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_department'),
-        '索引字母容器': (MobileBy.ID, 'com.chinasofti.rcs:id/indexbarview'),
-        '新建手机联系人-确定': (MobileBy.ID, 'android:id/icon2'),
-        "新建手机联系人-姓名": (MobileBy.XPATH, "//*[@text='姓名']"),
-        '新建手机联系人': (MobileBy.ID, 'com.android.contacts:id/hw_fab'),
+        #通讯录页面
+        '通讯录标题': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="通讯录"]'),
+        '搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
+        '手机联系人':(MobileBy.ACCESSIBILITY_ID,'手机联系人'),
+        '群聊': (MobileBy.ACCESSIBILITY_ID, '群聊'),
+        '公众号': (MobileBy.ACCESSIBILITY_ID, '公众号'),
+
+        '创建团队': (MobileBy.ACCESSIBILITY_ID, '创建团队'),
+        '全部团队': (MobileBy.ACCESSIBILITY_ID, '全部团队'),
+        '默认团队': (MobileBy.ACCESSIBILITY_ID, '默认团队'),
+        '设置': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="默认团队"]/XCUIElementTypeButton'),
+
+        '团队头像': (MobileBy.ACCESSIBILITY_ID, 'cc_contacts_organization_classA'),
+        '团队名称': (MobileBy.XPATH,''),
+        #底部标签栏
+        '消息': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_selected'),
+        '通话': (MobileBy.ACCESSIBILITY_ID, 'cc_call_unselected'),
+        '工作台': (MobileBy.ACCESSIBILITY_ID, 'cc_workbench_normal'),
+        '通讯录': (MobileBy.ACCESSIBILITY_ID, 'cc_contects_unselected'),
+        '我': (MobileBy.ACCESSIBILITY_ID, 'cc_me_unselected'),
+        #手机联系人界面
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '搜索手机联系人': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
+        '+号': (MobileBy.ACCESSIBILITY_ID, 'cc contacts add normal'),
+        '标签分组': (MobileBy.ACCESSIBILITY_ID, '标签分组'),
+        '索引字母容器': (MobileBy.XPATH,
+                   '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]'),
+        '搜索结果列表':(MobileBy.XPATH,'//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable'),
+        '列表项': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell'),
+        # '新建手机联系人-确定': (MobileBy.ID, 'android:id/icon2'),
+        # "新建手机联系人-姓名": (MobileBy.XPATH, "//*[@text='姓名']"),
+        # '新建手机联系人': (MobileBy.ID, 'com.android.contacts:id/hw_fab'),
 
     }
+
+    @TestLogger.log("点击手机联系人")
+    def click_phone_contact(self):
+        """点击手机联系人"""
+        self.click_element(self.__class__.__locators['手机联系人'])
+
+    @TestLogger.log("点击返回")
+    def click_back(self):
+        """点击返回"""
+        self.click_element(self.__class__.__locators['返回'])
+
+
+    @TestLogger.log('点击+号')
+    def click_add(self):
+        """点击+号"""
+        self.click_element(self.__class__.__locators['+号'])
+
+    @TestLogger.log('点击消息')
+    def click_message_icon(self):
+        """点击消息按钮"""
+        self.click_element(self.__class__.__locators['消息'])
+
+    @TestLogger.log('点击我页面')
+    def click_me_icon(self):
+        """点击进入我页面"""
+        self.click_element(self.__class__.__locators['我'])
+
+    @TestLogger.log('点击搜索框')
+    def click_search_box(self):
+        """点击搜索框"""
+        self.click_element(self.__class__.__locators['搜索'])
+
+    @TestLogger.log('点击搜索框')
+    def click_search_phone_contact(self):
+        """点击搜索手机联系人"""
+        self.click_element(self.__class__.__locators['搜索手机联系人'])
+
+    @TestLogger.log('输入搜索关键字')
+    def input_search_keyword(self, keyword):
+        self.input_text(self.__locators['搜索手机联系人'], keyword)
+
+
+    @TestLogger.log('打开群聊列表')
+    def open_group_chat_list(self):
+        self.click_element(self.__class__.__locators['群聊'])
+
+    @TestLogger.log()
+    def select_contacts_by_name(self, name):
+        """根据名字选择一个联系人"""
+        locator = (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="%s"]' % name)
+        max_try = 20
+        current = 0
+        while current < max_try:
+            if self._is_element_present(locator):
+                break
+            current += 1
+            self.page_up()
+        self.click_element(locator)
+
+    @TestLogger.log()
+    def wait_for_page_load(self, timeout=20, auto_accept_alerts=True):
+        """等待通讯录页面加载"""
+        try:
+            self.wait_until(
+                timeout=timeout,
+                auto_accept_permission_alert=auto_accept_alerts,
+                condition=lambda d: self._is_element_present(self.__class__.__locators["+号"])
+            )
+        except:
+            raise AssertionError("页面在{}s内，没有加载成功".format(str(timeout)))
+        return self
+
+    @TestLogger.log()
+    def is_contacts_exist_by_name(self, name):
+        """通过联系人名判断联系人是否存在"""
+        max_try = 10
+        current = 0
+        while current < max_try:
+            if self.is_text_present(name):
+                return True
+            current += 1
+            self.page_up()
+        return False
+
+
+
+
+
+
+
+
+
+
+    @TestLogger.log('判断列表是否存在XXX联系人')
+    def is_contact_in_list(self, name):
+        self.scroll_to_top()
+        groups = self.mobile.list_iterator(self.__locators['搜索结果列表'], self.__locators['列表项'])
+        for group in groups:
+            if group.find_elements(MobileBy.XPATH,
+                                   '(//XCUIElementTypeStaticText[@name="%s"])[2]'.format(name)):
+                return True
+        return False
+
+
 
     @TestLogger.log("获取所有联系人名")
     def get_contacts_name(self):
@@ -118,29 +193,7 @@ class ContactsPage(FooterPage):
         """通过人名选择一个联系人"""
         self.click_element((MobileBy.XPATH, '//*[@text ="%s"]' % name))
 
-    @TestLogger.log('点击+号')
-    def click_add(self):
-        """点击+号"""
-        self.click_element(self.__locators['+号'])
 
-    @TestLogger.log('点击消息')
-    def click_message_icon(self):
-        """点击消息按钮"""
-        self.click_element(self.__locators['消息'])
-
-    @TestLogger.log('点击我页面')
-    def click_me_icon(self):
-        """点击进入我页面"""
-        self.click_element(self.__locators['我'])
-
-    @TestLogger.log('点击搜索框')
-    def click_search_box(self):
-        """点击搜索框"""
-        self.click_element(self.__locators['搜索'])
-
-    @TestLogger.log('打开群聊列表')
-    def open_group_chat_list(self):
-        self.click_element(self.__locators['群聊'])
 
     @TestLogger.log("滚动列表到顶部")
     def scroll_to_top(self):
@@ -159,16 +212,6 @@ class ContactsPage(FooterPage):
                 break
         return True
 
-    @TestLogger.log('判断列表是否存在XXX联系人')
-    def is_contact_in_list(self, name):
-        self.scroll_to_top()
-        groups = self.mobile.list_iterator(self.__locators['通讯录列表'], self.__locators['列表项'])
-        for group in groups:
-            if group.find_elements(MobileBy.XPATH,
-                                   '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and ' +
-                                   '@text="{}"]'.format(name)):
-                return True
-        return False
 
     @TestLogger.log("获取电话号码")
     def get_phone_number(self):
@@ -184,11 +227,7 @@ class ContactsPage(FooterPage):
 
     def page_up(self):
         """向上滑动一页"""
-        self.swipe_by_direction(self.__class__.__locators['通讯录列表'], 'up')
-
-    def swipe_half_page_up(self):
-        """向上滑动半页"""
-        self.swipe_by_percent_on_screen(50, 72, 50, 36, 800)
+        self.driver.execute_script('mobile: scroll', {'direction': 'up'})
 
     @TestLogger.log()
     def get_all_contacts_name(self):
@@ -206,7 +245,7 @@ class ContactsPage(FooterPage):
             current += 1
             if current > 20:
                 return
-            self.swipe_half_page_up()
+            self.page_up()
             els = self.get_elements(self.__class__.__locators["联系人名"])
             for el in els:
                 if el.text not in contacts_name:
@@ -284,18 +323,6 @@ class ContactsPage(FooterPage):
         """是否存在始终允许"""
         return self._is_element_present(self.__class__.__locators["弹出框点击允许"])
 
-    @TestLogger.log()
-    def wait_for_page_load(self, timeout=20, auto_accept_alerts=True):
-        """等待通讯录页面加载"""
-        try:
-            self.wait_until(
-                timeout=timeout,
-                auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self._is_element_present(self.__class__.__locators["+号"])
-            )
-        except:
-            raise AssertionError("页面在{}s内，没有加载成功".format(str(timeout)))
-        return self
 
     @TestLogger.log()
     def click_allow(self):
@@ -358,18 +385,6 @@ class ContactsPage(FooterPage):
             raise AssertionError("页面在{}s内，没有加载成功".format(str(timeout)))
         return self
 
-    @TestLogger.log()
-    def select_contacts_by_name(self, name):
-        """根据名字选择一个联系人"""
-        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and @text ="%s"]' % name)
-        max_try = 20
-        current = 0
-        while current < max_try:
-            if self._is_element_present(locator):
-                break
-            current += 1
-            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
-        self.click_element(locator)
 
     @TestLogger.log()
     def page_contain_element_add(self):
@@ -444,26 +459,6 @@ class ContactsPage(FooterPage):
                 # break
                 current += 1
 
-    @TestLogger.log()
-    def is_contacts_exist(self, name):
-        """通过联系人名判断联系人是否存在"""
-        max_try = 10
-        current = 0
-        while current < max_try:
-            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
-            if self.is_text_present(name):
-                return True
-            current += 1
-            # self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
-        return False
-
-            #
-            # for group in groups:
-            #     if group:
-            #
-            #         return True
-            #     current += 1
-            # return False
 
 
 

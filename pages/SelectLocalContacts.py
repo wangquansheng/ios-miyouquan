@@ -10,41 +10,24 @@ class SelectLocalContactsPage(BasePage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.ContactsSelectActivity'
 
     __locators = {'': (MobileBy.ID, ''),
-                  'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
-                  'android:id/content': (MobileBy.ID, 'android:id/content'),
-                  'com.chinasofti.rcs:id/pop_10g_window_drop_view': (
-                  MobileBy.ID, 'com.chinasofti.rcs:id/pop_10g_window_drop_view'),
-                  'com.chinasofti.rcs:id/id_toolbar': (MobileBy.ID, 'com.chinasofti.rcs:id/id_toolbar'),
-                  '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/back'),
-                  '选择联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
-                  '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'),
-                  'com.chinasofti.rcs:id/contentFrame': (MobileBy.ID, 'com.chinasofti.rcs:id/contentFrame'),
-                  'com.chinasofti.rcs:id/top_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/top_layout'),
-                  'com.chinasofti.rcs:id/layout_search': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_search'),
-                  '搜索或输入手机号': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
-                  'com.chinasofti.rcs:id/bottom_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/bottom_layout'),
-                  'com.chinasofti.rcs:id/contact_selection_list_view': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/contact_selection_list_view'),
+
+                  '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+                  '选择联系人': (MobileBy.ACCESSIBILITY_ID, '选择联系人'),
+                  '确定': (MobileBy.ACCESSIBILITY_ID, '确定'),
+                  '搜索或输入手机号': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeTextField'),
+
+                  '选择和通讯录联系人': (MobileBy.ACCESSIBILITY_ID, '选择和通讯录联系人'),
+                  '选择和通讯录联系人右侧箭头': (
+                      MobileBy.ACCESSIBILITY_ID, '/var/containers/Bundle/Application/8A752131-104A-4280-AF2E-2CC6995F5BFE/AndFetion.app/cc_me_next@3x.png'),
+
                   '容器列表': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_list'),
-                  '联系人列表': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_list_item'),
-                  'com.chinasofti.rcs:id/asp_selecttion_contact_content': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/asp_selecttion_contact_content'),
-                  'D': (MobileBy.ID, ''),
-                  'dx1645': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-                  '15338821645': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_number'),
-                  'F': (MobileBy.ID, ''),
-                  'frank': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-                  '18681151872': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_number'),
-                  'H': (MobileBy.ID, ''),
-                  '和飞信电话': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-                  '12560': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_number'),
-                  'X': (MobileBy.ID, ''),
-                  'xzq': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-                  '13510772034': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_number'),
+                  '联系人列表': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]'),
+
                   '联系人名': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-                  '电话号码': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_number'),
-                  'com.chinasofti.rcs:id/contact_index_bar_view': (
-                  MobileBy.ID, 'com.chinasofti.rcs:id/contact_index_bar_view'),
+                  '电话号码': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="12560"])[1]'),
+                  '联系人头像': (
+                  MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]/XCUIElementTypeImage'),
+
                   'com.chinasofti.rcs:id/contact_index_bar_container': (
                   MobileBy.ID, 'com.chinasofti.rcs:id/contact_index_bar_container'),
                   '右侧字母索引': (MobileBy.XPATH,

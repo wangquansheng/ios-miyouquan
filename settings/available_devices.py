@@ -420,29 +420,6 @@ DEVICES_CONFIG_LXD = {
     },
 }
 
-DEVICES_CONFIG_YMS = {
-    'M960BDQN229CH': {
-        "MODEL": SupportedModel.HUAWEI_P20,
-        "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
-        "DEFAULT_CAPABILITY": {
-            "platformName": "Android",
-            "platformVersion": "8.1.0",
-            "deviceName": "DWT7N18614014715",
-            "udid": "DWT7N18614014715",
-            "automationName": "UiAutomator2",
-            "newCommandTimeout": 600,
-            "appPackage": "com.chinasofti.rcs",
-            "appActivity": "com.cmcc.cmrcs.android.ui.activities.WelcomeActivity",
-        },
-        'CARDS': [
-            {
-                'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '19849476421'
-            },
-        ]
-    },
-}
-
 DEVICES_CONFIG_MATES = {
     'M960BDQN229CH': {
         # "MODEL": SupportedModel.HUAWEI_P20,
@@ -489,30 +466,7 @@ DEVICES_CONFIG_nova3 = {
     },
 }
 
-DEVICES_CONFIG_YMS2 = {
-    'M960BDQN229CH': {
-        "MODEL": SupportedModel.HUAWEI_P20,
-        "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
-        "DEFAULT_CAPABILITY": {
-            "platformName": "Android",
-            "platformVersion": "8.0.0",
-            "deviceName": "RKKDU18321000975",
-            "udid": "RKKDU18321000975",
-            "automationName": "UiAutomator2",
-            "newCommandTimeout": 600,
-            "appPackage": "com.chinasofti.rcs",
-            "appActivity": "com.cmic.module_main.ui.activity.WelcomeActivity",
-        },
-        'CARDS': [
-            {
-                'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '15875537272'
-            },
-        ]
-    },
-}
-
-DEVICES_CONFIG_IOS = {
+DEVICES_CONFIG_IOSYYX = {
     'iphone': {
         "MODEL": SupportedModel.iPhone_XR,
         "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
@@ -522,7 +476,7 @@ DEVICES_CONFIG_IOS = {
               "deviceName": "iPhone XR",
               "udid": "00008020-00011C1E2108002E",
               "automationName": "XCUITest",
-              "app": "com.cmcc.enterprise-classID",
+              "app": "cn.10086.rcs.beta",
               "xcodeOrgId": "42J4UB47JC",
               "xcodeSigningId": "iPhone Developer"
         },
@@ -535,14 +489,14 @@ DEVICES_CONFIG_IOS = {
     },
     'M960BDQN229CHiphone8': {
         "MODEL": SupportedModel.iPhone8plus,
-        "SERVER_URL": 'http://127.0.0.1:4724/wd/hub',
+        "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
         "DEFAULT_CAPABILITY": {
               "platformName": "ios",
               "platformVersion": "11.4.1",
               "deviceName": "iPhone8plus",
               "udid": "c72a846c88da4ff39aefe9451bcdde6f072b3f19",
               "automationName": "XCUITest",
-              "app": "com.cmcc.enterprise-classID",
+              "app": "cn.10086.rcs.beta",
               "xcodeOrgId": "42J4UB47JC",
               "xcodeSigningId": "iPhone Developer"
         },

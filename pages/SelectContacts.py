@@ -12,31 +12,23 @@ class SelectContactsPage(BasePage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.ContactsSelectActivity'
 
     __locators = {
-        'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
-        'android:id/content': (MobileBy.ID, 'android:id/content'),
-        'com.chinasofti.rcs:id/pop_10g_window_drop_view': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/pop_10g_window_drop_view'),
-        'com.chinasofti.rcs:id/id_toolbar': (MobileBy.ID, 'com.chinasofti.rcs:id/id_toolbar'),
-        '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/back'),
-        '选择联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
-        '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'),
-        'com.chinasofti.rcs:id/contentFrame': (MobileBy.ID, 'com.chinasofti.rcs:id/contentFrame'),
-        'com.chinasofti.rcs:id/top_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/top_layout'),
-        'com.chinasofti.rcs:id/layout_search': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_search'),
-        '搜索或输入手机号': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
-        'com.chinasofti.rcs:id/bottom_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/bottom_layout'),
-        'com.chinasofti.rcs:id/recyclerView_recently_person': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/recyclerView_recently_person'),
-        'com.chinasofti.rcs:id/local_contacts': (MobileBy.ID, 'com.chinasofti.rcs:id/local_contacts'),
-        '选择一个群': (MobileBy.XPATH, '//*[@text ="选择一个群"]'),
-        'com.chinasofti.rcs:id/arrow_right': (MobileBy.ID, 'com.chinasofti.rcs:id/arrow_right'),
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '选择联系人': (MobileBy.ACCESSIBILITY_ID, '选择联系人'),
+        '搜索或输入手机号': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeTextField'),
+        '选择一个群': (MobileBy.ACCESSIBILITY_ID, '选择一个群'),
+        '选择团队联系人': (MobileBy.ACCESSIBILITY_ID, '选择团队联系人'),
+        '选择手机联系人': (MobileBy.ACCESSIBILITY_ID, '选择手机联系人'),
+
+        '最近聊天列表': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[4]'),
+
+
+
         '本地联系人': (MobileBy.XPATH, '//*[@text ="选择手机联系人"]'),
         '选择和通讯录联系人': (MobileBy.XPATH, '//*[@text ="选择团队联系人"]'),
         '最近聊天': (MobileBy.ID, 'com.chinasofti.rcs:id/text_hint'),
         'X': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_delect'),
         '聊天电话': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_number'),
         # 分享二维码的选择联系人页面
-        '选择手机联系人': (MobileBy.XPATH, '//*[@text ="选择手机联系人"]'),
         'tel:+86': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_number"]'),
 
         # 未知号码
@@ -61,7 +53,6 @@ class SelectContactsPage(BasePage):
 
         "搜索群组":(MobileBy.ID,'com.chinasofti.rcs:id/et_search'),
         "搜索1":(MobileBy.ID,'com.chinasofti.rcs:id/edit_query'),
-        "选择团队联系人":(MobileBy.XPATH,"//*[@text='选择团队联系人']"),
         # "选择手机联系人": (MobileBy.XPATH, "//*[@text='选择手机联系人']"),
         "中软国际科技服务有限公司": (MobileBy.XPATH, "//*[@text='中软国际科技服务有限公司']"),
         "选择联系人列表":(MobileBy.ID,'com.chinasofti.rcs:id/textview_action_bar_title'),
@@ -93,6 +84,18 @@ class SelectContactsPage(BasePage):
         "联系人栏": (MobileBy.ID, 'com.chinasofti.rcs:id/contact_list_item'),
 
     }
+
+    @TestLogger.log("当前页面是否在选择联系人页")
+    def is_on_this_page(self):
+        bol = self.wait_until(
+            condition=lambda d: self._is_element_present(self.__class__.__locators["选择一个群"])
+        )
+        return bol
+
+
+
+
+
 
     @TestLogger.log("点击右侧字母")
     def click_right_word(self,text='A'):
@@ -763,12 +766,6 @@ class SelectContactsPage(BasePage):
         mess.click_sure_button()
         time.sleep(1)
 
-    @TestLogger.log("当前页面是否在选择联系人页")
-    def is_on_this_page(self):
-        bol = self.wait_until(
-            condition=lambda d: self._is_element_present(self.__class__.__locators["选择一个群"])
-        )
-        return bol
 
     @TestLogger.log("通过索引选择最近联系人最近聊天")
     def select_recent_chat_by_number(self, num):
