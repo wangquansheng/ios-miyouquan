@@ -318,5 +318,79 @@ class ContactsLocalhigh(TestCase):
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
 
+
+    # @tags('ALL', 'CONTACTS', 'CMCC')
+    # def test_contacts_chenjixiang_0166(self):
+    #     """测试和飞信新建联系人，名称和本地通讯录联系人一样，手机号码不一样"""
+    #     # old_number=ContactsPage().get_all_phone_number()
+    #     ContactsPage().click_add()
+    #     time.sleep(1)
+    #     creat_contact=CreateContactPage()
+    #     creat_contact.click_input_name()
+    #     input_name='大佬1'
+    #     creat_contact.input_name(input_name)
+    #     creat_contact.click_input_number()
+    #     input_number='12345678901'
+    #     creat_contact.input_number(input_number)
+    #     creat_contact.click_save()
+    #     time.sleep(2)
+    #     contact_detail=ContactDetailsPage()
+    #     contact_detail.page_should_contain_text('飞信电话')
+    #     time.sleep(1)
+    #     contact_name1=contact_detail.get_people_name()
+    #     contact_number1=contact_detail.get_people_number()
+    #     time.sleep(1)
+    #     #原本的大佬1
+    #     contact_detail.click_back_icon()
+    #     time.sleep(1)
+    #     ContactsPage().select_contacts_by_number('13800138005')
+    #     time.sleep(2)
+    #     contact_name2 = contact_detail.get_people_name()
+    #     contact_number2 = contact_detail.get_people_number()
+    #     #判断新增名称一样,号码与头像不一样
+    #     time.sleep(1)
+    #     self.assertEqual(contact_name1,contact_name2)
+    #     self.assertNotEqual(contact_number1, contact_number2)
+    #
+    # def tearDown_test_contacts_chenjixiang_0166(self):
+    #     Preconditions.make_already_in_message_page()
+    #     MessagePage().click_contacts()
+    #     contact = ContactsPage()
+    #     if contact.is_exit_element_by_text_swipe('12345678901'):
+    #         contact.select_contacts_by_number('12345678901')
+    #         contant_detail = ContactDetailsPage()
+    #         contant_detail.click_edit_contact()
+    #         time.sleep(2)
+    #         contant_detail.hide_keyboard()
+    #         contant_detail.change_delete_number()
+    #         contant_detail.click_sure_delete()
+    #     else:
+    #         pass
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0175(self):
+        """测试页面信息展示，名称正常长度显示"""
+        text = '大佬1'
+        ContactsPage().select_contacts_by_name(text)
+        cdp = ContactDetailsPage()
+        time.sleep(2)
+        contact_name=cdp.get_people_name(text)
+        self.assertEqual(contact_name,text)
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0177(self,):
+        """测试页面信息展示，手机号码正常长度显示"""
+        text='大佬1'
+        ContactsPage().select_contacts_by_name(text)
+        cdp = ContactDetailsPage()
+        time.sleep(2)
+        number='13800138005'
+        contact_number=cdp.get_people_number(number)
+        self.assertEqual(contact_number,number)
+
+
+
+
+
 if __name__=="__main__":
     unittest.main()
