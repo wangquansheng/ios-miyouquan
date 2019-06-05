@@ -215,6 +215,55 @@ class ContactsLocalhigh(TestCase):
         creat_contact.is_toast_exist('号码输入有误，请重新输入')
         time.sleep(2)
 
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0140(self):
+        """测试表单字段，手机号码长度边界值校验，3个字符"""
+        ContactsPage().click_add()
+        time.sleep(1)
+        creat_contact=CreateContactPage()
+        creat_contact.click_input_name()
+        creat_contact.input_name('ceshi')
+        creat_contact.click_input_number()
+        creat_contact.input_number('123')
+        creat_contact.click_save()
+        time.sleep(2)
+        ContactDetailsPage().page_should_contain_text('飞信电话')
+        time.sleep(2)
+
+    def tearDown_test_contacts_chenjixiang_0140(self):
+        contant_detail = ContactDetailsPage()
+        contant_detail.click_edit_contact()
+        time.sleep(2)
+        contant_detail.hide_keyboard()
+        # contant_detail.page_up()
+        contant_detail.change_delete_number()
+        contant_detail.click_sure_delete()
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0147(self):
+        """测试表单字段，公司边界值校验，输入1个字符"""
+        ContactsPage().click_add()
+        time.sleep(1)
+        creat_contact=CreateContactPage()
+        creat_contact.click_input_name()
+        creat_contact.input_name('ceshi')
+        creat_contact.click_input_number()
+        creat_contact.input_number('123')
+        creat_contact.click_input_company()
+        creat_contact.input_company('a')
+        creat_contact.click_save()
+        time.sleep(2)
+        ContactDetailsPage().page_should_contain_text('飞信电话')
+        time.sleep(2)
+
+    def tearDown_test_contacts_chenjixiang_0147(self):
+        contant_detail = ContactDetailsPage()
+        contant_detail.click_edit_contact()
+        time.sleep(2)
+        contant_detail.hide_keyboard()
+        # contant_detail.page_up()
+        contant_detail.change_delete_number()
+        contant_detail.click_sure_delete()
 
 
 
