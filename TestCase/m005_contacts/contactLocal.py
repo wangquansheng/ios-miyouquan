@@ -318,5 +318,30 @@ class ContactsLocalhigh(TestCase):
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
 
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0181(self):
+        """测试点击联系人头像，未上传头像"""
+        ContactsPage().select_contacts_by_name('大佬1')
+        cdp = ContactDetailsPage()
+        cdp.wait_for_page_load()
+        time.sleep(2)
+        cdp.click_avatar()
+        cdp.is_exists_big_avatar()
+
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0182(self):
+        """测试点击联系人头像，已上传头像"""
+        ContactsPage().select_contacts_by_name('测试号码')
+        cdp = ContactDetailsPage()
+        cdp.wait_for_page_load()
+        time.sleep(2)
+        cdp.click_avatar()
+        cdp.is_exists_big_avatar()
+
+
+
+
 if __name__=="__main__":
     unittest.main()
