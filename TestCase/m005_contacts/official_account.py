@@ -115,3 +115,77 @@ class OfficialAccountTest(TestCase):
         conts_page.is_text_present('和飞信新闻')
         conts_page.is_text_present('中国移动10086')
 
+
+
+    @tags('ALL', 'SMOKE', 'CMCC')
+    def test_contacts_quxinli_0323(self):
+        """企业号列表显示为空"""
+        official_account = OfficialAccountPage()
+        official_account.click_enterprise()
+        time.sleep(1)
+        official_account.page_should_contain_text('未关注任何企业号')
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0324(self):
+        """公众号会话页面(未配置底部菜单栏)"""
+        official = OfficialAccountPage()
+        official.click_officel_account()
+        time.sleep(2)
+        official.page_contain_news()
+        official.page_contain_setting()
+        official.page_contain_input_box()
+        official.page_contain_send_button()
+        official.send_btn_is_clickable()
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0325(self):
+        """公众号会话页面(配置底部菜单栏)"""
+        official = OfficialAccountPage()
+        official.click_officel_account_hefeixin()
+        time.sleep(2)
+        official.page_should_contain_text('和飞信')
+        official.page_contain_setting()
+        official.page_contain_keyboard()
+        official.page_should_contain_element_menu()
+        #点击键盘
+        official.click_keyboard()
+        time.sleep(2)
+        official.page_contain_input_box()
+        official.page_contain_send_button()
+        official.send_btn_is_clickable()
+        #再次点击键盘图标
+        official.click_keyboard()
+        time.sleep(2)
+        official.page_should_contain_element_menu()
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0326(self):
+        """公众号会话页面发送文本消息"""
+        official = OfficialAccountPage()
+        official.click_officel_account()
+        time.sleep(2)
+        official.click_input_box()
+        official.input_message('good news')
+        official.click_send_button()
+        official.page_should_not_contain_sendfail_element()
+        official.page_should_contain_text('good news')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0332(self):
+        """公众号会话页面右上角设置按钮"""
+        official = OfficialAccountPage()
+        official.click_officel_account()
+        official.click_setting_button()
+        time.sleep(2)
+        official_account_detail=OfficialAccountDetailPage()
+        official_account_detail.page_contain_public_title_name()
+        official_account_detail.page_contain_public_name()
+        official_account_detail.page_contain_public_header()
+        official_account_detail.page_contain_public_number()
+        official_account_detail.page_contain_features()
+        official_account_detail.page_contain_certification()
+        official_account_detail.page_should_contain_text('置顶公众号')
+        official_account_detail.page_should_contain_text('查看历史资讯')
+        official_account_detail.page_should_contain_text('进入公众号')
+        time.sleep(2)
