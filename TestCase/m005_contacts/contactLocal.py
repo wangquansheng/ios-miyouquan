@@ -527,6 +527,39 @@ class ContactsLocalhigh(TestCase):
         cdp.is_on_this_page()
 
 
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0216(self):
+        """测试表单字段，职位非必填"""
+        ContactsPage().select_contacts_by_name('大佬1')
+        cdp = ContactDetailsPage()
+        time.sleep(2)
+        cdp.click_edit_contact()
+        time.sleep(1)
+        # 职位为空 可点
+        creat_contact = CreateContactPage()
+        creat_contact.click_input_position()
+        creat_contact.click_input_number()
+        self.assertTrue(creat_contact.is_sure_icon_is_clickable())
+        creat_contact.click_sure()
+        cdp.is_on_this_page()
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0223(self):
+        """测试表单字段，邮箱非必填"""
+        ContactsPage().select_contacts_by_name('大佬1')
+        cdp = ContactDetailsPage()
+        time.sleep(2)
+        cdp.click_edit_contact()
+        time.sleep(1)
+        # 邮箱为空 可点
+        creat_contact = CreateContactPage()
+        creat_contact.click_input_email()
+        creat_contact.click_input_number()
+        self.assertTrue(creat_contact.is_sure_icon_is_clickable())
+        creat_contact.click_sure()
+        cdp.is_on_this_page()
+
 
 
 
