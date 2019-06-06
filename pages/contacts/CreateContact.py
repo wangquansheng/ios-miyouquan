@@ -148,15 +148,15 @@ class CreateContactPage(Keyboard, BasePage):
     def save_contact(self):
         self.click_element(self.__locators['保存'])
 
-    # @TestLogger.log('保存按钮是否可点击')
-    # def is_save_icon_is_clickable(self):
-    #     """保存按钮是否可点击"""
-    #     return self._is_clickable(self.__class__.__locators['保存'])
-    #
-    # @TestLogger.log('确定按钮是否可点击')
-    # def is_sure_icon_is_clickable(self):
-    #     """确定按钮是否可点击"""
-    #     return self._is_clickable(self.__class__.__locators['确定'])
+    @TestLogger.log('保存按钮是否可点击')
+    def is_save_icon_is_clickable(self):
+        """保存按钮是否可点击"""
+        return self._is_clickable(self.__class__.__locators['保存'])
+
+    @TestLogger.log('确定按钮是否可点击')
+    def is_sure_icon_is_clickable(self):
+        """确定按钮是否可点击"""
+        return self._is_clickable(self.__class__.__locators['确定'])
 
     @TestLogger.log("删除联系人")
     def change_delete_contact(self):
