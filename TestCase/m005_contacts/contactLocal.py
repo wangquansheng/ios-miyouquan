@@ -605,6 +605,33 @@ class ContactsLocalhigh(TestCase):
         creat_contact.click_save()
 
 
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0232(self):
+        """测试“邀请使用”按钮跳转"""
+        ContactsPage().select_contacts_by_name('大佬2')
+        cdp = ContactDetailsPage()
+        cdp.click_invitation_use()
+        cdp.page_should_contain_text('取消')
+        cdp.page_should_contain_text('短信')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0237(self):
+        """测试分享名片，跳转到联系人选择器"""
+        ContactsPage().select_contacts_by_name('大佬2')
+        cdp = ContactDetailsPage()
+        cdp.click_share_business_card()
+        select=SelectContactsPage()
+        select.page_should_contain_text('选择联系人')
+        select.page_should_contain_text('搜索或输入手机号')
+        select.page_should_contain_text('选择一个群')
+        select.page_should_contain_text('选择团队联系人')
+        select.page_should_contain_text('选择手机联系人')
+        if select.is_element_present(locator='最近聊天列表'):
+            select.page_should_contain_text('最近聊天')
+
+
+
+
 
 
 if __name__=="__main__":
