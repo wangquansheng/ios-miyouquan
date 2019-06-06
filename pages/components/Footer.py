@@ -7,11 +7,12 @@ class FooterPage(BasePage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
     __locators = {
-        '我': (MobileBy.ID, 'com.chinasofti.rcs:id/tvMe'),
-        '消息': (MobileBy.ID, 'com.chinasofti.rcs:id/tvMessage'),
-        '通话': (MobileBy.ID, 'com.chinasofti.rcs:id/tvCall'),
-        '工作台': (MobileBy.ID, 'com.chinasofti.rcs:id/tvCircle'),
-        '通讯录': (MobileBy.ID, 'com.chinasofti.rcs:id/tvContact'),
+        '消息': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_selected'),
+        '通话': (MobileBy.ACCESSIBILITY_ID, 'cc_call_unselected'),
+        '工作台': (MobileBy.ACCESSIBILITY_ID, 'cc_workbench_normal'),
+        '通讯录': (MobileBy.ACCESSIBILITY_ID, 'cc_contects_unselected'),
+        '我': (MobileBy.ACCESSIBILITY_ID, 'cc_me_unselected'),
+
     }
 
     @TestLogger.log()

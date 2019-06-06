@@ -7,34 +7,51 @@ from pages.components.keyboard import Keyboard
 
 class CreateContactPage(Keyboard, BasePage):
     """新建联系人"""
-    ACTIVITY = 'com.cmicc.module_contact.activitys.NewContactActivity'
+    # ACTIVITY = 'com.cmicc.module_contact.activitys.NewContactActivity'
 
     __locators = {
-        '返回': (MobileBy.XPATH, '//*[contains(@resource-id, "back")]'),
-        '新建联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title'),
-        '保存': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_save_or_sure'),
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '新建联系人': (MobileBy.ACCESSIBILITY_ID, '新建联系人'),
+        '保存': (MobileBy.ACCESSIBILITY_ID, '保存'),
+        '清除文本': (MobileBy.ACCESSIBILITY_ID, '清除文本'),
 
-        '姓名': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_name"]//android.widget.TextView'),
-        '输入姓名': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_name"]//android.widget.EditText'),
+        '姓名': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="姓名"])[1]'),
+        '输入姓名': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeTextField'),
+        '已输入姓名':(MobileBy.XPATH,'//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeTextField'),
 
-        '电话': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_nu mber"]//android.widget.TextView'),
-        '输入号码': (MobileBy.XPATH,'//*[@resource-id="com.chinasofti.rcs:id/item_number"]//android.widget.EditText'),
-        '电话号码': (MobileBy.XPATH, '//*[@text="电话"]/../android.widget.EditText[@resource-id="com.chinasofti.rcs:id/et"]'),
+        '电话': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="电话"])[1]'),
+        '输入号码': (MobileBy.XPATH,'//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]/XCUIElementTypeTextField'),
+        '电话号码': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]/XCUIElementTypeTextField'),
 
-        '公司': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_company"]//android.widget.TextView'),
-        '输入公司': (MobileBy.XPATH,'//*[@resource-id="com.chinasofti.rcs:id/item_company"]//android.widget.EditText'),
+        '公司': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="公司"])[1]'),
+        '输入公司': (MobileBy.XPATH,'//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[3]/XCUIElementTypeTextField'),
 
-        '职位':(MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_job"]//android.widget.TextView'),
-        '输入职位': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_job"]//android.widget.EditText'),
+        '职位':(MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="职位"])[1]'),
+        '输入职位': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeTextField'),
 
-        '邮箱': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_email"]//android.widget.TextView'),
-        '输入邮箱': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/item_email"]//android.widget.EditText'),
+        '邮箱': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="邮箱"])[1]'),
+        '输入邮箱': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[5]/XCUIElementTypeTextField'),
+
+        "确定": (MobileBy.ACCESSIBILITY_ID, '确定'),
+        "删除联系人": (MobileBy.ACCESSIBILITY_ID, "删除联系人"),
+        "确定删除": (MobileBy.ACCESSIBILITY_ID, '删除'),
+        "取消删除": (MobileBy.ACCESSIBILITY_ID, '取消'),
+
     }
+
+    @TestLogger.log('点击返回')
+    def click_back(self):
+        self.click_element(self.__locators['返回'])
 
     @TestLogger.log('点击保存')
     def click_save(self):
         """点击保存"""
-        self.click_element(self.__locators['保存'])
+        self.click_element(self.__class__.__locators['保存'])
+
+    @TestLogger.log('点击保存')
+    def click_sure(self):
+        """点击确定"""
+        self.click_element(self.__class__.__locators['确定'])
 
     @TestLogger.log('点击输入姓名')
     def click_input_name(self):
@@ -51,10 +68,23 @@ class CreateContactPage(Keyboard, BasePage):
         """点击输入号码"""
         self.click_element(self.__locators['输入号码'])
 
+
+    @TestLogger.log('清除文本')
+    def click_clear_text(self):
+        """点击清除文本"""
+        self.click_element(self.__locators['清除文本'])
+
+    @TestLogger.log("更改手机号码")
+    def change_mobile_number(self,text='13800138005'):
+        self.click_input_number()
+        self.click_clear_text()
+        self.input_number(text)
+
+
     @TestLogger.log('输入号码')
     def input_number(self, name):
         """输入号码"""
-        self.input_text(self.__locators['输入号码'], name)
+        self.input_text(self.__class__.__locators['输入号码'], name)
 
     @TestLogger.log('点击输入公司')
     def get_contant_number(self):
@@ -101,31 +131,34 @@ class CreateContactPage(Keyboard, BasePage):
     @TestLogger.log('保存按钮是否可点击')
     def is_save_icon_is_clickable(self):
         """保存按钮是否可点击"""
-        self._is_clickable(self.__locators['保存'])
+        return self._is_clickable(self.__locators['保存'])
+
+    @TestLogger.log('保存按钮是否可点击')
+    def is_sure_icon_is_clickable(self):
+        """确定按钮是否可点击"""
+        return self._is_clickable(self.__locators['确定'])
 
 
-    @TestLogger.log('点击返回')
-    def click_back(self):
-        self.click_element(self.__locators['返回'])
+
 
     @TestLogger.log('创建联系人')
     def create_contact(self, name, number, company='', position='', email=''):
         if name:
-            self.hide_keyboard_if_display()
+            # self.hide_keyboard_if_display()
             self.input_name(name)
         if number:
-            self.hide_keyboard_if_display()
+            # self.hide_keyboard_if_display()
             self.input_number(number)
         if company:
-            self.hide_keyboard_if_display()
+            # self.hide_keyboard_if_display()
             self.input_company(company)
         if position:
-            self.hide_keyboard_if_display()
+            self.page_up()
             self.input_position(position)
         if email:
-            self.hide_keyboard_if_display()
+            self.page_up()
             self.input_email_address(email)
-        self.hide_keyboard_if_display()
+        # self.hide_keyboard_if_display()
         self.save_contact()
 
     @TestLogger.log('等待页面加载')
@@ -134,6 +167,4 @@ class CreateContactPage(Keyboard, BasePage):
             condition=lambda d: self._is_element_present(self.__locators['输入姓名'])
         )
 
-    @TestLogger.log("更改手机号码")
-    def change_mobile_number(self,text='13800138005'):
-        return self.input_text(self.__locators["电话号码"],text)
+

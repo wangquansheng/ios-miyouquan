@@ -395,26 +395,24 @@ DEVICES_CONFIG_Nova = {
     },
 }
 
-
 DEVICES_CONFIG_LXD = {
-    'M960BDQN229CH': {
-        "MODEL": SupportedModel.HUAWEI_P20,
+    'iphone': {
+        "MODEL": SupportedModel.iPhone_XR,
         "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
         "DEFAULT_CAPABILITY": {
-            "platformName": "Android",
-            "platformVersion": "8.1.0",
-            "deviceName": "7XB4C18907018917",
-            "udid": "7XB4C18907018917",
-            "automationName": "UiAutomator2",
-            "newCommandTimeout": 6000,
-            "appPackage": "com.chinasofti.rcs",
-            "appActivity": "com.cmic.module_main.ui.activity.WelcomeActivity",
+            "platformName": "ios",
+            "platformVersion": "11.0.3",
+            "deviceName": "iPhone7plus",
+            "udid": "6dd53ce9b0f2b036dde539161869be7eabec5909",
+            "automationName": "XCUITest",
+            "app": "cn.10086.rcs.beta",
+            "xcodeOrgId": "42J4UB47JC",
+            "xcodeSigningId": "iPhone Developer"
         },
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
                 'CARD_NUMBER': '19874361585'
-                # 'CARD_NUMBER': '15875537278'
             },
         ]
     },

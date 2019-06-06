@@ -8,48 +8,48 @@ import os
 
 class ContactDetailsPage(BasePage):
     """个人详情"""
-    ACTIVITY = 'com.cmicc.module_contact.activitys.ContactDetailActivity'
+    # ACTIVITY = 'com.cmicc.module_contact.activitys.ContactDetailActivity'
 
     __locators = {
-        '联系人列表': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_group_list_item'),
-        '通讯录': (MobileBy.ID, 'com.chinasofti.rcs:id/tvContact'),
-        "联系人头像": (MobileBy.ID, 'com.chinasofti.rcs:id/head_tv'),
-        '编辑2': (MobileBy.XPATH, "//*[@text='编辑']"),
-        '星标图标': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_star'),
-        '返回上一页': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_back'),
-        '名片标题': (MobileBy.ID, 'com.chinasofti.rcs:id/profile_name'),
 
-        '标题': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_profile_name'),
-        '手机号': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_phone'),
+        '返回上一页': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '星标': (MobileBy.ACCESSIBILITY_ID, 'cc contacts profile ic star un'),
+        '编辑': (MobileBy.ACCESSIBILITY_ID, '编辑'),
+        '好久不见~打个招呼吧': (MobileBy.ACCESSIBILITY_ID, '好久不见~打个招呼吧'),
 
-        '星标': (MobileBy.ID, 'com.chinasofti.rcs:id/star'),
-        '编辑': (MobileBy.ID, 'com.chinasofti.rcs:id/txt_call_detail_edit'),
-        '好久不见~打个招呼吧': (MobileBy.ID, 'com.chinasofti.rcs:id/recent_contact_hint'),
-        '名片号码': (MobileBy.ID, 'com.chinasofti.rcs:id/phone'),
-        '名片首字母': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_profile_photo_tv'),
-        '联系人头像图片': (MobileBy.ID, 'com.chinasofti.rcs:id/recyclesafeimageview_profile_photo'),
-        '头像': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_profile_photo_tv'),
-        '消息': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_normal_message'),
-        '电话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_normal_call'),
-        '语音通话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_voice_call'),
-        '视频通话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_video_call'),
-        '和飞信电话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_dial_hefeixin'),
+        '联系人头像': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeImage'),
+        '大图': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeScrollView/XCUIElementTypeScrollView/XCUIElementTypeOther/XCUIElementTypeImage'),
+
+        '消息': (MobileBy.ACCESSIBILITY_ID, 'cc profile massage normal'),
+        '电话': (MobileBy.ACCESSIBILITY_ID, 'cc profile call normal'),
+        '语音通话': (MobileBy.ACCESSIBILITY_ID, 'cc profile voicecall normal'),
+        '视频通话': (MobileBy.ACCESSIBILITY_ID, 'cc profile video normal'),
+        '和飞信电话': (MobileBy.ACCESSIBILITY_ID, '和飞信电话'),
+
         '详细信息列表容器': (MobileBy.ID, 'com.chinasofti.rcs:id/sv_info'),
-        '公司': (MobileBy.ID, 'com.chinasofti.rcs:id/property'),
+        '公司': (MobileBy.XPATH, '(//XCUIElementTypeTextView[@name="vvv"])[1]'),
         '公司名': (MobileBy.ID, 'com.chinasofti.rcs:id/value'),
         '职位': (MobileBy.ID, 'com.chinasofti.rcs:id/property'),
         '职位名': (MobileBy.ID, 'com.chinasofti.rcs:id/value'),
         '邮箱': (MobileBy.ID, 'com.chinasofti.rcs:id/property'),
         '邮箱地址': (MobileBy.ID, 'com.chinasofti.rcs:id/value'),
-        '分享名片': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/btn_share_card" and @text="分享名片"]'),
+
+        '分享名片': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="分享名片"])[1]'),
         '保存到通讯录': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/btn_share_card" and @text="保存到通讯录"]'),
-        'com.chinasofti.rcs:id/btn_share_card_line': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_share_card_line'),
-        '邀请使用': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_invitation_to_use'),
-        '大图': (MobileBy.ID, 'com.chinasofti.rcs:id/img_smooth'),
-        '电话号码': (MobileBy.XPATH, '//*[@text="电话"]/../android.widget.EditText[@resource-id="com.chinasofti.rcs:id/et"]'),
-        "确定": (MobileBy.ID, 'com.chinasofti.rcs:id/tv_save_or_sure'),
-        "确定删除": (MobileBy.ID, 'com.chinasofti.rcs:id/bt_button2'),
-        "删除联系人": (MobileBy.ID, "com.chinasofti.rcs:id/tv_delete_contact"),
+        '邀请使用': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="邀请使用"])[1]'),
+
+        # '大图': (MobileBy.ID, 'com.chinasofti.rcs:id/img_smooth'),
+        # '电话号码': (MobileBy.XPATH, '//*[@text="电话"]/../android.widget.EditText[@resource-id="com.chinasofti.rcs:id/et"]'),
+
+        "确定": (MobileBy.ACCESSIBILITY_ID, '确定'),
+        "删除联系人": (MobileBy.ACCESSIBILITY_ID, "删除联系人"),
+        "确定删除": (MobileBy.ACCESSIBILITY_ID, '删除'),
+        "取消删除": (MobileBy.ACCESSIBILITY_ID, '取消'),
+
+
+
+
+
         "呼叫(1/8)": (MobileBy.ID, "com.chinasofti.rcs:id/tv_sure"),
         "暂不开启": (MobileBy.ID, "android:id/button2"),
         "挂断电话": (MobileBy.ID, "com.chinasofti.rcs:id/ivDecline"),
@@ -73,6 +73,75 @@ class ContactDetailsPage(BasePage):
     def is_on_this_page(self):
         time.sleep(2)
         return self.is_text_present('分享名片')
+
+    @TestLogger.log()
+    def page_should_contain_element_first_letter(self):
+        """页面应该包含首字母"""
+        return self.page_should_contain_element(self.__class__.__locators['联系人头像'])
+
+    @TestLogger.log()
+    def page_contain_contacts_avatar(self):
+        """页面应该包含联系人头像"""
+        return self.page_should_contain_element(self.__class__.__locators['联系人头像'])
+
+    @TestLogger.log()
+    def get_people_name(self,name):
+        locator = (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="%s"]' % name)
+        time.sleep(2)
+        el = self.get_element(locator)
+        return el.text
+
+    @TestLogger.log()
+    def get_people_number(self,number):
+        locator = (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="%s"]' % number)
+        time.sleep(2)
+        return self.get_element(locator).text
+
+    @TestLogger.log()
+    def wait_for_page_load(self, timeout=20, auto_accept_alerts=True):
+        """等待个人详情页面加载"""
+        try:
+            self.wait_until(
+                timeout=timeout,
+                auto_accept_permission_alert=auto_accept_alerts,
+                condition=lambda d: self._is_element_present(self.__class__.__locators["编辑"])
+            )
+        except:
+            raise AssertionError("页面在{}s内，没有加载成功".format(str(timeout)))
+        return self
+
+    @TestLogger.log("点击头像查看大图")
+    def click_avatar(self):
+        """点击头像查看大图"""
+        self.click_element(self.__locators['联系人头像'])
+
+    @TestLogger.log("点击大图")
+    def click_big_avatar(self):
+        """点击大图"""
+        self.click_element(self.__locators['大图'])
+
+    @TestLogger.log()
+    def is_exists_big_avatar(self):
+        """是否存在大图"""
+        return self._is_element_present(self.__class__.__locators["大图"])
+
+    @TestLogger.log("删除联系人")
+    def change_delete_number(self):
+        time.sleep(1)
+        self.click_element(self.__locators['删除联系人'])
+
+    @TestLogger.log("确定删除")
+    def click_sure_delete(self):
+        """确定删除"""
+        time.sleep(3)
+        self.click_element(self.__class__.__locators['确定删除'])
+
+    @TestLogger.log("点击分享名片")
+    def click_share_business_card(self):
+        """点击分享名片"""
+        self.click_element(self.__locators['分享名片'])
+
+
 
 
     @TestLogger.log("添加桌面快捷方式")
@@ -121,10 +190,6 @@ class ContactDetailsPage(BasePage):
         self.click_element(self.__locators["结束通话"])
 
 
-    @TestLogger.log("删除联系人")
-    def change_delete_number(self):
-        time.sleep(1)
-        self.click_element(self.__locators['删除联系人'])
 
     @TestLogger.log()
     def open_contacts_page(self):
@@ -182,23 +247,19 @@ class ContactDetailsPage(BasePage):
     @TestLogger.log("点击确定")
     def click_sure_icon(self):
         """点击确定"""
-        self.click_element(self.__locators['确定'])
+        self.click_element(self.__class__.__locators['确定'])
 
-    @TestLogger.log("确定删除")
-    def click_sure_delete(self):
-        """确定删除"""
-        time.sleep(3)
-        self.click_element(self.__locators['确定删除'])
+
 
     @TestLogger.log("点击编辑")
     def click_edit_contact(self):
         """点击编辑按钮"""
-        self.click_element(self.__locators['编辑2'])
+        self.click_element(self.__class__.__locators['编辑'])
 
     @TestLogger.log("获取名片名称")
     def get_contact_name(self, wait_time=0):
         title = self.wait_until(
-            condition=lambda d: self.get_element(self.__locators['名片标题']),
+            condition=lambda d: self.get_element(self.__class__.__locators['名片标题']),
             timeout=wait_time
         )
         return title.text
@@ -231,25 +292,6 @@ class ContactDetailsPage(BasePage):
     def click_hefeixin_call_menu(self):
         self.click_element(self.__locators['和飞信电话'])
 
-    @TestLogger.log("点击头像查看大图")
-    def click_avatar(self):
-        """点击头像查看大图"""
-        self.click_element(self.__locators['用户头像'])
-
-    @TestLogger.log("点击大图")
-    def click_big_avatar(self):
-        """点击大图"""
-        self.click_element(self.__locators['大图'])
-
-    @TestLogger.log()
-    def is_exists_big_avatar(self):
-        """是否存在大图"""
-        return self._is_element_present(self.__class__.__locators["大图"])
-
-    @TestLogger.log("点击分享名片")
-    def click_share_business_card(self):
-        """点击分享名片"""
-        self.click_element(self.__locators['分享名片'])
 
     @TestLogger.log("邀请使用")
     def click_invitation_use(self):
@@ -290,15 +332,6 @@ class ContactDetailsPage(BasePage):
         """和飞信通话按钮状态是否可点击"""
         return self._is_clickable(self.__class__.__locators["和飞信电话"])
 
-    @TestLogger.log()
-    def page_should_contain_element_first_letter(self):
-        """页面应该包含首字母"""
-        return self.page_should_contain_element(self.__class__.__locators['名片首字母'])
-
-    @TestLogger.log()
-    def page_contain_contacts_avatar(self):
-        """页面应该包含联系人头像"""
-        return self.page_should_contain_element(self.__class__.__locators['联系人头像图片'])
 
 
     @TestLogger.log()
@@ -432,16 +465,6 @@ class ContactDetailsPage(BasePage):
         os.popen("adb pull /data/local/tmp/tmp.png " + path + "/" + timestamp + ".png")
         os.popen("adb shell rm /data/local/tmp/tmp.png")
 
-    @TestLogger.log()
-    def get_people_name(self):
-        time.sleep(2)
-        el = self.get_element(self.__class__.__locators['标题'])
-        return el.text
-
-    @TestLogger.log()
-    def get_people_number(self):
-        time.sleep(2)
-        return self.get_element(self.__class__.__locators['手机号']).text
 
 
 def add(func):
