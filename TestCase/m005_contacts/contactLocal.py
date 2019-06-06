@@ -562,6 +562,50 @@ class ContactsLocalhigh(TestCase):
 
 
 
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0228(self):
+        """测试表单字段，邮箱字段，组合输入"""
+        ContactsPage().select_contacts_by_name('大佬1')
+        cdp = ContactDetailsPage()
+        time.sleep(2)
+        cdp.click_edit_contact()
+        time.sleep(1)
+        # 手机号为空,保存按钮不可点击
+        creat_contact = CreateContactPage()
+        creat_contact.click_input_email()
+        creat_contact.input_email_address('#sa123')
+        self.assertTrue(creat_contact.is_sure_icon_is_clickable())
+        creat_contact.click_sure()
+        cdp.is_on_this_page()
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0230(self):
+        """测试删除联系人"""
+        ContactsPage().select_contacts_by_name('大佬1')
+        cdp = ContactDetailsPage()
+        time.sleep(2)
+        cdp.click_edit_contact()
+        time.sleep(1)
+        #删除联系人
+        creat_contact = CreateContactPage()
+        creat_contact.change_delete_contact()
+        creat_contact.click_sure_delete()
+        self.assertFalse(ContactsPage().is_contacts_exist_by_name())
+
+    def tearDown_test_contacts_chenjixiang_0230(self):
+        Preconditions.make_already_in_message_page()
+        MessagePage().click_contacts()
+        ContactsPage().click_phone_contact()
+        ContactDetailsPage().click_edit_contact()
+        creat_contact = CreateContactPage()
+        creat_contact.click_input_name()
+        creat_contact.input_name('大佬1')
+        creat_contact.click_input_number()
+        creat_contact.input_number('13800138005')
+        creat_contact.click_save()
+
+
+
 
 if __name__=="__main__":
     unittest.main()
