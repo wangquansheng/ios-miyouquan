@@ -533,7 +533,7 @@ DEVICES_CONFIG_IOS = {
     },
     'M960BDQN229CHiphone8': {
         "MODEL": SupportedModel.iPhone8plus,
-        "SERVER_URL": 'http://127.0.0.1:4724/wd/hub',
+        "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
         "DEFAULT_CAPABILITY": {
               "platformName": "ios",
               "platformVersion": "11.4.1",
@@ -553,10 +553,10 @@ DEVICES_CONFIG_IOS = {
     },
 }
 
-DEVICES_CONFIG_IOSYMS = {
-    'M960BDQN229CHiphone8': {
-        "MODEL": SupportedModel.iPhone8plus,
-        "SERVER_URL": 'http://127.0.0.1:4724/wd/hub',
+DEVICES_CONFIG_IOS_YMS = {
+    'iphone': {
+        "MODEL": SupportedModel.iPhone_XR,
+        "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "ios",
             "platformVersion": "11.4.1",
@@ -570,7 +570,7 @@ DEVICES_CONFIG_IOSYMS = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '1949476421'
+                'CARD_NUMBER': '1989476421'
             },
         ]
     },

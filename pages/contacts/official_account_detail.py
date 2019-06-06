@@ -10,39 +10,29 @@ class OfficialAccountDetailPage(MenuMore, BasePage):
     ACTIVITY = 'com.rcs.rcspublicaccount.PublicAccountDetailActivity'
 
     __locators = {
-        '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/left_back'),
-        '标题名称': (MobileBy.ID, 'com.chinasofti.rcs:id/toolbar_title'),
-        '公众号名称': (MobileBy.ID, 'com.chinasofti.rcs:id/public_name'),
-        '更多菜单': (MobileBy.ID, 'com.chinasofti.rcs:id/menu_more'),
-        'com.chinasofti.rcs:id/public_scrollview_detail': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/public_scrollview_detail'),
-        'com.chinasofti.rcs:id/public_header': (MobileBy.ID, 'com.chinasofti.rcs:id/public_header'),
-        '公共账号：4011020490': (MobileBy.ID, 'com.chinasofti.rcs:id/public_account'),
-        'com.chinasofti.rcs:id/public_introduction': (MobileBy.ID, 'com.chinasofti.rcs:id/public_introduction'),
-        '功能介绍': (MobileBy.ID, 'com.chinasofti.rcs:id/intro_title'),
-        '介绍整形美容知识，介绍美容整形情况！': (MobileBy.ID, 'com.chinasofti.rcs:id/intro_text'),
-        'com.chinasofti.rcs:id/rl_public_auth': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_public_auth'),
-        '认证主体': (MobileBy.ID, 'com.chinasofti.rcs:id/public_auth_text'),
-        'com.chinasofti.rcs:id/public_auth_image': (MobileBy.ID, 'com.chinasofti.rcs:id/public_auth_image'),
-        'com.chinasofti.rcs:id/ll_accept_message_push': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_accept_message_push'),
-        '接收消息推送': (MobileBy.ID, ''),
-        '开启': (MobileBy.ID, 'com.chinasofti.rcs:id/switch_receive'),
-        'com.chinasofti.rcs:id/ll_totop': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_totop'),
-        '置顶公众号': (MobileBy.ID, ''),
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '更多菜单': (MobileBy.ACCESSIBILITY_ID, 'cc chat more normal'),
+        '公众号标题-和飞信新闻': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="和飞信新闻"])[1]'),
+        '公众号名称-和飞信新闻': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="和飞信新闻"])[2]'),
+        '公共账号：4011020490': (MobileBy.ACCESSIBILITY_ID, '公共账号:40088888'),
+        '功能介绍': (MobileBy.ACCESSIBILITY_ID, '功能介绍'),
+        '认证主体': (MobileBy.ACCESSIBILITY_ID, '认证主体'),
+        '公众号头像': (MobileBy.ACCESSIBILITY_ID, '/var/mobile/Containers/Data/Application/3FF94A5C-59E9-4E2B-AA59-79FEC854AC76/Library/RCSData/headimage/0f61b76531dca2f6468dab67dec8a15c'),
+
+        '置顶公众号-关闭': (MobileBy.XPATH, '//XCUIElementTypeSwitch[@name="置顶公众号"]'),
         '关闭': (MobileBy.ID, 'com.chinasofti.rcs:id/switch_totop'),
         'com.chinasofti.rcs:id/ll_history_message': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_history_message'),
-        '查看历史资讯': (MobileBy.ID, ''),
+        '查看历史资讯': (MobileBy.ID, '查看历史资讯'),
         'com.chinasofti.rcs:id/my_group_name_right_arrow': (
             MobileBy.ID, 'com.chinasofti.rcs:id/my_group_name_right_arrow'),
 
-        '进入公众号': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_into_public'),
-        '时间显示': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_time"]'),
-        '历史资讯': (MobileBy.ID, 'com.chinasofti.rcs:id/pp_complex_1'),
+        '进入公众号': (MobileBy.ACCESSIBILITY_ID, '进入公众号'),
+        '时间显示': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeImage'),
     }
 
-    # @TestLogger.log('点击返回')
-    # def click_menu_more(self):
-    #     self.click_element(self.__locators['返回'])
+    @TestLogger.log('点击返回')
+    def click_back(self):
+        self.click_element(self.__locators['返回'])
 
     @TestLogger.log('点击打开更多菜单')
     def click_menu_more(self):
@@ -51,17 +41,17 @@ class OfficialAccountDetailPage(MenuMore, BasePage):
     @TestLogger.log()
     def page_contain_public_name(self,):
         """页面应该包含的元素-公众号名称"""
-        return self.page_should_contain_element(self.__locators['公众号名称'])
+        return self.page_should_contain_element(self.__locators['公众号名称-和飞信新闻'])
 
     @TestLogger.log()
     def page_contain_public_title_name(self,):
         """页面应该包含的元素-公众号名称"""
-        return self.page_should_contain_element(self.__locators['标题名称'])
+        return self.page_should_contain_element(self.__locators['公众号标题-和飞信新闻'])
 
     @TestLogger.log()
     def page_contain_public_header(self):
         """页面应该包含的元素-公众号头像"""
-        return self.page_should_contain_element(self.__locators['com.chinasofti.rcs:id/public_header'])
+        return self.page_should_contain_element(self.__locators['公众号头像'])
 
     @TestLogger.log()
     def page_contain_public_number(self):
@@ -85,7 +75,7 @@ class OfficialAccountDetailPage(MenuMore, BasePage):
 
     @TestLogger.log('点击置顶公众号')
     def click_to_be_top(self):
-        self.click_element(self.__locators['关闭'])
+        self.click_element(self.__locators['置顶公众号-关闭'])
 
     @TestLogger.log('点击查看历史资讯')
     def click_read_old_message(self):

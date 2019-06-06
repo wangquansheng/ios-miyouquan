@@ -24,7 +24,7 @@ class ContactDetailsPage(BasePage):
         '电话': (MobileBy.ACCESSIBILITY_ID, 'cc profile call normal'),
         '语音通话': (MobileBy.ACCESSIBILITY_ID, 'cc profile voicecall normal'),
         '视频通话': (MobileBy.ACCESSIBILITY_ID, 'cc profile video normal'),
-        '和飞信电话': (MobileBy.ACCESSIBILITY_ID, '和飞信电话'),
+        '和飞信电话': (MobileBy.ACCESSIBILITY_ID, '飞信电话'),
 
         '详细信息列表容器': (MobileBy.ID, 'com.chinasofti.rcs:id/sv_info'),
         '公司': (MobileBy.XPATH, '(//XCUIElementTypeTextView[@name="vvv"])[1]'),
@@ -35,7 +35,6 @@ class ContactDetailsPage(BasePage):
         '邮箱地址': (MobileBy.ID, 'com.chinasofti.rcs:id/value'),
 
         '分享名片': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="分享名片"])[1]'),
-        '保存到通讯录': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/btn_share_card" and @text="保存到通讯录"]'),
         '邀请使用': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="邀请使用"])[1]'),
 
         # '大图': (MobileBy.ID, 'com.chinasofti.rcs:id/img_smooth'),
@@ -46,7 +45,9 @@ class ContactDetailsPage(BasePage):
         "确定删除": (MobileBy.ACCESSIBILITY_ID, '删除'),
         "取消删除": (MobileBy.ACCESSIBILITY_ID, '取消'),
 
-
+        #打电话
+        "取消": (MobileBy.ACCESSIBILITY_ID, '取消'),
+        "呼叫": (MobileBy.ACCESSIBILITY_ID, '呼叫'),
 
 
 
@@ -279,6 +280,11 @@ class ContactDetailsPage(BasePage):
     @TestLogger.log('点击电话图标')
     def click_call_icon(self):
         self.click_element(self.__locators['电话'])
+
+    @TestLogger.log('点击呼叫')
+    def click_calling(self):
+        self.click_element(self.__locators['呼叫'])
+
 
     @TestLogger.log("点击语音通话图标")
     def click_voice_call_icon(self):

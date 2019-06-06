@@ -13,7 +13,7 @@ from dataproviders import contact2
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
     # 'Android-移动': 'single_mobile',
-    'IOS-移动': 'M960BDQN229CHiphone8',
+    'IOS-移动': 'iphone',
     'IOS-移动-移动': 'M960BDQN229CHiphone8',
 }
 
@@ -143,20 +143,6 @@ class Preconditions(LoginPreconditions):
             detail_page.click_back_icon()
             contacts_page.click_back()
 
-        #
-        # contact_search = ContactListSearchPage()
-        # contact_search.wait_for_page_load()
-        # contact_search.input_search_keyword(name)
-        # if contact_search.is_contact_in_list(name):
-        #     contact_search.click_back()
-        # else:
-        #     contact_search.click_back()
-        #     contacts_page.click_add()
-        #     create_page = CreateContactPage()
-        #     create_page.hide_keyboard_if_display()
-        #     create_page.create_contact(name, number)
-        #     detail_page.wait_for_page_load()
-        #     detail_page.click_back_icon()
 
 class ContactsLocalhigh(TestCase):
     """
@@ -169,7 +155,7 @@ class ContactsLocalhigh(TestCase):
     def default_setUp(self):
         """确保每个用例执行前在通讯录页面"""
         Preconditions.make_already_in_message_page()
-        MessagePage().wait_for_page_load()
+        time.sleep(2)
         MessagePage().click_contacts()
         time.sleep(2)
         ContactsPage().click_phone_contact()
@@ -183,9 +169,10 @@ class ContactsLocalhigh(TestCase):
         """测试表单字段，姓名非空校验"""
         ContactsPage().click_add()
         time.sleep(1)
-        CreateContactPage().click_input_name()
-        CreateContactPage().click_input_number()
-        CreateContactPage().is_toast_exist('姓名不能为空，请重新输入')
+        creat_contact = CreateContactPage()
+        creat_contact.click_input_name()
+        creat_contact.click_input_number()
+        creat_contact.is_toast_exist('姓名不能为空，请重新输入')
         time.sleep(2)
 
     @tags('ALL', 'CONTACTS', 'CMCC')
@@ -436,16 +423,13 @@ class ContactsLocalhigh(TestCase):
         time.sleep(1)
         #编辑手机号码
         creat_contact=CreateContactPage()
-        creat_contact.click_input_number()
-        creat_contact.click_clear_text()
-        text='13800138789'
-        creat_contact.input_number(text)
+        creat_contact.change_mobile_number(text='13800138789')
         creat_contact.click_sure()
         time.sleep(2)
         #查看改变后的联系人
         cdp.click_back_icon()
         ContactsPage().select_contacts_by_name('大佬1')
-        ContactDetailsPage().page_should_contain_text(text)
+        ContactDetailsPage().page_should_contain_text('13800138789')
 
 
     def tearDown_test_contacts_chenjixiang_0193(self):
@@ -454,9 +438,7 @@ class ContactsLocalhigh(TestCase):
         else:
             ContactDetailsPage().click_edit_contact()
             creat_contact = CreateContactPage()
-            creat_contact.click_input_number()
-            creat_contact.click_clear_text()
-            creat_contact.input_number('13800138005')
+            creat_contact.change_mobile_number(text='13800138005')
             creat_contact.click_sure()
 
     @tags('ALL', 'CONTACTS', 'CMCC')
@@ -469,88 +451,15 @@ class ContactsLocalhigh(TestCase):
         time.sleep(1)
         # 姓名为空,保存按钮不可点击
         creat_contact = CreateContactPage()
-        creat_contact.click_input_name()
+        creat_contact.click_contact_name()
         creat_contact.click_clear_text()
-        self.assertFalse(creat_contact.is_sure_icon_is_clickable())
+        # self.assertFalse(creat_contact.is_sure_icon_is_clickable())
         # 姓名为必填项
-        creat_contact.click_input_number()
+        creat_contact.click_contact_number()
         creat_contact.is_toast_exist('姓名不能为空，请重新输入')
         time.sleep(2)
         creat_contact.click_back()
 
-
-    @tags('ALL', 'CONTACTS', 'CMCC')
-    def test_contacts_chenjixiang_0181(self):
-        """测试点击联系人头像，未上传头像"""
-        ContactsPage().select_contacts_by_name('大佬1')
-        cdp = ContactDetailsPage()
-        cdp.wait_for_page_load()
-        time.sleep(2)
-        cdp.click_avatar()
-        cdp.is_exists_big_avatar()
-
-
-    @tags('ALL', 'CONTACTS', 'CMCC')
-    def test_contacts_chenjixiang_0182(self):
-        """测试点击联系人头像，已上传头像"""
-        ContactsPage().select_contacts_by_name('测试号码')
-        cdp = ContactDetailsPage()
-        cdp.wait_for_page_load()
-        time.sleep(2)
-        cdp.click_avatar()
-        cdp.is_exists_big_avatar()
-
-    @tags('ALL', 'CONTACTS', 'CMCC')
-    def test_contacts_chenjixiang_0193(self):
-        """测试编辑联系人信息，正常"""
-        ContactsPage().select_contacts_by_name('大佬1')
-        cdp = ContactDetailsPage()
-        time.sleep(2)
-        cdp.click_edit_contact()
-        time.sleep(1)
-        #编辑手机号码
-        creat_contact=CreateContactPage()
-        creat_contact.click_input_number()
-        creat_contact.click_clear_text()
-        text='13800138789'
-        creat_contact.input_number(text)
-        creat_contact.click_sure()
-        time.sleep(2)
-        #查看改变后的联系人
-        cdp.click_back_icon()
-        ContactsPage().select_contacts_by_name('大佬1')
-        ContactDetailsPage().page_should_contain_text(text)
-
-
-    def tearDown_test_contacts_chenjixiang_0193(self):
-        if ContactDetailsPage().is_text_present('13800138005'):
-            ContactDetailsPage().click_back_icon()
-        else:
-            ContactDetailsPage().click_edit_contact()
-            creat_contact = CreateContactPage()
-            creat_contact.click_input_number()
-            creat_contact.click_clear_text()
-            creat_contact.input_number('13800138005')
-            creat_contact.click_sure()
-
-    @tags('ALL', 'CONTACTS', 'CMCC')
-    def test_contacts_chenjixiang_0194(self):
-        """测试表单字段，姓名非空校验"""
-        ContactsPage().select_contacts_by_name('大佬1')
-        cdp = ContactDetailsPage()
-        time.sleep(2)
-        cdp.click_edit_contact()
-        time.sleep(1)
-        # 姓名为空,保存按钮不可点击
-        creat_contact = CreateContactPage()
-        creat_contact.click_input_name()
-        creat_contact.click_clear_text()
-        self.assertFalse(creat_contact.is_sure_icon_is_clickable())
-        # 姓名为必填项
-        creat_contact.click_input_number()
-        creat_contact.is_toast_exist('姓名不能为空，请重新输入')
-        time.sleep(2)
-        creat_contact.click_back()
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0201(self):
@@ -562,9 +471,9 @@ class ContactsLocalhigh(TestCase):
         time.sleep(1)
         # 手机号为空,保存按钮不可点击
         creat_contact = CreateContactPage()
-        creat_contact.click_input_number()
+        creat_contact.click_contact_number()
         creat_contact.click_clear_text()
-        self.assertFalse(creat_contact.is_sure_icon_is_clickable())
+        # creat_contact.is_sure_icon_is_clickable()
         creat_contact.click_sure()
         creat_contact.is_toast_exist('电话不能为空，请重新输入')
 
@@ -584,10 +493,6 @@ class ContactsLocalhigh(TestCase):
         creat_contact.is_toast_exist('号码输入有误，请重新输入')
         time.sleep(2)
         creat_contact.click_back()
-
-
-
-
 
 
 
