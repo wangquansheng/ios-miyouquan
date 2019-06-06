@@ -92,7 +92,9 @@ class SelectContactsPage(BasePage):
         )
         return bol
 
-
+    @TestLogger.log()
+    def is_element_present(self, locator='最近聊天列表'):
+        return self._is_element_present(self.__class__.__locators[locator])
 
 
 

@@ -520,7 +520,7 @@ DEVICES_CONFIG_IOS = {
               "deviceName": "iPhone XR",
               "udid": "00008020-00011C1E2108002E",
               "automationName": "XCUITest",
-              "app": "com.cmcc.enterprise-classID",
+              "app": "cn.10086.rcs.beta",
               "xcodeOrgId": "42J4UB47JC",
               "xcodeSigningId": "iPhone Developer"
         },
@@ -540,7 +540,7 @@ DEVICES_CONFIG_IOS = {
               "deviceName": "iPhone8plus",
               "udid": "c72a846c88da4ff39aefe9451bcdde6f072b3f19",
               "automationName": "XCUITest",
-              "app": "com.cmcc.enterprise-classID",
+              "app": "cn.10086.rcs.beta",
               "xcodeOrgId": "42J4UB47JC",
               "xcodeSigningId": "iPhone Developer"
         },
@@ -548,6 +548,29 @@ DEVICES_CONFIG_IOS = {
             {
                 'TYPE': CardType.CHINA_MOBILE,
                 'CARD_NUMBER': '19876283465'
+            },
+        ]
+    },
+}
+
+DEVICES_CONFIG_IOSYMS = {
+    'M960BDQN229CHiphone8': {
+        "MODEL": SupportedModel.iPhone8plus,
+        "SERVER_URL": 'http://127.0.0.1:4724/wd/hub',
+        "DEFAULT_CAPABILITY": {
+            "platformName": "ios",
+            "platformVersion": "11.4.1",
+            "deviceName": "iPhone8plus",
+            "udid": "c72a846c88da4ff39aefe9451bcdde6f072b3f19",
+            "automationName": "XCUITest",
+            "app": "cn.10086.rcs.beta",
+            "xcodeOrgId": "42J4UB47JC",
+            "xcodeSigningId": "iPhone Developer"
+        },
+        'CARDS': [
+            {
+                'TYPE': CardType.CHINA_MOBILE,
+                'CARD_NUMBER': '1949476421'
             },
         ]
     },

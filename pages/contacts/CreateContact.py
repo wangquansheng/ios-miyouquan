@@ -3,7 +3,7 @@ from appium.webdriver.common.mobileby import MobileBy
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 from pages.components.keyboard import Keyboard
-
+import time
 
 class CreateContactPage(Keyboard, BasePage):
     """新建联系人"""
@@ -137,6 +137,18 @@ class CreateContactPage(Keyboard, BasePage):
     def is_sure_icon_is_clickable(self):
         """确定按钮是否可点击"""
         return self._is_clickable(self.__locators['确定'])
+
+    @TestLogger.log("删除联系人")
+    def change_delete_contact(self):
+        time.sleep(1)
+        self.click_element(self.__locators['删除联系人'])
+
+    @TestLogger.log("确定删除")
+    def click_sure_delete(self):
+        """确定删除"""
+        time.sleep(3)
+        self.click_element(self.__class__.__locators['确定删除'])
+
 
 
 
