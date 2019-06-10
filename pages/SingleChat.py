@@ -15,10 +15,12 @@ class SingleChatPage(BaseChatPage):
                   MobileBy.ID, 'com.chinasofti.rcs:id/pop_10g_window_drop_view'),
                   'com.chinasofti.rcs:id/id_toolbar': (MobileBy.ID, 'com.chinasofti.rcs:id/id_toolbar'),
                   'com.chinasofti.rcs:id/back': (MobileBy.ID, 'com.chinasofti.rcs:id/back'),
-                  '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/back_arrow'),
-                  'axzq': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
-                  '打电话图标': (MobileBy.ID, 'com.chinasofti.rcs:id/action_call'),
-                  '设置': (MobileBy.ID, 'com.chinasofti.rcs:id/action_setting'),
+
+                  '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+                  '标题': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeOther[2]/XCUIElementTypeOther'),
+                  '打电话图标': (MobileBy.ACCESSIBILITY_ID, 'cc chat message call normal'),
+                  '设置': (MobileBy.ACCESSIBILITY_ID, 'cc chat message site normal'),
+
                   'com.chinasofti.rcs:id/view_line': (MobileBy.ID, 'com.chinasofti.rcs:id/view_line'),
                   'com.chinasofti.rcs:id/contentFrame': (MobileBy.ID, 'com.chinasofti.rcs:id/contentFrame'),
                   'com.chinasofti.rcs:id/message_editor_layout': (
@@ -72,6 +74,17 @@ class SingleChatPage(BaseChatPage):
         return self
 
     @TestLogger.log()
+    def is_on_this_page(self):
+        """当前页面是否在单聊会话页面"""
+        el = self.get_elements(self.__locators['打电话图标'])
+        if len(el) > 0:
+            return True
+        return False
+
+
+
+
+    @TestLogger.log()
     def click_back(self):
         """点击返回"""
         self.click_element(self.__class__.__locators["返回"])
@@ -80,14 +93,6 @@ class SingleChatPage(BaseChatPage):
     def click_sms(self):
         """点击选择短信"""
         self.click_element(self.__class__.__locators["选择短信"])
-
-    @TestLogger.log()
-    def is_on_this_page(self):
-        """当前页面是否在单聊会话页面"""
-        el = self.get_elements(self.__locators['打电话图标'])
-        if len(el) > 0:
-            return True
-        return False
 
     @TestLogger.log()
     def click_setting(self):

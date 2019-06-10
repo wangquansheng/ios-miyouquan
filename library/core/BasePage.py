@@ -617,12 +617,12 @@ class BasePage(object):
     @TestLogger.log("下一页")
     def page_up(self):
         """向上滑动一页"""
-        self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        self.driver.execute_script('mobile: scroll', {'direction': 'up'})
 
     @TestLogger.log("上一页")
     def page_down(self):
         """向下滑动"""
-        self.swipe_by_percent_on_screen(50, 30, 50, 70, 800)
+        self.driver.execute_script('mobile: scroll', {'direction': 'down'})
 
     @TestLogger.log('挂断电话')
     def hang_up_the_call(self):

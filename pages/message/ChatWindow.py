@@ -54,8 +54,10 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
         'com.chinasofti.rcs:id/ib_audio': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_audio'),
         'com.chinasofti.rcs:id/ib_record_red_dot': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_record_red_dot'),
         'android:id/statusBarBackground': (MobileBy.ID, 'android:id/statusBarBackground'),
-        '我已阅读': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_check'),
-        '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/dialog_btn_ok'),
+
+        '我已阅读': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="smscharge unselected"])[1]'),
+        '确定': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="确定"])[1]'),
+
         '重新发送': (MobileBy.ID, 'com.chinasofti.rcs:id/imageview_msg_send_failed'),
         '取消重发': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_cancel'),
         '确定重发': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
@@ -66,6 +68,19 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
         '时间': (MobileBy.XPATH, '//*[@text="时间"]/../android.widget.TextView[@resource-id="android:id/summary"]'),
 
     }
+
+    @TestLogger.log('点击我已阅读')
+    def click_already_read(self):
+        """点击我已阅读"""
+        self.click_element(self.__locators['我已阅读'])
+
+    @TestLogger.log('点击确定')
+    def click_sure_icon(self):
+        """点击确定"""
+        self.click_element(self.__locators['确定'])
+
+
+
 
     @TestLogger.log('点击返回')
     def click_back(self):
@@ -97,15 +112,6 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
     def click_setting(self):
         self.click_element(self.__locators['设置'])
 
-    @TestLogger.log('点击我已阅读')
-    def click_already_read(self):
-        """点击我已阅读"""
-        self.click_element(self.__locators['我已阅读'])
-
-    @TestLogger.log('点击确定')
-    def click_sure_icon(self):
-        """点击确定"""
-        self.click_element(self.__locators['确定'])
 
     @TestLogger.log('输入消息文本')
     def input_message_text(self, content):

@@ -8,44 +8,45 @@ from library.core.TestLogger import TestLogger
 
 class OfficialAccountPage(BasePage):
     """公众号"""
-    ACTIVITY = 'com.rcs.rcspublicaccount.PublicAccountsListActivity'
+    # ACTIVITY = 'com.rcs.rcspublicaccount.PublicAccountsListActivity'
 
     __locators = {
-        '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/left_back'),
-        '公众号': (MobileBy.ID, 'com.chinasofti.rcs:id/select_picture_custom_toolbar_title_text'),
-        '加号': (MobileBy.ID, 'com.chinasofti.rcs:id/menu_add_btn'),
-        '订阅/服务号': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_tab_title" and @text="订阅/服务号"]'),
-        '企业号': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_tab_title" and @text="企业号"]'),
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '公众号': (MobileBy.ACCESSIBILITY_ID, '公众号'),
+        '加号': (MobileBy.ACCESSIBILITY_ID, 'cc contacts add normal'),
+        '订阅/服务号': (MobileBy.ACCESSIBILITY_ID, '订阅/服务号'),
+        '企业号': (MobileBy.ACCESSIBILITY_ID, '企业号'),
 
-        '公众号列表': (MobileBy.ID, 'com.chinasofti.rcs:id/recyclerView'),
-        '公众号列表项': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/recyclerView"]/*'),
-        '公众号头像': (MobileBy.ID, 'com.chinasofti.rcs:id/public_header'),
-        '公众号名称': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_user_name'),
-        '公众号描述': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_user_info'),
-        '未关注任何企业号': (MobileBy.ID, 'com.chinasofti.rcs:id/empty_hint_view'),
-        '和飞信': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_user_name'),
-        '和飞信团队': (MobileBy.XPATH, '//*[@text="和飞信团队"]'),
-        '和飞信新闻': (MobileBy.XPATH, '//*[@text="和飞信新闻"]'),
-        '中国移动10086': (MobileBy.XPATH, '//*[@text="中国移动10086"]'),
+        # '公众号列表': (MobileBy.ID, 'com.chinasofti.rcs:id/recyclerView'),
+        '公众号列表项': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeOther[1]'),
+        '公众号头像': (MobileBy.ACCESSIBILITY_ID, '/var/mobile/Containers/Data/Application/3FF94A5C-59E9-4E2B-AA59-79FEC854AC76/Library/RCSData/headimage/4cc45369622d4a44066beafd18633c55_(null)'),
+        '公众号名称': (MobileBy.XPATH, ''),
+        # '公众号描述': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_user_info'),
+        '未关注任何企业号': (MobileBy.ACCESSIBILITY_ID, '未关注任何企业号'),
+        '和飞信': (MobileBy.ACCESSIBILITY_ID, '和飞信'),
+        '和飞信团队': (MobileBy.ACCESSIBILITY_ID, '和飞信团队'),
+        '和飞信新闻': (MobileBy.ACCESSIBILITY_ID, '和飞信新闻'),
+        '中国移动10086': (MobileBy.ACCESSIBILITY_ID, '中国移动10086'),
         #进入公众号
-        '公众号标题': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
-        'input_box': (MobileBy.ID, 'com.chinasofti.rcs:id/et_message'),
-        'send_button': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_send'),
-        'setting': (MobileBy.ID, 'com.chinasofti.rcs:id/action_setting'),
-        'expression': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_expression'),
-        'expression_keyboard': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_expression_keyboard'),
-        '发送失败': (MobileBy.ID, 'com.chinasofti.rcs:id/imageview_msg_send_failed'),
-        '[微笑1]': (MobileBy.XPATH, '//*[@text="[微笑1]"]'),
-        '信息': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_message'),
-        '删除': (MobileBy.XPATH, '//*[@text="删除"]'),
-        '收藏': (MobileBy.XPATH, '//*[@text="收藏"]'),
-        '转发': (MobileBy.XPATH, '//*[@text="转发"]'),
-        '复制': (MobileBy.XPATH, '//*[@text="复制"]'),
-        '和飞信2': (MobileBy.XPATH, '//*[@text="和飞信"]'),
-        '键盘': (MobileBy.ID, 'com.chinasofti.rcs:id/conversation_bottom_showCustomMenuView'),
-        '底部菜单1': (MobileBy.ID, 'com.chinasofti.rcs:id/public_menu_name1'),
-        '底部菜单2': (MobileBy.ID, 'com.chinasofti.rcs:id/public_menu_name2'),
-        '底部菜单3': (MobileBy.ID, 'com.chinasofti.rcs:id/public_menu_name3'),
+        # '公众号标题': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
+        'input_box': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeTextView/XCUIElementTypeTextView'),
+        'send_button': (MobileBy.ACCESSIBILITY_ID, 'cc chat send normal@3x'),
+        'setting': (MobileBy.ACCESSIBILITY_ID, 'cc chat message site normal'),
+        # 'expression': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_expression'),
+        # 'expression_keyboard': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_expression_keyboard'),
+        '发送失败': (MobileBy.ACCESSIBILITY_ID, 'cc chat again send normal@3x'),
+        # '[微笑1]': (MobileBy.XPATH, '//*[@text="[微笑1]"]'),
+        '信息': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeOther/XCUIElementTypeImage[1]'),
+        # '删除': (MobileBy.XPATH, '//*[@text="删除"]'),
+        # '收藏': (MobileBy.XPATH, '//*[@text="收藏"]'),
+        # '转发': (MobileBy.XPATH, '//*[@text="转发"]'),
+        # '复制': (MobileBy.XPATH, '//*[@text="复制"]'),
+        '键盘': (MobileBy.ACCESSIBILITY_ID, 'cc chat public keyboardclose@'),
+        '和飞信-底部菜单1': (MobileBy.ID, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeOther[4]'),
+        '和飞信团队-底部菜单1': (MobileBy.ID, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther[4]'),
+        '和飞信团队-底部菜单2': (MobileBy.ID, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther[5]'),
+
+
         '菜单1的菜单详情列表1': (MobileBy.ID, 'com.chinasofti.rcs:id/public_item_menu_name1'),
         '页面详情点击返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
         '表情详情': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/iv_expression_image"]'),
@@ -54,24 +55,23 @@ class OfficialAccountPage(BasePage):
         '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_ok'),
         '百度一下': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_title'),
         '百度连接':(MobileBy.XPATH,'//*[@text="www.baidu.com"]'),
-        '进入公众号': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_into_public'),
-        '查看历史资讯': (MobileBy.XPATH,'//*[@text="查看历史资讯"]'),
+
+        '进入公众号': (MobileBy.ACCESSIBILITY_ID, '进入公众号'),
+        '查看历史资讯': (MobileBy.XPATH,'(//XCUIElementTypeStaticText[@name="查看历史资讯"])[1]'),
         '始终允许': (MobileBy.XPATH, "//*[contains(@text, '始终允许')]"),
-        # '历史资讯-时间': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_time'),
-        '认证主体': (MobileBy.ID, 'com.chinasofti.rcs:id/public_auth_text'),
-        '功能介绍': (MobileBy.ID, 'com.chinasofti.rcs:id/intro_title'),
-        '更多': (MobileBy.ID, 'com.chinasofti.rcs:id/menu_more'),
+        '认证主体': (MobileBy.ACCESSIBILITY_ID, '认证主体'),
+        '功能介绍': (MobileBy.ACCESSIBILITY_ID, '功能介绍'),
+        '更多': (MobileBy.ACCESSIBILITY_ID, 'cc chat more normal'),
     }
 
     @TestLogger.log('点击添加')
     def click_add(self):
         self.click_element(self.__locators['加号'])
 
-    @TestLogger.log('点击tag标签')
-    def click_tag(self, tag_name):
-        locator = [MobileBy.XPATH,
-                   '//*[@resource-id="com.chinasofti.rcs:id/tv_tab_title" and @text="{}"]'.format(tag_name)]
-        self.click_element(locator)
+    @TestLogger.log('点击企业号')
+    def click_enterprise(self):
+        self.click_element(self.__locators['企业号'])
+
 
     @TestLogger.log('检查企业号列表是否为空')
     def assert_enterprise_account_list_is_empty(self):
@@ -86,12 +86,6 @@ class OfficialAccountPage(BasePage):
         except TimeoutException:
             raise AssertionError("检查点：企业号列表为空")
 
-
-    @TestLogger.log()
-    def select_one_account_by_name(self, name):
-        """通过名称选择一个公众号"""
-        self.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/textview_user_name" and @text ="%s"]' % name))
 
     @TestLogger.log("setting")
     def page_contain_setting(self):
@@ -113,10 +107,10 @@ class OfficialAccountPage(BasePage):
         """检查该页面是否包含某元素"""
         return self.page_should_contain_element(self.__locators['send_button'])
 
-    @TestLogger.log("expression")
-    def page_contain_expresssion(self):
-        """检查该页面是否包含某元素"""
-        return self.page_should_contain_element(self.__locators['expression'])
+    # @TestLogger.log("expression")
+    # def page_contain_expresssion(self):
+    #     """检查该页面是否包含某元素"""
+    #     return self.page_should_contain_element(self.__locators['expression'])
 
     @TestLogger.log("和飞信新闻")
     def page_contain_news(self):
@@ -150,6 +144,13 @@ class OfficialAccountPage(BasePage):
     def click_officel_account(self):
         self.click_element(self.__locators['和飞信新闻'], 30)
 
+
+    @TestLogger.log('点击和飞信公众号')
+    def click_officel_account_hefeixin(self):
+        self.click_element(self.__locators['和飞信'], 30)
+
+
+
     @TestLogger.log('点击输入框')
     def click_input_box(self):
         self.click_element(self.__locators['input_box'])
@@ -162,9 +163,9 @@ class OfficialAccountPage(BasePage):
     def input_message(self, text='good news'):
         self.input_text(self.__locators['input_box'], text)
 
-    @TestLogger.log('点击表情按钮')
-    def click_expression(self, text='expression'):
-        self.click_element(self.__locators[text])
+    # @TestLogger.log('点击表情按钮')
+    # def click_expression(self, text='expression'):
+    #     self.click_element(self.__locators[text])
 
     @TestLogger.log('删除信息')
     def remove_message(self):
@@ -186,7 +187,7 @@ class OfficialAccountPage(BasePage):
     @TestLogger.log()
     def page_should_contain_element_menu(self):
         """页面应该包含底部菜单栏"""
-        return self.page_should_contain_element(self.__locators["底部菜单1"])
+        return self.page_should_contain_element(self.__locators["和飞信-底部菜单1"])
 
     @TestLogger.log('底部菜单栏1')
     def click_menu_name1(self):
@@ -290,7 +291,7 @@ class OfficialAccountPage(BasePage):
     @TestLogger.log()
     def get_account_title(self):
         """获取公众号标题名称"""
-        return self.get_element(self.__locators['公众号标题']).text
+        return self.get_element(self.__locators['公众号标题-和飞信新闻']).text
 
     @TestLogger.log()
     def click_always_allowed(self):

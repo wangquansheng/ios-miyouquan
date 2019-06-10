@@ -10,28 +10,19 @@ class LabelGroupingPage(ContactsSelector, BasePage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.group.GroupListActivity'
 
     __locators = {
-        'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
-        'android:id/content': (MobileBy.ID, 'android:id/content'),
-        'com.chinasofti.rcs:id/label_group_toolbar': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/label_group_toolbar'),
-        '返回': (MobileBy.XPATH, '//*[contains(@resource-id,"back")]'),
-        '页面标题': (MobileBy.ID, 'com.chinasofti.rcs:id/label_setting_toolbar_title'),
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '页面标题': (MobileBy.ACCESSIBILITY_ID, '标签分组'),
 
-        '分组列表': (MobileBy.ID, 'com.chinasofti.rcs:id/group_list'),
-        '分组根节点': (MobileBy.ID, 'com.chinasofti.rcs:id/group_list_item'),
-        '分组图标': (MobileBy.ID, 'com.chinasofti.rcs:id/asp_group_icon'),
-        '新建分组': (MobileBy.XPATH, '//*[@text="新建分组"]'),
-        '分组右侧箭头': (MobileBy.ID, 'com.chinasofti.rcs:id/arrow_icon'),
-        'com.chinasofti.rcs:id/textView': (MobileBy.ID, 'com.chinasofti.rcs:id/textView'),
-        'biao': (MobileBy.ID, 'com.chinasofti.rcs:id/group_name'),
-        'mylab(5)': (MobileBy.ID, 'com.chinasofti.rcs:id/group_name'),
-        '标签分组名字': (MobileBy.ID, 'com.chinasofti.rcs:id/group_name'),
-        '标签分组成员数量': (MobileBy.ID, 'com.chinasofti.rcs:id/group_member_num'),
+        '分组列表': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]'),
+        '分组图标': (MobileBy.ACCESSIBILITY_ID, '/var/containers/Bundle/Application/8A752131-104A-4280-AF2E-2CC6995F5BFE/AndFetion.app/cc_contacts_label_newlabel@3x.png'),
+        '新建分组': (MobileBy.ACCESSIBILITY_ID, '新建分组'),
+        '分组右侧箭头': (MobileBy.XPATH, '(//XCUIElementTypeImage[@name="/var/containers/Bundle/Application/8A752131-104A-4280-AF2E-2CC6995F5BFE/AndFetion.app/cc_me_next@3x.png"])[2]'),
+        '标签分组名字': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]/XCUIElementTypeOther[3]'),
         # 新建分组页面
-        '新建分组页面': (MobileBy.ID, 'com.chinasofti.rcs:id/label_toolbar_title'),
-        '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'),
-        '为你的分组创建一个名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_sub_title'),
-        '请输入标签分组名称': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_group_name'),
+        '新建分组页面': (MobileBy.ACCESSIBILITY_ID, '新建分组'),
+        '确定': (MobileBy.ACCESSIBILITY_ID, '确定'),
+        '为你的分组创建一个名称': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="为你的分组创建一个名称"])[1]'),
+        '请输入标签分组名称': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeTextField'),
     }
 
     @TestLogger.log('删除全部标签分组')
@@ -297,7 +288,7 @@ class LabelGroupingPage(ContactsSelector, BasePage):
             self.wait_until(
                 timeout=timeout,
                 auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self._is_element_present(self.__class__.__locators["新建分组页面"])
+                condition=lambda d: self._is_element_present(self.__class__.__locators["新建分组"])
             )
         except:
             message = "页面在{}s内，没有加载成功".format(str(timeout))

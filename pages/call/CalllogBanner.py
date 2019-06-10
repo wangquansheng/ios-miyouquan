@@ -14,7 +14,7 @@ class CalllogBannerPage(BasePage):
         '多方通话': (MobileBy.ID, "com.chinasofti.rcs:id/mutil_btnFreeCall"),
         '返回箭头': (MobileBy.ID, 'com.chinasofti.rcs:id/mutil_arror'),
         '知道了': (MobileBy.XPATH, "//*[contains(@text, '知道了')]"),
-        '搜索或输入号码': (MobileBy.ID, "com.chinasofti.rcs:id/contact_search_bar"),
+        '搜索或输入号码': (MobileBy.XPATH, "//*[contains(@value, '搜索或输入号码')]"),
         '复制': (MobileBy.XPATH, "//*[contains(@text, '复制')]"),
     }
 

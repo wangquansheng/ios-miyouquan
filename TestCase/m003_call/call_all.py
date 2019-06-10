@@ -237,6 +237,237 @@ class CallAll(TestCase):
         cpg.press_delete()
         cpg.click_dial()
 
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0008(self):
+        """检查在拨号盘输入“+”"""
+        # Step:1.检查在拨号盘输入“+”
+        cpg = CallPage()
+        cpg.click_dial()
+        time.sleep(1)
+        cpg.press_zero()
+        # CheckPoint:1.展开后，通话记录按最近通话顺序展示
+        cpg.page_should_contain_text("+")
+        # 清除拨号盘，返回通话界面
+        cpg.click_delete()
+        cpg.click_dial()
 
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0009(self):
+        """检查输入框有内容时拨号盘可切换到其它模块"""
+        # Step:1.切换至其它模块后又返回到拨号盘
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("15343030000")
+        time.sleep(1)
+        # CheckPoint:1.收起时切换到其他的模块，内容不清除，正常显示
+        cpg.page_should_contain_text("15343030000")
+        # Step:2. 切换为消息
+        cpg.click_message()
+        time.sleep(2)
+        # CheckPoint:2.收起时切换到其他的模块，内容不清除，正常显示
+        cpg.page_should_not_contain_text("15343030000")
+        # Step:3. 切换为拨号盘
+        cpg.click_call()
+        # CheckPoint:3.收起时切换到其他的模块，内容不清除，正常显示
+        cpg.page_should_contain_text("15343030000")
+        # 清除拨号盘，返回通话界面
+        cpg.press_delete()
+        cpg.click_dial()
 
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0010(self):
+        """检查拨号盘删除按键可点击"""
+        # 1.和飞信登录系统：通话tab
+        # 2.拨号盘输入框存在手机号
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("15343038860")
+        # Step:1.点击按键“X”
+        cpg.click_delete()
+        # CheckPoit:1.可删除输入框的数据
+        cpg.page_should_contain_text("1534303886")
+        # Step:2.长按“X”
+        cpg.press_delete()
+        # CheckPoit:2.连续删除输入框的数据
+        cpg.page_should_contain_text("直接拨号或开始搜索")
+        cpg.click_dial()
 
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0011(self):
+        """检查拨号盘“多方电话”按键可点击"""
+        # Step:1.点击按键“多方电话”
+        cpg = CallPage()
+        cpg.click_feixin_call()
+        time.sleep(2)
+        # CheckPoint:1.调起联系人多方电话联系人选择器
+        self.assertTrue(CalllogBannerPage().is_exist_contact_search_bar())
+        cpg.click_back()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0012(self):
+        """检查拨号盘输入框为空点击“拨打”按钮"""
+        # 1.和飞信登录系统：通话tab
+        # 2.拨号盘为展开状态
+        # 3.拨号盘输入框为空
+        cpg = CallPage()
+        cpg.click_dial()
+        time.sleep(2)
+        # Step:1.点击“拨号”按钮
+        cpg.click_call_phone()
+        time.sleep(1)
+        # CheckPoint:1.提示“拨打号码不能为空”
+        flag = cpg.is_toast_exist("拨打的号码不能为空")
+        self.assertTrue(flag)
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0013(self):
+        """检查拨号盘展开状态可收起"""
+        # 1.和飞信登录系统：通话tab
+        # 2.拨号盘为展开状态
+        cpg = CallPage()
+        # Step:1.点击拨号盘按钮
+        cpg.click_dial()
+        time.sleep(1)
+        # CheckPoint:1.拨号盘可收起展开，拨号盘图标变为7个蓝点
+        self.assertTrue(cpg.is_on_the_dial_pad())
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0014(self):
+        """检查输入框有内容可收起拨号盘"""
+        # 1.和飞信登录系统：通话tab
+        # 2.拨号盘为展开状态
+        # 3.拨号盘存在数值
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("153")
+        # Step:1点击拨号盘按钮
+        cpg.click_dial()
+        # CheckPoint:1.拨号盘可收起展开，收起展开内容保留不清除，正常显示
+        flag = cpg.check_delete_hide()
+        self.assertTrue(flag)
+        cpg.page_should_contain_text("153")
+        # 删除拨号盘输入内容
+        cpg.click_dial()
+        cpg.press_delete()
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0015(self):
+        """检查输入框有内容收起拨号盘可切换到其它模块"""
+        # 1.和飞信登录系统：通话tab
+        # 2.拨号盘为收起展开状态
+        # 3.拨号盘存在数值
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("153")
+        # Step:1.切换至其它模块后又返回到拨号盘
+        cpg.click_message()
+        flag = cpg.check_call_phone()
+        self.assertFalse(flag)
+        cpg.click_call()
+        # CheckPoint:1.拨号盘可收起展开，收起展开内容保留不清除，正常显示
+        flag = cpg.check_call_phone()
+        self.assertTrue(flag)
+        cpg.page_should_contain_text("153")
+        time.sleep(1)
+        cpg.press_delete()
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0020(self):
+        """检查输入框输入超长数字"""
+        # 1.和飞信登录系统：通话tab
+        # 2.拨号盘展开状态
+        # 3.拨号盘存在超长数值（数值超一行）
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("153153153153153")
+        # Step:1.查看输入框样式
+        # CheckPoint:1.显示正常
+        time.sleep(1)
+        flag = cpg.check_call_phone()
+        self.assertTrue(flag)
+        time.sleep(1)
+        flag = cpg.check_call_text(val="153153153153153")
+        self.assertTrue(flag)
+        # Step:2.点击拨号盘，查看输入框样式
+        cpg.click_call()
+        # 2.输入超长数字，收起显示正常
+        time.sleep(1)
+        flag = cpg.check_call_phone()
+        self.assertFalse(flag)
+        time.sleep(1)
+        flag = cpg.check_call_text(val="153153153153153")
+        self.assertTrue(flag)
+        cpg.click_dial()
+        cpg.press_delete()
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0022(self):
+        """检查拨号盘精确搜索功能---内陆本地联系人"""
+        # 1.用户已登录和飞信：通话记录列表页面
+        # 2.拨号盘输入的内陆号本地已保存
+        cpg = CallPage()
+        # cpg.setting_dial_mode_and_go_back_call()
+        # Step:1.点击“拨号盘”
+        cpg.click_dial()
+        time.sleep(1)
+        # CheckPoint:1.弹出拨号盘界面
+        flag = cpg.check_call_phone()
+        self.assertTrue(flag)
+        # Step:2.输入11位数内陆号
+        cpg.dial_number("13800138001")
+        # CheckPoint:2.可匹配出符合条件的联系人，匹配的结果高亮
+        cpg.page_should_contain_text("给个红包2")
+        # ret = cpg.get_call_entry_color_of_element()
+        # self.assertEqual(ret, (133, 128, 95, 255))
+        # Step:3.点击匹配出的联系人右侧的时间节点
+        cpg.click_call_profile()
+        time.sleep(1)
+        # CheckPoint:3.可进入到该联系人的通话profile
+        cpg.page_should_contain_text("分享名片")
+        # Step:4.点击拨号按钮
+        cpg.click_back()
+        time.sleep(1)
+        cpg.click_call_phone()
+        # CheckPoint:4.可弹出拨号方式
+        time.sleep(1)
+        cpg.page_should_contain_text("和飞信电话（免费）")
+        cpg.page_should_contain_text("语音通话")
+        cpg.page_should_contain_text("普通电话")
+
+        cpg.click_text("取消")
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0023(self):
+        """检查拨号盘精确搜索功能---内陆陌生联系人"""
+        # 1.用户已登录和飞信：通话记录列表页面
+        # 2.拨号盘输入的内陆号本地未保存
+        # Step:1.点击“拨号盘”
+        cpg = CallPage()
+        # cpg.setting_dial_mode_and_go_back_call()
+        cpg.click_dial()
+        time.sleep(1)
+        # CheckPoint:1.弹出拨号盘界面
+        flag = cpg.check_call_phone()
+        self.assertTrue(flag)
+        # Step:2.输入11位数内陆号
+        cpg.dial_number("15343039999")
+        time.sleep(2)
+        # CheckPoint:2.通话记录列表弹出“新建联系人”“发送消息”按钮
+        cpg.page_should_contain_text("新建联系人")
+        cpg.page_should_contain_text("发送消息")
+        # Step:3.点击拨号按钮
+        cpg.click_call_phone()
+        # CheckPoint:3.可弹出拨号方式
+        time.sleep(2)
+        cpg.page_should_contain_text("和飞信电话（免费）")
+        cpg.page_should_contain_text("语音通话")
+        cpg.page_should_contain_text("普通电话")
+
+        cpg.click_back()
+        cpg.press_delete()
+        cpg.click_dial()

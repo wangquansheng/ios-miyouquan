@@ -44,10 +44,13 @@ class MessagePage(FooterPage):
         '消息名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
         '消息时间': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_date'),
         '消息简要内容': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_content'),
-        '通话': (MobileBy.ID, 'com.chinasofti.rcs:id/tvCall'),
-        '工作台': (MobileBy.ID, 'com.chinasofti.rcs:id/tvCircle'),
-        '通讯录': (MobileBy.ID, 'com.chinasofti.rcs:id/tvContact'),
-        '我': (MobileBy.ID, 'com.chinasofti.rcs:id/tvMe'),
+        # 底部标签栏
+        '通话': (MobileBy.ACCESSIBILITY_ID, 'cc_call_unselected'),
+        '工作台': (MobileBy.ACCESSIBILITY_ID, 'cc_workbench_normal'),
+        '通讯录': (MobileBy.ACCESSIBILITY_ID, 'cc_contects_unselected'),
+        '我': (MobileBy.ACCESSIBILITY_ID, 'cc_me_unselected'),
+
+
         '消息免打扰': (MobileBy.XPATH,
                   '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text="%s"]/../../*[@resource-id="com.chinasofti.rcs:id/ll_unread"]'),
         '置顶群': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name"]'),
@@ -122,17 +125,6 @@ class MessagePage(FooterPage):
     @TestLogger.log()
     def is_on_this_page(self):
         """当前页面是否在消息页"""
-
-        # mark=10
-        # while mark>0:
-        #     time.sleep(1)
-        #     if (self._is_element_present(self.__class__.__locators["版本更新"])):
-        #         self.click_element(self.__class__.__locators["以后再说"])
-        #         break
-        #     mark-=1
-        # locator = (MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/btn_cancel" and @text ="以后再说"]')
-        # if self._is_element_present(locator):
-        #     self.click_element(locator)
 
         try:
             self.wait_until(
@@ -239,32 +231,17 @@ class MessagePage(FooterPage):
     @TestLogger.log()
     def click_search(self):
         """搜索"""
-        self.click_element(self.__locators['搜索'])
+        self.click_element(self.__class__.__locators['搜索'])
 
     @TestLogger.log()
     def input_search_message(self, message):
         """输入查询内容"""
-        self.input_text(self.__locators['搜索'], message)
-
-
+        self.input_text(self.__class__.__locators['搜索'], message)
 
 
     @TestLogger.log()
     def wait_for_page_load(self, timeout=30, auto_accept_alerts=True):
         """等待消息页面加载（自动允许权限）"""
-
-        # mark=10
-        # while mark>0:
-        #     time.sleep(1)
-        #     if (self._is_element_present(self.__class__.__locators["版本更新"])):
-        #         self.click_element(self.__class__.__locators["以后再说"])
-        #         break
-        #     mark-=1
-
-
-        # locator = (MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/btn_cancel" and @text ="以后再说"]')
-        # if self._is_element_present(locator):
-        #     self.click_element(locator)
 
         try:
             self.wait_until(
@@ -538,7 +515,7 @@ class MessagePage(FooterPage):
     @TestLogger.log()
     def choose_chat_by_name(self, name, max_try=20):
         """通过名字选择一个聊天"""
-        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text ="%s"]' % name)
+        locator = (MobileBy.XPATH, "//*[@text='%s']" % name)
         current = 0
         while current < max_try:
             if self._is_element_present(locator):
