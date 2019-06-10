@@ -722,6 +722,253 @@ class ContactsLocalhigh(TestCase):
 
 
 
+class SearchLocalContacts(TestCase):
+    """
+    搜索-本地通讯录--陈继祥
+    author: 余梦思
+
+    """
+
+    def default_setUp(self):
+        """确保每个用例运行前在通讯录页面"""
+        Preconditions.make_already_in_message_page()
+        MessagePage().wait_for_page_load()
+        MessagePage().click_contacts()
+        ContactsPage().click_phone_contact()
+
+    def default_tearDown(self):
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0001(self):
+        '''
+        搜索输入框校验，通过手机号码搜索，输入数字模糊查询（只搜索一条记录）
+        author:darcy
+
+        :return:
+        '''
+        lcontact=ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('138005')
+        lcontact.page_contain_element(text='列表项')
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0002(self):
+        '''
+        搜索输入框校验，通过手机号码搜索，输入数字模糊查询（搜索多条记录）
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('138')
+        time.sleep(3)
+        els=lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els)>1)
+        lcontact.page_contain_element(text='联系人头像')
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0003(self):
+        '''
+        搜索输入框校验，通过手机号码搜索，输入手机号码全匹配查询
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('13800138005')
+        time.sleep(3)
+        els=lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) == 1)
+        lcontact.page_contain_element(text='联系人头像')
+        lcontact.page_should_contain_text('大佬1')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0004(self):
+        '''
+        搜索输入框校验，通过名称（中文）搜索，输入名称模糊查询（搜索多条记录）
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('大佬')
+        time.sleep(3)
+        els=lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els)>1)
+        lcontact.page_contain_element(text='联系人头像')
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0005(self):
+        '''
+        搜索输入框校验，通过名称（英文）搜索，输入名称模糊查询（搜索多条记录）
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('dalao')
+        time.sleep(3)
+        els=lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els)>1)
+        lcontact.page_contain_element(text='联系人头像')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0006(self):
+        '''
+        搜索输入框校验，通过名称（特殊字符）搜索，输入名称模糊查询（搜索多条记录）
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('#')
+        time.sleep(3)
+        els=lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els)>1)
+        lcontact.page_contain_element(text='联系人头像')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0007(self):
+        '''
+        搜索输入框校验，通过名称搜索，输入名称全匹配搜索（搜索多条记录）
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('大佬1')
+        time.sleep(3)
+        els=lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) == 1)
+        lcontact.page_contain_element(text='联系人头像')
+        lcontact.page_should_contain_text('大佬1')
+        lcontact.page_should_contain_text('13800138005')
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0007(self):
+        '''
+        测试sim单卡测试，有联系人，手机系统设置开启“显示SIM联系人”，和飞信开启“显示sim卡联系人”，是否能搜索到sim联系人
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('sim联系人')
+        time.sleep(3)
+        els=lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) == 1)
+        lcontact.page_contain_element(text='联系人头像')
+        lcontact.page_should_contain_text('大佬1')
+        lcontact.page_should_contain_text('13800138005')
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0030(self):
+        '''
+        测试搜索结果点击后跳转到profile页面
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('大佬1')
+        time.sleep(3)
+        els=lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) == 1)
+        lcontact.click_element_contact()
+        time.sleep(2)
+        ContactDetailsPage().is_on_this_page()
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0046(self):
+        '''
+        测试+86的手机号码，通过+86搜索
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('+86')
+        time.sleep(3)
+        els=lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) == 1)
+        lcontact.click_element_contact()
+        time.sleep(2)
+        ContactDetailsPage().is_on_this_page()
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0053(self):
+        '''
+        测试+852的手机号码，通过+852搜索
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('+852')
+        time.sleep(3)
+        els=lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) == 1)
+        lcontact.click_element_contact()
+        time.sleep(2)
+        ContactDetailsPage().is_on_this_page()
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0079(self):
+        '''
+        测试邀请按钮跳转，自动调用系统短信，自动填入短信模板内容
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('大佬1')
+        time.sleep(2)
+        lcontact.click_element_contact()
+        detail=ContactDetailsPage()
+        time.sleep(2)
+        detail.is_on_this_page()
+        detail.click_invitation_use()
+        detail.page_should_contain_text('短信')
+        detail.page_should_contain_text('微信')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0083(self):
+        '''
+        测试点击联系人跳转到profile页
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('大佬1')
+        time.sleep(2)
+        lcontact.click_element_contact()
+        detail=ContactDetailsPage()
+        time.sleep(2)
+        detail.is_on_this_page()
+
 
 
 if __name__=="__main__":
