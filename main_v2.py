@@ -3,12 +3,12 @@ import traceback
 import unittest
 from library.core.utils import ConfigManager, common
 
-module_list = os.popen('pip freeze').readlines()
+module_list = os.popen('pip3 freeze').readlines()
 with open('requirements.txt', 'r') as f:
     require_list = f.readlines()
     for require in require_list:
         if require not in module_list:
-            os.system('pip install -r requirements.txt')
+            os.system('pip3 install -r requirements.txt')
             break
 
 def get_case(cli_commands):

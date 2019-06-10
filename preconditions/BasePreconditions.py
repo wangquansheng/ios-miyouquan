@@ -36,6 +36,13 @@ class LoginPreconditions(object):
         return client
 
     @staticmethod
+    def disconnect_mobile(category):
+        """断开手机连接"""
+        client = switch_to_mobile(REQUIRED_MOBILES[category])
+        client.disconnect_mobile()
+        return client
+
+    @staticmethod
     def make_already_in_one_key_login_page():
         """已经进入一键登录页"""
         # 如果当前页面已经是一键登录页，不做任何操作

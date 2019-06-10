@@ -15,9 +15,9 @@ class ChatPhotoPage(BasePage):
                   'com.chinasofti.rcs:id/recordSurfaceView': (MobileBy.ID, 'com.chinasofti.rcs:id/recordSurfaceView'),
                   'com.chinasofti.rcs:id/bottomLayout': (MobileBy.ID, 'com.chinasofti.rcs:id/bottomLayout'),
                   'com.chinasofti.rcs:id/record_parent': (MobileBy.ID, 'com.chinasofti.rcs:id/record_parent'),
-                  '轻触拍照,长按录像': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_duration_recording_tv'),
+                  '轻触拍照,长按录像': (MobileBy.ACCESSIBILITY_ID, 'ic photograph n@3x'),
                   'com.chinasofti.rcs:id/rl_back': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_back'),
-                  '取消拍照': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_back'),
+                  '取消拍照': (MobileBy.ACCESSIBILITY_ID, 'ic quit n@3x'),
                   '拍照': (MobileBy.ID, 'com.chinasofti.rcs:id/record'),
                   '切换前后摄像头': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_change_camera_bt'),
                   # 拍照后的页面控件

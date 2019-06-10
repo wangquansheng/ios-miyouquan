@@ -15,7 +15,7 @@ class BaseChatPage(BasePage):
                   'com.chinasofti.rcs:id/layout_for_message': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_for_message'),
                   'com.chinasofti.rcs:id/ll_rich_panel': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_rich_panel'),
                   '选择图片': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_pic'),
-                  '选择相机': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_take_photo'),
+                  '选择相机': (MobileBy.ACCESSIBILITY_ID, '/var/containers/Bundle/Application/B851BCD9-0A78-4C94-8F44-B3ABAC97E86D/AndFetion.app/cc_chat_camera_normal@3x.png'),
                   '选择名片': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_profile'),
                   '选择gif': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_gif'),
                   '选择更多': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'),

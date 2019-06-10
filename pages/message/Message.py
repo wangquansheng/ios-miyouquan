@@ -23,8 +23,7 @@ class MessagePage(FooterPage):
             MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/pop_navi_text" and @text ="新建消息"]'),
         '免费短信': (
             MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/pop_navi_text" and @text ="免费短信"]'),
-        '发起群聊': (
-            MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/pop_navi_text" and @text ="发起群聊"]'),
+        '发起群聊': (MobileBy.ACCESSIBILITY_ID, '发起群聊'),
         '分组群发': (
             MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/pop_navi_text" and @text ="分组群发"]'),
         '扫一扫': (
