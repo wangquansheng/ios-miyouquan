@@ -147,3 +147,279 @@ class Preconditions(LoginPreconditions):
             contacts_page.click_back()
 
 
+class TagGrouping(TestCase):
+    """标签分组"""
+
+
+    def default_setUp(self):
+        """确保每个用例执行前在标签分组页面"""
+        Preconditions.make_already_in_message_page()
+        time.sleep(2)
+        MessagePage().click_contacts()
+        time.sleep(2)
+        ContactsPage().click_phone_contact()
+        ContactsPage().click_label_grouping()
+
+    def default_tearDown(self):
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
+    def test_contacts_quxinli_0352(self):
+        lg = LabelGroupingPage()
+        lg.delete_all_label()
+        lg.page_should_contain_text('标签分组')
+        lg.page_should_contain_text('新建分组')
+        lg.page_should_contain_text('暂无分组')
+
+
+    @tags('ALL', 'CONTACT', 'CMCC')
+    def test_contacts_quxinli_0353(self):
+        """新建分组"""
+        lg=LabelGroupingPage()
+        time.sleep(2)
+        lg.click_new_create_group()
+        time.sleep(4)
+        lg.page_should_contain_text('为你的分组创建一个名称')
+        lg.page_should_contain_text('请输入标签分组名称')
+        lg.page_should_contain_text('新建分组')
+        lg.page_contain_element(text='确定')
+
+    @tags('ALL', 'CONTACT', 'CMCC')
+    def test_contacts_quxinli_0355(self):
+        """新建分组,标签分组名称输入空格"""
+        lg = LabelGroupingPage()
+        text = ' '
+        lg.click_new_create_group()
+        time.sleep(1)
+        lg.click_input_box()
+        time.sleep(1)
+        lg.input_search_text(text)
+        lg.click_sure()
+        SelectContactsPage().check_if_element_not_exist(text='选择一个群')
+
+
+    @tags('ALL', 'CONTACT', 'CMCC')
+    def test_contacts_quxinli_0356(self):
+        """新建分组,标签分组名称输入9个汉字"""
+        lg = LabelGroupingPage()
+        text = '祝一路顺风幸福美满'
+        # GroupListPage().delete_group(name=text)
+        lg.click_new_create_group()
+        time.sleep(1)
+        lg.click_input_box()
+        time.sleep(1)
+        lg.input_search_text(text)
+        lg.click_sure()
+        SelectContactsPage().is_element_present(locator='选择一个群')
+
+    @tags('ALL', 'debug', 'CMCC')
+    def tearDown_test_contacts_quxinli_0356(self):
+        SelectContactsPage().click_back()
+        LabelGroupingPage().click_back()
+        LabelGroupingPage().delete_label_groups(group='祝一路顺风幸福美满')
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
+
+    @tags('ALL', 'CONTACT', 'CMCC')
+    def test_contacts_quxinli_0357(self):
+        """新建分组,标签分组名称输入10个汉字"""
+        GroupPage = GroupListPage()
+        GroupPage.click_new_group()
+        GroupPage.click_input_element()
+        time.sleep(3)
+        GroupPage.input_content(text="祝一路顺风和幸福美满")
+        GroupPage.click_sure_element()
+        GroupPage.click_allow_button()
+        SelectContactsPage().is_element_present(locator='选择一个群')
+
+    def tearDown_test_contacts_quxinli_0357(self):
+        SelectContactsPage().click_back()
+        LabelGroupingPage().click_back()
+        LabelGroupingPage().delete_label_groups(group='祝一路顺风和幸福美满')
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
+    @tags('ALL', 'CONTACT', 'CMCC')
+    def test_contacts_quxinli_0358(self):
+        """新建分组,标签分组名称输入11个汉字"""
+        GroupPage = GroupListPage()
+        GroupPage.click_new_group()
+        GroupPage.click_input_element()
+        time.sleep(3)
+        GroupPage.input_content(text="祝一路顺风和幸福美满啊")
+        GroupPage.click_sure_element()
+        GroupPage.click_allow_button()
+        SelectContactsPage().is_element_present(locator='选择一个群')
+
+    def tearDown_test_contacts_quxinli_0358(self):
+        SelectContactsPage().click_back()
+        LabelGroupingPage().click_back()
+        LabelGroupingPage().delete_label_groups(group='祝一路顺风和幸福美满')
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+    @tags('ALL', 'CONTACT', 'CMCC')
+    def test_contacts_quxinli_0359(self):
+        """新建分组,标签分组名称输入29个数字"""
+        GroupPage = GroupListPage()
+        GroupPage.click_new_group()
+        GroupPage.click_input_element()
+        time.sleep(3)
+        self.group='1'*29
+        GroupPage.input_content(text=self.group)
+        GroupPage.click_sure_element()
+        GroupPage.click_allow_button()
+        SelectContactsPage().is_element_present(locator='选择一个群')
+
+    def tearDown_test_contacts_quxinli_0359(self):
+        SelectContactsPage().click_back()
+        LabelGroupingPage().click_back()
+        LabelGroupingPage().delete_label_groups(group=self.group)
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
+    @tags('ALL', 'CONTACT', 'CMCC')
+    def test_contacts_quxinli_0360(self):
+        """新建分组,标签分组名称输入30个数字"""
+        GroupPage = GroupListPage()
+        GroupPage.click_new_group()
+        GroupPage.click_input_element()
+        time.sleep(3)
+        self.group='1'*30
+        GroupPage.input_content(text=self.group)
+        GroupPage.click_sure_element()
+        GroupPage.click_allow_button()
+        SelectContactsPage().is_element_present(locator='选择一个群')
+
+    def tearDown_test_contacts_quxinli_0360(self):
+        SelectContactsPage().click_back()
+        LabelGroupingPage().click_back()
+        LabelGroupingPage().delete_label_groups(group=self.group)
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
+    @tags('ALL', 'CONTACT', 'CMCC')
+    def test_contacts_quxinli_0361(self):
+        """新建分组,标签分组名称输入31个数字"""
+        GroupPage = GroupListPage()
+        GroupPage.click_new_group()
+        GroupPage.click_input_element()
+        time.sleep(3)
+        self.group='1'*31
+        GroupPage.input_content(text=self.group)
+        GroupPage.click_sure_element()
+        GroupPage.click_allow_button()
+        SelectContactsPage().check_if_element_not_exist(text='选择一个群')
+
+
+    @tags('ALL', 'CONTACT', 'CMCC')
+    def test_contacts_quxinli_0362(self):
+        """新建分组,标签分组名称输入29个字母"""
+        GroupPage = GroupListPage()
+        GroupPage.click_new_group()
+        GroupPage.click_input_element()
+        time.sleep(3)
+        self.group='a'*29
+        GroupPage.input_content(text=self.group)
+        GroupPage.click_sure_element()
+        GroupPage.click_allow_button()
+        SelectContactsPage().is_element_present(locator='选择一个群')
+
+    def tearDown_test_contacts_quxinli_0362(self):
+        SelectContactsPage().click_back()
+        LabelGroupingPage().click_back()
+        LabelGroupingPage().delete_label_groups(group=self.group)
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
+
+    @tags('ALL', 'CONTACT', 'CMCC')
+    def test_contacts_quxinli_0363(self):
+        """新建分组,标签分组名称输入30个字母"""
+        GroupPage = GroupListPage()
+        GroupPage.click_new_group()
+        GroupPage.click_input_element()
+        time.sleep(3)
+        self.group='a'*30
+        GroupPage.input_content(text=self.group)
+        GroupPage.click_sure_element()
+        GroupPage.click_allow_button()
+        SelectContactsPage().is_element_present(locator='选择一个群')
+
+    def tearDown_test_contacts_quxinli_0363(self):
+        SelectContactsPage().click_back()
+        LabelGroupingPage().click_back()
+        LabelGroupingPage().delete_label_groups(group=self.group)
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
+
+    @tags('ALL', 'CONTACT', 'CMCC')
+    def test_contacts_quxinli_0364(self):
+        """新建分组,标签分组名称输入31个字母"""
+        GroupPage = GroupListPage()
+        GroupPage.click_new_group()
+        GroupPage.click_input_element()
+        time.sleep(3)
+        self.group='a'*31
+        GroupPage.input_content(text=self.group)
+        GroupPage.click_sure_element()
+        GroupPage.click_allow_button()
+        SelectContactsPage().check_if_element_not_exist(text='选择一个群')
+
+
+    @tags('ALL', 'debug', 'CMCC')
+    def test_contacts_quxinli_0365(self):
+        """新建分组,标签分组名称输入29个字符：汉字、数字、英文字母、空格和特殊字符组合"""
+        lg = LabelGroupingPage()
+        lg.click_new_create_group()
+        time.sleep(1)
+        lg.click_input_box()
+        time.sleep(1)
+        text = 'aa111@@@文 aaa111@@@文 aaaa'
+        lg.input_search_text(text)
+        lg.click_sure()
+        SelectContactsPage().page_should_contain_text('选择联系人')
+
+    @tags('ALL', 'debug', 'CMCC')
+    def tearDown_test_contacts_quxinli_0365(self):
+        SelectContactsPage().click_back()
+        LabelGroupingPage().click_back()
+        LabelGroupingPage().delete_label_groups(group='aa111@@@文 aaa111@@@文 aaaa')
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
+
+    @tags('ALL', 'debug', 'CMCC')
+    def test_contacts_quxinli_0366(self):
+        """新建分组,标签分组名称输入30个字符：汉字、数字、英文字母、空格和特殊字符组合"""
+        lg = LabelGroupingPage()
+        lg.click_new_create_group()
+        time.sleep(1)
+        lg.click_input_box()
+        time.sleep(1)
+        text = 'aa111@@@文 aaa111@@@文 aaaaa'
+        lg.input_search_text(text)
+        lg.click_sure()
+        SelectContactsPage().page_should_contain_text('选择联系人')
+
+    @tags('ALL', 'debug', 'CMCC')
+    def tearDown_test_contacts_quxinli_0366(self):
+        SelectContactsPage().click_back()
+        LabelGroupingPage().click_back()
+        LabelGroupingPage().delete_label_groups(group='aa111@@@文 aaa111@@@文 aaaaa')
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
+    @tags('ALL', 'CONTACT', 'CMCC')
+    def test_contacts_quxinli_0367(self):
+        """新建分组,标签分组名称输入31个字符：汉字、数字、英文字母、空格和特殊字符组合"""
+        GroupPage = GroupListPage()
+        GroupPage.click_new_group()
+        GroupPage.click_input_element()
+        time.sleep(3)
+        self.group='aa111@@@文 aaa111@@@文 aaaaaa'
+        GroupPage.input_content(text=self.group)
+        GroupPage.click_sure_element()
+        GroupPage.click_allow_button()
+        SelectContactsPage().check_if_element_not_exist(text='选择一个群')
