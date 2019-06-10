@@ -15,7 +15,7 @@ class MessagePage(FooterPage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
     __locators = {
-        "+号": (MobileBy.ID, 'cc contacts add normal'),
+        "+号": (MobileBy.ACCESSIBILITY_ID, 'cc contacts add normal'),
         'com.chinasofti.rcs:id/itemLayout': (MobileBy.ID, 'com.chinasofti.rcs:id/itemLayout'),
         'com.chinasofti.rcs:id/pop_item_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/pop_item_layout'),
         'com.chinasofti.rcs:id/iconIV': (MobileBy.ID, 'com.chinasofti.rcs:id/iconIV'),
@@ -23,8 +23,7 @@ class MessagePage(FooterPage):
             MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/pop_navi_text" and @text ="新建消息"]'),
         '免费短信': (
             MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/pop_navi_text" and @text ="免费短信"]'),
-        '发起群聊': (
-            MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/pop_navi_text" and @text ="发起群聊"]'),
+        '发起群聊': (MobileBy.ACCESSIBILITY_ID, '发起群聊'),
         '分组群发': (
             MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/pop_navi_text" and @text ="分组群发"]'),
         '扫一扫': (

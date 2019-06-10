@@ -19,7 +19,7 @@ class GroupChatPage(BaseChatPage):
                   '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/back_arrow'),
                   '群聊001(2)': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
                   '消息免打扰': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_slient'),
-                  '多方通话': (MobileBy.ID, 'com.chinasofti.rcs:id/action_multicall'),
+                  '多方通话': (MobileBy.ACCESSIBILITY_ID, 'cc chat message groupcall norm'),
                   '设置': (MobileBy.ID, 'com.chinasofti.rcs:id/action_setting'),
                   'com.chinasofti.rcs:id/view_line': (MobileBy.ID, 'com.chinasofti.rcs:id/view_line'),
                   'com.chinasofti.rcs:id/contentFrame': (MobileBy.ID, 'com.chinasofti.rcs:id/contentFrame'),
@@ -132,7 +132,7 @@ class GroupChatPage(BaseChatPage):
         self.click_element(self.__class__.__locators["设置"])
 
     @TestLogger.log()
-    def wait_for_page_load(self, timeout=60, auto_accept_alerts=True):
+    def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
         """等待群聊页面加载"""
         try:
             self.wait_until(

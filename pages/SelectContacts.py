@@ -17,7 +17,7 @@ class SelectContactsPage(BasePage):
         'com.chinasofti.rcs:id/pop_10g_window_drop_view': (
             MobileBy.ID, 'com.chinasofti.rcs:id/pop_10g_window_drop_view'),
         'com.chinasofti.rcs:id/id_toolbar': (MobileBy.ID, 'com.chinasofti.rcs:id/id_toolbar'),
-        '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/back'),
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
         '选择联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
         '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'),
         'com.chinasofti.rcs:id/contentFrame': (MobileBy.ID, 'com.chinasofti.rcs:id/contentFrame'),
@@ -28,7 +28,7 @@ class SelectContactsPage(BasePage):
         'com.chinasofti.rcs:id/recyclerView_recently_person': (
             MobileBy.ID, 'com.chinasofti.rcs:id/recyclerView_recently_person'),
         'com.chinasofti.rcs:id/local_contacts': (MobileBy.ID, 'com.chinasofti.rcs:id/local_contacts'),
-        '选择一个群': (MobileBy.XPATH, '//*[@text ="选择一个群"]'),
+        '选择一个群': (MobileBy.ACCESSIBILITY_ID, '选择一个群'),
         'com.chinasofti.rcs:id/arrow_right': (MobileBy.ID, 'com.chinasofti.rcs:id/arrow_right'),
         '本地联系人': (MobileBy.XPATH, '//*[@text ="选择手机联系人"]'),
         '选择和通讯录联系人': (MobileBy.XPATH, '//*[@text ="选择团队联系人"]'),
