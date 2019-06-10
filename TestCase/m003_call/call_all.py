@@ -202,7 +202,7 @@ class CallAll(TestCase):
         cpg.page_should_contain_text("给你的好友打个电话吧")
         cpg.page_should_contain_text('多方电话')
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0007(self):
         """检查拨号盘按键可点击"""
         cpg = CallPage()
@@ -292,7 +292,7 @@ class CallAll(TestCase):
         cpg.page_should_contain_text("直接拨号或开始搜索")
         cpg.click_dial()
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0011(self):
         """检查拨号盘“多方电话”按键可点击"""
         # Step:1.点击按键“多方电话”
@@ -303,7 +303,7 @@ class CallAll(TestCase):
         self.assertTrue(CalllogBannerPage().is_exist_contact_search_bar())
         cpg.click_back()
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0012(self):
         """检查拨号盘输入框为空点击“拨打”按钮"""
         # 1.和飞信登录系统：通话tab
@@ -320,7 +320,7 @@ class CallAll(TestCase):
         self.assertTrue(flag)
         cpg.click_dial()
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0013(self):
         """检查拨号盘展开状态可收起"""
         # 1.和飞信登录系统：通话tab
@@ -333,7 +333,7 @@ class CallAll(TestCase):
         self.assertTrue(cpg.is_on_the_dial_pad())
         cpg.click_dial()
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0014(self):
         """检查输入框有内容可收起拨号盘"""
         # 1.和飞信登录系统：通话tab
@@ -353,7 +353,7 @@ class CallAll(TestCase):
         cpg.press_delete()
         cpg.click_dial()
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0015(self):
         """检查输入框有内容收起拨号盘可切换到其它模块"""
         # 1.和飞信登录系统：通话tab
@@ -375,7 +375,7 @@ class CallAll(TestCase):
         cpg.press_delete()
         cpg.click_dial()
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0020(self):
         """检查输入框输入超长数字"""
         # 1.和飞信登录系统：通话tab
@@ -405,7 +405,7 @@ class CallAll(TestCase):
         cpg.press_delete()
         cpg.click_dial()
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0022(self):
         """检查拨号盘精确搜索功能---内陆本地联系人"""
         # 1.用户已登录和飞信：通话记录列表页面
@@ -441,7 +441,7 @@ class CallAll(TestCase):
 
         cpg.click_text("取消")
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0023(self):
         """检查拨号盘精确搜索功能---内陆陌生联系人"""
         # 1.用户已登录和飞信：通话记录列表页面
@@ -471,3 +471,272 @@ class CallAll(TestCase):
         cpg.click_back()
         cpg.press_delete()
         cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0024(self):
+        """检查拨号盘精确搜索功能---香港本地联系人"""
+        # 1.用户已登录和飞信：通话记录列表页面
+        # 2.拨号盘输入的香港号本地已保存
+        cpg = CallPage()
+        # Step:1.点击“拨号盘”
+        cpg.click_dial()
+        time.sleep(1)
+        # CheckPoint:1.弹出拨号盘界面
+        flag = cpg.check_call_phone()
+        self.assertTrue(flag)
+        # Step:2.输入8位数香港号
+        cpg.dial_number("67656003")
+        # CheckPoint:2.可匹配出符合条件的联系人，匹配的结果高亮
+        cpg.page_should_contain_text("香港大佬")
+        # Step:3.点击匹配出的联系人右侧的时间节点
+        cpg.click_call_profile()
+        time.sleep(1)
+        # CheckPoint:3.可进入到该联系人的通话profile
+        cpg.page_should_contain_text("分享名片")
+        cpg.click_back()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0025(self):
+        """检查拨号盘精确搜索功能---香港陌生联系人"""
+        # 1.用户已登录和飞信：通话记录列表页面
+        # 2.拨号盘输入的香港号本地未保存
+        # Step:1.点击“拨号盘”
+        cpg = CallPage()
+        cpg.click_dial()
+        time.sleep(1)
+        # CheckPoint:1.弹出拨号盘界面
+        flag = cpg.check_call_phone()
+        self.assertTrue(flag)
+        # Step:2.输入8位数香港号
+        cpg.dial_number("23454097")
+        time.sleep(2)
+        # CheckPoint:2.通话记录列表弹出“新建联系人”“发送消息”按钮
+        cpg.page_should_contain_text("新建联系人")
+        cpg.page_should_contain_text("发送消息")
+
+        cpg.click_back()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0026(self):
+        """检查从拨号盘进入到陌生人消息会话窗口"""
+        # 1.用户已登录和飞信：通话记录列表页面
+        # 2.拨号盘已输入陌生联系人A的手机号
+        # 3.通话记录列表已弹出“新建联系人”“发送消息”按钮
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("15343038860")
+        # Step:1.点击“发送消息”按钮
+        cpg.click_send_message()
+        chatpage = BaseChatPage()
+        flag = chatpage.is_exist_dialog()
+        if flag:
+            chatpage.click_i_have_read()
+        # CheckPoint:1.进入与陌生联系人A的消息回话窗口
+        cpg.page_should_contain_text("说点什么...")
+
+        cpg.click_back_by_android()
+        cpg.press_delete()
+        cpg.click_back()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0027(self):
+        """检查从拨号盘新建联系人"""
+        # 1.用户已登录和飞信：通话记录列表页面
+        # 2.拨号盘已输入陌生联系人A的手机号
+        # 3.通话记录列表已弹出“新建联系人”“发送消息”按钮
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("15343038860")
+        # Step:1.点击“新建联系人”按钮
+        cpg.click_new_contact()
+        time.sleep(2)
+        cpg.hide_keyboard()
+        # CheckPoint:1.跳转到新建联系人界面，电话栏自动填充联系人A的手机号，其它输入框为空
+        cpg.page_should_contain_text("输入姓名")
+        cpg.page_should_contain_text("15343038860")
+        cpg.page_should_contain_text("输入公司")
+        cpg.page_should_contain_text("输入职位")
+        cpg.page_should_contain_text("输入邮箱")
+
+        cpg.click_back()
+        cpg.press_delete()
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0050(self):
+        """检查拨号盘取消拨号方式"""
+        # 1.用户已登录和飞信：通话-拨号盘
+        # 2.已弹出拨号方式
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("15340038800")
+        cpg.click_call_phone()
+        time.sleep(1)
+        # Step:1.点击“取消”按钮
+        cpg.click_back()
+        # CheckPoint:1.拨号方式收起，停留在输入号码的拨号盘页
+        self.assertTrue(cpg.check_call_phone())
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0051(self):
+        """检查在拨号盘输入异常字符拨号"""
+        # 1.用户已登录和飞信：通话-拨号盘
+        # 2.在拨号盘已输入*，#、空格等字符
+        # 3.无副号
+        # Step:1.点击拨号按钮
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("*# ")
+        cpg.click_call_phone()
+        # CheckPoint:1.提示“输入号码无效，请重新输入”
+        flag = cpg.is_toast_exist("输入的号码无效，请重新输入")
+        self.assertTrue(flag)
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0064(self):
+        """检查拨号盘搜索功能---内陆本地联系人"""
+        # 1.用户已登录和飞信：通话记录列表页面
+        # 2.拨号盘输入的内陆号本地已保存
+        # Step:1.点击“拨号盘”
+        cpg = CallPage()
+        cpg.click_dial()
+        time.sleep(2)
+        # CheckPoint:1.弹出拨号盘界面
+        flag = cpg.check_call_phone()
+        self.assertTrue(flag)
+        # Step:2.输入11位数内陆号
+        cpg.dial_number("13800138001")
+        # CheckPoint:2.精确匹配出与拨号盘号码一致的手机号联系人
+        cpg.page_should_contain_text("给个红包2")
+        cpg.click_back()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0065(self):
+        """检查拨号盘搜索功能---内陆陌生联系人"""
+        # 1.用户已登录和飞信：通话记录列表页面
+        # 2.拨号盘输入的内陆号本地未保存
+        # Step:1.点击“拨号盘”
+        cpg = CallPage()
+        cpg.click_dial()
+        time.sleep(1)
+        # CheckPoint:1.弹出拨号盘界面
+        flag = cpg.check_call_phone()
+        self.assertTrue(flag)
+        # Step:2.输入11位数内陆号
+        cpg.dial_number("15343038867")
+        # CheckPoint:2.通话记录列表弹出“新建联系人”“发送消息”按钮
+        cpg.page_should_contain_text("新建联系人")
+        cpg.page_should_contain_text("发送消息")
+        cpg.press_delete()
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0066(self):
+        """检查拨号盘搜索功能---香港本地联系人"""
+        # 1.用户已登录和飞信：通话记录列表页面
+        # 2.拨号盘输入的香港号本地已保存
+        # Step:1.点击“拨号盘”
+        cpg = CallPage()
+        cpg.click_dial()
+        time.sleep(1)
+        # CheckPoint:1.弹出拨号盘界面
+        flag = cpg.check_call_phone()
+        self.assertTrue(flag)
+        # Step:2.输入8位数香港号
+        cpg.dial_number("67656003")
+        # CheckPoint:2.精确匹配出与拨号盘号码一致的手机号联系人
+        cpg.page_should_contain_text("香港大佬")
+        cpg.click_back()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0067(self):
+        """检查拨号盘搜索功能---香港陌生联系人"""
+        # 1.用户已登录和飞信：通话记录列表页面
+        # 2.拨号盘输入的香港号本地未保存
+        # Step:1.点击“拨号盘”
+        cpg = CallPage()
+        cpg.click_dial()
+        time.sleep(1)
+        # CheckPoint:1.弹出拨号盘界面
+        flag = cpg.check_call_phone()
+        self.assertTrue(flag)
+        # Step:2.输入8位数香港号
+        cpg.dial_number("67656000")
+        # CheckPoint:2.通话记录列表弹出“新建联系人”“发送消息”按钮
+        cpg.page_should_contain_text("新建联系人")
+        cpg.page_should_contain_text("发送消息")
+        cpg.click_back()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0068(self):
+        """检查从拨号盘进入到陌生人消息会话窗口"""
+        # 1.1.用户已登录和飞信：通话记录列表页面
+        # 2.拨号盘已输入陌生联系人A的手机号
+        # 3.通话记录列表已弹出“新建联系人”“发送消息”按钮
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("15343038867")
+        # Step:1.点击“发送消息”按钮
+        cpg.click_send_message()
+        chatpage = BaseChatPage()
+        if chatpage.is_exist_dialog():
+            chatpage.click_i_have_read()
+        # CheckPoint:1.进入与陌生联系人A的消息回话窗口
+        cpg.page_should_contain_text("说点什么...")
+
+        cpg.click_back()
+        cpg.press_delete()
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0069(self):
+        """检查从拨号盘新建联系人"""
+        # 1.用户已登录和飞信：通话记录列表页面
+        # 2.拨号盘已输入陌生联系人A的手机号
+        # 3.通话记录列表已弹出“新建联系人”“发送消息”按钮
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("15343038867")
+        # Step:1.点击“新建联系人”按钮
+        cpg.click_new_contact()
+        time.sleep(2)
+        cpg.hide_keyboard()
+        # CheckPoint:1.跳转到新建联系人界面，电话栏自动填充联系人A的手机号，其它输入框为空
+        cpg.page_should_contain_text("输入姓名")
+        cpg.page_should_contain_text("15343038867")
+        cpg.page_should_contain_text("输入公司")
+        cpg.page_should_contain_text("输入职位")
+        cpg.page_should_contain_text("输入邮箱")
+
+        cpg.click_back()
+        cpg.press_delete()
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0088(self):
+        """检查语音通话记录-陌生联系人"""
+        # 1.A已登录和飞信
+        # 2.用户A已成功发起与用户B的语音通话
+        # Step:1.用户A查看通话记录
+        cpg = CallPage()
+        cpg.click_dial()
+        time.sleep(1)
+        cpg.select_type_start_call(calltype=1, text="13537795364")
+        cpg.hang_up_the_call()
+        cpg.wait_for_dial_pad()
+        if not cpg.is_on_the_call_page():
+            cpg.click_call()
+        time.sleep(1)
+        # CheckPoint:1.通话记录展示与用户B的语音通话记录，显示用户B的名称、通话类型【语音通话】、归属地。右侧显示通话时间以及时间节点图标
+        cpg.page_should_contain_text("13537795364")
+        cpg.page_should_contain_text("语音通话")
+        # cpg.page_should_contain_text("广东深圳")
+        # cpg.page_should_contain_text("移动")
+        self.assertTrue(cpg.is_exist_call_time())
+        # Step:2.点击时间节点
+        cpg.click_call_time()
+        time.sleep(1)
+        # CheckPoint:2.进入到用户B的通话profile
+        self.assertTrue(cpg.is_exist_profile_name())
+        cpg.click_back()
