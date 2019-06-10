@@ -89,11 +89,12 @@ class Preconditions(LoginPreconditions):
     @staticmethod
     def make_sure_in_official_page():
         """确保在公众号页面"""
-        Preconditions.connect_mobile('IOS-移动')
-        # current_mobile().hide_keyboard_if_display()
+        # Preconditions.connect_mobile('IOS-移动')
+        # # current_mobile().hide_keyboard_if_display()
         Preconditions.make_already_in_message_page()
         conts_page = ContactsPage()
-        conts_page.open_contacts_page()
+        MessagePage().click_contacts()
+        # conts_page.open_contacts_page()
         conts_page.click_official_account_icon()
 
 
@@ -105,6 +106,10 @@ class OfficialAccountTest(TestCase):
         """确保每个用例运行前在公众号页面"""
         Preconditions.make_sure_in_official_page()
 
+    def default_tearDown(self):
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_quxinli_0322(self):
         """订阅号/服务号列表显示"""
@@ -114,7 +119,6 @@ class OfficialAccountTest(TestCase):
         conts_page.is_text_present('和飞信团队')
         conts_page.is_text_present('和飞信新闻')
         conts_page.is_text_present('中国移动10086')
-
 
 
     @tags('ALL', 'SMOKE', 'CMCC')
@@ -136,7 +140,7 @@ class OfficialAccountTest(TestCase):
         official.page_contain_setting()
         official.page_contain_input_box()
         official.page_contain_send_button()
-        official.send_btn_is_clickable()
+        # official.send_btn_is_clickable()
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_quxinli_0325(self):
@@ -153,7 +157,7 @@ class OfficialAccountTest(TestCase):
         time.sleep(2)
         official.page_contain_input_box()
         official.page_contain_send_button()
-        official.send_btn_is_clickable()
+        # official.send_btn_is_clickable()
         #再次点击键盘图标
         official.click_keyboard()
         time.sleep(2)
@@ -189,3 +193,91 @@ class OfficialAccountTest(TestCase):
         official_account_detail.page_should_contain_text('查看历史资讯')
         official_account_detail.page_should_contain_text('进入公众号')
         time.sleep(2)
+
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0327(self):
+        """公众号会话页面发送表情消息"""
+        official = OfficialAccountPage()
+        official.click_officel_account()
+        time.sleep(2)
+        official.click_expression()
+        official.click_expression('[微笑1]')
+        official.click_send_button()
+        time.sleep(1)
+        official.click_expression('expression_keyboard')
+        official.page_should_not_contain_sendfail_element()
+        official.page_should_contain_text('[微笑1]')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0328(self):
+        """公众号会话页面，发送表情+信息"""
+        official = OfficialAccountPage()
+        official.click_officel_account()
+        time.sleep(2)
+        official.input_message('good news')
+        official.click_expression()
+        official.click_expression('[微笑1]')
+        time.sleep(2)
+        official.click_send_button()
+        time.sleep(1)
+        official.click_expression('expression_keyboard')
+        official.page_should_not_contain_sendfail_element()
+        official.page_should_contain_text('good news')
+        official.page_should_contain_text('[微笑1]')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0329(self):
+        """公众号会话页面，发送长信息"""
+        official = OfficialAccountPage()
+        official.click_officel_account()
+        time.sleep(2)
+        official.click_input_box()
+        mesaage='good news'*10
+        official.input_message(mesaage)
+        official.click_send_button()
+        official.page_should_not_contain_sendfail_element()
+        official.page_should_contain_text(mesaage)
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0330(self):
+        """公众号会话页面发送链接消息"""
+        official = OfficialAccountPage()
+        official.click_officel_account()
+        time.sleep(2)
+        official.click_input_box()
+        mesaage ='www.baidu.com'
+        official.input_message(mesaage)
+        official.click_send_button()
+        official.page_should_not_contain_sendfail_element()
+        official.page_should_contain_text(mesaage)
+        official.click_baidu_button()
+        time.sleep(8)
+        if official.is_text_present('权限'):
+            official.click_always_allowed()
+        official.page_should_contain_text("百度一下")
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0331(self):
+        """公众号会话页面网络异常情况下发送消息"""
+        conts_page = ContactsPage()
+        official = OfficialAccountPage()
+        official.click_officel_account()
+        #断网发送失败
+        conts_page.set_network_status(0)
+        time.sleep(2)
+        official.click_input_box()
+        official.input_message()
+        official.click_send_button()
+        time.sleep(1)
+        official.page_should_contain_sendfail_element()
+        ##恢复网络,重发成功
+        conts_page.set_network_status(6)
+        time.sleep(5)
+        official.click_repeat_button()
+        official.click_sure_button()
+        time.sleep(2)
+        official.page_should_not_contain_sendfail_element()
+
+

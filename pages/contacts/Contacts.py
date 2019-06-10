@@ -13,10 +13,8 @@ class ContactsPage(FooterPage):
         #通讯录页面
         '通讯录标题': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="通讯录"]'),
         '搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
-        '手机联系人':(MobileBy.ACCESSIBILITY_ID,'手机联系人'),
         '群聊': (MobileBy.ACCESSIBILITY_ID, '群聊'),
         '公众号': (MobileBy.ACCESSIBILITY_ID, '公众号'),
-
         '创建团队': (MobileBy.ACCESSIBILITY_ID, '创建团队'),
         '全部团队': (MobileBy.ACCESSIBILITY_ID, '全部团队'),
         '默认团队': (MobileBy.ACCESSIBILITY_ID, '默认团队'),
@@ -24,6 +22,14 @@ class ContactsPage(FooterPage):
 
         '团队头像': (MobileBy.ACCESSIBILITY_ID, 'cc_contacts_organization_classA'),
         '团队名称': (MobileBy.XPATH,''),
+        #搜索结果
+        '输入关键字快速搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="输入关键字快速搜索"])[1]'),
+        '搜索结果列表1': (MobileBy.XPATH,
+                    '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'),
+        '搜索结果-团队联系人头像': (MobileBy.XPATH, '(//XCUIElementTypeImage[@name="cc_chat_personal_default"])'),
+        '手机联系人': (MobileBy.ACCESSIBILITY_ID, '手机联系人'),
+        '手机联系人头像':(MobileBy.XPATH,'//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeImage'),
+
         #底部标签栏
         '消息': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_selected'),
         '通话': (MobileBy.ACCESSIBILITY_ID, 'cc_call_unselected'),
@@ -32,14 +38,16 @@ class ContactsPage(FooterPage):
         '我': (MobileBy.ACCESSIBILITY_ID, 'cc_me_unselected'),
         #手机联系人界面
         '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
-        '搜索手机联系人': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
+        '搜索手机联系人': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeTextField'),
         '+号': (MobileBy.ACCESSIBILITY_ID, 'cc contacts add normal'),
         '标签分组': (MobileBy.ACCESSIBILITY_ID, '标签分组'),
         '索引字母容器': (MobileBy.XPATH,
                    '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]'),
-        '搜索结果列表':(MobileBy.XPATH,'//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable'),
         '列表项': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell'),
-        # '新建手机联系人-确定': (MobileBy.ID, 'android:id/icon2'),
+        '联系人头像': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeImage'),
+
+
+
         # "新建手机联系人-姓名": (MobileBy.XPATH, "//*[@text='姓名']"),
         # '新建手机联系人': (MobileBy.ID, 'com.android.contacts:id/hw_fab'),
 
@@ -76,12 +84,23 @@ class ContactsPage(FooterPage):
         """点击搜索框"""
         self.click_element(self.__class__.__locators['搜索'])
 
+    TestLogger.log("输入搜索内容")
+    def input_search_text(self,text):
+        time.sleep(1)
+        self.input_text(self.__locators['输入关键字快速搜索'],text)
+
+    TestLogger.log("查看控件是否存在")
+    def page_contain_element(self,text='联系人头像'):
+        time.sleep(1)
+        return self.page_should_contain_element(self.__locators[text])
+
+
     @TestLogger.log('点击搜索框')
     def click_search_phone_contact(self):
         """点击搜索手机联系人"""
         self.click_element(self.__class__.__locators['搜索手机联系人'])
 
-    @TestLogger.log('输入搜索关键字')
+    @TestLogger.log('输入搜索手机联系人搜索内容')
     def input_search_keyword(self, keyword):
         self.input_text(self.__locators['搜索手机联系人'], keyword)
 
@@ -129,12 +148,14 @@ class ContactsPage(FooterPage):
         return False
 
 
+    @TestLogger.log('获取页面所有联系人')
+    def get_page_elements(self,text='搜索结果-联系人头像'):
+        return self.get_elements(self.__class__.__locators[text])
 
 
-
-
-
-
+    @TestLogger.log('点击搜索出的联系人')
+    def click_element_contact(self,text='联系人头像'):
+        self.click_element(self.__class__.__locators[text])
 
 
     @TestLogger.log('判断列表是否存在XXX联系人')
@@ -227,6 +248,11 @@ class ContactsPage(FooterPage):
 
     def page_up(self):
         """向上滑动一页"""
+        self.driver.execute_script('mobile: scroll', {'direction': 'down'})
+
+    @TestLogger.log("上一页")
+    def page_down(self):
+        """向下滑动"""
         self.driver.execute_script('mobile: scroll', {'direction': 'up'})
 
     @TestLogger.log()

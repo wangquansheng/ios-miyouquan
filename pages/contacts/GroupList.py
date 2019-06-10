@@ -15,13 +15,16 @@ class GroupListPage(BasePage):
         '移除成员_标题':(MobileBy.ID,'com.chinasofti.rcs:id/title'),
         '搜索标签分组成员':(MobileBy.ID,'com.chinasofti.rcs:id/contact_search_bar'),
         '刪除_标签名':(MobileBy.ID,'com.chinasofti.rcs:id/ib_label_del'),
-        '星标图标': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_star'),
-        '星标': (MobileBy.ID, 'com.chinasofti.rcs:id/star'),
-        "电话号码":(MobileBy.ID,'com.chinasofti.rcs:id/tv_phone'),
-        "语音通话": (MobileBy.ID, 'com.chinasofti.rcs:id/tv_voice_call'),
-        "视频通话": (MobileBy.ID, 'com.chinasofti.rcs:id/tv_video_call'),
-        "分享名片": (MobileBy.ID, 'com.chinasofti.rcs:id/btn_share_card'),
-        "邀请使用": (MobileBy.ID, 'com.chinasofti.rcs:id/tv_invitation_to_use'),
+
+        '星标图标': (MobileBy.ACCESSIBILITY_ID, 'cc contacts profile ic star se'),
+        '星标': (MobileBy.ACCESSIBILITY_ID, 'cc contacts profile ic star se'),
+
+        # "电话号码":(MobileBy.ID,'com.chinasofti.rcs:id/tv_phone'),
+        '语音通话': (MobileBy.ACCESSIBILITY_ID, 'cc profile voicecall normal'),
+        '视频通话': (MobileBy.ACCESSIBILITY_ID, 'cc profile video normal'),
+        '分享名片': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="分享名片"])[1]'),
+        '邀请使用': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="邀请使用"])[1]'),
+
         "发送_邀请":(MobileBy.ID,'com.android.mms:id/right_btn'),
         "信息邀请":(MobileBy.ID,'com.android.mms:id/msg_content'),
         "修改标签名称":(MobileBy.ID,"com.chinasofti.rcs:id/label_toolbar_title"),
@@ -47,35 +50,40 @@ class GroupListPage(BasePage):
         '列表项首字母': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_index'),
         '群名': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
         '滚动条字符': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_index_bar_container"]/*'),
-        '标题新建分组': (MobileBy.ID, 'com.chinasofti.rcs:id/label_toolbar_title'),
-        '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'),
-        '为你的分组创建一个名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_sub_title'),
-        '请输入标签分组名称': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_group_name'),
         '通讯录': (MobileBy.ID, 'com.chinasofti.rcs:id/tvContact'),
-        '标签分组': (MobileBy.ID, 'com.chinasofti.rcs:id/second_item'),
-        '新建分组':(MobileBy.XPATH,'//*[@text="新建分组"]'),
-        '知道了':(MobileBy.ID,'com.chinasofti.rcs:id/btn_cancel'),
-        '设置':(MobileBy.ID,'com.chinasofti.rcs:id/iv_label_setting'),
-        '删除标签':(MobileBy.XPATH,'//*[@text="删除标签"]'),
-        '移除成员':(MobileBy.XPATH,'//*[@text="移除成员"]'),
-        '标签名称':(MobileBy.XPATH,'//*[@text="标签名称"]'),
-        '刪除按钮':(MobileBy.ID,'com.chinasofti.rcs:id/btn_ok'),
-        'back_contact':(MobileBy.ID,'com.chinasofti.rcs:id/back'),
-        '联系人列表': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_list_item'),
+        #标签分组
+        '标题新建分组': (MobileBy.ACCESSIBILITY_ID, '标签分组'),
+        '确定': (MobileBy.ACCESSIBILITY_ID, '确定'),
+        '为你的分组创建一个名称': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="为你的分组创建一个名称"])[1]'),
+        '请输入标签分组名称': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeTextField'),
+        '标签分组': (MobileBy.ACCESSIBILITY_ID, '标签分组'),
+        '新建分组': (MobileBy.ACCESSIBILITY_ID, '新建分组'),
+        '取消': (MobileBy.ACCESSIBILITY_ID, '取消'),
+        '新增成员': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="添加成员"])[2]'),
+        '设置': (MobileBy.ACCESSIBILITY_ID, 'id	cc chat message site normal'),
+        '标签名称': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="标签名称"])[1]'),
+        '移除成员': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="移除成员"])[1]'),
+        '删除标签': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="删除标签"])[1]'),
+        #删除标签分组页面-弹框
+        '取消删除': (MobileBy.ACCESSIBILITY_ID, '取消'),
+        '确认删除': (MobileBy.ACCESSIBILITY_ID, '删除'),
 
-        'back_gouppage':(MobileBy.ID,'com.chinasofti.rcs:id/rl_label_left_back'),
-        "back_contact2":(MobileBy.ID,'com.chinasofti.rcs:id/label_group_left_back'),
-        'back_newpage':(MobileBy.ID,'com.chinasofti.rcs:id/iv_back'),
-        'back_settings': (MobileBy.ID, 'com.chinasofti.rcs:id/label_setting_left_back'),
+        'back_contact':(MobileBy.ACCESSIBILITY_ID,'back'),
+        '联系人列表': (MobileBy.ACCESSIBILITY_ID,'back'),
+        'back_gouppage':(MobileBy.ACCESSIBILITY_ID,'back'),
+        "back_contact2":(MobileBy.ACCESSIBILITY_ID,'back'),
+        'back_newpage':(MobileBy.ACCESSIBILITY_ID,'back'),
+        'back_settings': (MobileBy.ACCESSIBILITY_ID,'back'),
 
-
-        'aaa':(MobileBy.XPATH,'//*[@text="aaa"]'),
-        'bbb': (MobileBy.XPATH, '//*[@text="bbb"]'),
-        '添加成员':(MobileBy.XPATH,'//*[@text="添加成员"]'),
-        '添加成员菜单': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_first_colum'),
-        '群发信息': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_second_colum'),
-        '多方电话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_third_colum'),
-        '多方视频': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_fourth_colum'),
+        #标签分组-详情页面
+        '添加成员': (MobileBy.ACCESSIBILITY_ID, '添加成员'),
+        '群发消息': (MobileBy.ACCESSIBILITY_ID, '群发消息'),
+        '飞信电话': (MobileBy.ACCESSIBILITY_ID, '飞信电话'),
+        '多方视频': (MobileBy.ACCESSIBILITY_ID, '多方视频'),
+        # '添加成员菜单': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_first_colum'),
+        # '群发信息': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_second_colum'),
+        # '多方电话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_third_colum'),
+        # '多方视频': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_fourth_colum'),
         '大佬1': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
         '大佬3':(MobileBy.XPATH,'//*[@text="大佬3"]'),
         '大佬2': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
@@ -116,6 +124,79 @@ class GroupListPage(BasePage):
         '立即更新':(MobileBy.ID,"com.chinasofti.rcs:id/btn_ok"),
 
     }
+
+    @TestLogger.log("点击输入框")
+    def click_input_element(self):
+        self.click_element(self.__class__.__locators['请输入标签分组名称'])
+
+    @TestLogger.log("点击输入框")
+    def click_premession_box_add_contact(self):
+        self.click_element(self.__class__.__locators['新增成员'])
+
+
+    @TestLogger.log('删除分组标签')
+    def delete_group(self,name='祝一路顺风幸福美满'):
+        if self.is_text_present(name):
+            self.click_text(name)
+            time.sleep(2)
+            flag=self._is_element_present(self.__class__.__locators['取消'])
+            print("aaa",flag)
+            if flag:
+                self.click_element(self.__class__.__locators['取消'])
+            self.click_element(self.__class__.__locators['设置'])
+            self.click_element(self.__class__.__locators['删除标签'])
+            self.click_element(self.__class__.__locators['确认删除'])
+            time.sleep(2)
+            if self._is_element_present(self.__class__.__locators['允许']):
+                self.click_element(self.__class__.__locators['允许'])
+            time.sleep(2)
+
+        else:
+            print('标签不存在')
+
+
+    @TestLogger.log("确认弹框处理")
+    def tap_sure_box(self, text='取消'):
+        time.sleep(2)
+        flag = self._is_element_present(self.__class__.__locators['取消'])
+        if flag:
+            self.click_element(self.__class__.__locators[text])
+        else:
+            print('标签不存在')
+
+
+    @TestLogger.log("新建分组")
+    def new_group(self,name="aaa"):
+        time.sleep(1)
+        self.click_new_group()
+        time.sleep(1)
+        self.click_input_element()
+        time.sleep(1)
+        self.input_content(text=name)
+        time.sleep(1)
+        self.click_sure_element()
+        time.sleep(2)
+        # self.click_allow_button()
+        # time.sleep(1)
+        self.click_back_button()
+        time.sleep(2)
+        self.click_back_button()
+        time.sleep(2)
+
+    @TestLogger.log("输入内容")
+    def input_content(self,text='祝一路顺风幸福美满'):
+        self.input_text(self.__class__.__locators['请输入标签分组名称'],text)
+
+    @TestLogger.log("点击确定")
+    def click_sure_element(self):
+        time.sleep(2)
+        if self._is_element_present(self.__class__.__locators['确定']):
+            self.click_element(self.__class__.__locators['确定'])
+        else:
+            self.click_element(self.__class__.__locators['确定'])
+
+
+
 
 
     @TestLogger.log("修改标签名称")
@@ -294,13 +375,7 @@ class GroupListPage(BasePage):
         '''检查指定元素是否存在，默认是确定按钮'''
         return self.page_should_contain_element(self.__locators[text])
 
-    @TestLogger.log("点击确定")
-    def click_sure_element(self):
-        time.sleep(2)
-        if self._is_element_present(self.__class__.__locators['确定']):
-            self.click_element(self.__class__.__locators['确定'])
-        else:
-            self.click_element(self.__class__.__locators['确定3'])
+
 
     @TestLogger.log("点击某个联系人")
     def click_contact_element(self,text='大佬3'):
@@ -332,9 +407,6 @@ class GroupListPage(BasePage):
     def click_contact_star_icon(self):
         self.click_element(self.__class__.__locators['星标'])
 
-    @TestLogger.log("点击输入框")
-    def click_input_element(self):
-        self.click_element(self.__class__.__locators['请输入标签分组名称'])
 
     @TestLogger.log("分享名片")
     def click_share_button(self):
@@ -383,9 +455,6 @@ class GroupListPage(BasePage):
     def search_menber_text(self,text='dalao2'):
         self.input_text(self.__class__.__locators['搜索标签分组成员'], text)
 
-    @TestLogger.log("输入内容")
-    def input_content(self,text='祝一路顺风幸福美满'):
-        self.input_text(self.__class__.__locators['请输入标签分组名称'],text)
 
     # @TestLogger.log("输入内容")
     # def inputing_content(self,text):
@@ -406,34 +475,6 @@ class GroupListPage(BasePage):
         y_end = height*y
         self.tap_coordinate([(x_start, y_end)])
 
-    @TestLogger.log('删除分组标签')
-    def delete_group(self,name='祝一路顺风幸福美满'):
-        if self.is_text_present(name):
-            self.click_text(name)
-            time.sleep(2)
-            flag=self._is_element_present(self.__class__.__locators['知道了'])
-            print("aaa",flag)
-            if flag:
-                self.click_element(self.__class__.__locators['知道了'])
-            self.click_element(self.__class__.__locators['设置'])
-            self.click_element(self.__class__.__locators['删除标签'])
-            self.click_element(self.__class__.__locators['刪除按钮'])
-            time.sleep(2)
-            if self._is_element_present(self.__class__.__locators['允许']):
-                self.click_element(self.__class__.__locators['允许'])
-            time.sleep(2)
-
-        else:
-            print('标签不存在')
-
-    @TestLogger.log("确认弹框处理")
-    def tap_sure_box(self, text='知道了'):
-        time.sleep(2)
-        flag = self._is_element_present(self.__class__.__locators['知道了'])
-        if flag:
-            self.click_element(self.__class__.__locators[text])
-        else:
-            print('标签不存在')
 
     @TestLogger.log()
     def click_back_by_android(self, times=1):
@@ -477,7 +518,7 @@ class GroupListPage(BasePage):
         return x
 
     @TestLogger.log('判断元素是否存在')
-    def page_contain_element(self, locator='添加成员菜单'):
+    def page_contain_element(self, locator='添加成员'):
         return self.page_should_contain_element(self.__class__.__locators[locator])
 
     @TestLogger.log('判断元素不存在')
@@ -496,23 +537,6 @@ class GroupListPage(BasePage):
         print("color = ",color)
         return color
 
-    @TestLogger.log("新建分组")
-    def new_group(self,name="aaa"):
-        time.sleep(1)
-        self.click_new_group()
-        time.sleep(1)
-        self.click_input_element()
-        time.sleep(1)
-        self.input_content(text=name)
-        time.sleep(1)
-        self.click_sure_element()
-        time.sleep(2)
-        self.click_allow_button()
-        time.sleep(1)
-        self.click_back_button()
-        time.sleep(2)
-        self.click_back_button()
-        time.sleep(2)
 
     @TestLogger.log("添加成员dalao")
     def add_member(self,name='dalao5',times=1):

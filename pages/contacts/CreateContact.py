@@ -17,11 +17,9 @@ class CreateContactPage(Keyboard, BasePage):
 
         '姓名': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="姓名"])[1]'),
         '输入姓名': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeTextField'),
-        '已输入姓名':(MobileBy.XPATH,'//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeTextField'),
 
         '电话': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="电话"])[1]'),
         '输入号码': (MobileBy.XPATH,'//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]/XCUIElementTypeTextField'),
-        '电话号码': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]/XCUIElementTypeTextField'),
 
         '公司': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="公司"])[1]'),
         '输入公司': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[3]/XCUIElementTypeTextField'),
@@ -48,20 +46,11 @@ class CreateContactPage(Keyboard, BasePage):
         """点击保存"""
         self.click_element(self.__class__.__locators['保存'])
 
-    @TestLogger.log('点击保存')
-    def click_sure(self):
-        """点击确定"""
-        self.click_element(self.__class__.__locators['确定'])
 
     @TestLogger.log('点击输入姓名')
     def click_input_name(self):
         """点击输入姓名"""
         self.click_element(self.__locators['输入姓名'])
-
-    @TestLogger.log('点击已输入的姓名')
-    def click_contact_name(self):
-        """点击已输入的姓名"""
-        self.click_element(self.__locators['已输入姓名'])
 
 
     @TestLogger.log('输入姓名')
@@ -74,28 +63,11 @@ class CreateContactPage(Keyboard, BasePage):
         """点击输入号码"""
         self.click_element(self.__locators['输入号码'])
 
-    @TestLogger.log('点击已输入号码')
-    def click_contact_number(self):
-        """点击已输入的号码"""
-        self.click_element(self.__class__.__locators['电话号码'])
-
 
     @TestLogger.log('清除文本')
     def click_clear_text(self):
         """点击清除文本"""
         self.click_element(self.__locators['清除文本'])
-
-    @TestLogger.log("更改手机号码")
-    def change_mobile_number(self,text='13800138005'):
-        self.click_element(self.__locators['电话号码'])
-        self.click_clear_text()
-        self.input_text(self.__locators['电话号码'],text)
-
-    @TestLogger.log("更改姓名")
-    def change_contact_name(self,name='we'):
-        self.click_element(self.__locators['已输入姓名'])
-        self.click_clear_text()
-        self.input_text(self.__locators['已输入姓名'],name)
 
 
     @TestLogger.log('输入号码')
@@ -104,7 +76,7 @@ class CreateContactPage(Keyboard, BasePage):
         self.input_text(self.__class__.__locators['输入号码'], number)
 
 
-    @TestLogger.log('点击输入公司')
+    @TestLogger.log('获取联系人手机号码')
     def get_contant_number(self):
         """获取联系人手机号码"""
         return self.get_element(self.__locators['输入号码'])
@@ -120,9 +92,6 @@ class CreateContactPage(Keyboard, BasePage):
     def input_company(self, name):
         self.input_text(self.__locators['输入公司'], name)
 
-    @TestLogger.log('输入公司号码')
-    def input_company(self, name):
-        self.input_text(self.__locators['输入公司'], name)
 
     @TestLogger.log('点击输入职位')
     def click_input_position(self):
@@ -153,10 +122,6 @@ class CreateContactPage(Keyboard, BasePage):
         """保存按钮是否可点击"""
         return self._is_clickable(self.__class__.__locators['保存'])
 
-    @TestLogger.log('确定按钮是否可点击')
-    def is_sure_icon_is_clickable(self):
-        """确定按钮是否可点击"""
-        return self._is_clickable(self.__class__.__locators['确定'])
 
     @TestLogger.log("删除联系人")
     def change_delete_contact(self):
@@ -168,8 +133,6 @@ class CreateContactPage(Keyboard, BasePage):
         """确定删除"""
         time.sleep(3)
         self.click_element(self.__class__.__locators['确定删除'])
-
-
 
 
 

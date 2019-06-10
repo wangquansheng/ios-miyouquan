@@ -2,7 +2,7 @@ from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
-
+import time
 
 class SelectHeContactsPage(BasePage):
     """选择和通讯录页面"""
@@ -69,3 +69,29 @@ class SelectHeContactsPage(BasePage):
     def click_back(self):
         """点击 返回"""
         self.click_element(self.__class__.__locators["返回"])
+
+    @TestLogger.log("获取所有团队名称")
+    def get_all_group_name(self):
+        """获取所有团队名"""
+        max_try = 5
+        current = 0
+        while current < max_try:
+            if self._is_element_present(self.__class__.__locators["团队名称"]):
+                break
+            current += 1
+            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        els = self.get_elements(self.__class__.__locators["团队名称"])
+        group_name = []
+        if els:
+            for el in els:
+                group_name.append(el.text)
+        else:
+            raise AssertionError("No m005_group, please add m005_group in address book.")
+        return group_name
+
+
+    @TestLogger.log("点击分享名片")
+    def click_share_business_card(self):
+        """点击分享名片"""
+        time.sleep(2)
+        self.click_element(self.__locators['分享名片'])

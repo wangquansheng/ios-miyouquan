@@ -37,9 +37,6 @@ class ContactDetailsPage(BasePage):
         '分享名片': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="分享名片"])[1]'),
         '邀请使用': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="邀请使用"])[1]'),
 
-        # '大图': (MobileBy.ID, 'com.chinasofti.rcs:id/img_smooth'),
-        # '电话号码': (MobileBy.XPATH, '//*[@text="电话"]/../android.widget.EditText[@resource-id="com.chinasofti.rcs:id/et"]'),
-
         "确定": (MobileBy.ACCESSIBILITY_ID, '确定'),
         "删除联系人": (MobileBy.ACCESSIBILITY_ID, "删除联系人"),
         "确定删除": (MobileBy.ACCESSIBILITY_ID, '删除'),
@@ -142,7 +139,9 @@ class ContactDetailsPage(BasePage):
         """点击分享名片"""
         self.click_element(self.__locators['分享名片'])
 
-
+    @TestLogger.log("点击星标")
+    def click_star_icon(self):
+        self.click_element(self.__class__.__locators['星标'])
 
 
     @TestLogger.log("添加桌面快捷方式")

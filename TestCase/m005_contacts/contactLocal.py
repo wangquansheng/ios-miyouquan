@@ -6,6 +6,7 @@ from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
+from pages.contacts.EditContactPage import EditContactPage
 from pages.contacts.local_contact import localContactPage
 import preconditions
 from dataproviders import contact2
@@ -225,6 +226,7 @@ class ContactsLocalhigh(TestCase):
         # contant_detail.page_up()
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0147(self):
@@ -251,6 +253,7 @@ class ContactsLocalhigh(TestCase):
         # contant_detail.page_up()
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0154(self):
@@ -277,6 +280,7 @@ class ContactsLocalhigh(TestCase):
         contant_detail.hide_keyboard()
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0161(self):
@@ -303,6 +307,7 @@ class ContactsLocalhigh(TestCase):
         contant_detail.hide_keyboard()
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
 
     # @tags('ALL', 'CONTACTS', 'CMCC')
@@ -422,7 +427,7 @@ class ContactsLocalhigh(TestCase):
         cdp.click_edit_contact()
         time.sleep(1)
         #编辑手机号码
-        creat_contact=CreateContactPage()
+        creat_contact=EditContactPage()
         creat_contact.change_mobile_number(text='13800138789')
         creat_contact.click_sure()
         time.sleep(2)
@@ -437,9 +442,11 @@ class ContactsLocalhigh(TestCase):
             ContactDetailsPage().click_back_icon()
         else:
             ContactDetailsPage().click_edit_contact()
-            creat_contact = CreateContactPage()
+            creat_contact = EditContactPage()
             creat_contact.change_mobile_number(text='13800138005')
             creat_contact.click_sure()
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0194(self):
@@ -450,10 +457,10 @@ class ContactsLocalhigh(TestCase):
         cdp.click_edit_contact()
         time.sleep(1)
         # 姓名为空,保存按钮不可点击
-        creat_contact = CreateContactPage()
+        creat_contact = EditContactPage()
         creat_contact.click_contact_name()
         creat_contact.click_clear_text()
-        # self.assertFalse(creat_contact.is_sure_icon_is_clickable())
+        # creat_contact.is_sure_icon_is_clickable()
         # 姓名为必填项
         creat_contact.click_contact_number()
         creat_contact.is_toast_exist('姓名不能为空，请重新输入')
@@ -470,7 +477,7 @@ class ContactsLocalhigh(TestCase):
         cdp.click_edit_contact()
         time.sleep(1)
         # 手机号为空,保存按钮不可点击
-        creat_contact = CreateContactPage()
+        creat_contact = EditContactPage()
         creat_contact.click_contact_number()
         creat_contact.click_clear_text()
         # creat_contact.is_sure_icon_is_clickable()
@@ -486,8 +493,8 @@ class ContactsLocalhigh(TestCase):
         cdp.click_edit_contact()
         time.sleep(1)
         # 姓名为空,保存按钮不可点击
-        creat_contact = CreateContactPage()
-        creat_contact.click_input_number()
+        creat_contact = EditContactPage()
+        creat_contact.click_contact_number()
         creat_contact.click_clear_text()
         creat_contact.input_number('#')
         creat_contact.is_toast_exist('号码输入有误，请重新输入')
@@ -503,10 +510,10 @@ class ContactsLocalhigh(TestCase):
         cdp.click_edit_contact()
         time.sleep(1)
         # 公司为空 可点
-        creat_contact = CreateContactPage()
+        creat_contact = EditContactPage()
         creat_contact.click_input_company()
-        creat_contact.click_input_number()
-        self.assertTrue(creat_contact.is_sure_icon_is_clickable())
+        creat_contact.click_contact_number()
+        # self.assertTrue(creat_contact.is_sure_icon_is_clickable())
         creat_contact.click_sure()
         cdp.is_on_this_page()
 
@@ -519,10 +526,10 @@ class ContactsLocalhigh(TestCase):
         cdp.click_edit_contact()
         time.sleep(1)
         # 手机号为空,保存按钮不可点击
-        creat_contact = CreateContactPage()
+        creat_contact = EditContactPage()
         creat_contact.click_input_company()
         creat_contact.input_company('#sa123')
-        self.assertTrue(creat_contact.is_sure_icon_is_clickable())
+        # self.assertTrue(creat_contact.is_sure_icon_is_clickable())
         creat_contact.click_sure()
         cdp.is_on_this_page()
 
@@ -536,10 +543,10 @@ class ContactsLocalhigh(TestCase):
         cdp.click_edit_contact()
         time.sleep(1)
         # 职位为空 可点
-        creat_contact = CreateContactPage()
+        creat_contact = EditContactPage()
         creat_contact.click_input_position()
-        creat_contact.click_input_number()
-        self.assertTrue(creat_contact.is_sure_icon_is_clickable())
+        creat_contact.click_contact_number()
+        # self.assertTrue(creat_contact.is_sure_icon_is_clickable())
         creat_contact.click_sure()
         cdp.is_on_this_page()
 
@@ -553,10 +560,11 @@ class ContactsLocalhigh(TestCase):
         cdp.click_edit_contact()
         time.sleep(1)
         # 邮箱为空 可点
-        creat_contact = CreateContactPage()
+        creat_contact = EditContactPage()
         creat_contact.click_input_email()
-        creat_contact.click_input_number()
-        self.assertTrue(creat_contact.is_sure_icon_is_clickable())
+        creat_contact.page_up()
+        creat_contact.click_contact_number()
+        # creat_contact.is_sure_icon_is_clickable()
         creat_contact.click_sure()
         cdp.is_on_this_page()
 
@@ -571,10 +579,10 @@ class ContactsLocalhigh(TestCase):
         cdp.click_edit_contact()
         time.sleep(1)
         # 手机号为空,保存按钮不可点击
-        creat_contact = CreateContactPage()
+        creat_contact = EditContactPage()
         creat_contact.click_input_email()
         creat_contact.input_email_address('#sa123')
-        self.assertTrue(creat_contact.is_sure_icon_is_clickable())
+        # self.assertTrue(creat_contact.is_sure_icon_is_clickable())
         creat_contact.click_sure()
         cdp.is_on_this_page()
 
@@ -587,23 +595,24 @@ class ContactsLocalhigh(TestCase):
         cdp.click_edit_contact()
         time.sleep(1)
         #删除联系人
-        creat_contact = CreateContactPage()
-        creat_contact.change_delete_contact()
+        creat_contact = EditContactPage()
+        creat_contact.click_delete_contact()
         creat_contact.click_sure_delete()
-        self.assertFalse(ContactsPage().is_contacts_exist_by_name())
+        self.assertFalse(ContactsPage().is_contacts_exist_by_name('大佬1'))
 
     def tearDown_test_contacts_chenjixiang_0230(self):
-        Preconditions.make_already_in_message_page()
-        MessagePage().click_contacts()
-        ContactsPage().click_phone_contact()
-        ContactDetailsPage().click_edit_contact()
+        # Preconditions.make_already_in_message_page()
+        # MessagePage().click_contacts()
+        # ContactsPage().click_phone_contact()
+        # time.sleep(2)
+        ContactsPage().click_add()
         creat_contact = CreateContactPage()
         creat_contact.click_input_name()
         creat_contact.input_name('大佬1')
         creat_contact.click_input_number()
         creat_contact.input_number('13800138005')
         creat_contact.click_save()
-
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0232(self):
@@ -611,8 +620,10 @@ class ContactsLocalhigh(TestCase):
         ContactsPage().select_contacts_by_name('大佬2')
         cdp = ContactDetailsPage()
         cdp.click_invitation_use()
+        time.sleep(2)
         cdp.page_should_contain_text('取消')
         cdp.page_should_contain_text('短信')
+        cdp.page_should_contain_text('微信')
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0237(self):
@@ -641,10 +652,11 @@ class ContactsLocalhigh(TestCase):
         time.sleep(2)
 
     @tags('ALL', 'CONTACTS', 'CMCC')
+    #星标无法定位
     def test_contacts_chenjixiang_0242(self):
         """测试星标点击"""
-        ContactsPage().select_contacts_by_name('大佬1')
-        glp = GroupListPage()
+        ContactsPage().select_contacts_by_name('大佬2')
+        glp =ContactDetailsPage()
         time.sleep(2)
         glp.click_star_icon()
         glp.is_toast_exist('已成功添加为星标联系人')
@@ -653,11 +665,12 @@ class ContactsLocalhigh(TestCase):
         glp.click_star_icon()
 
     @tags('ALL', 'CONTACTS', 'CMCC')
+    # 星标无法定位
     def test_contacts_chenjixiang_0243(self):
         """测试取消星标"""
         #添加联系人是星标联系人
-        ContactsPage().select_contacts_by_name('大佬1')
-        glp = GroupListPage()
+        ContactsPage().select_contacts_by_name('大佬2')
+        glp =ContactDetailsPage()
         time.sleep(2)
         glp.click_star_icon()
         glp.is_toast_exist('已成功添加为星标联系人')
@@ -670,7 +683,7 @@ class ContactsLocalhigh(TestCase):
     def test_contacts_chenjixiang_0246(self):
         """测试消息，点击消息，跳转到对话框"""
         #添加联系人是星标联系人
-        ContactsPage().select_contacts_by_name('大佬1')
+        ContactsPage().select_contacts_by_name('大佬2')
         glp = GroupListPage()
         ContactDetailsPage().click_message_icon()
         time.sleep(2)
@@ -683,7 +696,7 @@ class ContactsLocalhigh(TestCase):
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0247(self):
         """测试电话，点击后调用系统通话，拨打电话"""
-        ContactsPage().select_contacts_by_name('大佬1')
+        ContactsPage().select_contacts_by_name('大佬2')
         cdp = ContactDetailsPage()
         cdp.click_call_icon()
         cdp.click_calling()
@@ -692,7 +705,7 @@ class ContactsLocalhigh(TestCase):
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0248(self):
         """测试语音通话，点击后弹出语音通话框"""
-        ContactsPage().select_contacts_by_name('大佬1')
+        ContactsPage().select_contacts_by_name('大佬2')
         cdp = ContactDetailsPage()
         cdp.click_voice_call_icon()
         time.sleep(3)
@@ -700,11 +713,12 @@ class ContactsLocalhigh(TestCase):
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0250(self):
         """测试视频通话，点击后弹出语音通话框"""
-        ContactsPage().select_contacts_by_name('大佬1')
+        ContactsPage().select_contacts_by_name('大佬2')
         cdp = ContactDetailsPage()
         cdp.click_video_call_icon()
+        # if cdp.is_text_present('"和飞信"想访问您的相机'):
+        #     cdp.
         time.sleep(3)
-
 
 
 
