@@ -714,6 +714,61 @@ class CallAll(TestCase):
         cpg.click_dial()
 
     @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0086(self):
+        """检查语音通话记录-本地联系人"""
+        # 1.A已登录和飞信
+        # 2.用户A已成功发起与用户B的语音通话
+        # Step:1.用户A查看通话记录
+        cpg = CallPage()
+        cpg.click_dial()
+        time.sleep(1)
+        cpg.select_type_start_call(calltype=1, text="13800138001")
+        time.sleep(2)
+        cpg.hang_up_the_call()
+        cpg.wait_for_dial_pad()
+        # CheckPoint:1.通话记录展示与用户B的语音通话记录，显示用户B的名称、通话类型【语音通话】、归属地。右侧显示通话时间以及时间节点图标
+        cpg.page_should_contain_text("给个红包2")
+        cpg.page_should_contain_text("语音通话")
+        # cpg.page_should_contain_text("广东深圳")
+        # cpg.page_should_contain_text("移动")
+        self.assertTrue(cpg.is_exist_call_time())
+        # Step:2.点击时间节点
+        cpg.click_call_time()
+        time.sleep(1)
+        # CheckPoint:2.进入到用户B的通话profile
+        self.assertTrue(cpg.is_exist_profile_name())
+        cpg.click_back()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0087(self):
+        """检查语音通话记录-企业联系人"""
+        # 1.A已登录和飞信
+        # 2.用户A已成功发起与用户N的语音通话
+        # Step:1.用户A查看通话记录
+        cpg = CallPage()
+        cpg.click_dial()
+        time.sleep(1)
+        cpg.select_type_start_call(calltype=1, text="13800137003")
+        time.sleep(1)
+        cpg.hang_up_the_call()
+        cpg.wait_for_dial_pad()
+        time.sleep(1)
+        if not cpg.is_on_the_call_page():
+            cpg.click_call()
+        time.sleep(1)
+        # CheckPoint:1.通话记录展示与用户B的语音通话记录，显示用户B的名称、通话类型【语音通话】、归属地。右侧显示通话时间以及时间节点图标
+        cpg.page_should_contain_text("哈 马上")
+        cpg.page_should_contain_text("语音通话")
+        self.assertTrue(cpg.is_exist_call_time())
+        # Step:2.点击时间节点
+        # Step:3.用户N为企业联系人（非本地联系人）
+        cpg.click_call_time()
+        time.sleep(1)
+        # CheckPoint:2.进入到用户N的通话profile
+        self.assertTrue(cpg.is_exist_profile_name())
+        cpg.click_back()
+
+    @tags('ALL', 'CMCC', 'Call')
     def test_call_shenlisi_0088(self):
         """检查语音通话记录-陌生联系人"""
         # 1.A已登录和飞信
@@ -723,6 +778,7 @@ class CallAll(TestCase):
         cpg.click_dial()
         time.sleep(1)
         cpg.select_type_start_call(calltype=1, text="13537795364")
+        time.sleep(2)
         cpg.hang_up_the_call()
         cpg.wait_for_dial_pad()
         if not cpg.is_on_the_call_page():
@@ -740,3 +796,4 @@ class CallAll(TestCase):
         # CheckPoint:2.进入到用户B的通话profile
         self.assertTrue(cpg.is_exist_profile_name())
         cpg.click_back()
+
