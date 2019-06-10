@@ -436,3 +436,250 @@ class shareContactpage(TestCase):
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
 
+class myGroupContacts(TestCase):
+    """通讯录-我的团队"""
+
+    class SearchLocalContacts(TestCase):
+        """
+        搜索-我的团队-曲新莉
+
+        """
+
+    def default_setUp(self):
+        """确保每个用例运行前在我的团队页面"""
+        Preconditions.make_already_in_message_page()
+        MessagePage().wait_for_page_load()
+        MessagePage().click_contacts()
+        ContactsPage().click_phone_contact()
+
+    def default_tearDown(self):
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0049(self):
+        '''
+        我的团队-精确搜索
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('13800138005')
+        time.sleep(3)
+        els = lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) == 1)
+        lcontact.page_contain_element(text='联系人头像')
+        lcontact.page_should_contain_text('大佬1')
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0056(self):
+        '''
+        搜索我的团队联系人结果展示
+        author:darcy
+
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('138005')
+        lcontact.page_contain_element(text='列表项')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0051(self):
+        '''
+        我的团队-数字模糊搜索
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('138')
+        time.sleep(3)
+        els = lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) > 1)
+        lcontact.page_contain_element(text='联系人头像')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0052(self):
+        '''
+        我的团队-数字精确搜索
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('13800138005')
+        time.sleep(3)
+        els = lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) == 1)
+        lcontact.page_contain_element(text='联系人头像')
+        lcontact.page_should_contain_text('大佬1')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0053(self):
+        '''
+        我的团队-中文模糊搜索
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('大佬')
+        time.sleep(3)
+        els = lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) > 1)
+        lcontact.page_contain_element(text='联系人头像')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0053(self):
+        '''
+        我的团队-英文模糊搜索
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('dalao')
+        time.sleep(3)
+        els = lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) > 1)
+        lcontact.page_contain_element(text='联系人头像')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0054(self):
+        '''
+        我的团队-非法字符搜索
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('#')
+        time.sleep(3)
+        els = lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) > 1)
+        lcontact.page_contain_element(text='联系人头像')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0060(self):
+        '''
+        我的团队长ID企业-中文模糊搜索
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('大佬1')
+        time.sleep(3)
+        els = lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) == 1)
+        lcontact.page_contain_element(text='联系人头像')
+        lcontact.page_should_contain_text('大佬1')
+        lcontact.page_should_contain_text('13800138005')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0063(self):
+        '''
+        点击搜索结果已保存到本地的RCS用户进入Profile页
+        auther:darcy
+        :return:
+        '''
+        lcontact = ContactsPage()
+        lcontact.click_search_phone_contact()
+        time.sleep(1)
+        lcontact.input_search_keyword('sim联系人')
+        time.sleep(3)
+        els = lcontact.get_page_elements(text='列表项')
+        self.assertTrue(len(els) == 1)
+        lcontact.page_contain_element(text='联系人头像')
+        lcontact.page_should_contain_text('大佬1')
+        lcontact.page_should_contain_text('13800138005')
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0148(self):
+        """进入我的团队用户的Profile页-消息"""
+        # 添加联系人是星标联系人
+        ContactsPage().select_contacts_by_name('测试2')
+        glp = GroupListPage()
+        ContactDetailsPage().click_message_icon()
+        time.sleep(2)
+        if ChatWindowPage().is_text_present("用户须知"):
+            # 如果存在用户须知,就点击已阅读,然后点击返回.如果不存在,就直接点击返回
+            ChatWindowPage().click_already_read()
+            ChatWindowPage().click_sure_icon()
+        SingleChatPage().is_on_this_page()
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0150(self):
+        """进入我的团队用户的Profile页-电话"""
+        ContactsPage().select_contacts_by_name('测试2')
+        cdp = ContactDetailsPage()
+        cdp.click_call_icon()
+        cdp.click_calling()
+        time.sleep(4)
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0151(self):
+        """进入我的团队RCS用户的Profile页-语音通话"""
+        ContactsPage().select_contacts_by_name('测试2')
+        cdp = ContactDetailsPage()
+        cdp.click_voice_call_icon()
+        time.sleep(3)
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0152(self):
+        """进入我的团队RCS用户的Profile页-视频通话"""
+        ContactsPage().select_contacts_by_name('测试2')
+        cdp = ContactDetailsPage()
+        cdp.click_video_call_icon()
+        # if cdp.is_text_present('"和飞信"想访问您的相机'):
+        #     cdp.
+        time.sleep(3)
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0153(self):
+        """进入我的团队非RCS用户的Profile页-语音通话"""
+        ContactsPage().select_contacts_by_name('测试2')
+        cdp = ContactDetailsPage()
+        cdp.click_voice_call_icon()
+        time.sleep(3)
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0154(self):
+        """进入我的团队非RCS用户的Profile页-视频通话"""
+        ContactsPage().select_contacts_by_name('测试2')
+        cdp = ContactDetailsPage()
+        cdp.click_video_call_icon()
+        # if cdp.is_text_present('"和飞信"想访问您的相机'):
+        #     cdp.
+        time.sleep(3)
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0155(self):
+        """本网登录用户进入我的团队用户的Profile页-首次拨打和飞信电话"""
+        ContactsPage().select_contacts_by_name('测试2')
+        cdp = ContactDetailsPage()
+        cdp.click_hefeixin_call_menu()
+        time.sleep(3)
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_quxinli_0156(self):
+        """本网登录用户进入我的团队用户的Profile页-非首次拨打和飞信电话"""
+        ContactsPage().select_contacts_by_name('测试2')
+        cdp = ContactDetailsPage()
+        cdp.click_hefeixin_call_menu()
+        # if cdp.is_text_present('"和飞信"想访问您的相机'):
+        #     cdp.
+        time.sleep(3)
