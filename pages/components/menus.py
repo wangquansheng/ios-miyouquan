@@ -23,27 +23,27 @@ class LabelSettingMenu(DeleteConfirmDialog, BasePage):
 
     @TestLogger.log('点击返回')
     def click_back(self):
-        self.click_element(self.__locators['返回'])
+        self.click_element(self.__class__.__locators['返回'])
 
     @TestLogger.log('点击菜单：标签名称')
     def click_label_name_menu(self):
-        self.click_element(self.__locators['标签名称'])
+        self.click_element(self.__class__.__locators['标签名称'])
 
     @TestLogger.log('点击菜单：移除成员')
     def click_remove_member_menu(self):
-        self.click_element(self.__locators['移除成员'])
+        self.click_element(self.__class__.__locators['移除成员'])
 
     @TestLogger.log('点击菜单：删除标签')
     def click_delete_label_menu(self):
-        self.click_element(self.__locators['删除标签'])
+        self.click_element(self.__class__.__locators['删除标签'])
 
     @TestLogger.log('输入分组名字')
     def input_group_new_name(self, name):
-        self.input_text(self.__locators['修改标签名输入框'], name)
+        self.input_text(self.__class__.__locators['修改标签名输入框'], name)
 
     @TestLogger.log('点击修改分组名页面确定按钮')
     def click_confirm_modify(self):
-        self.click_element(self.__locators['修改名称页面确定按钮'])
+        self.click_element(self.__class__.__locators['修改名称页面确定按钮'])
 
     @TestLogger.log('重命名标签')
     def rename_group_name(self, name):
@@ -60,8 +60,8 @@ class LabelSettingMenu(DeleteConfirmDialog, BasePage):
 
     @TestLogger.log('点击取消')
     def click_cancel(self):
-        self.click_element(self.__locators['取消'])
+        self.click_element(self.__locators['取消删除'])
 
     @TestLogger.log('点击删除')
     def click_delete(self):
-        self.click_element(self.__locators['删除'])
+        self.click_element(self.__locators['确认删除'])

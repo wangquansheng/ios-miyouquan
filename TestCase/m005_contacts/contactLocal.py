@@ -222,10 +222,10 @@ class ContactsLocalhigh(TestCase):
         contant_detail = ContactDetailsPage()
         contant_detail.click_edit_contact()
         time.sleep(2)
-        contant_detail.hide_keyboard()
-        # contant_detail.page_up()
+        contant_detail.page_up()
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
+        time.sleep(3)
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
     @tags('ALL', 'CONTACTS', 'CMCC')
@@ -249,10 +249,10 @@ class ContactsLocalhigh(TestCase):
         contant_detail = ContactDetailsPage()
         contant_detail.click_edit_contact()
         time.sleep(2)
-        contant_detail.hide_keyboard()
-        # contant_detail.page_up()
+        contant_detail.page_up()
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
+        time.sleep(3)
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
     @tags('ALL', 'CONTACTS', 'CMCC')
@@ -265,7 +265,7 @@ class ContactsLocalhigh(TestCase):
         creat_contact.input_name('ceshi')
         creat_contact.click_input_number()
         creat_contact.input_number('123')
-        creat_contact.page_up()
+        creat_contact.page_down()
         creat_contact.click_input_position()
         creat_contact.input_position('a')
         creat_contact.click_save()
@@ -277,10 +277,12 @@ class ContactsLocalhigh(TestCase):
         contant_detail = ContactDetailsPage()
         contant_detail.click_edit_contact()
         time.sleep(2)
-        contant_detail.hide_keyboard()
+        contant_detail.page_up()
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
+        time.sleep(3)
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0161(self):
@@ -292,7 +294,7 @@ class ContactsLocalhigh(TestCase):
         creat_contact.input_name('ceshi')
         creat_contact.click_input_number()
         creat_contact.input_number('123')
-        creat_contact.page_up()
+        creat_contact.page_down()
         creat_contact.click_input_email()
         creat_contact.input_email_address('a')
         creat_contact.click_save()
@@ -304,10 +306,12 @@ class ContactsLocalhigh(TestCase):
         contant_detail = ContactDetailsPage()
         contant_detail.click_edit_contact()
         time.sleep(2)
-        contant_detail.hide_keyboard()
+        contant_detail.page_up()
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
+        time.sleep(3)
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
 
 
     # @tags('ALL', 'CONTACTS', 'CMCC')
@@ -563,7 +567,7 @@ class ContactsLocalhigh(TestCase):
         creat_contact = EditContactPage()
         creat_contact.click_input_email()
         creat_contact.page_up()
-        creat_contact.click_contact_number()
+        creat_contact.click_input_company()
         # creat_contact.is_sure_icon_is_clickable()
         creat_contact.click_sure()
         cdp.is_on_this_page()
@@ -730,7 +734,7 @@ class SearchLocalContacts(TestCase):
     """
 
     def default_setUp(self):
-        """确保每个用例运行前在通讯录页面"""
+        """确保每个用例运行前在通讯录-手机联系人页面"""
         Preconditions.make_already_in_message_page()
         MessagePage().wait_for_page_load()
         MessagePage().click_contacts()
@@ -968,6 +972,116 @@ class SearchLocalContacts(TestCase):
         detail=ContactDetailsPage()
         time.sleep(2)
         detail.is_on_this_page()
+
+
+
+class SearchAllcontacts(TestCase):
+    """通讯录-全局搜索"""
+
+    def default_setUp(self):
+        """确保每个用例运行前在通讯录-手机联系人页面"""
+        Preconditions.make_already_in_message_page()
+        MessagePage().wait_for_page_load()
+        MessagePage().click_contacts()
+        time.sleep(2)
+
+
+    def default_tearDown(self):
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0733(self):
+        """进入搜索页面，原“本地通讯录”和“和通讯录”分标签搜索，修改为APP联系人全局搜索，光标停留在搜索框，不展示搜索无结果缺省页。"""
+        contact=ContactsPage()
+        contact.click_search_box()
+        time.sleep(2)
+        contact.page_should_contain_text('输入关键字快速搜索')
+        contact.page_should_not_contain_text('本地通讯录')
+        contact.page_should_not_contain_text('和通讯录')
+        contact.page_should_not_contain_text('无搜索结果')
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0734(self):
+        """搜索框提示语为'输入关键词快速搜索'。  """
+        contact=ContactsPage()
+        contact.click_search_box()
+        time.sleep(2)
+        contact.page_should_contain_text('输入关键字快速搜索')
+        contact.page_contain_element(text='输入关键字快速搜索')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0735(self):
+        """点击返回退出搜索页面"""
+        contact=ContactsPage()
+        contact.click_search_box()
+        time.sleep(2)
+        contact.page_should_contain_text('输入关键字快速搜索')
+        contact.click_back()
+        contact.page_contain_element(text='手机联系人')
+        time.sleep(2)
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0736(self):
+        """输入其他字符，比如特殊字符（范围：`~!@#$%^&*()_+-=[]{}\|;:'"<,>.?/）等，支持模糊查询，正常搜索出结果"""
+        contact=ContactsPage()
+        contact.click_search_box()
+        time.sleep(1)
+        contact.input_search_text('#')
+        time.sleep(2)
+        contact.page_should_contain_text('团队联系人')
+        contact.page_contain_element(text='搜索结果-团队联系人头像')
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0737(self):
+        """本地联系人搜索结果标签小于3等于条记录时，不显示“查看更多”按钮"""
+        contact=ContactsPage()
+        contact.click_search_box()
+        time.sleep(1)
+        contact.input_search_text('大佬1')
+        time.sleep(2)
+        contact.page_down()
+        contact.page_contain_element(text='手机联系人头像')
+        contact.page_not_contain_element(text='查看更多2')
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0738(self):
+        """本地联系人搜索结果标签大于3条记录时，显示“查看更多”按钮，点击查看更多之后，按关键词分页展示剩余匹配结果"""
+        contact=ContactsPage()
+        contact.click_search_box()
+        time.sleep(1)
+        contact.input_search_text('大佬')
+        time.sleep(2)
+        contact.page_down()
+        contact.page_contain_element(text='手机联系人头像')
+        contact.page_contain_element(text='查看更多2')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0739(self):
+        """团队联系人搜索结果标签小于3等于条记录时，不显示“查看更多”按钮"""
+        contact=ContactsPage()
+        contact.click_search_box()
+        time.sleep(1)
+        contact.input_search_text('大佬1')
+        time.sleep(2)
+        contact.page_down()
+        contact.page_contain_element(text='搜索结果-团队联系人头像')
+        contact.page_not_contain_element(text='查看更多1')
+
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0740(self):
+        """团队联系人搜索结果标签大于3条记录时，显示“查看更多”按钮，点击查看更多之后，按关键词分页展示剩余匹配结果"""
+        contact=ContactsPage()
+        contact.click_search_box()
+        time.sleep(1)
+        contact.input_search_text('大佬')
+        time.sleep(2)
+        contact.page_down()
+        contact.page_contain_element(text='搜索结果-团队联系人头像')
+        contact.page_contain_element(text='查看更多1')
 
 
 

@@ -109,7 +109,6 @@ class OfficialAccountTest(TestCase):
     def default_tearDown(self):
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
-
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_quxinli_0322(self):
         """订阅号/服务号列表显示"""
@@ -120,7 +119,6 @@ class OfficialAccountTest(TestCase):
         conts_page.is_text_present('和飞信新闻')
         conts_page.is_text_present('中国移动10086')
 
-
     @tags('ALL', 'SMOKE', 'CMCC')
     def test_contacts_quxinli_0323(self):
         """企业号列表显示为空"""
@@ -128,7 +126,6 @@ class OfficialAccountTest(TestCase):
         official_account.click_enterprise()
         time.sleep(1)
         official_account.page_should_contain_text('未关注任何企业号')
-
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_quxinli_0324(self):
@@ -193,6 +190,11 @@ class OfficialAccountTest(TestCase):
         official_account_detail.page_should_contain_text('查看历史资讯')
         official_account_detail.page_should_contain_text('进入公众号')
         time.sleep(2)
+
+
+
+
+
 
 
 

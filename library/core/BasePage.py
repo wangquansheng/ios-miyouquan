@@ -543,7 +543,7 @@ class BasePage(object):
          is_toast_exist("toast的内容")
         """
         try:
-            toast_loc = ("xpath", ".//*[contains(@text,'%s')]" % text)
+            toast_loc = ("xpath", ".//*[contains(@name，'%s')]" % text)
             WebDriverWait(self.driver, timeout, poll_frequency).until(EC.presence_of_element_located(toast_loc))
             return True
         except:
