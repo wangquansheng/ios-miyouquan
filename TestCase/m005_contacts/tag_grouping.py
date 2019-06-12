@@ -195,7 +195,7 @@ class TagGrouping(TestCase):
         time.sleep(1)
         lg.input_search_text(text)
         lg.click_sure()
-        SelectContactsPage().check_if_element_not_exist(text='选择一个群')
+        SelectContactsPage().check_if_element_not_exist(text='搜索或输入手机号')
 
 
     @tags('ALL', 'CONTACT', 'CMCC')
@@ -210,13 +210,15 @@ class TagGrouping(TestCase):
         time.sleep(1)
         lg.input_search_text(text)
         lg.click_sure()
-        SelectContactsPage().is_element_present(locator='选择一个群')
+        time.sleep(2)
+        SelectContactsPage().is_element_present(locator='搜索或输入手机号')
 
     @tags('ALL', 'debug', 'CMCC')
     def tearDown_test_contacts_quxinli_0356(self):
         SelectContactsPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
-        LabelGroupingPage().delete_label_groups(group='祝一路顺风幸福美满')
+        LabelGroupingPage().delete_label_groups()
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
 
@@ -231,12 +233,12 @@ class TagGrouping(TestCase):
         GroupPage.input_content(text="祝一路顺风和幸福美满")
         GroupPage.click_sure_element()
         GroupPage.click_allow_button()
-        SelectContactsPage().is_element_present(locator='选择一个群')
+        SelectContactsPage().is_element_present(locator='搜索或输入手机号')
 
     def tearDown_test_contacts_quxinli_0357(self):
         SelectContactsPage().click_back()
         LabelGroupingPage().click_back()
-        LabelGroupingPage().delete_label_groups(group='祝一路顺风和幸福美满')
+        LabelGroupingPage().delete_label_groups()
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
 
@@ -250,12 +252,12 @@ class TagGrouping(TestCase):
         GroupPage.input_content(text="祝一路顺风和幸福美满啊")
         GroupPage.click_sure_element()
         GroupPage.click_allow_button()
-        SelectContactsPage().is_element_present(locator='选择一个群')
+        SelectContactsPage().is_element_present(locator='搜索或输入手机号')
 
     def tearDown_test_contacts_quxinli_0358(self):
         SelectContactsPage().click_back()
         LabelGroupingPage().click_back()
-        LabelGroupingPage().delete_label_groups(group='祝一路顺风和幸福美满')
+        LabelGroupingPage().delete_label_groups()
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
     @tags('ALL', 'CONTACT', 'CMCC')
@@ -269,12 +271,12 @@ class TagGrouping(TestCase):
         GroupPage.input_content(text=self.group)
         GroupPage.click_sure_element()
         GroupPage.click_allow_button()
-        SelectContactsPage().is_element_present(locator='选择一个群')
+        SelectContactsPage().is_element_present(locator='搜索或输入手机号')
 
     def tearDown_test_contacts_quxinli_0359(self):
         SelectContactsPage().click_back()
         LabelGroupingPage().click_back()
-        LabelGroupingPage().delete_label_groups(group=self.group)
+        LabelGroupingPage().delete_label_groups()
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
 
@@ -289,12 +291,12 @@ class TagGrouping(TestCase):
         GroupPage.input_content(text=self.group)
         GroupPage.click_sure_element()
         GroupPage.click_allow_button()
-        SelectContactsPage().is_element_present(locator='选择一个群')
+        SelectContactsPage().is_element_present(locator='搜索或输入手机号')
 
     def tearDown_test_contacts_quxinli_0360(self):
         SelectContactsPage().click_back()
         LabelGroupingPage().click_back()
-        LabelGroupingPage().delete_label_groups(group=self.group)
+        LabelGroupingPage().delete_label_groups()
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
 
@@ -309,7 +311,13 @@ class TagGrouping(TestCase):
         GroupPage.input_content(text=self.group)
         GroupPage.click_sure_element()
         GroupPage.click_allow_button()
-        SelectContactsPage().check_if_element_not_exist(text='选择一个群')
+        SelectContactsPage().check_if_element_not_exist(text='搜索或输入手机号')
+
+    def tearDown_test_contacts_quxinli_0361(self):
+        SelectContactsPage().click_back()
+        LabelGroupingPage().click_back()
+        LabelGroupingPage().delete_label_groups()
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
 
     @tags('ALL', 'CONTACT', 'CMCC')
@@ -323,12 +331,12 @@ class TagGrouping(TestCase):
         GroupPage.input_content(text=self.group)
         GroupPage.click_sure_element()
         GroupPage.click_allow_button()
-        SelectContactsPage().is_element_present(locator='选择一个群')
+        SelectContactsPage().is_element_present(locator='搜索或输入手机号')
 
     def tearDown_test_contacts_quxinli_0362(self):
         SelectContactsPage().click_back()
         LabelGroupingPage().click_back()
-        LabelGroupingPage().delete_label_groups(group=self.group)
+        LabelGroupingPage().delete_label_groups()
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
 
@@ -344,12 +352,13 @@ class TagGrouping(TestCase):
         GroupPage.input_content(text=self.group)
         GroupPage.click_sure_element()
         GroupPage.click_allow_button()
-        SelectContactsPage().is_element_present(locator='选择一个群')
+        SelectContactsPage().is_element_present(locator='搜索或输入手机号')
 
     def tearDown_test_contacts_quxinli_0363(self):
         SelectContactsPage().click_back()
+        time.sleep(1)
         LabelGroupingPage().click_back()
-        LabelGroupingPage().delete_label_groups(group=self.group)
+        LabelGroupingPage().delete_label_groups()
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
 
@@ -365,7 +374,15 @@ class TagGrouping(TestCase):
         GroupPage.input_content(text=self.group)
         GroupPage.click_sure_element()
         GroupPage.click_allow_button()
-        SelectContactsPage().check_if_element_not_exist(text='选择一个群')
+        SelectContactsPage().is_element_present(locator='搜索或输入手机号')
+
+    def tearDown_test_contacts_quxinli_0364(self):
+        SelectContactsPage().click_back()
+        time.sleep(1)
+        LabelGroupingPage().click_back()
+        LabelGroupingPage().delete_label_groups()
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
 
 
     @tags('ALL', 'debug', 'CMCC')
@@ -379,13 +396,13 @@ class TagGrouping(TestCase):
         text = 'aa111@@@文 aaa111@@@文 aaaa'
         lg.input_search_text(text)
         lg.click_sure()
-        SelectContactsPage().page_should_contain_text('选择联系人')
+        SelectContactsPage().is_element_present(locator='搜索或输入手机号')
 
     @tags('ALL', 'debug', 'CMCC')
     def tearDown_test_contacts_quxinli_0365(self):
         SelectContactsPage().click_back()
         LabelGroupingPage().click_back()
-        LabelGroupingPage().delete_label_groups(group='aa111@@@文 aaa111@@@文 aaaa')
+        LabelGroupingPage().delete_label_groups()
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
 
@@ -401,13 +418,13 @@ class TagGrouping(TestCase):
         text = 'aa111@@@文 aaa111@@@文 aaaaa'
         lg.input_search_text(text)
         lg.click_sure()
-        SelectContactsPage().page_should_contain_text('选择联系人')
+        SelectContactsPage().is_element_present(locator='搜索或输入手机号')
 
     @tags('ALL', 'debug', 'CMCC')
     def tearDown_test_contacts_quxinli_0366(self):
         SelectContactsPage().click_back()
         LabelGroupingPage().click_back()
-        LabelGroupingPage().delete_label_groups(group='aa111@@@文 aaa111@@@文 aaaaa')
+        LabelGroupingPage().delete_label_groups()
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
 
@@ -422,9 +439,13 @@ class TagGrouping(TestCase):
         GroupPage.input_content(text=self.group)
         GroupPage.click_sure_element()
         GroupPage.click_allow_button()
-        SelectContactsPage().check_if_element_not_exist(text='选择一个群')
+        SelectContactsPage().is_element_present(locator='搜索或输入手机号')
 
-
+    def tearDown_test_contacts_quxinli_0367(self):
+        SelectContactsPage().click_back()
+        LabelGroupingPage().click_back()
+        LabelGroupingPage().delete_label_groups()
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
 
     @tags('ALL', 'CONTACT', 'CMCC')
@@ -433,12 +454,12 @@ class TagGrouping(TestCase):
 
         GroupPage = GroupListPage()
         time.sleep(1)
-        GroupPage.delete_group(name='aaa')
         GroupPage.new_group()
         time.sleep(1)
-        GroupPage.click_text('aaa')
+        LabelGroupingPage().click_first_lable_group()
         time.sleep(2)
-        GroupPage.click_text('知道了')
+        detail = LableGroupDetailPage()
+        detail.click_cancel()
         time.sleep(1)
         GroupPage.page_contain_element()
         GroupPage.page_contain_element('群发消息')
@@ -447,24 +468,34 @@ class TagGrouping(TestCase):
         GroupPage.page_contain_element('设置')
         # GroupPage.page_contain_element('aaa')
 
+    def tearDown_test_contacts_quxinli_0371(self):
+        LabelGroupingPage().click_back()
+        time.sleep(1)
+        LabelGroupingPage().delete_label_groups()
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
+
     @tags('ALL', 'CONTACT', 'CMCC')
     def test_contacts_quxinli_0372(self):
         """新建分组,标签分组添加成员页面"""
 
         GroupPage = GroupListPage()
         time.sleep(1)
-        GroupPage.delete_group(name='aaa')
+        GroupPage.delete_all_label()
         GroupPage.new_group()
         time.sleep(1)
-        GroupPage.click_text('aaa')
+        LabelGroupingPage().click_first_lable_group()
         time.sleep(2)
-        GroupPage.click_premession_box_add_contact()
+        LableGroupDetailPage().click_add_contact()
         time.sleep(1)
-        select=SelectContactsPage()
-        select.page_contain_element()
-        GroupPage.page_contain_element('选择联系人')
-        GroupPage.page_contain_element('搜索或输入手机号')
+        GroupPage.page_contain_element('选择联系人标题')
+        GroupPage.page_contain_element('搜索或输入手机号2')
+        GroupPage.page_contain_element('联系人头像1')
         GroupPage.page_contain_element('确定')
+
+
+
+
 
 
     @tags('ALL', 'CONTACT', 'CMCC')
@@ -472,13 +503,13 @@ class TagGrouping(TestCase):
         """标签分组添加成员-搜索结果页面"""
         GroupPage = GroupListPage()
         time.sleep(1)
-        GroupPage.delete_group(name='aaa')
-        GroupPage.new_group(name='aaa')
+        GroupPage.delete_all_label()
+        GroupPage.new_group()
         GroupPage.click_text('aaa')
         time.sleep(1)
         GroupPage.click_text('添加成员')
         time.sleep(1)
-        GroupPage.click_search_box()
+        LabelGroupingPage().click_first_lable_group()
         time.sleep(1)
         GroupPage.input_search_text(text='测试')
         GroupPage.hide_keyboard()

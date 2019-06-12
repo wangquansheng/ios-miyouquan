@@ -29,6 +29,10 @@ class ContactsPage(FooterPage):
         '搜索结果-团队联系人头像': (MobileBy.XPATH, '(//XCUIElementTypeImage[@name="cc_chat_personal_default"])'),
         '手机联系人': (MobileBy.ACCESSIBILITY_ID, '手机联系人'),
         '手机联系人头像':(MobileBy.XPATH,'//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeImage'),
+        '群聊联系人头像': (MobileBy.XPATH,'(//XCUIElementTypeImage[@name="cc_chat_group_default"])[1]'),
+        '和飞信新闻公众号头像': (MobileBy.XPATH,'//XCUIElementTypeImage[@name="/var/mobile/Containers/Data/Application/3FF94A5C-59E9-4E2B-AA59-79FEC854AC76/Library/RCSData/headimage/4cc45369622d4a44066beafd18633c55_(null)"]'),
+        '查看更多1': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="查看更多"])[1]'),
+        '查看更多2': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="查看更多"])[2]'),
 
         #底部标签栏
         '消息': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_selected'),
@@ -46,10 +50,6 @@ class ContactsPage(FooterPage):
         '列表项': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell'),
         '联系人头像': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeImage'),
 
-
-
-        # "新建手机联系人-姓名": (MobileBy.XPATH, "//*[@text='姓名']"),
-        # '新建手机联系人': (MobileBy.ID, 'com.android.contacts:id/hw_fab'),
 
     }
 
@@ -93,6 +93,12 @@ class ContactsPage(FooterPage):
     def page_contain_element(self,text='联系人头像'):
         time.sleep(1)
         return self.page_should_contain_element(self.__locators[text])
+
+    TestLogger.log("查看控件是否存在")
+    def page_not_contain_element(self,text='联系人头像'):
+        time.sleep(1)
+        return self.page_should_not_contain_element(self.__locators[text])
+
 
 
     @TestLogger.log('点击搜索框')
@@ -234,17 +240,17 @@ class ContactsPage(FooterPage):
         return True
 
 
-    @TestLogger.log("获取电话号码")
-    def get_phone_number(self):
-        """获取电话号码"""
-        els = self.get_elements((MobileBy.ID, 'com.chinasofti.rcs:id/contact_phone'))
-        phones = []
-        if els:
-            for el in els:
-                phones.append(el.text)
-        else:
-            raise AssertionError("m005_contacts is empty!")
-        return phones
+    # @TestLogger.log("获取电话号码")
+    # def get_phone_number(self):
+    #     """获取电话号码"""
+    #     els = self.get_elements((MobileBy.ID, 'com.chinasofti.rcs:id/contact_phone'))
+    #     phones = []
+    #     if els:
+    #         for el in els:
+    #             phones.append(el.text)
+    #     else:
+    #         raise AssertionError("m005_contacts is empty!")
+    #     return phones
 
     def page_up(self):
         """向上滑动一页"""

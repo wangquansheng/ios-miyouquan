@@ -5,6 +5,9 @@ from library.core.TestLogger import TestLogger
 #import preconditions
 import time
 # from pages import *
+from pages.components.menus import LabelSettingMenu
+
+
 
 class GroupListPage(BasePage):
     """群组列表"""
@@ -58,9 +61,13 @@ class GroupListPage(BasePage):
         '请输入标签分组名称': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeTextField'),
         '标签分组': (MobileBy.ACCESSIBILITY_ID, '标签分组'),
         '新建分组': (MobileBy.ACCESSIBILITY_ID, '新建分组'),
+        '已建分组列表1': (MobileBy.XPATH,
+                    '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]'),
+
         '取消': (MobileBy.ACCESSIBILITY_ID, '取消'),
         '新增成员': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="添加成员"])[2]'),
-        '设置': (MobileBy.ACCESSIBILITY_ID, 'id	cc chat message site normal'),
+
+        '设置': (MobileBy.ACCESSIBILITY_ID, 'cc chat message site normal'),
         '标签名称': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="标签名称"])[1]'),
         '移除成员': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="移除成员"])[1]'),
         '删除标签': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="删除标签"])[1]'),
@@ -80,13 +87,16 @@ class GroupListPage(BasePage):
         '群发消息': (MobileBy.ACCESSIBILITY_ID, '群发消息'),
         '飞信电话': (MobileBy.ACCESSIBILITY_ID, '飞信电话'),
         '多方视频': (MobileBy.ACCESSIBILITY_ID, '多方视频'),
-        # '添加成员菜单': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_first_colum'),
-        # '群发信息': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_second_colum'),
-        # '多方电话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_third_colum'),
-        # '多方视频': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_fourth_colum'),
-        '大佬1': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-        '大佬3':(MobileBy.XPATH,'//*[@text="大佬3"]'),
-        '大佬2': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
+        #标签分组 -选择联系人
+        # 标签分组 选择联系人
+        '选择联系人标题': (MobileBy.ACCESSIBILITY_ID, '选择联系人'),
+        '搜索或输入手机号2': (MobileBy.XPATH,
+                      '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeTextField'),
+        '选择联系人-联系人列表': (MobileBy.XPATH,
+                  '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+        '联系人头像1': (MobileBy.XPATH,
+                   '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeImage'),
+
         '搜索或输入手机号':(MobileBy.XPATH,"//*[@text='搜索或输入号码']"),
         '搜索框-搜索结果':(MobileBy.ID, 'com.chinasofti.rcs:id/contact_list_item'),
         '选择联系人':(MobileBy.ID,"com.chinasofti.rcs:id/title"),
@@ -135,24 +145,44 @@ class GroupListPage(BasePage):
 
 
     @TestLogger.log('删除分组标签')
-    def delete_group(self,name='祝一路顺风幸福美满'):
-        if self.is_text_present(name):
-            self.click_text(name)
-            time.sleep(2)
-            flag=self._is_element_present(self.__class__.__locators['取消'])
-            print("aaa",flag)
-            if flag:
-                self.click_element(self.__class__.__locators['取消'])
-            self.click_element(self.__class__.__locators['设置'])
-            self.click_element(self.__class__.__locators['删除标签'])
-            self.click_element(self.__class__.__locators['确认删除'])
-            time.sleep(2)
-            if self._is_element_present(self.__class__.__locators['允许']):
-                self.click_element(self.__class__.__locators['允许'])
+    def delete_group(self):
+        """
+        删除指定分组(默认删除排列第一的分组)
+        :return:
+        """
+        from pages import LableGroupDetailPage
+
+        self.click_element(self.__class__.__locators['已建分组列表1'])
+        time.sleep(2)
+        detail = LableGroupDetailPage()
+        detail.click_cancel()
+        detail.open_setting_menu()
+        lable_setting=LabelSettingMenu()
+        time.sleep(1)
+        lable_setting.click_delete_label_menu()
+        time.sleep(1)
+        lable_setting.click_delete()
+        time.sleep(2)
+
+
+    @TestLogger.log('删除全部标签分组')
+    def delete_all_label(self):
+        """
+        一键删除全部分组
+        :return:
+        """
+        from pages import LableGroupDetailPage
+        # groups=self.get_element(self.__class__.__locators['已建分组列表1'])
+        while self.is_element_present(locator='已建分组列表1'):
+            self.click_element(self.__class__.__locators['已建分组列表1'])
+            detail = LableGroupDetailPage()
+            detail.click_cancel()
+            detail.open_setting_menu()
+            lable_setting=LabelSettingMenu()
+            lable_setting.click_delete_label_menu()
+            lable_setting.click_delete()
             time.sleep(2)
 
-        else:
-            print('标签不存在')
 
 
     @TestLogger.log("确认弹框处理")

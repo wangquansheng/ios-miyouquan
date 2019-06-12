@@ -21,7 +21,7 @@ class LableGroupDetailPage(LabelSettingMenu, BasePage):
         '多发视频': (MobileBy.ACCESSIBILITY_ID, '多方视频'),
         '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
         '标题': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]'),
-        '设置': (MobileBy.ACCESSIBILITY_ID, 'id	cc chat message site normal'),
+        '设置': (MobileBy.ACCESSIBILITY_ID, 'cc chat message site normal'),
         '成员头像1': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeImage'),
 
 
@@ -85,13 +85,9 @@ class LableGroupDetailPage(LabelSettingMenu, BasePage):
     def click_add_contact(self):
         self.click_element(self.__locators['添加成员'])
 
-
-
-
-
     @TestLogger.log('打开标签组设置菜单')
     def open_setting_menu(self):
-        self.click_element(self.__locators['设置'])
+        self.click_element(self.__class__.__locators['设置'])
 
     @TestLogger.log('点击群发信息')
     def click_send_group_info(self):

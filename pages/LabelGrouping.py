@@ -27,7 +27,15 @@ class LabelGroupingPage(ContactsSelector, BasePage):
         '确定': (MobileBy.ACCESSIBILITY_ID, '确定'),
         '为你的分组创建一个名称': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="为你的分组创建一个名称"])[1]'),
         '请输入标签分组名称': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeTextField'),
+        '已建分组列表1':(MobileBy.XPATH,'//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]'),
+
+
     }
+
+    @TestLogger.log()
+    def click_first_lable_group(self):
+        """点击已建分组列表的第一个分组"""
+        self.click_element(self.__class__.__locators['已建分组列表1'])
 
 
     @TestLogger.log('删除全部标签分组')
@@ -37,9 +45,9 @@ class LabelGroupingPage(ContactsSelector, BasePage):
         :return:
         """
         from pages import LableGroupDetailPage
-        groups=self.get_element(self.__class__.__locators['分组列表'])
-        while groups:
-            groups[0].click()
+        # groups=self.get_element(self.__class__.__locators['已建分组列表1'])
+        while self.is_element_present(locator='已建分组列表1'):
+            self.click_element(self.__class__.__locators['已建分组列表1'])
             detail = LableGroupDetailPage()
             detail.click_cancel()
             detail.open_setting_menu()
@@ -50,48 +58,49 @@ class LabelGroupingPage(ContactsSelector, BasePage):
 
 
     @TestLogger.log('删除指定标签分组')
-    def delete_label_groups(self,group='aaa'):
+    def delete_label_groups(self):
         """
-        删除指定分组
+        删除指定分组(默认删除排列第一的分组)
         :return:
         """
         from pages import LableGroupDetailPage
-        # groups=self.get_element(self.__class__.__locators['分组列表'])
-        if self.is_text_present(group):
-            self.click_text(group)
-            time.sleep(2)
-            detail = LableGroupDetailPage()
-            detail.click_cancel()
-            detail.open_setting_menu()
-            lable_setting=LabelSettingMenu()
-            time.sleep(1)
-            lable_setting.click_delete_label_menu()
-            time.sleep(1)
-            lable_setting.click_delete()
-            time.sleep(2)
+
+        self.click_element(self.__class__.__locators['已建分组列表1'])
+        time.sleep(2)
+        detail = LableGroupDetailPage()
+        detail.click_cancel()
+        detail.open_setting_menu()
+        lable_setting=LabelSettingMenu()
+        time.sleep(1)
+        lable_setting.click_delete_label_menu()
+        time.sleep(1)
+        lable_setting.click_delete()
+        time.sleep(2)
 
 
 
     @TestLogger.log('删除指定标签分组-点击取消')
     def cancel_delete_label_groups(self,group):
         """
-        删除指定分组
+        删除指定分组(默认删除排列第一的分组)
         :return:
         """
         from pages import LableGroupDetailPage
         # groups=self.get_element(self.__class__.__locators['分组列表'])
 
+        from pages import LableGroupDetailPage
 
-        if self.is_text_present(group):
-            self.click_text(group)
-            time.sleep(2)
-            detail = LableGroupDetailPage()
-            detail.click_cancel()
-            detail.open_setting_menu()
-            lable_setting=LabelSettingMenu()
-            lable_setting.click_delete_label_menu()
-            lable_setting.click_cancel()
-            time.sleep(2)
+        self.click_element(self.__class__.__locators['已建分组列表1'])
+        time.sleep(2)
+        detail = LableGroupDetailPage()
+        detail.click_cancel()
+        detail.open_setting_menu()
+        lable_setting=LabelSettingMenu()
+        time.sleep(1)
+        lable_setting.click_delete_label_menu()
+        time.sleep(1)
+        lable_setting.click_cancel()
+        time.sleep(2)
 
 
     @TestLogger.log('创建分组')
@@ -297,7 +306,6 @@ class LabelGroupingPage(ContactsSelector, BasePage):
 
 
 
-
     @TestLogger.log('等待标签分组页面加载')
     def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
         """等待标签分组页面加载"""
@@ -368,7 +376,6 @@ class LabelGroupingPage(ContactsSelector, BasePage):
             self.click_back()
         else:
             self.click_back_by_android(times=2)
-
 
 
     @TestLogger.log('判断点击确定后“群组已存在”提示是否弹出')

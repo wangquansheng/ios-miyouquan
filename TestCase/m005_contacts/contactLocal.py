@@ -222,10 +222,10 @@ class ContactsLocalhigh(TestCase):
         contant_detail = ContactDetailsPage()
         contant_detail.click_edit_contact()
         time.sleep(2)
-        contant_detail.hide_keyboard()
-        # contant_detail.page_up()
+        contant_detail.page_up()
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
+        time.sleep(3)
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
     @tags('ALL', 'CONTACTS', 'CMCC')
@@ -249,10 +249,10 @@ class ContactsLocalhigh(TestCase):
         contant_detail = ContactDetailsPage()
         contant_detail.click_edit_contact()
         time.sleep(2)
-        contant_detail.hide_keyboard()
-        # contant_detail.page_up()
+        contant_detail.page_up()
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
+        time.sleep(3)
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
     @tags('ALL', 'CONTACTS', 'CMCC')
@@ -265,7 +265,7 @@ class ContactsLocalhigh(TestCase):
         creat_contact.input_name('ceshi')
         creat_contact.click_input_number()
         creat_contact.input_number('123')
-        creat_contact.page_up()
+        creat_contact.page_down()
         creat_contact.click_input_position()
         creat_contact.input_position('a')
         creat_contact.click_save()
@@ -277,10 +277,12 @@ class ContactsLocalhigh(TestCase):
         contant_detail = ContactDetailsPage()
         contant_detail.click_edit_contact()
         time.sleep(2)
-        contant_detail.hide_keyboard()
+        contant_detail.page_up()
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
+        time.sleep(3)
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0161(self):
@@ -292,7 +294,7 @@ class ContactsLocalhigh(TestCase):
         creat_contact.input_name('ceshi')
         creat_contact.click_input_number()
         creat_contact.input_number('123')
-        creat_contact.page_up()
+        creat_contact.page_down()
         creat_contact.click_input_email()
         creat_contact.input_email_address('a')
         creat_contact.click_save()
@@ -304,10 +306,12 @@ class ContactsLocalhigh(TestCase):
         contant_detail = ContactDetailsPage()
         contant_detail.click_edit_contact()
         time.sleep(2)
-        contant_detail.hide_keyboard()
+        contant_detail.page_up()
         contant_detail.change_delete_number()
         contant_detail.click_sure_delete()
+        time.sleep(3)
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+
 
 
     # @tags('ALL', 'CONTACTS', 'CMCC')
@@ -563,7 +567,7 @@ class ContactsLocalhigh(TestCase):
         creat_contact = EditContactPage()
         creat_contact.click_input_email()
         creat_contact.page_up()
-        creat_contact.click_contact_number()
+        creat_contact.click_input_company()
         # creat_contact.is_sure_icon_is_clickable()
         creat_contact.click_sure()
         cdp.is_on_this_page()
@@ -730,7 +734,7 @@ class SearchLocalContacts(TestCase):
     """
 
     def default_setUp(self):
-        """确保每个用例运行前在通讯录页面"""
+        """确保每个用例运行前在通讯录-手机联系人页面"""
         Preconditions.make_already_in_message_page()
         MessagePage().wait_for_page_load()
         MessagePage().click_contacts()
