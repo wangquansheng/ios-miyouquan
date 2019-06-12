@@ -54,9 +54,10 @@ class CallPage(BasePage):
         '知道了': (MobileBy.XPATH, '//*[@text="知道了"]'),
         '始终允许': (MobileBy.ID, "com.android.packageinstaller:id/permission_allow_button"),
         "多方视频图标": (MobileBy.ID, "cc call groupvideo normal"),
-        "通话记录时间": (MobileBy.ID, "com.chinasofti.rcs:id/tvCallTime"),
+        "通话记录时间": (MobileBy.XPATH, "//*[@type='XCUIElementTypeButton']"),
+        "通话记录时间-搜索状态": (MobileBy.XPATH, '//*[@label="call list details normal@2x"]'),
         "profileName": (MobileBy.ID, "com.chinasofti.rcs:id/tv_profile_name"),
-        "+号": (MobileBy.ID, 'com.chinasofti.rcs:id/action_add'),
+        "+号": (MobileBy.ACCESSIBILITY_ID, 'cc contacts add normal'),
         '视频通话': (MobileBy.XPATH, '//*[@text="视频通话"]'),
         '语音通话': (MobileBy.XPATH, '//*[@text="语音通话"]'),
         '继续拨打': (MobileBy.XPATH, '//*[@text="继续拨打"]'),
@@ -64,8 +65,6 @@ class CallPage(BasePage):
         '飞信电话': (MobileBy.XPATH, '//*[@value="飞信电话"]'),
         '多方视频': (MobileBy.XPATH, '//*[@text="多方视频"]'),
         '我知道了': (MobileBy.XPATH, '//*[@text="我知道了"]'),
-        'num1': (MobileBy.ID, 'cc_call_keypad_1'),
-        '直接拨号或开始搜索_ios': (MobileBy.XPATH, '//*[@value="直接拨号或开始搜索"]'),
     }
 
     @TestLogger.log()
@@ -180,7 +179,7 @@ class CallPage(BasePage):
     def press_zero(self):
         """长按按键0"""
         el = self.get_element(self.__locators["拨号键0"])
-        self.press(el)
+        self.press(el, times=5)
 
     @TestLogger.log()
     def press_delete(self):
@@ -382,7 +381,31 @@ class CallPage(BasePage):
 
     def dial_number(self, text):
         """输入拨打号码"""
-        self.input_text(self.__locators["直接拨号或开始搜索"], text)
+        # ios无法拨打直接输入号码
+        print(len(text))
+        for i in range(len(text)):
+            print(text[i])
+            if text[i] == "1":
+                self.click_one()
+            if text[i] == "2":
+                self.click_two()
+            if text[i] == "3":
+                self.click_three()
+            if text[i] == "4":
+                self.click_four()
+            if text[i] == "5":
+                self.click_five()
+            if text[i] == "6":
+                self.click_six()
+            if text[i] == "7":
+                self.click_seven()
+            if text[i] == "8":
+                self.click_eight()
+            if text[i] == "9":
+                self.click_nine()
+            if text[i] == "0":
+                self.click_zero()
+
 
     def dial_number_ios(self, text):
         """输入拨打号码"""
@@ -500,6 +523,11 @@ class CallPage(BasePage):
         return self._is_element_present(self.__locators["通话记录时间"])
 
     @TestLogger.log()
+    def click_call_time_search_status(self):
+        """点击通话记录时间-搜索状态"""
+        self.click_element(self.__class__.__locators["通话记录时间"])
+
+    @TestLogger.log()
     def is_exist_profile_name(self):
         """判断是否存在profile_name"""
         return self._is_element_present(self.__locators["profileName"])
@@ -528,17 +556,18 @@ class CallPage(BasePage):
     @TestLogger.log()
     def create_call_entry(self, text):
         """当前界面已在call界面，创建通话记录，并返回call界面"""
-        self.click_call()
+        self.click_dial()
         time.sleep(1)
         self.dial_number(text)
         self.click_call_phone()
         time.sleep(2)
         if CallTypeSelectPage().is_select_call():
-            CallTypeSelectPage().click_call_by_general()
-        self.click_call_end()
+            CallTypeSelectPage().click_call_by_voice()
+        # self.click_call_end()
+        self.wait_for_dial_pad()
         time.sleep(1)
         if not self.is_on_the_call_page():
-            self.click_call()
+            self.click_dial()
 
     @TestLogger.log()
     def click_multi_party_video(self):

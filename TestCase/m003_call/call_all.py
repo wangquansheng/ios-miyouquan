@@ -199,8 +199,8 @@ class CallAll(TestCase):
         # Step:1.查看通话记录
         cpg = CallPage()
         # CheckPoint:1.页面中间显示图片以及提示语
-        cpg.page_should_contain_text("给你的好友打个电话吧")
-        cpg.page_should_contain_text('多方电话')
+        cpg.page_should_contain_text("高清通话，高效沟通")
+        cpg.page_should_contain_text('飞信电话')
 
     @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0007(self):
@@ -315,9 +315,10 @@ class CallAll(TestCase):
         # Step:1.点击“拨号”按钮
         cpg.click_call_phone()
         time.sleep(1)
-        # CheckPoint:1.提示“拨打号码不能为空”
-        flag = cpg.is_toast_exist("拨打的号码不能为空")
-        self.assertTrue(flag)
+        # # CheckPoint:1.提示“拨打号码不能为空”
+        # flag = cpg.is_toast_exist("拨打的号码不能为空")
+        # self.assertTrue(flag)
+        cpg.page_should_contain_text("号码不能为空")
         cpg.click_dial()
 
     @tags('ALL', 'CMCC', 'Call', "ios")
@@ -795,5 +796,100 @@ class CallAll(TestCase):
         time.sleep(1)
         # CheckPoint:2.进入到用户B的通话profile
         self.assertTrue(cpg.is_exist_profile_name())
+        cpg.click_back()
+
+    @staticmethod
+    def setUp_test_call_shenlisi_0158():
+        # 确保打开WiFi网络
+        Preconditions.make_already_in_call()
+        # CalllogBannerPage().skip_multiparty_call()
+        # CallPage().delete_all_call_entry()
+        # CallPage().set_network_status(6)
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0158(self):
+        """检查语音呼叫-未订购每月10G用户--用户在WiFi环境下不提示此类弹窗"""
+        # 1.客户端已登录
+        # 2.未订购每月10G用户
+        # 3.网络使用WIFI
+        # 1.发起语音通话
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("13800138001")
+        cpg.click_call_phone()
+        time.sleep(2)
+        CallTypeSelectPage().click_call_by_voice()
+        time.sleep(2)
+        # 1.直接发起语音通话，没有弹窗
+        cpg.page_should_not_contain_text("每月10G免流特权")
+        time.sleep(1)
+        cpg.wait_for_dial_pad()
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0213(self):
+        """检查视频通话记录——本地联系人"""
+        # 1.A已登录和飞信
+        # 2.用户A已成功发起与用户B的视频通话
+        cpg = CallPage()
+        cpg.click_multi_party_video()
+        time.sleep(1)
+        CalllogBannerPage().input_telephone("13800138001")
+        time.sleep(1)
+        cpg.click_text("给个红包2")
+        time.sleep(1)
+        cpg.click_text("呼叫")
+        time.sleep(1)
+        # Step:1.用户A查看通话记录
+        cpg.wait_for_page_load()
+        # CheckPoint:1.通话记录展示与用户B的视频通话记录，显示用户B的名称、通话类型【视频通话】、手机号/归属地
+        cpg.page_should_contain_text("给个红包2")
+        cpg.page_should_contain_text("视频通话")
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0218(self):
+        """检查呼叫本地联系人，呼叫界面展示名称+手机号"""
+        # 1.已登录和飞信
+        # 2.用户M为本地联系人
+        # 3.已开启麦克风，相机权限
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("13800138001")
+        cpg.click_call_time_search_status()
+        time.sleep(1)
+        # Step:1.视频呼叫M，进入到呼叫界面
+        CallContactDetailPage().click_video_call()
+        time.sleep(1)
+        # CheckPoint:1.头像下展示用户M的名称+手机号
+        cpg.page_should_contain_text("13800138001")
+        cpg.page_should_contain_text("给个红包2")
+        CallContactDetailPage().wait_for_star()
+        cpg.click_back()
+
+    @staticmethod
+    def setUp_test_call_shenlisi_0234():
+        # 确保打开WiFi网络
+        Preconditions.make_already_in_call()
+        # CalllogBannerPage().skip_multiparty_call()
+        # CallPage().delete_all_call_entry()
+        # CallPage().set_network_status(6)
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0234(self):
+        """检查视频呼叫-未订购每月10G用户--用户在WiFi环境下不提示此类弹窗"""
+        # 1.客户端已登录
+        # 2.未订购每月10G用户
+        # 3.网络使用WIFI
+        # 1.发起视频通话
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("13800138001")
+        cpg.click_call_time_search_status()
+        CallContactDetailPage().click_video_call()
+        time.sleep(2)
+        # 1.直接发起语音通话，没有弹窗
+        cpg.page_should_not_contain_text("每月10G免流特权")
+        time.sleep(1)
+        CallContactDetailPage().wait_for_star()
         cpg.click_back()
 
