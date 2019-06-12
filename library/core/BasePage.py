@@ -676,3 +676,21 @@ class BasePage(object):
             return True
         else:
             return False
+
+    @TestLogger.log("点击返回按钮")
+    def click_back_button(self):
+        """点击返回按钮"""
+        self.click_element((MobileBy.ACCESSIBILITY_ID, "back"))
+
+    @TestLogger.log()
+    def click_accessibility_id_attribute_by_name(self, name):
+        """点击accessibility id属性"""
+        self.click_element((MobileBy.ACCESSIBILITY_ID, "%s" % name))
+
+    @TestLogger.log()
+    def click_name_attribute_by_name(self, name, exact_match=False):
+        """点击name属性"""
+        if exact_match:
+            self.click_element((MobileBy.XPATH, "//*[@name='%s']" % name))
+        else:
+            self.click_element((MobileBy.XPATH, "//*[contains(@name,'%s')]" % name))

@@ -48,6 +48,7 @@ class SelectOneGroupPage(BasePage):
                   '搜索-返回': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_back'),
                   '搜索结果展示': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
                   '黏贴': (MobileBy.XPATH, "//*[contains(@text, '黏贴')]"),
+                  '搜索群组框': (MobileBy.XPATH, "//*[@name='搜索群组']"),
                   }
 
     @TestLogger.log()
@@ -186,16 +187,25 @@ class SelectOneGroupPage(BasePage):
     @TestLogger.log()
     def selecting_one_group_by_name(self, name):
         """根据群名选择一个群"""
-        locator = (MobileBy.XPATH, '//*[@name="%s"]' % name)
-        max_try = 20
-        current = 0
-        while current < max_try:
-            if self._is_element_present(locator):
-                break
-            current += 1
-            self.driver.execute_script('mobile: scroll', {'direction': 'up'})
-            # self.driver.execute_script('mobile: swipe', {'direction': 'up'})
+        locator = (MobileBy.XPATH, '//*[contains(@name, "%s")]' % name)
+        # max_try = 20
+        # current = 0
+        # while current < max_try:
+        #     if self._is_element_present(locator):
+        #         break
+        #     current += 1
+        #     self.driver.execute_script('mobile: scroll', {'direction': 'down'})
         self.click_element(locator)
+
+    @TestLogger.log()
+    def click_search_box(self):
+        """点击搜索群组"""
+        self.click_element(self.__class__.__locators["搜索群组框"])
+
+    @TestLogger.log()
+    def input_search_box(self, message):
+        """输入群聊名"""
+        self.input_text(self.__class__.__locators["搜索群组框"], message)
 
     @TestLogger.log()
     def select_one_enterprise_group(self):

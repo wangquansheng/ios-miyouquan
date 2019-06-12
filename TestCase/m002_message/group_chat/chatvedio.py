@@ -2,11 +2,7 @@ import random
 import re
 import time
 import unittest
-import uuid
 
-from appium.webdriver.common.mobileby import MobileBy
-
-import preconditions
 from library.core.TestCase import TestCase
 from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile, current_driver
@@ -17,152 +13,26 @@ from pages.groupset.GroupChatSetPicVideo import GroupChatSetPicVideoPage
 
 from preconditions.BasePreconditions import WorkbenchPreconditions
 
-REQUIRED_MOBILES = {
-    'Android-移动': 'M960BDQN229CH',
-    # 'Android-移动': 'single_mobile',
-    'IOS-移动': 'iphone',
-    'Android-电信': 'single_telecom',
-    'Android-联通': 'single_union',
-    'Android-移动-联通': 'mobile_and_union',
-    'Android-移动-电信': '',
-    'Android-移动-移动': 'double_mobile',
-    'Android-XX-XX': 'others_double',
-}
-
 
 class Preconditions(WorkbenchPreconditions):
     """前置条件"""
 
     @staticmethod
-    def connect_mobile(category):
-        """选择手机手机"""
-        client = switch_to_mobile(REQUIRED_MOBILES[category])
-        client.connect_mobile()
-        return client
-
-    @staticmethod
     def make_already_in_message_page(reset=False):
         """确保应用在消息页面"""
-        current_mobile().hide_keyboard_if_display()
-        time.sleep(1)
         # 如果在消息页，不做任何操作
-        mess = MessagePage()
-        if mess.is_on_this_page():
+        mp = MessagePage()
+        if mp.is_on_this_page():
             return
-        # 进入一键登录页
         else:
             try:
                 current_mobile().launch_app()
-                mess.wait_for_page_load()
+                mp.wait_for_page_load()
             except:
                 # 进入一键登录页
                 Preconditions.make_already_in_one_key_login_page()
                 #  从一键登录页面登录
                 Preconditions.login_by_one_key_login()
-
-    @staticmethod
-    def reset_and_relaunch_app():
-        """首次启动APP（使用重置APP代替）"""
-        app_package = 'com.chinasofti.rcs'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
-
-    @staticmethod
-    def make_already_have_my_group(reset=False):
-        """确保有群，没有群则创建群名为mygroup+电话号码后4位的群"""
-        # 消息页面
-        Preconditions.make_already_in_message_page(reset)
-        mess = MessagePage()
-        mess.wait_for_page_load()
-        # 点击 +
-        mess.click_add_icon()
-        # 点击 发起群聊
-        mess.click_group_chat()
-        # 选择联系人界面，选择一个群
-        sc = SelectContactsPage()
-        times = 15
-        n = 0
-        # 重置应用时需要再次点击才会出现选择一个群
-        while n < times:
-            flag = sc.wait_for_page_load()
-            if not flag:
-                sc.click_back()
-                time.sleep(2)
-                mess.click_add_icon()
-                mess.click_group_chat()
-                sc = SelectContactsPage()
-            else:
-                break
-            n = n + 1
-        time.sleep(3)
-        sc.click_select_one_group()
-        # 群名
-        group_name = Preconditions.get_group_chat_name()
-        # 获取已有群名
-        sog = SelectOneGroupPage()
-        sog.wait_for_page_load()
-        group_names = sog.get_group_name()
-        # 有群返回，无群创建
-        if group_name in group_names:
-            return
-        sog.click_back()
-        # 点击 +
-        mess.click_add_icon()
-        # 点击 发起群聊
-        mess.click_group_chat()
-        # 从本地联系人中选择成员创建群
-        sc.click_local_contacts()
-        time.sleep(2)
-        slc = SelectLocalContactsPage()
-        a = 0
-        names = {}
-        while a < 3:
-            names = slc.get_contacts_name()
-            num = len(names)
-            if not names:
-                raise AssertionError("No contacts, please add contacts in address book.")
-            if num == 1:
-                sog.page_up()
-                a += 1
-                if a == 3:
-                    raise AssertionError("联系人只有一个，请再添加多个不同名字联系人组成群聊")
-            else:
-                break
-        # 选择成员
-        for name in names:
-            slc.select_one_member_by_name(name)
-        slc.click_sure()
-        # 创建群
-        cgnp = CreateGroupNamePage()
-        cgnp.input_group_name(group_name)
-        cgnp.click_sure()
-        # 等待群聊页面加载
-        GroupChatPage().wait_for_page_load()
-
-    @staticmethod
-    def enter_group_chat_page(reset=False):
-        """进入群聊聊天会话页面"""
-        # 确保已有群
-        Preconditions.make_already_have_my_group(reset)
-        # 如果有群，会在选择一个群页面，没有创建群后会在群聊页面
-        scp = GroupChatPage()
-        sogp = SelectOneGroupPage()
-        if sogp.is_on_this_page():
-            group_name = Preconditions.get_group_chat_name()
-            # 点击群名，进入群聊页面
-            sogp.select_one_group_by_name(group_name)
-            scp.wait_for_page_load()
-        if scp.is_on_this_page():
-            return
-        else:
-            raise AssertionError("Failure to enter group chat session page.")
-
-    @staticmethod
-    def get_group_chat_name():
-        """获取群名"""
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        group_name = "c" + phone_number[-4:]
-        return group_name
 
     @staticmethod
     def make_already_have_my_picture():
@@ -210,10 +80,15 @@ class Preconditions(WorkbenchPreconditions):
         # 点击发起群聊
         mp.click_group_chat()
         scg = SelectContactsPage()
+        scg.wait_for_page_load()
         scg.click_select_one_group()
         sog = SelectOneGroupPage()
         # 等待“选择一个群”页面加载
         sog.wait_for_page_load()
+        sog.click_search_box()
+        time.sleep(1)
+        sog.input_search_box(name)
+        time.sleep(2)
         # 选择一个普通群
         sog.selecting_one_group_by_name(name)
         gcp = GroupChatPage()
@@ -266,69 +141,8 @@ class Preconditions(WorkbenchPreconditions):
             # 选择当前团队
             shc.click_department_name(workbench_name)
 
-    @staticmethod
-    def make_already_delete_my_group():
-        """确保删掉所有群"""
-        # 消息页面
-        mess = MessagePage()
-        mess.wait_for_page_load()
-        # 点击 +
-        mess.click_add_icon()
-        # 点击 发起群聊
-        mess.click_group_chat()
-        # 选择联系人界面，选择一个群
-        sc = SelectContactsPage()
-        times = 15
-        n = 0
-        # 重置应用时需要再次点击才会出现选择一个群
-        while n < times:
-            flag = sc.wait_for_page_load()
-            if not flag:
-                sc.click_back()
-                time.sleep(2)
-                mess.click_add_icon()
-                mess.click_group_chat()
-                sc = SelectContactsPage()
-            else:
-                break
-            n = n + 1
-        sc.click_select_one_group()
-        # 获取已有群名
-        sog = SelectOneGroupPage()
-        sog.wait_for_page_load()
-        group_names = sog.get_group_name()
-        # 有群删除，无群返回
-        if len(group_names) == 0:
-            sog.click_back()
-            pass
-        else:
-            for group_name in group_names:
-                sog.select_one_group_by_name(group_name)
-                gcp = GroupChatPage()
-                gcp.wait_for_page_load()
-                gcp.click_setting()
-                gcs = GroupChatSetPage()
-                gcs.wait_for_page_load()
-                gcs.click_delete_and_exit()
-                # gcs.click_sure()
-                mess.click_add_icon()
-                mess.click_group_chat()
-                sc.wait_for_page_load()
-                sc.click_select_one_group()
-            sog.click_back()
-            # if not gcs.is_toast_exist("已退出群聊"):
-            #     raise AssertionError("无退出群聊提示")
-        # sc.click_back()
-        # mess.open_me_page()
-
 
 class MsgGroupChatVideoPicAllTest(TestCase):
-    """
-    模块：群聊-图片视频-GIF
-    文件位置：1.1.3全量测试用例->113全量用例--肖立平.xlsx
-    表格：群聊-图片视频-GIF
-    Author:刘晓东
-    """
 
     # @classmethod
     # def setUpClass(cls):
@@ -394,25 +208,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
     #             fail_time3 += 1
     #         if flag3:
     #             break
-    #
-    #     # 确保测试手机有resource文件夹
-    #     name = "群聊1"
-    #     Preconditions.get_into_group_chat_page(name)
-    #     gcp = GroupChatPage()
-    #     gcp.wait_for_page_load()
-    #     gcp.click_more()
-    #     cmp = ChatMorePage()
-    #     cmp.click_file()
-    #     csfp = ChatSelectFilePage()
-    #     csfp.wait_for_page_load()
-    #     csfp.click_local_file()
-    #     local_file = ChatSelectLocalFilePage()
-    #     # 没有预置文件，则上传
-    #     local_file.push_preset_file()
-    #     local_file.click_back()
-    #     csfp.wait_for_page_load()
-    #     csfp.click_back()
-    #     gcp.wait_for_page_load()
 
     def default_setUp(self):
         """
@@ -420,7 +215,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         2、确保当前页面在群聊聊天会话页面
         """
 
-        Preconditions.connect_mobile('IOS-移动')
+        Preconditions.select_mobile('IOS-移动')
         mp = MessagePage()
         name = "群聊1"
         if mp.is_on_this_page():
@@ -433,8 +228,8 @@ class MsgGroupChatVideoPicAllTest(TestCase):
             Preconditions.get_into_group_chat_page(name)
 
     def default_tearDown(self):
+
         Preconditions.disconnect_mobile('IOS-移动')
-        # pass
 
     @tags('ALL', 'CMCC', 'LXD', 'high')
     def test_msg_xiaoliping_D_0021(self):
@@ -462,15 +257,13 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 给当前会话页面发送一张图片,确保最近聊天中有记录
         time.sleep(2)
         gcp.click_picture()
+        if gcp.is_text_present("想访问您的照片"):
+            gcp.click_text("好")
         cpg = ChatPicPage()
         cpg.wait_for_page_load()
-        cpg.select_pic_fk(1)
+        cpg.select_picture()
         cpg.click_send()
         time.sleep(5)
-        # 解决发送图片后，最近聊天窗口没有记录，需要退出刷新的问题
-        gcp.click_back()
-        group_name = "群聊1"
-        Preconditions.get_into_group_chat_page(group_name)
         # 1.长按自己发送的图片并转发
         gcp.forward_pic()
         scg = SelectContactsPage()
@@ -478,11 +271,12 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         scg.wait_for_page_load()
         time.sleep(2)
         # 3.选择最近聊天中的当前会话窗口
+        group_name = "群聊1"
         scg.select_recent_chat_by_name(group_name)
         # 确定转发
         scg.click_sure_forward()
         # 4.是否提示已转发,等待群聊页面加载
-        self.assertEquals(gcp.is_exist_forward(), True)
+        # self.assertEquals(gcp.is_exist_forward(), True)
         gcp.wait_for_page_load()
         # 5.验证是否发送成功
         cwp = ChatWindowPage()
@@ -510,7 +304,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 等待群聊页面加载
         gcp.wait_for_page_load()
         # 设置手机网络断开
-        gcp.set_network_status(0)
+        # gcp.set_network_status(0)
         # 1.长按自己发送的图片并转发
         gcp.forward_pic()
         scg = SelectContactsPage()
@@ -528,13 +322,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
         self.assertEquals(mp.is_iv_fail_status_present(), True)
-
-    @staticmethod
-    def tearDown_test_msg_xiaoliping_D_0042():
-        """恢复网络"""
-
-        mp = MessagePage()
-        mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_D_0043(self):
@@ -630,7 +417,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 等待群聊页面加载
         gcp.wait_for_page_load()
         # 设置手机网络断开
-        gcp.set_network_status(0)
+        # gcp.set_network_status(0)
         # 1.长按自己发送的图片并转发
         gcp.forward_pic()
         scg = SelectContactsPage()
@@ -655,13 +442,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
         self.assertEquals(mp.is_iv_fail_status_present(), True)
-
-    @staticmethod
-    def tearDown_test_msg_xiaoliping_D_0045():
-        """恢复网络"""
-
-        mp = MessagePage()
-        mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_D_0046(self):
@@ -756,7 +536,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 确保当前群聊页面已有图片
         Preconditions.make_already_have_my_picture()
         # 设置手机网络断开
-        gcp.set_network_status(0)
+        # gcp.set_network_status(0)
         # 1.长按自己发送的图片并转发
         gcp.forward_pic()
         scg = SelectContactsPage()
@@ -783,13 +563,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
         self.assertEquals(mp.is_iv_fail_status_present(), True)
-
-    @staticmethod
-    def tearDown_test_msg_xiaoliping_D_0048():
-        """恢复网络"""
-
-        mp = MessagePage()
-        mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_D_0049(self):
@@ -887,7 +660,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 等待群聊页面加载
         gcp.wait_for_page_load()
         # 设置手机网络断开
-        gcp.set_network_status(0)
+        # gcp.set_network_status(0)
         # 1.长按自己发送的图片并转发
         gcp.forward_pic()
         scg = SelectContactsPage()
@@ -911,13 +684,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
         self.assertEquals(mp.is_iv_fail_status_present(), True)
-
-    @staticmethod
-    def tearDown_test_msg_xiaoliping_D_0051():
-        """恢复网络"""
-
-        mp = MessagePage()
-        mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_D_0052(self):
@@ -1005,7 +771,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 等待群聊页面加载
         gcp.wait_for_page_load()
         # 设置手机网络断开
-        gcp.set_network_status(0)
+        # gcp.set_network_status(0)
         # 1.长按自己发送的图片并转发
         gcp.forward_pic()
         scg = SelectContactsPage()
@@ -1030,13 +796,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
         self.assertEquals(mp.is_iv_fail_status_present(), True)
-
-    @staticmethod
-    def tearDown_test_msg_xiaoliping_D_0054():
-        """恢复网络"""
-
-        mp = MessagePage()
-        mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_D_0055(self):
@@ -1127,7 +886,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 等待群聊页面加载
         gcp.wait_for_page_load()
         # 设置手机网络断开
-        gcp.set_network_status(0)
+        # gcp.set_network_status(0)
         # 1.长按自己发送的图片并转发
         gcp.forward_pic()
         scg = SelectContactsPage()
@@ -1151,13 +910,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
         self.assertEquals(mp.is_iv_fail_status_present(), True)
-
-    @staticmethod
-    def tearDown_test_msg_xiaoliping_D_0057():
-        """恢复网络"""
-
-        mp = MessagePage()
-        mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_D_0058(self):
@@ -1255,7 +1007,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 等待群聊页面加载
         gcp.wait_for_page_load()
         # 设置手机网络断开
-        gcp.set_network_status(0)
+        # gcp.set_network_status(0)
         # 1.长按自己发送的视频并转发
         gcp.forward_video()
         scg = SelectContactsPage()
@@ -1279,13 +1031,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
         self.assertEquals(mp.is_iv_fail_status_present(), True)
-
-    @staticmethod
-    def tearDown_test_msg_xiaoliping_D_0070():
-        """恢复网络"""
-
-        mp = MessagePage()
-        mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_D_0071(self):
@@ -1381,7 +1126,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 确保当前群聊页面已有视频
         Preconditions.make_already_have_my_videos()
         # 设置手机网络断开
-        gcp.set_network_status(0)
+        # gcp.set_network_status(0)
         # 1.长按自己发送的视频并转发
         gcp.forward_video()
         scg = SelectContactsPage()
@@ -1408,13 +1153,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
         self.assertEquals(mp.is_iv_fail_status_present(), True)
-
-    @staticmethod
-    def tearDown_test_msg_xiaoliping_D_0073():
-        """恢复网络"""
-
-        mp = MessagePage()
-        mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_D_0074(self):
@@ -1514,7 +1252,7 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 等待群聊页面加载
         gcp.wait_for_page_load()
         # 设置手机网络断开
-        gcp.set_network_status(0)
+        # gcp.set_network_status(0)
         # 1.长按自己发送的视频并转发
         gcp.forward_video()
         scg = SelectContactsPage()
@@ -1538,13 +1276,6 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         mp.wait_for_page_load()
         # 5.是否存在消息发送失败的标识
         self.assertEquals(mp.is_iv_fail_status_present(), True)
-
-    @staticmethod
-    def tearDown_test_msg_xiaoliping_D_0076():
-        """恢复网络"""
-
-        mp = MessagePage()
-        mp.set_network_status(6)
 
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_D_0077(self):
@@ -1603,22 +1334,15 @@ class MsgGroupChatVideoPicAllTest(TestCase):
         # 等待gif图片页面加载
         gcp.wait_for_gif_ele_load()
         # 设置手机网络断开
-        gcp.set_network_status(0)
+        # gcp.set_network_status(0)
         # 点击发送
         gcp.send_gif()
         cwp = ChatWindowPage()
         # 2.检验发送失败的标识
         cwp.wait_for_msg_send_status_become_to('发送失败', 30)
         # 重新连接网络
-        gcp.set_network_status(6)
+        # gcp.set_network_status(6)
         # 点击重发
         gcp.click_send_again()
         # 3.验证是否发送成功
         cwp.wait_for_msg_send_status_become_to('发送成功', 30)
-
-    @staticmethod
-    def tearDown_test_msg_xiaoliping_D_0118():
-        """恢复网络"""
-
-        mp = MessagePage()
-        mp.set_network_status(6)

@@ -10,9 +10,9 @@ class GroupMessengerPage(BasePage):
     ACTIVITY = 'com.cmicc.module_enterprise.ui.activity.EnterpriseH5ProcessActivity'
 
     __locators = {
-        '新建短信': (MobileBy.XPATH, '//*[@text="新建短信"]'),
+        '新建短信': (MobileBy.ACCESSIBILITY_ID, '新建短信'),
         '返回': (MobileBy.ID, "com.chinasofti.rcs:id/btn_back_actionbar"),
-        '右上角帮助图标': (MobileBy.ID, "com.chinasofti.rcs:id/ib_right1")
+        '右上角帮助图标': (MobileBy.ACCESSIBILITY_ID, "cc call groupcall profile ic q")
 
     }
 

@@ -35,8 +35,8 @@ class SelectContactsPage(BasePage):
         '未知号码': (MobileBy.XPATH, '//*[contains(@text,"未知号码")]'),
         # 选择一个联系人转发消息时的弹框
         '发送给': (MobileBy.XPATH, "//*[contains(@text, '发送给')]"),
-        '取消转发': (MobileBy.XPATH, "//*[contains(@text, '取消')]"),
-        '确定转发': (MobileBy.XPATH, "//*[contains(@text, '确定')]"),
+        '取消转发': (MobileBy.ACCESSIBILITY_ID, "取消"),
+        '确定转发': (MobileBy.ACCESSIBILITY_ID, "确定"),
         'local联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
         '发送名片': (MobileBy.ID,'com.chinasofti.rcs:id/send_tv'),
         '联系人头像': (MobileBy.ID, 'com.chinasofti.rcs:id/head_tv'),

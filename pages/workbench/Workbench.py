@@ -20,7 +20,7 @@ class WorkbenchPage(FooterPage):
                   'com.chinasofti.rcs:id/viewPager': (MobileBy.ID, 'com.chinasofti.rcs:id/viewPager'),
                   'com.chinasofti.rcs:id/actionbar_main_enterprise': (
                   MobileBy.ID, 'com.chinasofti.rcs:id/actionbar_main_enterprise'),
-                  '当前团队名称:myteam02': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_actionbar'),
+                  '团队名称': (MobileBy.XPATH, '//*[@type="XCUIElementTypeStaticText"]'),
                   'com.chinasofti.rcs:id/swipeToLoad': (MobileBy.ID, 'com.chinasofti.rcs:id/swipeToLoad'),
                   'com.chinasofti.rcs:id/swipe_target': (MobileBy.ID, 'com.chinasofti.rcs:id/swipe_target'),
                   'com.chinasofti.rcs:id/ll_viewpager': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_viewpager'),
@@ -50,7 +50,7 @@ class WorkbenchPage(FooterPage):
                   '企业通讯录': (MobileBy.XPATH, '//*[@text="企业通讯录"]'),
                   '团队通讯': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_category'),
                   '超级会议': (MobileBy.XPATH, '//*[@text="超级会议"]'),
-                  '群发信使': (MobileBy.XPATH, '//*[@text="群发信使"]'),
+                  '群发信使': (MobileBy.ACCESSIBILITY_ID, '群发信使'),
                   '移动出勤': (MobileBy.XPATH, '//*[@text="移动出勤"]'),
                   '语音通知': (MobileBy.XPATH, '//*[@text="语音通知"]'),
                   '139邮箱': (MobileBy.XPATH, '//*[@text="139邮箱"]'),
@@ -73,7 +73,7 @@ class WorkbenchPage(FooterPage):
                   '展开': (MobileBy.XPATH, '//*[@text="展开"]'),
                   'com.chinasofti.rcs:id/rl_bottom': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_bottom'),
                   'com.chinasofti.rcs:id/recyclerView': (MobileBy.ID, 'com.chinasofti.rcs:id/recyclerView'),
-                  '应用商城': (MobileBy.XPATH, '//*[@text="应用商城"]'),
+                  '应用商城': (MobileBy.ACCESSIBILITY_ID, "应用商城"),
                   'com.chinasofti.rcs:id/iv_logo': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_logo'),
                   '应用管理': (MobileBy.XPATH, '//*[@text="应用管理"]'),
                   '咨询客服': (MobileBy.XPATH, '//*[@text="咨询客服"]'),
@@ -112,34 +112,34 @@ class WorkbenchPage(FooterPage):
         if len(els) > 0:
             return els
 
-        current = 0
-        while True:
-            current += 1
-            if current > 20:
-                return
-            self.swipe_half_page_up()
-            els = self.get_elements(location)
-            if len(els) > 0:
-                return els
-            # 滑动到底部还未找到元素则终止滑动
-            els = self.get_elements(self.__class__.__locators['创建团队'])
-            if len(els) > 0:
-                break
-
-        current = 0
-        while True:
-            current += 1
-            if current > 20:
-                return
-            self.swipe_half_page_down()
-            els = self.get_elements(location)
-            if len(els) > 0:
-                return els
-            # 滑动到顶部还未找到元素则终止滑动
-            els = self.get_elements(self.__class__.__locators['广告banner'])
-            if len(els) > 0:
-                break
-        return False
+        # current = 0
+        # while True:
+        #     current += 1
+        #     if current > 20:
+        #         return
+        #     self.swipe_half_page_up()
+        #     els = self.get_elements(location)
+        #     if len(els) > 0:
+        #         return els
+        #     # 滑动到底部还未找到元素则终止滑动
+        #     els = self.get_elements(self.__class__.__locators['创建团队'])
+        #     if len(els) > 0:
+        #         break
+        #
+        # current = 0
+        # while True:
+        #     current += 1
+        #     if current > 20:
+        #         return
+        #     self.swipe_half_page_down()
+        #     els = self.get_elements(location)
+        #     if len(els) > 0:
+        #         return els
+        #     # 滑动到顶部还未找到元素则终止滑动
+        #     els = self.get_elements(self.__class__.__locators['广告banner'])
+        #     if len(els) > 0:
+        #         break
+        # return False
 
     @TestLogger.log()
     def find_and_click_open_element(self):
@@ -420,7 +420,7 @@ class WorkbenchPage(FooterPage):
             self.wait_until(
                 timeout=timeout,
                 auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self._is_element_present(self.__class__.__locators["当前团队名称:myteam02"])
+                condition=lambda d: self._is_element_present(self.__class__.__locators["应用商城"])
             )
         except:
             message = "页面在{}s内，没有加载成功".format(str(timeout))
@@ -451,22 +451,6 @@ class WorkbenchPage(FooterPage):
     def click_back_team(self):
         """点击确定解散团队"""
         self.click_element(self.__class__.__locators["团队返回"])
-
-    @TestLogger.log()
-    def wait_for_workbench_page_load(self, timeout=20, auto_accept_alerts=True):
-        """等待工作台页面加载"""
-        try:
-            self.wait_until(
-                timeout=timeout,
-                auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self.driver.current_activity == self.ACTIVITY
-            )
-        except:
-            message = "页面在{}s内，没有加载成功".format(str(timeout))
-            raise AssertionError(
-                message
-            )
-        return self
 
     @TestLogger.log()
     def is_on_workbench_page(self, timeout=10, auto_accept_alerts=True):
