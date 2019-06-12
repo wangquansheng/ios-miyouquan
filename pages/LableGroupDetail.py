@@ -11,13 +11,25 @@ class LableGroupDetailPage(LabelSettingMenu, BasePage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.LabelContactListActivity'
 
     __locators = {
+        #无成员-弹出框
+        '取消': (MobileBy.ACCESSIBILITY_ID, '取消'),
+        '添加成员': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="添加成员"])[2]'),
+        #有成员
+        '新增成员': (MobileBy.ACCESSIBILITY_ID, '添加成员'),
+        '群发消息': (MobileBy.ACCESSIBILITY_ID, '群发消息'),
+        '飞信电话': (MobileBy.ACCESSIBILITY_ID, '飞信电话'),
+        '多发视频': (MobileBy.ACCESSIBILITY_ID, '多方视频'),
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '标题': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]'),
+        '设置': (MobileBy.ACCESSIBILITY_ID, 'cc chat message site normal'),
+        '成员头像1': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeImage'),
+
+
+
         'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
         'android:id/content': (MobileBy.ID, 'android:id/content'),
         'com.chinasofti.rcs:id/contentFrame': (MobileBy.ID, 'com.chinasofti.rcs:id/contentFrame'),
         'com.chinasofti.rcs:id/rl_label_toolbar': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_label_toolbar'),
-        '返回': (MobileBy.XPATH, "//*[contains(@resource-id, 'back')]"),
-        '标题': (MobileBy.ID, 'com.chinasofti.rcs:id/label_toolbar_title'),
-        '设置': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_label_setting'),
         'com.chinasofti.rcs:id/recyclerView_contactList_label': (
             MobileBy.ID, 'com.chinasofti.rcs:id/recyclerView_contactList_label'),
         'com.chinasofti.rcs:id/contact_list': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_list'),
@@ -26,7 +38,6 @@ class LableGroupDetailPage(LabelSettingMenu, BasePage):
         'com.chinasofti.rcs:id/rl_first_cloum': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_first_cloum'),
         'com.chinasofti.rcs:id/layout_first_item': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_first_item'),
         'com.chinasofti.rcs:id/image_first_colum': (MobileBy.ID, 'com.chinasofti.rcs:id/image_first_colum'),
-        '添加成员': (MobileBy.XPATH, '//*[@text="添加成员"]'),
         'com.chinasofti.rcs:id/layout_second_item': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_second_item'),
         'com.chinasofti.rcs:id/image_second_colum': (MobileBy.ID, 'com.chinasofti.rcs:id/image_second_colum'),
         '群发信息': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_second_colum'),
@@ -66,9 +77,17 @@ class LableGroupDetailPage(LabelSettingMenu, BasePage):
     def click_back(self):
         self.click_element(self.__locators['返回'])
 
+    @TestLogger.log('弹框点击取消')
+    def click_cancel(self):
+        self.click_element(self.__locators['取消'])
+
+    @TestLogger.log('弹框点击添加成员')
+    def click_add_contact(self):
+        self.click_element(self.__locators['添加成员'])
+
     @TestLogger.log('打开标签组设置菜单')
     def open_setting_menu(self):
-        self.click_element(self.__locators['设置'])
+        self.click_element(self.__class__.__locators['设置'])
 
     @TestLogger.log('点击群发信息')
     def click_send_group_info(self):

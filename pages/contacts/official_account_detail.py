@@ -20,11 +20,10 @@ class OfficialAccountDetailPage(MenuMore, BasePage):
         '公众号头像': (MobileBy.ACCESSIBILITY_ID, '/var/mobile/Containers/Data/Application/3FF94A5C-59E9-4E2B-AA59-79FEC854AC76/Library/RCSData/headimage/0f61b76531dca2f6468dab67dec8a15c'),
 
         '置顶公众号-关闭': (MobileBy.XPATH, '//XCUIElementTypeSwitch[@name="置顶公众号"]'),
-        '关闭': (MobileBy.ID, 'com.chinasofti.rcs:id/switch_totop'),
+
         'com.chinasofti.rcs:id/ll_history_message': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_history_message'),
-        '查看历史资讯': (MobileBy.ID, '查看历史资讯'),
-        'com.chinasofti.rcs:id/my_group_name_right_arrow': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/my_group_name_right_arrow'),
+        '查看历史资讯': (MobileBy.ACCESSIBILITY_ID, '查看历史资讯'),
+
 
         '进入公众号': (MobileBy.ACCESSIBILITY_ID, '进入公众号'),
         '时间显示': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeImage'),

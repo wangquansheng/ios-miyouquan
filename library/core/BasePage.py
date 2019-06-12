@@ -543,7 +543,7 @@ class BasePage(object):
          is_toast_exist("toast的内容")
         """
         try:
-            toast_loc = ("xpath", ".//*[contains(@text,'%s')]" % text)
+            toast_loc = ("xpath", ".//*[contains(@name，'%s')]" % text)
             WebDriverWait(self.driver, timeout, poll_frequency).until(EC.presence_of_element_located(toast_loc))
             return True
         except:
@@ -604,7 +604,7 @@ class BasePage(object):
     @TestLogger.log("点击返回")
     def click_back(self):
         """点击返回"""
-        self.click_element((MobileBy.XPATH, "//*[contains(@resource-id, 'back')]"), 10)
+        self.click_element((MobileBy.XPATH, "back"), 10)
 
     @TestLogger.log()
     def click_back_by_android(self, times=1):
@@ -616,13 +616,13 @@ class BasePage(object):
 
     @TestLogger.log("下一页")
     def page_up(self):
-        """向上滑动一页"""
-        self.driver.execute_script('mobile: scroll', {'direction': 'up'})
+        """向上滑动"""
+        self.driver.execute_script('mobile: scroll', {'direction': 'down'})
 
     @TestLogger.log("上一页")
     def page_down(self):
         """向下滑动"""
-        self.driver.execute_script('mobile: scroll', {'direction': 'down'})
+        self.driver.execute_script('mobile: scroll', {'direction': 'up'})
 
     @TestLogger.log('挂断电话')
     def hang_up_the_call(self):

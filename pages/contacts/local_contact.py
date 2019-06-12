@@ -24,7 +24,7 @@ class localContactPage(BasePage):
         '消息': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title'),
         'com.chinasofti.rcs:id/action_add': (MobileBy.ID, 'com.chinasofti.rcs:id/action_add'),
         'com.chinasofti.rcs:id/rv_conv_list': (MobileBy.ID, 'com.chinasofti.rcs:id/rv_conv_list'),
-        '搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/et_search'),
+        '搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
         '搜索2':(MobileBy.ID,'com.chinasofti.rcs:id/edit_query01'),
         'com.chinasofti.rcs:id/rl_conv_list_item': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_conv_list_item'),
         'com.chinasofti.rcs:id/svd_head': (MobileBy.ID, 'com.chinasofti.rcs:id/svd_head'),

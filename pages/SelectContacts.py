@@ -20,7 +20,13 @@ class SelectContactsPage(BasePage):
         '选择手机联系人': (MobileBy.ACCESSIBILITY_ID, '选择手机联系人'),
 
         '最近聊天列表': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[4]'),
-
+        #标签分组 选择联系人
+        '选择联系人标题': (MobileBy.ACCESSIBILITY_ID, '选择联系人'),
+        '确定': (MobileBy.ACCESSIBILITY_ID, '确定'),
+        '搜索或输入手机号2': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeTextField'),
+        '联系人列表': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'),
+        '联系人头像1': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeImage'),
+        '': (MobileBy.ACCESSIBILITY_ID, ''),
 
 
         '本地联系人': (MobileBy.XPATH, '//*[@text ="选择手机联系人"]'),
@@ -72,7 +78,6 @@ class SelectContactsPage(BasePage):
         "发送时间":(MobileBy.ID,'com.chinasofti.rcs:id/tv_time'),
         "选中联系人头像":(MobileBy.ID,'com.chinasofti.rcs:id/contact_icon'),
 
-        '联系人列表': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_list_item'),
         'A':(MobileBy.XPATH,'//*[@text ="A"]'),
         'K': (MobileBy.XPATH, '//*[@text ="K"]'),
         "字母栏":(MobileBy.ID,'	com.chinasofti.rcs:id/contact_index_bar_container'),
@@ -92,11 +97,18 @@ class SelectContactsPage(BasePage):
         )
         return bol
 
+    @TestLogger.log("点击返回")
+    def click_back(self,text='返回'):
+        self.click_element(self.__class__.__locators[text])
+
+
     @TestLogger.log()
     def is_element_present(self, locator='最近聊天列表'):
         return self._is_element_present(self.__class__.__locators[locator])
 
-
+    @TestLogger.log("检查控件是否存在")
+    def check_if_element_not_exist(self,text='发送人头像'):
+        self.page_should_not_contain_element(self.__class__.__locators[text])
 
 
     @TestLogger.log("点击右侧字母")
@@ -223,11 +235,6 @@ class SelectContactsPage(BasePage):
             return True
         except:
             return False
-
-    @TestLogger.log()
-    def click_back(self):
-        """点击 返回"""
-        self.click_element(self.__class__.__locators["返回"])
 
     @TestLogger.log()
     def click_he_back(self):
