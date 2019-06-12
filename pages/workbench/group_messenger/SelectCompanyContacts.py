@@ -11,18 +11,19 @@ class SelectCompanyContactsPage(BasePage):
     __locators = {
         '新建短信': (MobileBy.XPATH, '//*[@text="新建短信"]'),
         '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back'),
-        '搜索框': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
+        '搜索框': (MobileBy.XPATH, '//*[@type="XCUIElementTypeTextField"]'),
         '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'),
         '搜索框左边头像': (MobileBy.ID, 'com.chinasofti.rcs:id/avator'),
         '全选复选框': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_check_all'),
         '联系人名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
         '联系人号码': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_number_personal_contactlist'),
-        '联系人头像': (MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_contactlist'),
+        '联系人头像': (MobileBy.XPATH, '//*[@name="cc_chat_personal_default"]'),
         '已选人名': (MobileBy.ID, 'com.chinasofti.rcs:id/image_text'),
         '已选头像': (MobileBy.ID, 'com.chinasofti.rcs:id/avator'),
-        '确定按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/imagebutton_choose_file_cancel'),
+        '确定按钮': (MobileBy.XPATH, '//*[contains(@name,"确定")]'),
         '企业层级': (MobileBy.ID, "android:id/title"),
-        '部门名称': (MobileBy.ID, "com.chinasofti.rcs:id/tv_title_department")
+        '部门名称': (MobileBy.ID, "com.chinasofti.rcs:id/tv_title_department"),
+        '选择联系人': (MobileBy.ACCESSIBILITY_ID, "选择联系人"),
     }
 
     @TestLogger.log()
@@ -32,7 +33,7 @@ class SelectCompanyContactsPage(BasePage):
             self.wait_until(
                 timeout=timeout,
                 auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self.is_text_present("选择联系人")
+                condition=lambda d: self._is_element_present(self.__class__.__locators["选择联系人"])
             )
         except:
             message = "页面在{}s内，没有加载成功".format(str(timeout))
@@ -54,11 +55,6 @@ class SelectCompanyContactsPage(BasePage):
     def input_search_message(self, message):
         """输入查找信息"""
         self.input_text(self.__class__.__locators["搜索框"], message)
-        try:
-            self.driver.hide_keyboard()
-        except:
-            pass
-        return self
 
     @TestLogger.log()
     def find_element_by_swipe(self, locator, times=10):
@@ -215,7 +211,7 @@ class SelectCompanyContactsPage(BasePage):
     def is_exist_select_contacts_name(self, name):
         """是否存在已选联系人名"""
         locator = (
-            MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/image_text" and contains(@text,"%s")]' % name)
+            MobileBy.XPATH, '//*[@text="%s"]' % name)
         return self._is_element_present(locator)
 
     @TestLogger.log()

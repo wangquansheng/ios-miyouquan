@@ -42,7 +42,9 @@ class ChatPicPage(BasePage):
                            "//android.widget.RelativeLayout[@resource-id='com.chinasofti.rcs:id/rl_img']/android.widget.RelativeLayout[1][not(contains(@resource-id,'com.chinasofti.rcs:id/iv_video_icon'))]"),
                   '预览': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_preview'),
                   '原图': (MobileBy.ID, 'com.chinasofti.rcs:id/cb_original_photo'),
-                  '发送': (MobileBy.ID, 'com.chinasofti.rcs:id/button_send')
+                  '发送': (MobileBy.XPATH, '//*[contains(@name, "发送")]'),
+                  '选择图片': (MobileBy.ACCESSIBILITY_ID, '选择图片'),
+                  '图片': (MobileBy.XPATH, '//*[@name="cc chat picture unselected@3x"]'),
                   }
 
     @TestLogger.log("校验提示最多只能选择一个视频")
@@ -75,7 +77,7 @@ class ChatPicPage(BasePage):
             self.wait_until(
                 timeout=timeout,
                 auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self._is_element_present(self.__class__.__locators["所有照片"])
+                condition=lambda d: self._is_element_present(self.__class__.__locators["选择图片"])
             )
         except:
             message = "页面在{}s内，没有加载成功".format(str(timeout))
@@ -237,4 +239,9 @@ class ChatPicPage(BasePage):
     def click_back_back(self):
         """点击返回到群聊页面"""
         self.click_element(self.__class__.__locators["返回到群聊页面"])
+
+    @TestLogger.log()
+    def select_picture(self):
+        """选择图片"""
+        self.click_element(self.__class__.__locators["图片"])
 

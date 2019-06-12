@@ -9,10 +9,9 @@ class NewMessagePage(BasePage):
     ACTIVITY = 'com.cmicc.module_enterprise.ui.activity.EnterpriseH5ProcessActivity'
 
     __locators = {
-        '发送': (MobileBy.XPATH, '//*[@text="发送"]'),
-        '返回': (MobileBy.ID, "com.chinasofti.rcs:id/btn_back_actionbar"),
-        '+号图标': (MobileBy.XPATH, '//*[@text="javascript:void(0)"]'),
-        '否': (MobileBy.XPATH, '//*[@text="否"]'),
+        '发送': (MobileBy.ACCESSIBILITY_ID, "发送"),
+        '+号图标': (MobileBy.XPATH, '//XCUIElementTypeOther[contains(@name,"收件人")]/XCUIElementTypeLink'),
+        '否': (MobileBy.ACCESSIBILITY_ID, "否"),
         '关闭': (MobileBy.ID, "com.chinasofti.rcs:id/btn_close_actionbar")
     }
 
@@ -34,11 +33,6 @@ class NewMessagePage(BasePage):
     def click_add_icon(self):
         """点击+号"""
         self.click_element(self.__class__.__locators["+号图标"])
-
-    @TestLogger.log()
-    def click_back(self):
-        """点击返回"""
-        self.click_element(self.__class__.__locators["返回"])
 
     @TestLogger.log()
     def click_close(self):
