@@ -137,29 +137,37 @@ class MobileDriver(ABC):
     @TestLogger.log('连接到手机')
     def connect_mobile(self):
         platform_name = self._desired_caps['platformName']
-        if self.driver is None:
-            try:
-                self._driver = webdriver.Remote(self._remote_url, self._desired_caps, self._browser_profile,
-                                                self._proxy,
-                                                self._keep_alive)
-            except Exception as e:
-                raise RuntimeError('无法连接到 appium server: {}'.format(self._remote_url))
-        elif not self.is_connection_created:
-            try:
-                self.driver.quit()
-            except:
-                pass
-            try:
-                self._driver = webdriver.Remote(self._remote_url, self._desired_caps, self._browser_profile,
-                                                self._proxy,
-                                                self._keep_alive)
-            except:
-                import traceback
-                msg = traceback.format_exc()
-                print(msg)
-                raise RuntimeError('无法连接到 appium server: {}'.format(self._remote_url))
-        else:
+        # if self.driver is None:
+        #     try:
+        #         self._driver = webdriver.Remote(self._remote_url, self._desired_caps, self._browser_profile,
+        #                                         self._proxy,
+        #                                         self._keep_alive)
+        #     except Exception as e:
+        #         raise RuntimeError('无法连接到 appium server: {}'.format(self._remote_url))
+        # elif not self.is_connection_created:
+        #     try:
+        #         self.driver.quit()
+        #     except:
+        #         pass
+        #     try:
+        #         self._driver = webdriver.Remote(self._remote_url, self._desired_caps, self._browser_profile,
+        #                                         self._proxy,
+        #                                         self._keep_alive)
+        #     except:
+        #         import traceback
+        #         msg = traceback.format_exc()
+        #         print(msg)
+        #         raise RuntimeError('无法连接到 appium server: {}'.format(self._remote_url))
+        # else:
+        #     pass
+        try:
+            self.driver.quit()
+        except:
             pass
+        finally:
+            self._driver = webdriver.Remote(self._remote_url, self._desired_caps, self._browser_profile,
+                                                    self._proxy,
+                                                    self._keep_alive)
         if platform_name == "android":
             app_version_info = self.get_app_version_info()
             real_model = self.get_mobile_model_info()

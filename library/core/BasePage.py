@@ -688,6 +688,11 @@ class BasePage(object):
         self.click_element((MobileBy.ACCESSIBILITY_ID, "%s" % name))
 
     @TestLogger.log()
+    def is_exists_accessibility_id_attribute_by_name(self, name):
+        """是否存在accessibility id属性"""
+        return self._is_element_present((MobileBy.ACCESSIBILITY_ID, "%s" % name))
+
+    @TestLogger.log()
     def click_name_attribute_by_name(self, name, exact_match=False):
         """点击name属性"""
         if exact_match:

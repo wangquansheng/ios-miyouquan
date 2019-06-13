@@ -15,14 +15,14 @@ class SelectCompanyContactsPage(BasePage):
         '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'),
         '搜索框左边头像': (MobileBy.ID, 'com.chinasofti.rcs:id/avator'),
         '全选复选框': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_check_all'),
-        '联系人名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
-        '联系人号码': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_number_personal_contactlist'),
+        '联系人号码': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="团队联系人"]/../XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
+        '联系人名': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="团队联系人"]/../XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
         '联系人头像': (MobileBy.XPATH, '//*[@name="cc_chat_personal_default"]'),
         '已选人名': (MobileBy.ID, 'com.chinasofti.rcs:id/image_text'),
         '已选头像': (MobileBy.ID, 'com.chinasofti.rcs:id/avator'),
         '确定按钮': (MobileBy.XPATH, '//*[contains(@name,"确定")]'),
-        '企业层级': (MobileBy.ID, "android:id/title"),
-        '部门名称': (MobileBy.ID, "com.chinasofti.rcs:id/tv_title_department"),
+        '企业层级': (MobileBy.XPATH, "//XCUIElementTypeScrollView/XCUIElementTypeButton"),
+        '部门名称': (MobileBy.XPATH, "//*[@name='cc_contacts_organization_classA']"),
         '选择联系人': (MobileBy.ACCESSIBILITY_ID, "选择联系人"),
     }
 
@@ -111,58 +111,34 @@ class SelectCompanyContactsPage(BasePage):
     @TestLogger.log()
     def is_search_contacts_number_full_match(self, number):
         """搜索联系人号码是否精准匹配"""
-        els = self.get_elements(self.__class__.__locators["联系人号码"])
-        texts = []
-        for el in els:
-            text = el.text.strip()
-            if text:
-                texts.append(text)
-        for t in texts:
-            if number == t:
-                return True
-        raise AssertionError('搜索结果"{}"没有找到与关键字"{}"完全匹配的号码'.format(texts, number))
+        text = self.get_element(self.__class__.__locators["联系人号码"]).text
+        if number == text[(text.index(" ") + 1):]:
+            return True
+        raise AssertionError('搜索结果"{}"没有找到与关键字"{}"完全匹配的号码'.format(text, number))
 
     @TestLogger.log()
     def is_search_contacts_number_match(self, number):
         """搜索联系人号码是否模糊匹配"""
-        els = self.get_elements(self.__class__.__locators["联系人号码"])
-        texts = []
-        for el in els:
-            text = el.text
-            if text:
-                texts.append(text)
-        for t in texts:
-            if number in t:
-                return True
-        raise AssertionError('搜索结果"{}"没有找到包含关键字"{}"的号码'.format(texts, number))
+        text = self.get_element(self.__class__.__locators["联系人号码"]).text
+        if number in text[(text.index(" ") + 1):]:
+            return True
+        raise AssertionError('搜索结果"{}"没有找到包含关键字"{}"的号码'.format(text, number))
 
     @TestLogger.log()
     def is_search_contacts_name_full_match(self, name):
         """搜索联系人名是否精准匹配"""
-        els = self.get_elements(self.__class__.__locators["联系人名"])
-        texts = []
-        for el in els:
-            text = el.text.strip()
-            if text:
-                texts.append(text)
-        for t in texts:
-            if name == t:
-                return True
-        raise AssertionError('搜索结果"{}"没有找到与关键字"{}"完全匹配的文本'.format(texts, name))
+        text = self.get_element(self.__class__.__locators["联系人名"]).text
+        if name == text[:text.index(" ")]:
+            return True
+        raise AssertionError('搜索结果"{}"没有找到与关键字"{}"完全匹配的文本'.format(text, name))
 
     @TestLogger.log()
     def is_search_contacts_name_match(self, name):
         """搜索联系人名是否模糊匹配"""
-        els = self.get_elements(self.__class__.__locators["联系人名"])
-        texts = []
-        for el in els:
-            text = el.text
-            if text:
-                texts.append(text)
-        for t in texts:
-            if name in t:
-                return True
-        raise AssertionError('搜索结果"{}"没有找到包含关键字"{}"的文本'.format(texts, name))
+        text = self.get_element(self.__class__.__locators["联系人号码"]).text
+        if name in text[:text.index(" ")]:
+            return True
+        raise AssertionError('搜索结果"{}"没有找到包含关键字"{}"的文本'.format(text, name))
 
     @TestLogger.log()
     def click_contacts_by_name(self, name):
@@ -210,22 +186,19 @@ class SelectCompanyContactsPage(BasePage):
     @TestLogger.log()
     def is_exist_select_contacts_name(self, name):
         """是否存在已选联系人名"""
-        locator = (
-            MobileBy.XPATH, '//*[@text="%s"]' % name)
+        locator = (MobileBy.ACCESSIBILITY_ID, "%s" % name)
         return self._is_element_present(locator)
 
     @TestLogger.log()
     def click_select_contacts_name(self, name):
         """点击已选联系人名"""
-        locator = (
-            MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/image_text" and contains(@text,"%s")]' % name)
+        locator = (MobileBy.ACCESSIBILITY_ID, "%s" % name)
         self.click_element(locator)
 
     @TestLogger.log()
     def is_exist_select_contacts_image(self, name):
         """是否存在已选联系人头像"""
-        locator = (
-            MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/image_text" and contains(@text,"%s")]/../android.widget.ImageView[@resource-id="com.chinasofti.rcs:id/avator"]' % name)
+        locator = (MobileBy.XPATH, '//*[@name="%s"]/../XCUIElementTypeImage' % name)
         return self._is_element_present(locator)
 
     @TestLogger.log()
@@ -241,7 +214,7 @@ class SelectCompanyContactsPage(BasePage):
     @TestLogger.log()
     def is_exist_select_and_all(self, text):
         """是否展示已选人数"""
-        return self._is_element_present((MobileBy.XPATH, "//*[contains(@text, '确定(%s/')]" % text))
+        return self._is_element_present((MobileBy.XPATH, "//*[contains(@name, '确定(%s/')]" % text))
 
     @TestLogger.log()
     def is_exist_corporate_grade(self):
@@ -256,16 +229,14 @@ class SelectCompanyContactsPage(BasePage):
     @TestLogger.log()
     def click_contacts_image_by_name(self, name):
         """点击指定联系人头像"""
-        locator = (
-            MobileBy.XPATH,
-            '//*[@resource-id="com.chinasofti.rcs:id/tv_name_personal_contactlist" and contains(@text,"%s")]/../../../android.widget.ImageView[@resource-id="com.chinasofti.rcs:id/img_icon_contactlist"]' % name)
-        max_try = 20
-        current = 0
-        while current < max_try:
-            if self._is_element_present(locator):
-                break
-            current += 1
-            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+        locator = (MobileBy.XPATH, '//*[@name="%s"]/../XCUIElementTypeImage' % name)
+        # max_try = 20
+        # current = 0
+        # while current < max_try:
+        #     if self._is_element_present(locator):
+        #         break
+        #     current += 1
+        #     self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         self.click_element(locator)
 
     @TestLogger.log()

@@ -12,7 +12,7 @@ class NewMessagePage(BasePage):
         '发送': (MobileBy.ACCESSIBILITY_ID, "发送"),
         '+号图标': (MobileBy.XPATH, '//XCUIElementTypeOther[contains(@name,"收件人")]/XCUIElementTypeLink'),
         '否': (MobileBy.ACCESSIBILITY_ID, "否"),
-        '关闭': (MobileBy.ID, "com.chinasofti.rcs:id/btn_close_actionbar")
+        '关闭': (MobileBy.ACCESSIBILITY_ID, "cc h5 ic close")
     }
 
     @TestLogger.log()

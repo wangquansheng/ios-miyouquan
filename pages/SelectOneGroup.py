@@ -194,7 +194,7 @@ class SelectOneGroupPage(BasePage):
         #     if self._is_element_present(locator):
         #         break
         #     current += 1
-        #     self.driver.execute_script('mobile: scroll', {'direction': 'down'})
+        #     self.driver.execute_script('mobile: swipe', {'direction': 'up'})
         self.click_element(locator)
 
     @TestLogger.log()
