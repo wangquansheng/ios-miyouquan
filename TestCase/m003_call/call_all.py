@@ -1056,16 +1056,18 @@ class CallAll(TestCase):
             chatpage.click_i_have_read()
         cpg.page_should_contain_text("说点什么...")
         cpg.page_should_contain_text("给个红包2")
-        cpg.click_back_by_android(2)
+        cpg.click_back()
+        cpg.click_back()
 
     @tags('ALL', 'CMCC', 'Call')
     def test_call_shenlisi_0353_002(self):
         """检查通话profile界面可进入到消息会话窗口--陌生联系人"""
         # 陌生联系人
         cpg = CallPage()
-        cpg.create_call_entry("0731210086")
-        cpg.click_call_time()
-        time.sleep(1)
+        cpg.create_call_entry("19912345678")
+        cpg.click_dial()
+        cpg.click_call_time_search_status()
+        time.sleep(2)
         self.assertTrue(cpg.is_exist_profile_name())
         # Step:1.点击消息按钮
         CallContactDetailPage().click_normal_message()
@@ -1075,5 +1077,8 @@ class CallAll(TestCase):
         if flag:
             chatpage.click_i_have_read()
         cpg.page_should_contain_text("说点什么...")
-        cpg.page_should_contain_text("0731210086")
+        cpg.page_should_contain_text("19912345678")
         cpg.click_back()
+        cpg.click_back()
+
+
