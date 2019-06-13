@@ -9,8 +9,8 @@ class CallTypeSelectPage(BasePage):
     ACTIVITY = 'com.cmicc.module_call.ui.activity.CallTypeSelectActivity'
 
     __locators = {
-        '普通电话': (MobileBy.XPATH, "//*[contains(@text, '普通电话')]"),
-        '语音通话': (MobileBy.XPATH, "//*[contains(@text, '语音通话')]"),
+        '普通电话': (MobileBy.ID, "普通电话"),
+        '语音通话': (MobileBy.ID, '语音通话'),
         '和飞信电话': (MobileBy.XPATH, "//*[contains(@text, '和飞信电话')]"),
         '知道了': (MobileBy.XPATH, "//*[contains(@text, '知道了')]"),
         '允许': (MobileBy.XPATH, "//*[contains(@text, '允许')]"),

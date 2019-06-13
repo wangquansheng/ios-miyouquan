@@ -9,20 +9,30 @@ class SelectOneGroupPage(BasePage):
     """选择一个群页面"""
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.GroupChatListActivity'
 
-    __locators = {'': (MobileBy.ID, ''),
+    __locators = {'返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+                  '选择一个群': (MobileBy.ACCESSIBILITY_ID, '选择一个群'),
+                  '搜索群组': (MobileBy.ACCESSIBILITY_ID, '搜索群组'),
+                  '群聊列表': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+                  '群聊列表-第一个群': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'),
+                  '群聊头像': (MobileBy.ACCESSIBILITY_ID, '(//XCUIElementTypeImage[@name="cc_chat_group_default"])'),
+                  #弹出框
+                  '发送名片': (MobileBy.ACCESSIBILITY_ID, '发送名片'),
+                  '': (MobileBy.ACCESSIBILITY_ID, ''),
+                  '': (MobileBy.ACCESSIBILITY_ID, ''),
+                  '': (MobileBy.ACCESSIBILITY_ID, ''),
+                  '': (MobileBy.ACCESSIBILITY_ID, ''),
+
+
+
                   'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
                   'android:id/content': (MobileBy.ID, 'android:id/content'),
                   'com.chinasofti.rcs:id/select_picture_custom_toolbar': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/select_picture_custom_toolbar'),
-                  '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/left_back'),
                   'com.chinasofti.rcs:id/select_picture_custom_toolbar_back_btn': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/select_picture_custom_toolbar_back_btn'),
-                  '选择一个群': (MobileBy.ACCESSIBILITY_ID, '选择一个群'),
-                  '搜索群组': (MobileBy.ID, 'com.chinasofti.rcs:id/et_search'),
                   'com.chinasofti.rcs:id/contentFrame': (MobileBy.ID, 'com.chinasofti.rcs:id/contentFrame'),
                   'com.chinasofti.rcs:id/recyclerView_contactList': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/recyclerView_contactList'),
-                  '群列表': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_list'),
                   '列表项': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_group_list_item'),
                   'Q': (MobileBy.ID, ''),
                   'com.chinasofti.rcs:id/contact_image': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_image'),
@@ -43,7 +53,7 @@ class SelectOneGroupPage(BasePage):
                   '发送给': (MobileBy.XPATH, "//*[contains(@text, '发送给')]"),
                   '取消': (MobileBy.XPATH, "//*[contains(@text, '取消')]"),
                   '确定': (MobileBy.XPATH, "//*[contains(@text, '确定')]"),
-                  '分享名片': (MobileBy.ID,'com.chinasofti.rcs:id/send_tv'),
+                  # '分享名片': (MobileBy.ID,'com.chinasofti.rcs:id/send_tv'),
                   '群-搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_query'),
                   '搜索-返回': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_back'),
                   '搜索结果展示': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
@@ -64,7 +74,7 @@ class SelectOneGroupPage(BasePage):
     @TestLogger.log()
     def get_group_name(self):
         """获取群名"""
-        els = self.get_elements(self.__class__.__locators["群聊名"])
+        els = self.get_elements(self.__class__.__locators["群聊列表"])
         group_names = []
         if els:
             for el in els:
@@ -72,10 +82,23 @@ class SelectOneGroupPage(BasePage):
         return group_names
 
     @TestLogger.log()
-    def select_one_group_by_name(self, name):
-        """通过群名选择一个群"""
-        self.click_element(
-            (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text ="%s"]' % name))
+    def click_share_card(self):
+        """点击发送名片"""
+        self.click_element(self.__class__.__locators['发送名片'])
+
+
+    # @TestLogger.log()
+    # def select_one_group_by_name(self, name):
+    #     """通过群名选择一个群"""
+    #     self.click_element(
+    #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text ="%s"]' % name))
+    #
+
+    @TestLogger.log()
+    def select_first_group(self):
+        """选择第一个群"""
+        self.click_element(self.__class__.__locators['群聊列表-第一个群'])
+
 
     @TestLogger.log()
     def click_one_contact(self, contactName):

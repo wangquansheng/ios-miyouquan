@@ -15,17 +15,24 @@ class MeEditUserProfilePage(BasePage):
 
     __locators = {'': (MobileBy.ID, ''),
 
+                  # 编辑个人资料页面
+                  '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+                  '保存': (MobileBy.ACCESSIBILITY_ID, '保存'),
+                  '拍照图标': (MobileBy.ACCESSIBILITY_ID, 'cc me photography normal'),
+                  '输入姓名': (
+                      MobileBy.XPATH, '(//XCUIElementTypeTextView[@name="2b610f78-8d44-11e9-95e5-309c23f30f2e"])[1]'),
+                  '输入电话': (MobileBy.ACCESSIBILITY_ID, '19849476421'),
+                  '输入公司': (MobileBy.ACCESSIBILITY_ID, '输入公司'),
+                  '输入职位': (MobileBy.ACCESSIBILITY_ID, '输入职位'),
+                  '输入邮箱': (MobileBy.ACCESSIBILITY_ID, '输入邮箱'),
+                  '分享名片': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeStaticText[@name="分享名片"]'),
+
+
+
+
                   '意见反馈': (MobileBy.XPATH, "//*[contains(@text, '意见反馈')]"),
                   '网上营业厅': (MobileBy.ID, 'com.chinasofti.rcs:id/toolbar_title_tv'),
-                  '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/left_back'),
-                  '保存': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_save'),
-                  '姓名': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_contact_name'),
-                  '电话': (MobileBy.ID, 'com.chinasofti.rcs:id/phone'),
                   '个人头像': (MobileBy.ID, 'com.chinasofti.rcs:id/profile_photo'),
-                  '公司': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_contact_company'),
-                  '职位': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_contact_job'),
-                  '邮箱': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_contact_email'),
-                  '分享名片': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_share_card'),
                   # 打开编辑图片
                   '编辑图片': (MobileBy.ID, 'com.chinasofti.rcs:id/change_photo'),
                   '选择图片': (MobileBy.XPATH, "//*[contains(@text, '选择图片')]"),
@@ -50,7 +57,7 @@ class MeEditUserProfilePage(BasePage):
             self.wait_until(
                 timeout=timeout,
                 auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self._is_element_present(self.__class__.__locators["编辑图片"])
+                condition=lambda d: self._is_element_present(self.__class__.__locators["保存"])
             )
         except:
             message = "页面在{}s内，没有加载成功".format(timeout)
@@ -75,9 +82,27 @@ class MeEditUserProfilePage(BasePage):
             )
         return self
 
+    @TestLogger.log()
+    def is_on_this_page(self):
+        """当前页面是否在消息页"""
+
+        try:
+            self.wait_until(
+                timeout=15,
+                auto_accept_permission_alert=True,
+                condition=lambda d: self._is_element_present(self.__class__.__locators["保存"])
+            )
+            return True
+        except:
+            return False
+
+
+
     @TestLogger.log('判断该元素是否能点击')
-    def element_is_click_able(self, text):
-        return self._is_clickable(self.__locators[text])
+    def element_is_visible(self, text):
+        return self._is_visible(self.__class__.__locators[text])
+
+
 
     @TestLogger.log('判断该元素是否能激活')
     def element_is_enabled_able(self, text):
@@ -90,15 +115,14 @@ class MeEditUserProfilePage(BasePage):
 
     @TestLogger.log('获取元素文本内容')
     def get_element_text(self, text):
-        infor = self.get_text(self.__locators[text])
-        if len(infor) > 40:
-            return False
-        else:
-            return True
+        return self.get_element(self.__locators[text]).text
+
 
     @TestLogger.log('点击保存')
     def click_save(self):
         self.click_element(self.__locators["保存"])
+
+
 
     @TestLogger.log('点击返回')
     def click_back(self):

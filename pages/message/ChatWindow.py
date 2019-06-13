@@ -15,16 +15,37 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
     ACTIVITY = 'com.cmicc.module_message.ui.activity.MessageDetailActivity'
 
     __locators = {
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        #单聊页面
+        '标题': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeOther[2]'),
+        '通话图标': (MobileBy.ACCESSIBILITY_ID, 'cc chat message call normal'),
+        '设置': (MobileBy.ACCESSIBILITY_ID, 'cc chat message site normal'),
+        '照片': (MobileBy.ACCESSIBILITY_ID, '/var/containers/Bundle/Application/E90131E9-98D3-4366-9B9C-E909080E2D03/AndFetion.app/cc_chat_gallery_normal@3x.png'),
+        '拍照': (MobileBy.ACCESSIBILITY_ID, '/var/containers/Bundle/Application/E90131E9-98D3-4366-9B9C-E909080E2D03/AndFetion.app/cc_chat_camera_normal@3x.png'),
+        '文件': (MobileBy.ACCESSIBILITY_ID, '/var/containers/Bundle/Application/E90131E9-98D3-4366-9B9C-E909080E2D03/AndFetion.app/cc_chat_icon_file_normal@3x.png'),
+        '表情': (MobileBy.ACCESSIBILITY_ID, '/var/containers/Bundle/Application/E90131E9-98D3-4366-9B9C-E909080E2D03/AndFetion.app/cc_chat_icon_emoji_normal@3x.png'),
+        '更多': (MobileBy.ACCESSIBILITY_ID, '/var/containers/Bundle/Application/E90131E9-98D3-4366-9B9C-E909080E2D03/AndFetion.app/cc_chat_ic_input_more@3x.png'),
+        '信息': (MobileBy.ACCESSIBILITY_ID, 'ic chat message n'),
+        '语音': (MobileBy.ACCESSIBILITY_ID, 'cc chat voice normal@3x'),
+        '说点什么': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTextView'),
+        '发送按钮': (MobileBy.ACCESSIBILITY_ID, 'cc chat send normal@3x'),
+        #更多选项
+        '飞信电话': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_input_ic_hefeixin'),
+        '音视频通话': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_input_ic_video'),
+        '名片': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_input_ic_business'),
+        '位置': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_input_ic_position'),
+
+        '红包': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_input_ic_bag'),
+
+
         'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
         'android:id/content': (MobileBy.ID, 'android:id/content'),
         'com.chinasofti.rcs:id/pop_10g_window_drop_view': (
             MobileBy.ID, 'com.chinasofti.rcs:id/pop_10g_window_drop_view'),
         'com.chinasofti.rcs:id/id_toolbar': (MobileBy.ID, 'com.chinasofti.rcs:id/id_toolbar'),
-        '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/back'),
         '返回箭头': (MobileBy.ID, 'com.chinasofti.rcs:id/back_arrow'),
         '13537795364': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
         'com.chinasofti.rcs:id/action_call': (MobileBy.ID, 'com.chinasofti.rcs:id/action_call'),
-        '设置': (MobileBy.ID, 'com.chinasofti.rcs:id/action_setting'),
         'com.chinasofti.rcs:id/view_line': (MobileBy.ID, 'com.chinasofti.rcs:id/view_line'),
         'com.chinasofti.rcs:id/contentFrame': (MobileBy.ID, 'com.chinasofti.rcs:id/contentFrame'),
         'com.chinasofti.rcs:id/message_editor_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/message_editor_layout'),
@@ -40,16 +61,11 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
         'com.chinasofti.rcs:id/ll_text_input': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_text_input'),
         'com.chinasofti.rcs:id/layout_for_message': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_for_message'),
         'com.chinasofti.rcs:id/ll_rich_panel': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_rich_panel'),
-        '照片': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_pic'),
-        '拍照': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_take_photo'),
-        '名片': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_profile'),
+
         'GIF': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_gif'),
-        '更多': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_more'),
         'com.chinasofti.rcs:id/input_divider_inside': (MobileBy.ID, 'com.chinasofti.rcs:id/input_divider_inside'),
         'com.chinasofti.rcs:id/input_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/input_layout'),
         'com.chinasofti.rcs:id/fl_edit_panel': (MobileBy.ID, 'com.chinasofti.rcs:id/fl_edit_panel'),
-        '说点什么': (MobileBy.ID, 'com.chinasofti.rcs:id/et_message'),
-        '发送按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_send'),
         'com.chinasofti.rcs:id/ib_expression': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_expression'),
         'com.chinasofti.rcs:id/ib_audio': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_audio'),
         'com.chinasofti.rcs:id/ib_record_red_dot': (MobileBy.ID, 'com.chinasofti.rcs:id/ib_record_red_dot'),
@@ -79,6 +95,19 @@ class ChatWindowPage(ChatNoticeDialog, PictureSelector, BaseChatPage,BasePage):
         """点击确定"""
         self.click_element(self.__locators['确定'])
 
+    @TestLogger.log()
+    def is_on_this_page(self):
+        """当前页面是否在通讯录"""
+
+        try:
+            self.wait_until(
+                timeout=15,
+                auto_accept_permission_alert=True,
+                condition=lambda d: self._is_element_present(self.__class__.__locators["设置"])
+            )
+            return True
+        except:
+            return False
 
 
 

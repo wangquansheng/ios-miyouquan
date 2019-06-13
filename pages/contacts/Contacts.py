@@ -35,10 +35,10 @@ class ContactsPage(FooterPage):
         '查看更多2': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="查看更多"])[2]'),
 
         #底部标签栏
-        '消息': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_selected'),
+        '消息': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_normal'),
         '通话': (MobileBy.ACCESSIBILITY_ID, 'cc_call_unselected'),
         '工作台': (MobileBy.ACCESSIBILITY_ID, 'cc_workbench_normal'),
-        '通讯录': (MobileBy.ACCESSIBILITY_ID, 'cc_contects_unselected'),
+        '通讯录': (MobileBy.ACCESSIBILITY_ID, 'cc_contacts_selected'),
         '我': (MobileBy.ACCESSIBILITY_ID, 'cc_me_unselected'),
         #手机联系人界面
         '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
@@ -52,6 +52,21 @@ class ContactsPage(FooterPage):
 
 
     }
+
+    @TestLogger.log()
+    def is_on_this_page(self):
+        """当前页面是否在通讯录"""
+
+        try:
+            self.wait_until(
+                timeout=15,
+                auto_accept_permission_alert=True,
+                condition=lambda d: self._is_element_present(self.__class__.__locators["手机联系人"])
+            )
+            return True
+        except:
+            return False
+
 
     @TestLogger.log("点击手机联系人")
     def click_phone_contact(self):
@@ -118,8 +133,8 @@ class ContactsPage(FooterPage):
     @TestLogger.log()
     def select_contacts_by_name(self, name):
         """根据名字选择一个联系人"""
-        locator = (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="%s"]' % name)
-        max_try = 20
+        locator = (MobileBy.ACCESSIBILITY_ID, '//*[@name="%s"]' % name)
+        max_try = 10
         current = 0
         while current < max_try:
             if self._is_element_present(locator):
