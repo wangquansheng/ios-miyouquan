@@ -199,8 +199,8 @@ class CallAll(TestCase):
         # Step:1.查看通话记录
         cpg = CallPage()
         # CheckPoint:1.页面中间显示图片以及提示语
-        cpg.page_should_contain_text("给你的好友打个电话吧")
-        cpg.page_should_contain_text('多方电话')
+        cpg.page_should_contain_text("高清通话，高效沟通")
+        cpg.page_should_contain_text('飞信电话')
 
     @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0007(self):
@@ -315,9 +315,10 @@ class CallAll(TestCase):
         # Step:1.点击“拨号”按钮
         cpg.click_call_phone()
         time.sleep(1)
-        # CheckPoint:1.提示“拨打号码不能为空”
-        flag = cpg.is_toast_exist("拨打的号码不能为空")
-        self.assertTrue(flag)
+        # # CheckPoint:1.提示“拨打号码不能为空”
+        # flag = cpg.is_toast_exist("拨打的号码不能为空")
+        # self.assertTrue(flag)
+        cpg.page_should_contain_text("号码不能为空")
         cpg.click_dial()
 
     @tags('ALL', 'CMCC', 'Call', "ios")
@@ -713,7 +714,7 @@ class CallAll(TestCase):
         cpg.press_delete()
         cpg.click_dial()
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0086(self):
         """检查语音通话记录-本地联系人"""
         # 1.A已登录和飞信
@@ -739,7 +740,7 @@ class CallAll(TestCase):
         self.assertTrue(cpg.is_exist_profile_name())
         cpg.click_back()
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0087(self):
         """检查语音通话记录-企业联系人"""
         # 1.A已登录和飞信
@@ -768,7 +769,7 @@ class CallAll(TestCase):
         self.assertTrue(cpg.is_exist_profile_name())
         cpg.click_back()
 
-    @tags('ALL', 'CMCC', 'Call')
+    @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0088(self):
         """检查语音通话记录-陌生联系人"""
         # 1.A已登录和飞信
@@ -797,3 +798,282 @@ class CallAll(TestCase):
         self.assertTrue(cpg.is_exist_profile_name())
         cpg.click_back()
 
+    @staticmethod
+    def setUp_test_call_shenlisi_0158():
+        # 确保打开WiFi网络
+        Preconditions.make_already_in_call()
+        # CalllogBannerPage().skip_multiparty_call()
+        # CallPage().delete_all_call_entry()
+        # CallPage().set_network_status(6)
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0158(self):
+        """检查语音呼叫-未订购每月10G用户--用户在WiFi环境下不提示此类弹窗"""
+        # 1.客户端已登录
+        # 2.未订购每月10G用户
+        # 3.网络使用WIFI
+        # 1.发起语音通话
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("13800138001")
+        cpg.click_call_phone()
+        time.sleep(2)
+        CallTypeSelectPage().click_call_by_voice()
+        time.sleep(2)
+        # 1.直接发起语音通话，没有弹窗
+        cpg.page_should_not_contain_text("每月10G免流特权")
+        time.sleep(1)
+        cpg.wait_for_dial_pad()
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0213(self):
+        """检查视频通话记录——本地联系人"""
+        # 1.A已登录和飞信
+        # 2.用户A已成功发起与用户B的视频通话
+        cpg = CallPage()
+        cpg.click_multi_party_video()
+        time.sleep(1)
+        CalllogBannerPage().input_telephone("13800138001")
+        time.sleep(1)
+        cpg.click_text("给个红包2")
+        time.sleep(1)
+        cpg.click_text("呼叫")
+        time.sleep(1)
+        # Step:1.用户A查看通话记录
+        cpg.wait_for_page_load()
+        # CheckPoint:1.通话记录展示与用户B的视频通话记录，显示用户B的名称、通话类型【视频通话】、手机号/归属地
+        cpg.page_should_contain_text("给个红包2")
+        cpg.page_should_contain_text("视频通话")
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0218(self):
+        """检查呼叫本地联系人，呼叫界面展示名称+手机号"""
+        # 1.已登录和飞信
+        # 2.用户M为本地联系人
+        # 3.已开启麦克风，相机权限
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("13800138001")
+        cpg.click_call_time_search_status()
+        time.sleep(1)
+        # Step:1.视频呼叫M，进入到呼叫界面
+        CallContactDetailPage().click_video_call()
+        time.sleep(1)
+        # CheckPoint:1.头像下展示用户M的名称+手机号
+        cpg.page_should_contain_text("13800138001")
+        cpg.page_should_contain_text("给个红包2")
+        CallContactDetailPage().wait_for_star()
+        cpg.click_back()
+
+    @staticmethod
+    def setUp_test_call_shenlisi_0234():
+        # 确保打开WiFi网络
+        Preconditions.make_already_in_call()
+        # CalllogBannerPage().skip_multiparty_call()
+        # CallPage().delete_all_call_entry()
+        # CallPage().set_network_status(6)
+
+    @tags('ALL', 'CMCC', 'Call', "ios")
+    def test_call_shenlisi_0234(self):
+        """检查视频呼叫-未订购每月10G用户--用户在WiFi环境下不提示此类弹窗"""
+        # 1.客户端已登录
+        # 2.未订购每月10G用户
+        # 3.网络使用WIFI
+        # 1.发起视频通话
+        cpg = CallPage()
+        cpg.click_dial()
+        cpg.dial_number("13800138001")
+        cpg.click_call_time_search_status()
+        CallContactDetailPage().click_video_call()
+        time.sleep(2)
+        # 1.直接发起语音通话，没有弹窗
+        cpg.page_should_not_contain_text("每月10G免流特权")
+        time.sleep(1)
+        CallContactDetailPage().wait_for_star()
+        cpg.click_back()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0314(self):
+        """检查通话界面发起多方视频"""
+        # 1.客户端已登陆在：通话界面
+        # 2.网络正常
+        # 3.成员手机号有效
+        # Step:1.点击【多方视频】按钮
+        cpg = CallPage()
+        cmvp = MultiPartyVideoPage()
+        cpg.click_multi_party_video()
+        time.sleep(2)
+        # CheckPoint:1.跳转至发起视频-选择成员界面
+        cpg.page_should_contain_text("选择团队联系人")
+        # Step:2.选择成员
+        # 选择本地一个，号码搜索一个
+        cmvp.click_contact_item(index=2)
+        time.sleep(1)
+        cmvp.input_contact_search("13537795364")
+        cpg.click_text("未知号码")
+        # CheckPoint:2.被选的成员接显示在已选成员列表
+        self.assertTrue(cmvp.is_exist_contact_selection())
+        # Step:3.点击【呼叫】按钮
+        cmvp.click_tv_sure()
+        time.sleep(1)
+        # CheckPoint:3.转入多方视频拨通界面
+        cpg.page_should_contain_text("关闭摄像头")
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0324(self):
+        """在通话界面邀请无效手机号发起多方视频"""
+        # 1.客户端已登陆在：通话界面
+        # 2.网络正常
+        # 3.邀请无效手机号进入到多方视频通话
+        cpg = CallPage()
+        cmvp = MultiPartyVideoPage()
+        # Step:1.【多方视频】按钮
+        cpg.click_multi_party_video()
+        time.sleep(2)
+        # CheckPoint:1.跳转至发起视频-选择成员界面
+        cpg.page_should_contain_text("选择团队联系人")
+        # Step:2.输入任意非手机号数字
+        cmvp.input_contact_search("13800138005991")
+        time.sleep(2)
+        # CheckPoint:2.联系人选择器无法识别出无效手机号
+        cpg.page_should_not_contain_text("本地联系人")
+        cpg.page_should_not_contain_text("网络搜索")
+
+        cpg.click_back()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0326(self):
+        """检查无副号时通话记录列表页面"""
+        # 1.用户已登录和飞信通话记录列表页面
+        # 2.无副号
+        cpg = CallPage()
+        time.sleep(1)
+        # Step:1，查看界面
+        # CheckPoint:1.左上角显示“通话”，右边显示“视频”按钮，中间显示通话记录，右下方显示“多方电话”悬浮
+        self.assertTrue(cpg.check_call_display())
+        self.assertTrue(cpg.check_multiparty_video())
+        self.assertTrue(cpg.check_feixin_call())
+        # Step:2.点击拨号盘
+        cpg.click_dial()
+        # CheckPoint:2.弹出拨号盘，顶部栏被遮挡
+        self.assertFalse(cpg.check_call_display())
+        self.assertFalse(cpg.check_multiparty_video())
+        cpg.click_dial()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0328(self):
+        """检查通通话列表为空"""
+        # 1.用户已登录和飞信通话记录列表页面
+        # 2.通讯录为空
+        cpg = CallPage()
+        time.sleep(1)
+        # Step:1，查看界面
+        # CheckPoint:1.界面logo提示“给你的好友打个电话吧”
+        # self.assertTrue(cpg.check_call_image())
+        cpg.page_should_contain_text("高清通话，高效沟通")
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0333(self):
+        """检查清零未接通话数"""
+        # 1.用户已登录和飞信消息tab
+        # 2.通话tab右上角显示未读消息气泡
+        # Step:1.点击通话tab
+        cpg = CallPage()
+        cpg.click_call()
+        # CheckPoint:1.通话未接数清零，图标变为拨号盘按钮
+        # 清空通话记录
+        cpg.delete_all_call_entry()
+        cpg.page_should_contain_text("高清通话，高效沟通")
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0347(self):
+        """检查本地联系人通话profile左上角显示名称"""
+        # 1.已登录和飞信：通话tab
+        # 2.已存在与本地联系人的通话记录M
+        # Step:1.点击记录M的时间节点
+        cpg = CallPage()
+        cpg.create_call_entry("13800138001")
+        cpg.click_dial()
+        cpg.click_call_time_search_status()
+        # CheckPoint:1.进入到M的通话profile界面
+        time.sleep(2)
+        cpg.page_should_contain_text("分享名片")
+        # Step:2.查看左上角的名称
+        ret = cpg.get_profile_name()
+        # CheckPoint:2.左上角<按钮。以及M名称
+        self.assertEqual(ret, "给个红包2")
+        # Step:3.点击<按钮>
+        cpg.click_back()
+        cpg.click_dial()
+        time.sleep(2)
+        # CheckPoint:3.返回到上一个界面
+        self.assertTrue(cpg.is_on_the_call_page())
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0348(self):
+        """检查陌生联系人通话profile左上角显示手机号"""
+        # 1.已登录和飞信：通话tab
+        # 2.已存在与陌生联系人的通话记录M
+        # Step:1.点击记录M的时间节点
+        cpg = CallPage()
+        cpg.create_call_entry("19912345678")
+        cpg.click_dial()
+        cpg.click_call_time_search_status()
+        # CheckPoint:1.进入到M的通话profile界面
+        time.sleep(2)
+        self.assertTrue(cpg.is_exist_profile_name())
+        # Step:2.查看左上角的名称
+        ret = cpg.get_profile_name()
+        # CheckPoint:2.左上角<按钮。以及N的手机号
+        self.assertEqual(ret, "19912345678")
+        # Step:3.点击<按钮>
+        cpg.click_back()
+        cpg.click_dial()
+        time.sleep(2)
+        # CheckPoint:3.返回到上一个界面
+        self.assertTrue(cpg.is_on_the_call_page())
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0353_001(self):
+        """检查通话profile界面可进入到消息会话窗口--本地联系人"""
+        # 1.已登录和飞信：通话tab
+        # 2.已进入到联系人通话profile
+        # 本地联系人
+        cpg = CallPage()
+        cpg.create_call_entry("13800138001")
+        cpg.click_dial()
+        cpg.click_call_time_search_status()
+        time.sleep(2)
+        cpg.page_should_contain_text("分享名片")
+        # Step:1.点击消息按钮
+        CallContactDetailPage().click_normal_message()
+
+        # CheckPoint:1.进入到与该联系人的消息会话框。本地联系人左上角显示名称。陌生联系人，左上角显示手机号
+        chatpage = BaseChatPage()
+        flag = chatpage.is_exist_dialog()
+        if flag:
+            chatpage.click_i_have_read()
+        cpg.page_should_contain_text("说点什么...")
+        cpg.page_should_contain_text("给个红包2")
+        cpg.click_back_by_android(2)
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0353_002(self):
+        """检查通话profile界面可进入到消息会话窗口--陌生联系人"""
+        # 陌生联系人
+        cpg = CallPage()
+        cpg.create_call_entry("0731210086")
+        cpg.click_call_time()
+        time.sleep(1)
+        self.assertTrue(cpg.is_exist_profile_name())
+        # Step:1.点击消息按钮
+        CallContactDetailPage().click_normal_message()
+        # CheckPoint:1.进入到与该联系人的消息会话框。本地联系人左上角显示名称。陌生联系人，左上角显示手机号
+        chatpage = BaseChatPage()
+        flag = chatpage.is_exist_dialog()
+        if flag:
+            chatpage.click_i_have_read()
+        cpg.page_should_contain_text("说点什么...")
+        cpg.page_should_contain_text("0731210086")
+        cpg.click_back()

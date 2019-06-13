@@ -53,7 +53,6 @@ class SelectLocalContactsPage(BasePage):
                   '已选联系人名': (MobileBy.ID, 'com.chinasofti.rcs:id/image_text'),
                   }
 
-
     @TestLogger.log()
     def swipe_select_one_member_by_name(self, name, times=15):
         """通过人名选择一个联系人"""
@@ -293,14 +292,14 @@ class SelectLocalContactsPage(BasePage):
     @TestLogger.log()
     def selecting_local_contacts_by_name(self, name):
         """根据名字选择一个手机联系人"""
-        locator = (MobileBy.ACCESSIBILITY_ID, '%s' % name)
-        max_try = 20
-        current = 0
-        while current < max_try:
-            if self._is_element_present(locator):
-                break
-            current += 1
-            self.page_up()
+        locator = (MobileBy.XPATH, '//*[@name="%s"]' % name)
+        # max_try = 20
+        # current = 0
+        # while current < max_try:
+        #     if self._is_element_present(locator):
+        #         break
+        #     current += 1
+        #     self.driver.execute_script('mobile: scroll', {'direction': 'up'})
         self.click_element(locator)
 
     @TestLogger.log()

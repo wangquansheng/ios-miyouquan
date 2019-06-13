@@ -39,8 +39,7 @@ class MessagePage(FooterPage):
         'com.chinasofti.rcs:id/itemLayout': (MobileBy.ID, 'com.chinasofti.rcs:id/itemLayout'),
         'com.chinasofti.rcs:id/pop_item_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/pop_item_layout'),
         'com.chinasofti.rcs:id/iconIV': (MobileBy.ID, 'com.chinasofti.rcs:id/iconIV'),
-        '新建消息': (
-            MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/pop_navi_text" and @text ="新建消息"]'),
+        '新建消息': (MobileBy.ACCESSIBILITY_ID, '新建消息'),
         '免费短信': (
             MobileBy.XPATH, '//*[@resource-id ="com.chinasofti.rcs:id/pop_navi_text" and @text ="免费短信"]'),
         '发起群聊': (MobileBy.ACCESSIBILITY_ID, '发起群聊'),

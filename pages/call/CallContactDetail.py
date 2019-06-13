@@ -15,20 +15,20 @@ class CallContactDetailPage(BasePage):
                   'com.chinasofti.rcs:id/pop_10g_window_drop_view': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/pop_10g_window_drop_view'),
                   'profileName': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_profile_name'),
-                  '星标': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_star'),
-                  '编辑': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_call_detail_edit'),
-                  '好久不见~打个招呼吧': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_recent_contact_hint'),
+                  '星标': (MobileBy.ID, 'cc contacts profile ic star un'),
+                  '编辑': (MobileBy.ID, '编辑'),
+                  '好久不见~打个招呼吧': (MobileBy.ID, '好久不见~打个招呼吧'),
                   '138 0013 8001': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_phone'),
                   'G': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_profile_photo_tv'),
                   'com.chinasofti.rcs:id/recyclesafeimageview_profile_photo': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/recyclesafeimageview_profile_photo'),
-                  '消息': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_normal_message'),
-                  '电话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_normal_call'),
-                  '语音通话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_voice_call'),
-                  '视频通话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_video_call'),
+                  '消息': (MobileBy.ID, 'cc profile massage normal'),
+                  '电话': (MobileBy.ID, 'cc profile call normal'),
+                  '语音通话': (MobileBy.ID, 'cc profile voicecall normal'),
+                  '视频通话': (MobileBy.ID, 'cc profile video normal'),
                   'com.chinasofti.rcs:id/sv_info': (MobileBy.ID, 'com.chinasofti.rcs:id/sv_info'),
                   'com.chinasofti.rcs:id/rl_andfetion_call': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_andfetion_call'),
-                  '和飞信电话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_dial_hefeixin'),
+                  '和飞信电话': (MobileBy.ID, '飞信电话, 免费'),
                   'com.chinasofti.rcs:id/call_detail_hefeixin_call': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/call_detail_hefeixin_call'),
                   'com.chinasofti.rcs:id/rv_call_record_detail': (
@@ -94,6 +94,19 @@ class CallContactDetailPage(BasePage):
                 timeout=timeout,
                 auto_accept_permission_alert=auto_accept_alerts,
                 condition=lambda d: self._is_element_present(self.__class__.__locators["profileName"])
+            )
+        except:
+            raise AssertionError("页面在{}s内，没有加载成功".format(str(timeout)))
+        return self
+
+    @TestLogger.log()
+    def wait_for_star(self, timeout=30, auto_accept_alerts=True):
+        """等待星标面"""
+        try:
+            self.wait_until(
+                timeout=timeout,
+                auto_accept_permission_alert=auto_accept_alerts,
+                condition=lambda d: self._is_element_present(self.__class__.__locators["星标"])
             )
         except:
             raise AssertionError("页面在{}s内，没有加载成功".format(str(timeout)))
