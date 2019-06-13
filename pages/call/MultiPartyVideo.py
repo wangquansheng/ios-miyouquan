@@ -14,15 +14,15 @@ class MultiPartyVideoPage(BasePage):
         'com.chinasofti.rcs:id/id_toolbar': (MobileBy.ID, 'com.chinasofti.rcs:id/id_toolbar'),
         'com.chinasofti.rcs:id/back': (MobileBy.ID, 'com.chinasofti.rcs:id/back'),
         '多方视频': (MobileBy.ID, 'com.chinasofti.rcs:id/title'),
-        '呼叫': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_sure'),
-        '搜索或输入号码': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
+        '呼叫': (MobileBy.XPATH, '//*[@type="XCUIElementTypeButton"]'),
+        '搜索或输入号码': (MobileBy.XPATH, '//*[@value="搜索或输入号码"]'),
         'com.chinasofti.rcs:id/contentFrame': (MobileBy.ID, 'com.chinasofti.rcs:id/contentFrame'),
         'com.chinasofti.rcs:id/local_contact_lv': (MobileBy.ID, 'com.chinasofti.rcs:id/local_contact_lv'),
         'com.chinasofti.rcs:id/contact_list': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_list'),
         'com.chinasofti.rcs:id/local_contacts': (MobileBy.ID, 'com.chinasofti.rcs:id/local_contacts'),
         '选择和通讯录联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/text_hint'),
         'com.chinasofti.rcs:id/arrow_right': (MobileBy.ID, 'com.chinasofti.rcs:id/arrow_right'),
-        '联系人item': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_list_item'),
+        '联系人item': (MobileBy.XPATH, '//*[@type="XCUIElementTypeCell"]'),
         'D': (MobileBy.ID, 'com.chinasofti.rcs:id/index_text'),
         '头像': (MobileBy.ID, 'com.chinasofti.rcs:id/head_tv'),
         'com.chinasofti.rcs:id/contact_icon': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_icon'),
@@ -40,7 +40,7 @@ class MultiPartyVideoPage(BasePage):
         '给个红包2': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
         '13800138001': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_number'),
         '给个红包3': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-        '已选择成员': (MobileBy.ID, 'com.chinasofti.rcs:id/hor_contact_selection')
+        '已选择成员': (MobileBy.XPATH, '//*[@type="XCUIElementTypeImage"]')
     }
 
     @TestLogger.log()
@@ -73,3 +73,9 @@ class MultiPartyVideoPage(BasePage):
     def input_contact_search(self, text):
         """输入电话号码并搜索"""
         self.input_text(self.__locators["搜索或输入号码"], text)
+
+    @TestLogger.log()
+    def click_contact_item(self, index=0):
+        """点击联系人item"""
+        el = self.get_elements(self.__locators["联系人item"])
+        el[index].click()

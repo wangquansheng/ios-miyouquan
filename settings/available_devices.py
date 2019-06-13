@@ -524,6 +524,7 @@ DEVICES_CONFIG_IOS = {
               "automationName": "XCUITest",
               "app": "cn.10086.rcs.beta",
               "xcodeOrgId": "42J4UB47JC",
+              "newCommandTimeout": 60,
               "xcodeSigningId": "iPhone Developer"
         },
         'CARDS': [
