@@ -3,11 +3,11 @@ from appium.webdriver.common.mobileby import MobileBy
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 class FooterPage(BasePage):
-    """主页页脚标签栏"""
+    """主页页脚标签栏(消息页面)"""
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
     __locators = {
-        '消息': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_selected'),
+        '消息': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="消息"]'),
         '通话': (MobileBy.ACCESSIBILITY_ID, 'cc_call_unselected'),
         '工作台': (MobileBy.ACCESSIBILITY_ID, 'cc_workbench_normal'),
         '通讯录': (MobileBy.ACCESSIBILITY_ID, 'cc_contects_unselected'),
@@ -23,7 +23,7 @@ class FooterPage(BasePage):
     @TestLogger.log()
     def open_message_page(self):
         """切换到标签页：消息"""
-        self.click_element(self.__locators['消息'])
+        self.click_element(self.__class__.__locators['消息'])
 
     @TestLogger.log()
     def open_call_page(self):
@@ -43,7 +43,7 @@ class FooterPage(BasePage):
         self.click_element(self.__locators['通讯录'])
         if ContactsPage().is_text_present('需要使用通讯录权限'):
             ContactsPage().click_always_allowed()
-        ContactsPage().click_sim_contact()
+        # ContactsPage().click_sim_contact()
 
 
 
@@ -59,6 +59,12 @@ class FooterPage(BasePage):
         if result.lower() == "true":
             return True
         return False
+
+    @TestLogger.log()
+    def message_icon_is_visiable(self):
+        """通话图标是否可看"""
+        return self._is_visible(self.__class__.__locators["消息"])
+
 
     @TestLogger.log()
     def call_icon_is_enabled(self):

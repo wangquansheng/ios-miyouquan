@@ -9,15 +9,25 @@ class SelectHeContactsPage(BasePage):
     ACTIVITY = 'com.cmicc.module_enterprise.ui.activity.EnterPriseContactSelectActivity'
 
     __locators = {
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '选择联系人': (MobileBy.ACCESSIBILITY_ID, '选择联系人'),
+        '搜索或输入手机号': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeTextField'),
+        '团队列表': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'),
+        '团队列表-第一个': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+        '团队头像-第一个': (MobileBy.XPATH, '(//XCUIElementTypeImage[@name="cc_contacts_organization_classA"])[1]'),
+        '团队联系人列表第一个': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+        '团队联系人列表第二个': (MobileBy.XPATH,
+                       '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+
+
+
+
                   'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
                   'android:id/content': (MobileBy.ID, 'android:id/content'),
                   'com.chinasofti.rcs:id/actionbar_enterprise_contactselect_activity': (
                   MobileBy.ID, 'com.chinasofti.rcs:id/actionbar_enterprise_contactselect_activity'),
-                  '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back'),
-                  '选择联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_action_bar_title'),
                   'com.chinasofti.rcs:id/layout_search_enterprise_contactSelect_activity': (
                   MobileBy.ID, 'com.chinasofti.rcs:id/layout_search_enterprise_contactSelect_activity'),
-                  '搜索或输入手机号': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
                   'com.chinasofti.rcs:id/layout_nomal_enterprise_contactSelect_activity': (
                   MobileBy.ID, 'com.chinasofti.rcs:id/layout_nomal_enterprise_contactSelect_activity'),
                   'com.chinasofti.rcs:id/enterprise_fragment_contactSelect_activity': (
@@ -34,6 +44,13 @@ class SelectHeContactsPage(BasePage):
                   '团队名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
                   }
 
+
+    @TestLogger.log()
+    def select_one_team_by_name(self, name):
+        """选择一个团队"""
+        self.click_element((MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="%s"])' % name))
+
+
     @TestLogger.log()
     def wait_for_page_load(self, timeout=30, auto_accept_alerts=True):
         """等待选择团队页面加载"""
@@ -41,7 +58,7 @@ class SelectHeContactsPage(BasePage):
             self.wait_until(
                 timeout=timeout,
                 auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self._is_element_present(self.__class__.__locators['团队名称'])
+                condition=lambda d: self._is_element_present(self.__class__.__locators['团队头像-第一个'])
             )
         except:
             message = "页面在{}s内，没有加载成功，或者在和通讯录没有团队".format(str(timeout))
@@ -51,19 +68,16 @@ class SelectHeContactsPage(BasePage):
         return self
 
     @TestLogger.log()
-    def get_team_names(self):
+    def get_team_names(self,name):
         """获取团队名字"""
-        els = self.get_elements(self.__class__.__locators['团队名称'])
+        locater=(MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="%s"])' % name)
+        els = self.get_elements(self.__class__.__locators[locater])
         team_names = []
         if els:
             for el in els:
                 team_names.append(el.text)
         return team_names
 
-    @TestLogger.log()
-    def select_one_team_by_name(self, name):
-        """选择一个团队"""
-        self.click_element((MobileBy.XPATH, '//*[@text="%s"]' % name))
 
     @TestLogger.log()
     def click_back(self):

@@ -16,6 +16,26 @@ class MessagePage(FooterPage):
 
     __locators = {
         "+号": (MobileBy.ACCESSIBILITY_ID, 'cc contacts add normal'),
+        "搜索": (MobileBy.ACCESSIBILITY_ID, '搜索'),
+        "消息列表1": (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'),
+        "消息列表-对话消息头像": (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeImage'),
+        '大佬1':(MobileBy.ACCESSIBILITY_ID, '大佬1'),
+        #搜索页面
+        "输入关键字快速搜索": (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="输入关键字快速搜索"])[1]'),
+        "团队联系人列表": (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+        "手机联系人头像": (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]/XCUIElementTypeImage'),
+        "团队联系人头像": (MobileBy.ACCESSIBILITY_ID, 'cc_chat_personal_default'),
+        "返回": (MobileBy.ACCESSIBILITY_ID, 'back'),
+        "": (MobileBy.ACCESSIBILITY_ID, ''),
+
+
+
+        # 底部标签栏
+        '通话': (MobileBy.ACCESSIBILITY_ID, 'cc_call_unselected'),
+        '工作台': (MobileBy.ACCESSIBILITY_ID, 'cc_workbench_normal'),
+        '通讯录': (MobileBy.ACCESSIBILITY_ID, 'cc_contects_unselected'),
+        '我': (MobileBy.ACCESSIBILITY_ID, 'cc_me_unselected'),
+
         'com.chinasofti.rcs:id/itemLayout': (MobileBy.ID, 'com.chinasofti.rcs:id/itemLayout'),
         'com.chinasofti.rcs:id/pop_item_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/pop_item_layout'),
         'com.chinasofti.rcs:id/iconIV': (MobileBy.ID, 'com.chinasofti.rcs:id/iconIV'),
@@ -44,12 +64,6 @@ class MessagePage(FooterPage):
         '消息名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_conv_name'),
         '消息时间': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_date'),
         '消息简要内容': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_content'),
-        # 底部标签栏
-        '通话': (MobileBy.ACCESSIBILITY_ID, 'cc_call_unselected'),
-        '工作台': (MobileBy.ACCESSIBILITY_ID, 'cc_workbench_normal'),
-        '通讯录': (MobileBy.ACCESSIBILITY_ID, 'cc_contects_unselected'),
-        '我': (MobileBy.ACCESSIBILITY_ID, 'cc_me_unselected'),
-
 
         '消息免打扰': (MobileBy.XPATH,
                   '//*[@resource-id="com.chinasofti.rcs:id/tv_conv_name" and @text="%s"]/../../*[@resource-id="com.chinasofti.rcs:id/ll_unread"]'),
@@ -77,6 +91,48 @@ class MessagePage(FooterPage):
         "确定2":(MobileBy.ID,"com.chinasofti.rcs:id/tv_sure"),
         "群聊名":(MobileBy.ID,"com.chinasofti.rcs:id/et_group_name"),
     }
+
+
+    @TestLogger.log()
+    def press_and_move_left(self, element='大佬1'):
+        """按住并向左滑动"""
+        # b=self.get_element_attribute(self.__class__.__locators[element],"bounds")
+        self.press_and_move_to_left(self.__class__.__locators[element])
+
+
+    @TestLogger.log()
+    def click_add_icon(self):
+        """点击加号图标"""
+        self.click_element(self.__locators['+号'])
+
+    @TestLogger.log()
+    def click_search_box(self):
+        """点击搜索框"""
+        self.click_element(self.__locators['搜索'])
+
+
+    @TestLogger.log()
+    def input_search_text(self,text):
+        """输入搜索文本"""
+        self.click_element(self.__locators['输入关键字快速搜索'],text)
+
+    @TestLogger.log()
+    def click_search_local_contact(self):
+        """点击搜索结果-本地联系人"""
+        self.click_element(self.__locators['手机联系人头像'])
+
+
+    @TestLogger.log()
+    def is_element_present(self,text='消息列表1'):
+        """是否存在消息头像"""
+        return self._is_element_present(self.__class__.__locators[text])
+
+    @TestLogger.log("点击消息列表第一条1v1记录")
+    def click_msg_first_list(self):
+        self.click_element(self.__class__.__locators["消息列表1"])
+        time.sleep(1)
+
+
 
     @TestLogger.log("点击创建群聊")
     def click_create_group(self):
@@ -136,10 +192,6 @@ class MessagePage(FooterPage):
         except:
             return False
 
-    @TestLogger.log()
-    def click_add_icon(self):
-        """点击加号图标"""
-        self.click_element(self.__locators['+号'])
 
     @TestLogger.log()
     def click_new_message(self):

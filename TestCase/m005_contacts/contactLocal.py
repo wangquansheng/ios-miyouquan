@@ -114,35 +114,38 @@ class Preconditions(LoginPreconditions):
         current_mobile().driver.activate_app(app_id)
 
 
-    @staticmethod
-    def create_contacts_if_not_exits(name, number):
-        """
-        不存在就导入联系人数据
-        :param name:
-        :param number:
-        :return:
-        """
-        contacts_page = ContactsPage()
-        detail_page = ContactDetailsPage()
-        try:
-            contacts_page.wait_for_page_load()
-            contacts_page.open_contacts_page()
-        except:
-            Preconditions.make_already_in_message_page(reset=False)
-            contacts_page.open_contacts_page()
-        # 创建联系人
-        contacts_page.click_phone_contact()
-        contacts_page.click_search_phone_contact()
-        contacts_page.input_search_keyword(name)
-        if contacts_page.is_contact_in_list():
-            contacts_page.click_back()
-        else:
-            contacts_page.click_add()
-            create_page = CreateContactPage()
-            create_page.create_contact(name, number)
-            time.sleep(2)
-            detail_page.click_back_icon()
-            contacts_page.click_back()
+    # @staticmethod
+    # def create_contacts_if_not_exits(name, number):
+    #     """
+    #     不存在就导入联系人数据
+    #     :param name:
+    #     :param number:
+    #     :return:
+    #     """
+    #     contacts_page = ContactsPage()
+    #     detail_page = ContactDetailsPage()
+    #     try:
+    #         contacts_page.wait_for_page_load()
+    #         contacts_page.open_contacts_page()
+    #     except:
+    #         Preconditions.make_already_in_message_page(reset=False)
+    #         contacts_page.open_contacts_page()
+    #     # 创建联系人
+    #     contacts_page.click_phone_contact()
+    #     contacts_page.click_search_phone_contact()
+    #     contacts_page.input_search_keyword(name)
+    #     if contacts_page.is_contact_in_list():
+    #         contacts_page.click_back()
+    #     else:
+    #         contacts_page.click_add()
+    #         create_page = CreateContactPage()
+    #         create_page.create_contact(name, number)
+    #         time.sleep(2)
+    #         detail_page.click_back_icon()
+    #         contacts_page.click_back()
+    #
+    #
+
 
 
 class ContactsLocalhigh(TestCase):
@@ -152,6 +155,43 @@ class ContactsLocalhigh(TestCase):
     表格：通讯录-本地通讯录
     author: 余梦思
     """
+
+    #
+    # @classmethod
+    # def setUpClass(cls):
+    #     # 创建联系人
+    #     fail_time = 0
+    #     import dataproviders
+    #
+    #     while fail_time < 3:
+    #         try:
+    #             # 获取需要导入的联系人数据
+    #             required_contacts = dataproviders.get_preset_contacts()
+    #
+    #             # 连接手机
+    #             Preconditions.connect_mobile('IOS-移动')
+    #             Preconditions.make_already_in_message_page()
+    #             # current_mobile().hide_keyboard_if_display()
+    #             conts = ContactsPage()
+    #             conts.open_contacts_page()
+    #             # 导入数据
+    #             for name, number in required_contacts:
+    #                 # Preconditions.create_contacts_if_not_exits(name, number)
+    #                 Preconditions.create_contacts_if_not_exits(name, number)
+    #
+    #             # # 推送resource文件到手机
+    #             # dataproviders.push_resource_dir_to_mobile_sdcard(Preconditions.connect_mobile('Android-移动'))
+    #             return
+    #         except:
+    #             fail_time += 1
+    #             import traceback
+    #             msg = traceback.format_exc()
+    #             print(msg)
+    #
+    #
+    #
+
+
 
     def default_setUp(self):
         """确保每个用例执行前在通讯录页面"""
@@ -571,7 +611,6 @@ class ContactsLocalhigh(TestCase):
         # creat_contact.is_sure_icon_is_clickable()
         creat_contact.click_sure()
         cdp.is_on_this_page()
-
 
 
     @tags('ALL', 'CONTACTS', 'CMCC')
@@ -1082,6 +1121,78 @@ class SearchAllcontacts(TestCase):
         contact.page_down()
         contact.page_contain_element(text='搜索结果-团队联系人头像')
         contact.page_contain_element(text='查看更多1')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0741(self):
+        """群聊搜索结果标签小于3等于条记录时，不显示“查看更多”按钮"""
+        contact = ContactsPage()
+        contact.click_search_box()
+        time.sleep(1)
+        contact.input_search_text('给个红包1')
+        time.sleep(2)
+        contact.page_down()
+        contact.page_contain_element(text='群聊联系人头像')
+        contact.page_not_contain_element(text='查看更多2')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0742(self):
+        """群聊搜索结果标签大于3条记录时，显示“查看更多”按钮，点击查看更多之后，按关键词分页展示剩余匹配结果"""
+        contact = ContactsPage()
+        contact.click_search_box()
+        time.sleep(1)
+        contact.input_search_text('给个红包')
+        time.sleep(2)
+        contact.page_down()
+        contact.page_contain_element(text='群聊联系人头像')
+        contact.page_contain_element(text='查看更多2')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0743(self):
+        """公众号搜索结果标签小于3等于条记录时，不显示“查看更多”按钮"""
+        contact = ContactsPage()
+        contact.click_search_box()
+        time.sleep(1)
+        contact.input_search_text('和飞信新闻')
+        time.sleep(2)
+        contact.page_down()
+        contact.page_contain_element(text='和飞信新闻公众号头像')
+        contact.page_not_contain_element(text='查看更多2')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0744(self):
+        """公众号搜索结果标签大于3条记录时，显示“查看更多”按钮，点击查看更多之后，按关键词分页展示剩余匹配结果"""
+        contact = ContactsPage()
+        contact.click_search_box()
+        time.sleep(1)
+        contact.input_search_text('和飞信')
+        time.sleep(2)
+        contact.page_down()
+        contact.page_contain_element(text='和飞信新闻公众号头像')
+        contact.page_contain_element(text='查看更多2')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0759(self):
+        """本地联系人为空的情况，搜索时，不展示手机联系人搜索结果标签"""
+        contact = ContactsPage()
+        contact.click_search_box()
+        time.sleep(1)
+        contact.input_search_text('群聊')
+        time.sleep(2)
+        contact.page_down()
+        contact.page_should_not_contain_text('手机联系人')
+
+    @tags('ALL', 'CONTACTS', 'CMCC')
+    def test_contacts_chenjixiang_0760(self):
+        """没有企业的或者企业通讯录无返回结果的情况，搜索时，不展示和通讯录搜索结果标签"""
+        contact = ContactsPage()
+        contact.click_search_box()
+        time.sleep(1)
+        contact.input_search_text('给个红包')
+        time.sleep(2)
+        contact.page_down()
+        contact.page_should_not_contain_text('团队联系人')
+
+
 
 
 

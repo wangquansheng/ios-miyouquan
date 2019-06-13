@@ -10,18 +10,29 @@ class MeViewUserProfilePage(BasePage):
     ACTIVITY = 'com.cmicc.module_aboutme.ui.activity.UserProfileShowActivity'
 
     __locators = {'': (MobileBy.ID, ''),
+                  '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+                  '编辑': (MobileBy.ACCESSIBILITY_ID, '编辑'),
+                  '分享名片': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="分享名片"]'),
+                  #编辑个人资料页面
+                  '保存': (MobileBy.ACCESSIBILITY_ID, '保存'),
+                  '拍照': (MobileBy.ACCESSIBILITY_ID, 'cc me photography normal'),
+                  '输入姓名': (
+                  MobileBy.XPATH, '(//XCUIElementTypeTextView[@name="2b610f78-8d44-11e9-95e5-309c23f30f2e"])[1]'),
+                  '输入电话': (MobileBy.ACCESSIBILITY_ID, '19849476421'),
+                  '输入公司': (MobileBy.ACCESSIBILITY_ID, '输入公司'),
+                  '输入职位': (MobileBy.ACCESSIBILITY_ID, '输入职位'),
+                  '输入邮箱': (MobileBy.ACCESSIBILITY_ID, '输入邮箱'),
+
 
                   '意见反馈': (MobileBy.XPATH, "//*[contains(@text, '意见反馈')]"),
                   '网上营业厅': (MobileBy.ID, 'com.chinasofti.rcs:id/toolbar_title_tv'),
-                  '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/left_back'),
-                  '编辑': (MobileBy.ID, 'com.chinasofti.rcs:id/proflie_edit'),
+
                   '姓名': (MobileBy.ID, 'com.chinasofti.rcs:id/profile_name'),
                   '电话': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_phone_number'),
                   '个人头像': (MobileBy.ID, 'com.chinasofti.rcs:id/profile_photo'),
                   '公司': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_school'),
                   '职位': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_profession'),
                   '邮箱': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_email'),
-                  '分享名片': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_share_card'),
                   # 打开编辑图片
                   '编辑图片': (MobileBy.ID, 'com.chinasofti.rcs:id/change_photo'),
                   }
@@ -41,6 +52,24 @@ class MeViewUserProfilePage(BasePage):
                 message
             )
         return self
+
+    @TestLogger.log("下一页")
+    def page_up(self):
+        """向上滑动"""
+        self.driver.execute_script('mobile: swipe', {'direction': 'up'})
+
+    @TestLogger.log("上一页")
+    def page_down(self):
+        """向下滑动"""
+        self.driver.execute_script('mobile: swipe', {'direction': 'down'})
+
+    @TestLogger.log("当前页面是否在选择联系人页")
+    def is_on_this_page(self):
+        bol = self.wait_until(
+            condition=lambda d: self._is_element_present(self.__class__.__locators["编辑"])
+        )
+        return bol
+
 
     @TestLogger.log()
     def is_text_exist(self, text):

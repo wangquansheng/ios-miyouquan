@@ -10,6 +10,37 @@ class MePage(FooterPage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
     __locators = {
+        '页头-我':(MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="我"]'),
+        '我的二维码': (MobileBy.ACCESSIBILITY_ID, 'cc me qrcode normal'),
+        '我的名称': (MobileBy.ACCESSIBILITY_ID, 'Label'),
+        '查看并编辑个人资料': (MobileBy.ACCESSIBILITY_ID, '查看并编辑个人资料'),
+        '个人头像': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeImage'),
+        '和飞信电话可用时长': (MobileBy.ACCESSIBILITY_ID, 'banner_bg_card.png'),
+        '每天领积分': (MobileBy.ACCESSIBILITY_ID, 'banner_bg_card2.png'),
+        '福利': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="福利"])[2]'),
+        '热点资讯': (MobileBy.ACCESSIBILITY_ID, '热点资讯'),
+        '移动营业厅': (MobileBy.ACCESSIBILITY_ID, '移动营业厅'),
+        '和包支付': (MobileBy.ACCESSIBILITY_ID, '和包支付'),
+        '收藏': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="收藏"])[1]'),
+        '设置': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeStaticText[@name="设置"]'),
+        #底部标签栏
+        '消息': (MobileBy.ACCESSIBILITY_ID, 'com.chinasofti.rcs:id/tvMessage'),
+        '通话': (MobileBy.ACCESSIBILITY_ID, '通话'),
+        '工作台': (MobileBy.ACCESSIBILITY_ID, '工作台'),
+        '通讯录': (MobileBy.ACCESSIBILITY_ID, '联系'),
+        '我': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="我"]'),
+        # 编辑资料页面
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '编辑': (MobileBy.ACCESSIBILITY_ID, '编辑'),
+        '分享名片': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeStaticText[@name="分享名片"]'),
+        '保存': (MobileBy.ACCESSIBILITY_ID, '保存'),
+        '拍照': (MobileBy.ACCESSIBILITY_ID, 'cc me photography normal'),
+        '编辑姓名': (MobileBy.XPATH, '(//XCUIElementTypeTextView[@name="2b610f78-8d44-11e9-95e5-309c23f30f2e"])[1]'),
+        '电话': (MobileBy.ACCESSIBILITY_ID, '19849476421'),
+
+
+
+
         '菜单区域': (MobileBy.CLASS_NAME, 'android.widget.ScrollView'),
         'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
         'android:id/content': (MobileBy.ID, 'android:id/content'),
@@ -19,16 +50,13 @@ class MePage(FooterPage):
             MobileBy.ID, 'com.chinasofti.rcs:id/constraintLayout_home_tab'),
         'com.chinasofti.rcs:id/viewPager': (MobileBy.ID, 'com.chinasofti.rcs:id/viewPager'),
         'com.chinasofti.rcs:id/titleBar': (MobileBy.ID, 'com.chinasofti.rcs:id/titleBar'),
-        '页头-我': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title'),
         '页脚-我': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tvMe" and @selected="true"]'),
         '二维码入口': (MobileBy.ID, 'com.chinasofti.rcs:id/qr_code_imageview'),
         'com.chinasofti.rcs:id/rl_person': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_person'),
         'com.chinasofti.rcs:id/fl_name': (MobileBy.ID, 'com.chinasofti.rcs:id/fl_name'),
         '请完善名片': (MobileBy.ID, 'com.chinasofti.rcs:id/card_name_hint'),
         '电话号码': (MobileBy.ID, 'com.chinasofti.rcs:id/card_photo_num'),
-        '查看并编辑个人资料': (MobileBy.ID, 'com.chinasofti.rcs:id/check_user_profile'),
         'com.chinasofti.rcs:id/profile_photo_out': (MobileBy.ID, 'com.chinasofti.rcs:id/profile_photo_out'),
-        '个人头像': (MobileBy.ID, 'com.chinasofti.rcs:id/card_head_photo'),
         'com.chinasofti.rcs:id/layout_for_mall': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_for_mall'),
         'com.chinasofti.rcs:id/internet_mutil_call_layout_id': (
             MobileBy.ID, 'com.chinasofti.rcs:id/internet_mutil_call_layout_id'),
@@ -46,23 +74,18 @@ class MePage(FooterPage):
         'com.chinasofti.rcs:id/redpager': (MobileBy.ID, 'com.chinasofti.rcs:id/redpager'),
         '钱包': (MobileBy.ID, 'com.chinasofti.rcs:id/repager_text'),
         'com.chinasofti.rcs:id/welfare': (MobileBy.ID, 'com.chinasofti.rcs:id/welfare'),
-        '福利': (MobileBy.ID, 'com.chinasofti.rcs:id/welfare_text'),
+
         '多重好礼等你来领': (MobileBy.ID, 'com.chinasofti.rcs:id/wfCopywriting'),
         'com.chinasofti.rcs:id/wfSpace': (MobileBy.ID, 'com.chinasofti.rcs:id/wfSpace'),
         'com.chinasofti.rcs:id/welfareArrow': (MobileBy.ID, 'com.chinasofti.rcs:id/welfareArrow'),
         'com.chinasofti.rcs:id/collect': (MobileBy.ID, 'com.chinasofti.rcs:id/collect'),
-        '收藏': (MobileBy.ID, 'com.chinasofti.rcs:id/collect_text'),
+
         'com.chinasofti.rcs:id/about_app': (MobileBy.ID, 'com.chinasofti.rcs:id/about_app'),
         '关于和飞信': (MobileBy.ID, 'com.chinasofti.rcs:id/about_app_text'),
         'com.chinasofti.rcs:id/about_right_arrow': (MobileBy.ID, 'com.chinasofti.rcs:id/about_right_arrow'),
         'com.chinasofti.rcs:id/share_app': (MobileBy.ID, 'com.chinasofti.rcs:id/share_app'),
         'com.chinasofti.rcs:id/viewLine': (MobileBy.ID, 'com.chinasofti.rcs:id/viewLine'),
         'com.chinasofti.rcs:id/view_bg_home_tab': (MobileBy.ID, 'com.chinasofti.rcs:id/view_bg_home_tab'),
-        '消息': (MobileBy.ID, 'com.chinasofti.rcs:id/tvMessage'),
-        'com.chinasofti.rcs:id/rnMessageBadge': (MobileBy.ID, 'com.chinasofti.rcs:id/rnMessageBadge'),
-        '通话': (MobileBy.ID, 'com.chinasofti.rcs:id/tvCall'),
-        '工作台': (MobileBy.ID, 'com.chinasofti.rcs:id/tvCircle'),
-        '通讯录': (MobileBy.ID, 'com.chinasofti.rcs:id/tvContact'),
         'android:id/statusBarBackground': (MobileBy.ID, 'android:id/statusBarBackground'),
         'android:id/navigationBarBackground': (MobileBy.ID, 'android:id/navigationBarBackground'),
         '推荐好友，赚现金红包': (MobileBy.ID, 'com.chinasofti.rcs:id/wfCopywriting'),
@@ -70,8 +93,6 @@ class MePage(FooterPage):
         'com.chinasofti.rcs:id/feedback': (MobileBy.ID, 'com.chinasofti.rcs:id/feedback'),
         '帮助与反馈': (MobileBy.ID, 'com.chinasofti.rcs:id/feedback_text'),
         'com.chinasofti.rcs:id/setting': (MobileBy.ID, 'com.chinasofti.rcs:id/setting'),
-        '设置': (MobileBy.ID, 'com.chinasofti.rcs:id/setting_app_text'),
-        '移动营业厅': (MobileBy.ID, 'com.chinasofti.rcs:id/onlinehall_text'),
         '姓名': (MobileBy.ID, 'com.chinasofti.rcs:id/card_name'),
         "联系人管理":("com.chinasofti.rcs:id/manage_contact_text")
     }

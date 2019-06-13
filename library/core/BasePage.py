@@ -543,7 +543,7 @@ class BasePage(object):
          is_toast_exist("toast的内容")
         """
         try:
-            toast_loc = ("xpath", ".//*[contains(@name，'%s')]" % text)
+            toast_loc = ("ACCESSIBILITY_ID", "%s" % text)
             WebDriverWait(self.driver, timeout, poll_frequency).until(EC.presence_of_element_located(toast_loc))
             return True
         except:
@@ -591,6 +591,21 @@ class BasePage(object):
         # pointY=0
         TouchAction(self.driver).long_press(element, duration=3000).move_to(element, pointX,
                                                                                     pointY).wait(3).release().perform()
+    #
+    # def press_and_move_to_left(self, locator, ):
+    #
+    #     element = self.get_element(locator)
+    #     rect = element.rect
+    #     start_x=int(rect['X'])
+    #     start_y = int(rect['y'])
+    #     end_x= int(rect['x'])-50
+    #     end_y=int(rect['y'])
+    #     TouchAction(self.driver).long_press(start_x, start_y,duration = 3000).move_to(element, end_x,
+    #                              end_y).wait(1).release().perform()
+    #
+    #     self.driver.execute_script("mobile:dragFromToForDuration",
+    #                       {"duration": 0.5, "element": None, "fromX": wd1, "fromY": he1, "toX": wd2, "toY": he2})
+    #
 
     def tap_coordinate(self, positions):
         """模拟手指点击（最多五个手指）positions:[(100, 20), (100, 60), (100,100)]"""
@@ -604,7 +619,7 @@ class BasePage(object):
     @TestLogger.log("点击返回")
     def click_back(self):
         """点击返回"""
-        self.click_element((MobileBy.XPATH, "back"), 10)
+        self.click_element((MobileBy.ACCESSIBILITY_ID, "back"), 10)
 
     @TestLogger.log()
     def click_back_by_android(self, times=1):

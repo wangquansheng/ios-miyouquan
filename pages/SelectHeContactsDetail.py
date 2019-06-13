@@ -11,15 +11,25 @@ class SelectHeContactsDetailPage(BasePage):
     """选择和通讯录联系人页面"""
     ACTIVITY = 'com.cmicc.module_enterprise.ui.activity.EnterPriseContactSelectInnerActivity'
 
-    __locators = {'': (MobileBy.ID, ''),
+    __locators = {'返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+                  '选择联系人': (MobileBy.ACCESSIBILITY_ID, '选择联系人'),
+                  '搜索当前组织': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextField'),
+                '团队联系人列表第一个': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+                '团队联系人列表第二个': (MobileBy.XPATH,
+                       '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+
+                  '发送名片': (MobileBy.ACCESSIBILITY_ID, '发送名片'),
+                  #搜索结果
+                  '搜索结果-联系人头像': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_personal_default'),
+                  '搜索结果列表': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell'),
+
+
                   'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
                   'android:id/content': (MobileBy.ID, 'android:id/content'),
                   'com.chinasofti.rcs:id/actionbar_enterprise_contactselect_activity': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/actionbar_enterprise_contactselect_activity'),
-                  '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back'),
                   'com.chinasofti.rcs:id/btn_close_actionbar': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/btn_close_actionbar'),
-                  '选择联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_action_bar_title'),
                   'com.chinasofti.rcs:id/layout_search_enterprise_contactSelect_activity': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/layout_search_enterprise_contactSelect_activity'),
                   '搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
@@ -65,6 +75,59 @@ class SelectHeContactsDetailPage(BasePage):
                   }
 
     @TestLogger.log()
+    def click_first_he_contact(self):
+        """点击第一个和通讯录联系人"""
+        self.click_element(self.__class__.__locators['团队联系人列表第一个'])
+
+    @TestLogger.log()
+    def click_share_card(self):
+        """点击发送名片"""
+        self.click_element(self.__class__.__locators['发送名片'])
+
+    @TestLogger.log()
+    def wait_for_he_contacts_page_load(self, timeout=8, auto_accept_alerts=True):
+        """等待选择联系人->和通讯录联系人 页面加载"""
+        try:
+            self.wait_until(
+                timeout=timeout,
+                auto_accept_permission_alert=auto_accept_alerts,
+                condition=lambda d: self._is_element_present(self.__locators['团队联系人列表第一个'])
+            )
+        except:
+            message = "页面在{}s内，没有加载成功".format(str(timeout))
+            raise AssertionError(
+                message
+            )
+        return self
+
+    @TestLogger.log()
+    def select_one_he_contact_by_number(self, number):
+        """通过名称选择一个联系人"""
+        self.click_element((MobileBy.ACCESSIBILITY_ID, '%s' % number))
+
+    @TestLogger.log()
+    def select_one_he_contact_by_name(self, name):
+        """通过名称选择一个联系人"""
+        self.click_element((MobileBy.ACCESSIBILITY_ID, '%s' % name))
+
+
+    @TestLogger.log()
+    def click_search_box(self):
+        """点击搜索框"""
+        self.click_element(self.__class__.__locators['搜索当前组织'])
+
+    @TestLogger.log()
+    def input_search_text(self,text):
+        """输入搜索文本"""
+        self.input_text(self.__class__.__locators['搜索当前组织'],text)
+
+    @TestLogger.log()
+    def click_search_result(self):
+        """点击搜索结果"""
+        self.click_element(self.__class__.__locators['搜索结果列表'])
+
+
+    @TestLogger.log()
     def click_sure_forward(self):
         """点击确定转发"""
         self.click_element(self.__class__.__locators['确定'])
@@ -77,7 +140,7 @@ class SelectHeContactsDetailPage(BasePage):
     @TestLogger.log()
     def select_one_linkman(self, name):
         """选择一个联系人"""
-        self.click_element((MobileBy.XPATH, "//*[@text='%s']" % name))
+        self.click_element((MobileBy.ACCESSIBILITY_ID, "%s" % name))
 
     @TestLogger.log()
     def select_one_department(self, name):
@@ -122,20 +185,6 @@ class SelectHeContactsDetailPage(BasePage):
         return self._is_element_present(self.__class__.__locators['搜索'])
 
     @TestLogger.log()
-    def select_one_he_contact_by_name(self, name):
-        """通过名称选择一个联系人"""
-        self.click_element(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/tv_name_personal_contactlist" and contains(@text,"%s")]' % name))
-
-    @TestLogger.log()
-    def select_one_he_contact_by_number(self, number):
-        """通过名称选择一个联系人"""
-        self.click_element(
-            (MobileBy.XPATH,
-             '//*[@resource-id="com.chinasofti.rcs:id/tv_number_personal_contactlist" and contains(@text,"%s")]' % number))
-
-    @TestLogger.log()
     def selecting_he_contacts_by_name(self, name):
         """根据名字选择一个团队联系人"""
         locator = (
@@ -150,21 +199,6 @@ class SelectHeContactsDetailPage(BasePage):
             self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         self.click_element(locator)
 
-    @TestLogger.log()
-    def wait_for_he_contacts_page_load(self, timeout=8, auto_accept_alerts=True):
-        """等待选择联系人->和通讯录联系人 页面加载"""
-        try:
-            self.wait_until(
-                timeout=timeout,
-                auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self._is_element_present(self.__locators['选择联系人'])
-            )
-        except:
-            message = "页面在{}s内，没有加载成功".format(str(timeout))
-            raise AssertionError(
-                message
-            )
-        return self
 
     @TestLogger.log()
     def click_department_name(self, name):
