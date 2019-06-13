@@ -38,9 +38,9 @@ class BaseChatPage(BasePage):
                   # 撤回消息时的弹窗
                   '我知道了': (MobileBy.XPATH, "//*[contains(@text, '知道了')]"),
                   # 用户须知
-                  '用户须知': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title'),
-                  '我已阅读': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_check'),
-                  '确定': (MobileBy.ID, 'com.chinasofti.rcs:id/dialog_btn_ok'),
+                  '用户须知': (MobileBy.XPATH, '//*[@value="用户须知"]'),
+                  '我已阅读': (MobileBy.XPATH, '//*[@value="我已阅读"]'),
+                  '确定': (MobileBy.XPATH, '//*[@value="确定"]'),
                   # 在聊天会话页面点击不可阅读文件时的弹窗
                   '打开方式': (MobileBy.XPATH, "//*[contains(@text,'方式')] | //*[contains(@text,'打开')]"),
                   '取消': (MobileBy.ID, 'android:id/button2'),
