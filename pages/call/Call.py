@@ -35,7 +35,7 @@ class CallPage(BasePage):
         '通话界面高清显示图片': (MobileBy.ID, 'com.chinasofti.rcs:id/ivNoRecords'),
         '直接拨号或开始搜索': (MobileBy.XPATH, '//*[@value="直接拨号或开始搜索"]'),
         '新建联系人': (MobileBy.XPATH, "//*[contains(@text, '新建联系人')]"),
-        '发送消息': (MobileBy.XPATH, "//*[contains(@text, '发送消息')]"),
+        '发送消息': (MobileBy.XPATH, "//*[@value='发送消息')]"),
         '结束通话': (MobileBy.ID, 'com.android.incallui:id/endButton'),
         '呼叫中': (MobileBy.ID, 'com.chinasofti.rcs:id/ivAvatar'),
         '挂断语音通话': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_call_out_term'),
@@ -52,7 +52,8 @@ class CallPage(BasePage):
         "profileName": (MobileBy.XPATH, "//*[@type='XCUIElementTypeStaticText']"),
         "+号": (MobileBy.ACCESSIBILITY_ID, 'cc contacts add normal'),
         '飞信电话': (MobileBy.XPATH, '//*[@value="飞信电话"]'),
-
+        '飞信电话(免费)': (MobileBy.XPATH, '//*[@name="飞信电话(免费)"]'),
+        '多方视频': (MobileBy.XPATH, '//*[@name="多方视频"]'),
     }
 
     @TestLogger.log()
@@ -172,8 +173,10 @@ class CallPage(BasePage):
     @TestLogger.log()
     def press_delete(self):
         """长按删除X"""
-        el = self.get_element(self.__locators["删除X"])
-        self.press(el)
+        # el = self.get_element(self.__locators["删除X"])
+        # self.press(el)
+        for i in range(20):
+            self.click_element(self.__locators["删除X"])
 
     @TestLogger.log()
     def press_delete_hide(self):
@@ -644,9 +647,16 @@ class CallPage(BasePage):
 
     @TestLogger.log()
     def click_feixin_call(self):
+        """点击飞信电话"""
         self.click_element(self.__locators['飞信电话'])
 
     @TestLogger.log()
     def click_dial(self):
+        """点击拨号"""
         self.click_element(self.__locators['拨号'])
+
+    @TestLogger.log()
+    def click_feixin_call_free(self):
+        """点击飞信电话(免费)"""
+        self.click_element(self.__locators["飞信电话(免费)"])
 

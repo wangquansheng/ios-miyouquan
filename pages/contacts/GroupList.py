@@ -37,7 +37,7 @@ class GroupListPage(BasePage):
 
         "多方电话提示框": (MobileBy.XPATH, "//*[@text='多方电话']"),
         "多方视频图标": (MobileBy.XPATH, "//*[@text='多方视频']"),
-        '多方通话_图标':(MobileBy.ID,'com.chinasofti.rcs:id/action_multicall'),
+        '多方通话_图标':(MobileBy.ID, 'cc chat message groupcall norm'),
         '分组联系人':(MobileBy.ID,'com.chinasofti.rcs:id/action_setting'),
         '分组联系人_标题':(MobileBy.ID,'com.chinasofti.rcs:id/title'),
         '富媒体面板': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_rich_panel'),
@@ -303,9 +303,8 @@ class GroupListPage(BasePage):
 
     @TestLogger.log("多方通话_图标")
     def click_mult_call_icon(self):
-        time.sleep(1)
+        """点击多方通话图标"""
         self.click_element(self.__locators['多方通话_图标'])
-        time.sleep(1)
 
     @TestLogger.log("点击分组_图标")
     def click_divide_group_icon(self):

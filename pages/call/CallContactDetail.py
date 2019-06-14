@@ -49,7 +49,8 @@ class CallContactDetailPage(BasePage):
                   'com.chinasofti.rcs:id/call_detail_divide_line_twof592dde0-a29f-40d1-aa34-e22b5c501be0': (
                       MobileBy.ID, 'com.chinasofti.rcs:id/call_detail_divide_line_two'),
                   'com.chinasofti.rcs:id/ll_share_card': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_share_card'),
-                  '分享名片/保存到通讯录': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_share_card'),
+                  '分享名片': (MobileBy.XPATH, '//*[@value="分享名片"]'),
+                  '保存到通讯录': (MobileBy.XPATH, '//*[@value="保存到通讯录"]'),
                   '视频缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_switch'),
                   '语音缩放按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_voice_hide'),
                   '正在视频通话': (MobileBy.XPATH, "//*[contains(@text, '视频通话')]"),
@@ -114,8 +115,13 @@ class CallContactDetailPage(BasePage):
 
     @TestLogger.log()
     def click_share_card(self):
-        """点击分享名片/保存到通讯录"""
-        self.click_element(self.__locators["分享名片/保存到通讯录"])
+        """点击分享名片"""
+        self.click_element(self.__locators["分享名片"])
+
+    @TestLogger.log()
+    def click_save_contacts(self):
+        """点击保存到通讯录"""
+        self.click_element(self.__locators["保存到通讯录"])
 
     @TestLogger.log()
     def click_call_detail_edit(self):

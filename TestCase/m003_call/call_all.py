@@ -79,9 +79,8 @@ class Preconditions(object):
         scp.wait_for_page_load()
 
     @staticmethod
-    def enter_group_chat_page(name):
+    def get_into_group_chat_page(name):
         """进入群聊聊天会话页面"""
-
         mp = MessagePage()
         mp.wait_for_page_load()
         # 点击 +
@@ -89,29 +88,19 @@ class Preconditions(object):
         # 点击发起群聊
         mp.click_group_chat()
         scg = SelectContactsPage()
-        times = 15
-        n = 0
-        # 重置应用时需要再次点击才会出现选择一个群
-        while n < times:
-            # 等待选择联系人页面加载
-            flag = scg.wait_for_page_load()
-            if not flag:
-                scg.click_back()
-                time.sleep(2)
-                mp.click_add_icon()
-                mp.click_group_chat()
-            else:
-                break
-            n = n + 1
+        scg.wait_for_page_load()
         scg.click_select_one_group()
         sog = SelectOneGroupPage()
         # 等待“选择一个群”页面加载
         sog.wait_for_page_load()
+        sog.click_search_box()
+        time.sleep(1)
+        sog.input_search_box(name)
+        time.sleep(2)
         # 选择一个普通群
         sog.selecting_one_group_by_name(name)
         gcp = GroupChatPage()
         gcp.wait_for_page_load()
-
 
 class CallAll(TestCase):
     """
@@ -233,9 +222,6 @@ class CallAll(TestCase):
         cpg.click_sharp()
         # CheckPoint:1.步骤1-12：拨号盘各键输入正常
         cpg.page_should_contain_text("1234567890*#")
-        # 清除拨号盘，返回通话界面
-        cpg.press_delete()
-        cpg.click_dial()
 
     @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0008(self):
@@ -247,9 +233,6 @@ class CallAll(TestCase):
         cpg.press_zero()
         # CheckPoint:1.展开后，通话记录按最近通话顺序展示
         cpg.page_should_contain_text("+")
-        # 清除拨号盘，返回通话界面
-        cpg.click_delete()
-        cpg.click_dial()
 
     @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0009(self):
@@ -270,9 +253,6 @@ class CallAll(TestCase):
         cpg.click_call()
         # CheckPoint:3.收起时切换到其他的模块，内容不清除，正常显示
         cpg.page_should_contain_text("15343030000")
-        # 清除拨号盘，返回通话界面
-        cpg.press_delete()
-        cpg.click_dial()
 
     @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0010(self):
@@ -301,7 +281,6 @@ class CallAll(TestCase):
         time.sleep(2)
         # CheckPoint:1.调起联系人多方电话联系人选择器
         self.assertTrue(CalllogBannerPage().is_exist_contact_search_bar())
-        cpg.click_back()
 
     @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0012(self):
@@ -349,10 +328,6 @@ class CallAll(TestCase):
         flag = cpg.check_delete_hide()
         self.assertTrue(flag)
         cpg.page_should_contain_text("153")
-        # 删除拨号盘输入内容
-        cpg.click_dial()
-        cpg.press_delete()
-        cpg.click_dial()
 
     @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0015(self):
@@ -372,9 +347,6 @@ class CallAll(TestCase):
         flag = cpg.check_call_phone()
         self.assertTrue(flag)
         cpg.page_should_contain_text("153")
-        time.sleep(1)
-        cpg.press_delete()
-        cpg.click_dial()
 
     @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0020(self):
@@ -402,9 +374,6 @@ class CallAll(TestCase):
         time.sleep(1)
         flag = cpg.check_call_text(val="153153153153153")
         self.assertTrue(flag)
-        cpg.click_dial()
-        cpg.press_delete()
-        cpg.click_dial()
 
     @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0022(self):
@@ -469,9 +438,6 @@ class CallAll(TestCase):
         cpg.page_should_contain_text("语音通话")
         cpg.page_should_contain_text("普通电话")
 
-        cpg.click_back()
-        cpg.press_delete()
-        cpg.click_dial()
 
     @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0024(self):
@@ -535,9 +501,6 @@ class CallAll(TestCase):
         # CheckPoint:1.进入与陌生联系人A的消息回话窗口
         cpg.page_should_contain_text("说点什么...")
 
-        cpg.click_back_by_android()
-        cpg.press_delete()
-        cpg.click_back()
 
     @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0027(self):
@@ -559,9 +522,6 @@ class CallAll(TestCase):
         cpg.page_should_contain_text("输入职位")
         cpg.page_should_contain_text("输入邮箱")
 
-        cpg.click_back()
-        cpg.press_delete()
-        cpg.click_dial()
 
     @tags('ALL', 'CMCC', 'Call', "ios")
     def test_call_shenlisi_0050(self):
@@ -778,13 +738,13 @@ class CallAll(TestCase):
         cpg = CallPage()
         cpg.click_dial()
         time.sleep(1)
-        cpg.select_type_start_call(calltype=1, text="13537795364")
-        time.sleep(2)
-        cpg.hang_up_the_call()
-        cpg.wait_for_dial_pad()
-        if not cpg.is_on_the_call_page():
-            cpg.click_call()
-        time.sleep(1)
+        # cpg.select_type_start_call(calltype=1, text="13537795364")
+        # time.sleep(2)
+        # cpg.hang_up_the_call()
+        # cpg.wait_for_dial_pad()
+        # if not cpg.is_on_the_call_page():
+        #     cpg.click_call()
+        # time.sleep(1)
         # CheckPoint:1.通话记录展示与用户B的语音通话记录，显示用户B的名称、通话类型【语音通话】、归属地。右侧显示通话时间以及时间节点图标
         cpg.page_should_contain_text("13537795364")
         cpg.page_should_contain_text("语音通话")
@@ -1078,7 +1038,155 @@ class CallAll(TestCase):
             chatpage.click_i_have_read()
         cpg.page_should_contain_text("说点什么...")
         cpg.page_should_contain_text("19912345678")
-        cpg.click_back()
-        cpg.click_back()
 
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0355(self):
+        """检查通话profile界面发起语音通话"""
+        # 1.已登录和飞信：通话tab
+        # 2.已进入到联系人通话profile
+        # 3.有效手机号
+        # Step:1.点击语音通话按钮
+        cpg = CallPage()
+        cpg.create_call_entry("13800138001")
+        cpg.click_dial()
+        cpg.click_call_time_search_status()
+        time.sleep(2)
+        self.assertTrue(cpg.is_exist_profile_name())
+        CallContactDetailPage().click_voice_call()
+        cpg.page_should_contain_text("正在呼叫")
+        # CheckPoint:1.发起1v1语音呼叫
+        CallContactDetailPage().wait_for_star()
 
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0356(self):
+        """检查通话profile界面发起视频通话"""
+        # 1.已登录和飞信：通话tab
+        # 2.已进入到联系人通话profile
+        # 3.有效手机号
+        # Step:1.点击视频通话
+        cpg = CallPage()
+        cpg.create_call_entry("13800138001")
+        cpg.click_dial()
+        cpg.click_call_time_search_status()
+        time.sleep(2)
+        CallContactDetailPage().click_video_call()
+        cpg.page_should_contain_text("网络视频通话呼叫中")
+        # CheckPoint:1.发起1v1视频呼叫
+        CallContactDetailPage().wait_for_star()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0358(self):
+        """检查本地联系人通话profile"""
+        # 1.已登录和飞信-通话记录列表
+        # 2.已进入到本地联系人A的通话profile
+        # 3.用户A为RCS用户并保存至本地
+        # 4.当前登录账号无副号
+        # Step:1.查看界面
+        cpg = CallPage()
+        cpg.create_call_entry("13800138001")
+        cpg.click_dial()
+        cpg.click_call_time_search_status()
+        time.sleep(2)
+        # CheckPoint:1.进功能有：星标、编辑、分享名片。消息、电话、语音通话、视频通话、和飞信电话高亮。页面显示：在和飞信电话按钮下显示公司、职位、邮箱（公司、职位、邮箱有则显示），通话记录。底部显示【分享名片】，点击调起联系人选择器
+        self.assertTrue(CallContactDetailPage().is_exist_star())
+        cpg.page_should_contain_text("编辑")
+        cpg.page_should_contain_text("分享名片")
+        cpg.page_should_contain_text("消息")
+        cpg.page_should_contain_text("电话")
+        cpg.page_should_contain_text("语音通话")
+        cpg.page_should_contain_text("视频通話")
+        cpg.page_should_contain_text("飞信电话")
+        cpg.page_should_contain_text("拨出电话")
+        CallContactDetailPage().click_share_card()
+        time.sleep(2)
+        cpg.page_should_contain_text("选择联系人")
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0360(self):
+        """检查陌生人通话profile"""
+        # 1.已登录和飞信-通话记录列表
+        # 2.已进入到陌生联系人B的通话profile
+        # 3.用户B为RCS用户并为陌生人
+        # 4.当前登录账号无副号
+        # Step:1.查看界面
+        cpg = CallPage()
+        cpg.create_call_entry("13537795364")
+        cpg.click_dial()
+        cpg.click_call_time_search_status()
+        time.sleep(2)
+        # CheckPoint:1.功能有：保存到通讯录。消息、电话、语音通话、视频通话、和飞信电话高亮。页面显示：在和飞信电话按钮下显示通话记录。底部显示【保存到通讯录】，点击进入到编辑页面
+        time.sleep(2)
+        cpg.page_should_contain_text("保存到通讯录")
+        cpg.page_should_contain_text("消息")
+        cpg.page_should_contain_text("电话")
+        cpg.page_should_contain_text("语音通话")
+        cpg.page_should_contain_text("视频通話")
+        cpg.page_should_contain_text("飞信电话")
+        cpg.page_should_contain_text("拨出电话")
+        CallContactDetailPage().click_save_contacts()
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0363(self):
+        """检查非RCS通话profile--陌生联系人"""
+        # 1.已登录和飞信-通话记录列表
+        # 2.已进入到本地联系人C的通话profile
+        # 3.用户C为非RCS用户并为陌生人
+        # 4.当前登录账号无副号
+        # Step:1.查看界面
+        cpg = CallPage()
+        cpg.create_call_entry("15343038890")
+        cpg.click_dial()
+        cpg.click_call_time_search_status()
+        # CheckPoint:1.功能有：保存到通讯录、邀请使用。消息、电话、语音通话、视频通话、和飞信电话高亮。页面显示：在和飞信电话按钮下显示通话记录。底部显示【保存到通讯录】，点击进入到编辑页面。【邀请使用】，点击调起系统短信
+        time.sleep(2)
+        cpg.page_should_contain_text("保存到通讯录")
+        cpg.page_should_contain_text("邀请使用")
+        cpg.page_should_contain_text("消息")
+        cpg.page_should_contain_text("电话")
+        cpg.page_should_contain_text("语音通话")
+        cpg.page_should_contain_text("视频通話")
+        cpg.page_should_contain_text("飞信电话")
+        cpg.page_should_contain_text("拨出电话")
+        ContactDetailsPage().click_invitation_use()
+        time.sleep(1)
+        cpg.page_should_contain_text("新信息")
+        cpg.page_should_contain_text("收件人：")
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0381(self):
+        """检查单聊富媒体面板-音频通话包含语音通话年华、视频"""
+        # 1.登录和飞信：消息tab-单聊会话窗口-富媒体面板
+        # Step: 1.1.点击音频电话按钮
+        cpg = CallPage()
+        ContactsPage().click_message_icon()
+        Preconditions.enter_single_chat_page("给个红包2")
+        BaseChatPage().click_more()
+        ChatMorePage().click_voice_and_video_call()
+        time.sleep(1)
+        # CheckPoint: 1.展开的富媒体消息体选择面板收起后Android：中间弹出”语音通话、视频通话“两个按钮
+        cpg.page_should_contain_text("语音通话")
+        cpg.page_should_contain_text("视频通话")
+        cpg.page_should_contain_text("取消")
+
+    @tags('ALL', 'CMCC', 'Call')
+    def test_call_shenlisi_0395(self):
+        """检查群聊聊富媒体面板-多方电话入口拨打"""
+        # 1.登录和飞信：消息tab-群聊会话窗口-富媒体面板
+        # 2.已弹出系统选择弹窗多方电话和多方视频
+        ContactsPage().click_message_icon()
+        Preconditions.get_into_group_chat_page("群聊1")
+        # Step:1.点击多方电话
+        gpg = GroupListPage()
+        gpg.click_mult_call_icon()
+        CallPage().click_feixin_call_free()
+        # CheckPoint:1.调起联系人选择器
+        time.sleep(1)
+        gpg.page_should_contain_text("搜索群成员")
+        CallPage().click_back()
+        # Step:2.点击多方视频
+        gpg = GroupListPage()
+        gpg.click_mult_call_icon()
+        CallPage().click_mutil_video_call()
+        # CheckPoint:2.调起联系人选择器
+        time.sleep(1)
+        gpg.page_should_contain_text("搜索群成员")
