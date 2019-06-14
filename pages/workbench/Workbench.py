@@ -112,34 +112,34 @@ class WorkbenchPage(FooterPage):
         if len(els) > 0:
             return els
 
-        # current = 0
-        # while True:
-        #     current += 1
-        #     if current > 20:
-        #         return
-        #     self.swipe_half_page_up()
-        #     els = self.get_elements(location)
-        #     if len(els) > 0:
-        #         return els
-        #     # 滑动到底部还未找到元素则终止滑动
-        #     els = self.get_elements(self.__class__.__locators['创建团队'])
-        #     if len(els) > 0:
-        #         break
-        #
-        # current = 0
-        # while True:
-        #     current += 1
-        #     if current > 20:
-        #         return
-        #     self.swipe_half_page_down()
-        #     els = self.get_elements(location)
-        #     if len(els) > 0:
-        #         return els
-        #     # 滑动到顶部还未找到元素则终止滑动
-        #     els = self.get_elements(self.__class__.__locators['广告banner'])
-        #     if len(els) > 0:
-        #         break
-        # return False
+        current = 0
+        while True:
+            current += 1
+            if current > 20:
+                return
+            self.swipe_half_page_up()
+            els = self.get_elements(location)
+            if len(els) > 0:
+                return els
+            # 滑动到底部还未找到元素则终止滑动
+            els = self.get_elements(self.__class__.__locators['创建团队'])
+            if len(els) > 0:
+                break
+
+        current = 0
+        while True:
+            current += 1
+            if current > 20:
+                return
+            self.swipe_half_page_down()
+            els = self.get_elements(location)
+            if len(els) > 0:
+                return els
+            # 滑动到顶部还未找到元素则终止滑动
+            els = self.get_elements(self.__class__.__locators['广告banner'])
+            if len(els) > 0:
+                break
+        return False
 
     @TestLogger.log()
     def find_and_click_open_element(self):
@@ -247,11 +247,12 @@ class WorkbenchPage(FooterPage):
     @TestLogger.log()
     def click_group_messenger(self):
         """点击群发信使"""
-        els = self.find_els(self.__class__.__locators['群发信使'])
-        if els:
-            els[0].click()
-        else:
-            raise AssertionError("该页面没有定位到 群发信使 控件")
+        # els = self.find_els(self.__class__.__locators['群发信使'])
+        # if els:
+        #     els[0].click()
+        # else:
+        #     raise AssertionError("该页面没有定位到 群发信使 控件")
+        self.click_or_find_click_element(self.__class__.__locators['群发信使'])
 
     @TestLogger.log()
     def click_voice_notice(self):
@@ -310,11 +311,12 @@ class WorkbenchPage(FooterPage):
     @TestLogger.log()
     def click_app_store(self):
         """点击应用商城"""
-        els = self.find_els(self.__class__.__locators['应用商城'])
-        if els:
-            els[0].click()
-        else:
-            raise AssertionError("该页面没有定位到 应用商城 控件")
+        # els = self.find_els(self.__class__.__locators['应用商城'])
+        # if els:
+        #     els[0].click()
+        # else:
+        #     raise AssertionError("该页面没有定位到 应用商城 控件")
+        self.click_or_find_click_element(self.__class__.__locators['应用商城'])
 
     @TestLogger.log()
     def click_app_manage(self):
