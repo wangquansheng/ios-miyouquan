@@ -340,17 +340,23 @@ class BasePage(object):
                 y_offset = height
                 self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
 
-    def swipe_by_percent_on_screen(self, start_x, start_y, end_x, end_y, duration):
+    def swipe_by_percent_on_screen(self, start_x, start_y, end_x, end_y, duration=0.5, locator=None):
         width = self.driver.get_window_size()["width"]
         height = self.driver.get_window_size()["height"]
+        print(height)
         x_start = float(start_x) / 100 * width
         x_end = float(end_x) / 100 * width
         y_start = float(start_y) / 100 * height
         y_end = float(end_y) / 100 * height
         x_offset = x_end - x_start
         y_offset = y_end - y_start
+        print(y_start)
         if self._get_platform() == 'android':
             self.driver.swipe(x_start, y_start, x_end, y_end, duration)
+        elif self._get_platform() == 'ios':
+            self.driver.execute_script("mobile:dragFromToForDuration",
+                                       {"duration": duration, "element": locator, "fromX": x_start, "fromY": y_start,
+                                        "toX": x_end, "toY": y_end})
         else:
             self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
 
@@ -514,6 +520,7 @@ class BasePage(object):
 
     def set_network_status(self, status):
         """设置网络
+        IOS目前只适用于全屏幕手机
         Connection types are specified here:
         https://code.google.com/p/selenium/source/browse/spec-draft.md?repo=mobile#120
         Value (Alias)      | Data | Wifi | Airplane Mode
@@ -639,6 +646,18 @@ class BasePage(object):
     def page_down(self):
         """向下滑动"""
         self.driver.execute_script('mobile: scroll', {'direction': 'up'})
+
+    @TestLogger.log
+    def swipe_by_on_screen(self, start_x, start_y, end_x, end_y, locator=None):
+        """百分比滑动屏幕"""
+        width = self.driver.get_window_size()["width"]
+        height = self.driver.get_window_size()["height"]
+        x_start = float(start_x) / 100 * width
+        x_end = float(end_x) / 100 * width
+        y_start = float(start_y) / 100 * height
+        y_end = float(end_y) / 100 * height
+        self.driver.execute_script("mobile:dragFromToForDuration",
+                      {"duration": 0.5, "element": locator, "fromX": x_start, "fromY": y_start, "toX": x_end, "toY": y_end})
 
     @TestLogger.log('挂断电话')
     def hang_up_the_call(self):

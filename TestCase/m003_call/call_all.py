@@ -155,8 +155,7 @@ class CallAll(TestCase):
         """进入Call页面,清空通话记录"""
         # preconditions.connect_mobile(REQUIRED_MOBILES['IOS-移动'])
         Preconditions.make_already_in_call()
-        # CalllogBannerPage().skip_multiparty_call()
-        # CallPage().delete_all_call_entry()
+        CallPage().delete_all_call_entry()
 
     def default_tearDown(self):
         preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])

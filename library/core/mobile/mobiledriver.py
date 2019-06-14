@@ -729,7 +729,7 @@ class MobileDriver(ABC):
                 self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
 
     @TestLogger.log('按百分比在屏幕上滑动')
-    def swipe_by_percent_on_screen(self, start_x, start_y, end_x, end_y, duration=None):
+    def swipe_by_percent_on_screen(self, start_x, start_y, end_x, end_y, duration=0.5, locator=None):
         width = self.driver.get_window_size()["width"]
         height = self.driver.get_window_size()["height"]
         x_start = float(start_x) / 100 * width
@@ -740,6 +740,10 @@ class MobileDriver(ABC):
         y_offset = y_end - y_start
         if self.get_platform() == 'android':
             self.driver.swipe(x_start, y_start, x_end, y_end, duration)
+        elif self.get_platform() == 'ios':
+            self.driver.execute_script("mobile:dragFromToForDuration",
+                                       {"duration": duration, "element": locator, "fromX": x_start, "fromY": y_start,
+                                        "toX": x_end, "toY": y_end})
         else:
             self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
 
@@ -1107,7 +1111,8 @@ class MobileDriver(ABC):
         如果该方法对正在使用的机型不适用，应该在具体的mobile实现类中重写该方法
         :return:
         """
-        if self.is_android():
+        platform_name = self._desired_caps['platformName']
+        if platform_name == "android":
             params = 'am start -a android.settings.DATA_ROAMING_SETTINGS'.split(' ')
             self.execute_shell_command(*params)
             switch_locator = [MobileBy.XPATH, '//*[@checkable="true"]']
@@ -1123,9 +1128,22 @@ class MobileDriver(ABC):
                 raise RuntimeError('开关的checked属性没有置为"true"')
             self.back()
             return True
-        elif self.is_ios():
-            # TODO IOS系统上的数据流量开关操作未实现
-            raise NotImplementedError('IOS 未实现该操作')
+        elif platform_name == "ios":
+            self.swipe_by_percent_on_screen(93, 2, 93, 50)
+            switch_locator = [MobileBy.ID, 'cellular-data-button']
+            if self.get_element_attribute(switch_locator, 'value', 2) == '0':
+                self.click_element(switch_locator, auto_accept_permission_alert=False)
+            try:
+                self.wait_until(
+                    condition=lambda d: self.get_element_attribute(switch_locator, 'value') == '1',
+                    auto_accept_permission_alert=False
+                )
+            except TimeoutException:
+                print(self.get_element_attribute(switch_locator, 'value'))
+                raise RuntimeError('开关的value属性没有置为"1"')
+            self.swipe_by_percent_on_screen(93, 90, 93, 50)
+            return True
+
         else:
             raise NotImplementedError('该API不支持android/ios以外的系统')
 
@@ -1140,7 +1158,9 @@ class MobileDriver(ABC):
         如果该方法对正在使用的机型不适用，应该在具体的mobile实现类中重写该方法
         :return:
         """
-        if self.is_android():
+        platform_name = self._desired_caps['platformName']
+        # if self.is_android():
+        if platform_name == "android":
             params = 'am start -a android.settings.DATA_ROAMING_SETTINGS'.split(' ')
             self.execute_shell_command(*params)
             switch_locator = [MobileBy.XPATH, '//*[@checkable="true"]']
@@ -1156,8 +1176,22 @@ class MobileDriver(ABC):
                 raise RuntimeError('开关的checked属性没有置为"false"')
             self.back()
             return True
-        elif self.is_ios():
-            raise NotImplementedError('IOS 未实现该操作')
+
+        elif platform_name == "ios":
+            self.swipe_by_percent_on_screen(93, 2, 93, 50)
+            switch_locator = [MobileBy.ID, 'cellular-data-button']
+            if self.get_element_attribute(switch_locator, 'value', 2) == '1':
+                self.click_element(switch_locator, auto_accept_permission_alert=False)
+            try:
+                self.wait_until(
+                    condition=lambda d: self.get_element_attribute(switch_locator, 'value') == '0',
+                    auto_accept_permission_alert=False
+                )
+            except TimeoutException:
+                print(self.get_element_attribute(switch_locator, 'value'))
+                raise RuntimeError('开关的value属性没有置为"0"')
+            self.swipe_by_percent_on_screen(93, 90, 93, 50)
+            return True
         else:
             raise NotImplementedError('该API不支持android/ios以外的系统')
 
@@ -1172,7 +1206,8 @@ class MobileDriver(ABC):
         如果该方法对正在使用的机型不适用，应该在具体的mobile实现类中重写该方法
         :return:
         """
-        if self.is_android():
+        platform_name = self._desired_caps['platformName']
+        if platform_name == "android":
             params = 'am start -a android.settings.WIFI_SETTINGS'.split(' ')
             self.execute_shell_command(*params)
             switch_locator = [MobileBy.XPATH, '//*[@checkable="true"]']
@@ -1196,9 +1231,22 @@ class MobileDriver(ABC):
             #     raise RuntimeError('手机WIFI 已开启，但没有自动连接到 WIFI 热点')
             self.back()
             return True
-        elif self.is_ios():
-            # TODO IOS系统上的数据流量开关操作未实现
-            raise NotImplementedError('IOS 未实现该操作')
+        elif platform_name == "ios":
+            self.swipe_by_percent_on_screen(93, 2, 93, 50)
+            switch_locator = [MobileBy.ID, 'wifi-button']
+            if self.get_element_attribute(switch_locator, 'value', 2) == '0':
+                self.click_element(switch_locator, auto_accept_permission_alert=False)
+            try:
+                self.wait_until(
+                    condition=lambda d: self.get_element_attribute(switch_locator, 'value') == '1',
+                    auto_accept_permission_alert=False
+                )
+            except TimeoutException:
+                print(self.get_element_attribute(switch_locator, 'value'))
+                raise RuntimeError('开关的value属性没有置为"1"')
+            self.swipe_by_percent_on_screen(93, 90, 93, 50)
+            return True
+
         else:
             raise NotImplementedError('该API不支持android/ios以外的系统')
 
@@ -1213,7 +1261,8 @@ class MobileDriver(ABC):
         如果该方法对正在使用的机型不适用，应该在具体的mobile实现类中重写该方法
         :return:
         """
-        if self.is_android():
+        platform_name = self._desired_caps['platformName']
+        if platform_name == "android":
             params = 'am start -a android.settings.WIFI_SETTINGS'.split(' ')
             self.execute_shell_command(*params)
             switch_locator = [MobileBy.XPATH, '//*[@checkable="true"]']
@@ -1229,8 +1278,21 @@ class MobileDriver(ABC):
                 raise RuntimeError('开关的checked属性没有置为"false"')
             self.back()
             return True
-        elif self.is_ios():
-            raise NotImplementedError('IOS 未实现该操作')
+        elif platform_name == "ios":
+            self.swipe_by_percent_on_screen(93, 2, 93, 50)
+            switch_locator = [MobileBy.ID, 'wifi-button']
+            if self.get_element_attribute(switch_locator, 'value', 2) == '1':
+                self.click_element(switch_locator, auto_accept_permission_alert=False)
+            try:
+                self.wait_until(
+                    condition=lambda d: self.get_element_attribute(switch_locator, 'value') == '0',
+                    auto_accept_permission_alert=False
+                )
+            except TimeoutException:
+                print(self.get_element_attribute(switch_locator, 'value'))
+                raise RuntimeError('开关的value属性没有置为"0"')
+            self.swipe_by_percent_on_screen(93, 90, 93, 50)
+            return True
         else:
             raise NotImplementedError('该API不支持android/ios以外的系统')
 
@@ -1245,7 +1307,8 @@ class MobileDriver(ABC):
         如果该方法对正在使用的机型不适用，应该在具体的mobile实现类中重写该方法
         :return:
         """
-        if self.is_android():
+        platform_name = self._desired_caps['platformName']
+        if platform_name == "android":
             params = 'am start -a android.settings.AIRPLANE_MODE_SETTINGS'.split(' ')
             self.execute_shell_command(*params)
             switch_locator = [MobileBy.XPATH, '//*[@checkable="true"]']
@@ -1261,9 +1324,21 @@ class MobileDriver(ABC):
                 raise RuntimeError('开关的checked属性没有置为"true"')
             self.back()
             return True
-        elif self.is_ios():
-            # TODO IOS系统上的数据流量开关操作未实现
-            raise NotImplementedError('IOS 未实现该操作')
+        elif platform_name == "ios":
+            self.swipe_by_percent_on_screen(93, 2, 93, 50)
+            switch_locator = [MobileBy.ID, 'airplane-mode-button']
+            if self.get_element_attribute(switch_locator, 'value', 2) == '0':
+                self.click_element(switch_locator, auto_accept_permission_alert=False)
+            try:
+                self.wait_until(
+                    condition=lambda d: self.get_element_attribute(switch_locator, 'value') == '1',
+                    auto_accept_permission_alert=False
+                )
+            except TimeoutException:
+                print(self.get_element_attribute(switch_locator, 'value'))
+                raise RuntimeError('开关的value属性没有置为"1"')
+            self.swipe_by_percent_on_screen(93, 90, 93, 50)
+            return True
         else:
             raise NotImplementedError('该API不支持android/ios以外的系统')
 
@@ -1279,7 +1354,8 @@ class MobileDriver(ABC):
         如果该方法对正在使用的机型不适用，应该在具体的mobile实现类中重写该方法
         :return:
         """
-        if self.is_android():
+        platform_name = self._desired_caps['platformName']
+        if platform_name == "android":
             params = 'am start -a android.settings.AIRPLANE_MODE_SETTINGS'.split(' ')
             self.execute_shell_command(*params)
             switch_locator = [MobileBy.XPATH, '//*[@checkable="true"]']
@@ -1295,8 +1371,21 @@ class MobileDriver(ABC):
                 raise RuntimeError('开关的checked属性没有置为"false"')
             self.back()
             return True
-        elif self.is_ios():
-            raise NotImplementedError('IOS 未实现该操作')
+        elif platform_name == "ios":
+            self.swipe_by_percent_on_screen(93, 2, 93, 50)
+            switch_locator = [MobileBy.ID, 'airplane-mode-button']
+            if self.get_element_attribute(switch_locator, 'value', 2) == '1':
+                self.click_element(switch_locator, auto_accept_permission_alert=False)
+            try:
+                self.wait_until(
+                    condition=lambda d: self.get_element_attribute(switch_locator, 'value') == '0',
+                    auto_accept_permission_alert=False
+                )
+            except TimeoutException:
+                print(self.get_element_attribute(switch_locator, 'value'))
+                raise RuntimeError('开关的value属性没有置为"0"')
+            self.swipe_by_percent_on_screen(93, 90, 93, 50)
+            return True
         else:
             raise NotImplementedError('该API不支持android/ios以外的系统')
 

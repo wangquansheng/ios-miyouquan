@@ -421,17 +421,14 @@ class CallPage(BasePage):
     @TestLogger.log("清空通话记录")
     def delete_all_call_entry(self):
         """前置条件：当前已进入call界面"""
-        ret = True
         if self.check_multiparty_video():
             for i in range(20):
                 el = self.get_elements(self.__locators["通话记录"])
+                print(len(el))
                 if len(el) > 0:
-                    self.press(el[0])
-                    self.click_delete_entry()
-                    if ret:
-                        if self.is_exist_allow_button():
-                            self.click_allow_button(auto_accept_permission_alert=False)
-                        ret = False
+                    self.swipe_calll_entry(90, 15, 30, 15)
+                    time.sleep(1)
+                    self.click_text("删除")
                 else:
                     print("已删除通话记录")
                     break
@@ -660,3 +657,7 @@ class CallPage(BasePage):
         """点击飞信电话(免费)"""
         self.click_element(self.__locators["飞信电话(免费)"])
 
+    @TestLogger.log()
+    def swipe_calll_entry(self, start_x, start_y, end_x, end_y):
+        """滑动通话记录，显示删除"""
+        self.swipe_by_percent_on_screen(start_x=start_x, start_y=start_y, end_x=end_x, end_y=end_y)
