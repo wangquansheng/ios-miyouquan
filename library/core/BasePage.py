@@ -4,6 +4,7 @@ import time
 
 from appium.webdriver.common.mobileby import MobileBy
 from appium.webdriver.common.touch_action import TouchAction
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -714,3 +715,29 @@ class BasePage(object):
             self.click_element((MobileBy.XPATH, "//*[@name='%s']" % name))
         else:
             self.click_element((MobileBy.XPATH, "//*[contains(@name,'%s')]" % name))
+
+    @TestLogger.log()
+    def click_or_find_click_element(self, locator,max_try=2, default_timeout=5, auto_accept_permission_alert=True):
+        """查找点击"""
+        if self._is_element_present(locator):
+            n = max_try
+            while n:
+                try:
+                    self.click_element(locator, default_timeout, auto_accept_permission_alert)
+                    return
+                except Exception as e:
+                    print(e)
+                    self.page_up()
+                    n -= 1
+            m = max_try
+            while m:
+                try:
+                    self.click_element(locator, default_timeout, auto_accept_permission_alert)
+                    return
+                except:
+                    self.page_down()
+                    m -= 1
+        else:
+            raise NoSuchElementException('找不到元素 {}'.format(locator))
+
+
