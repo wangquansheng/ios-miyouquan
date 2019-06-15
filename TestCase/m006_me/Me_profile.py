@@ -844,5 +844,47 @@ class Meprofile(TestCase):
 
 
 
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_049(self):
+        """“““编辑资料” 职位栏输入超长字符"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        self.assertTrue(mup.is_on_this_page())
+        mup.click_edit()
+        me_edit = MeEditUserProfilePage()
+        time.sleep(1)
+        self.assertTrue(me_edit.is_on_this_page())
+        # 职位栏输入超长字符
+        me_edit.page_up()
+        text='职员'*30
+        me_edit.input_position(text)
+        me_edit.click_save()
+        self.assertTrue(me_edit.is_on_this_page())
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_050(self):
+        """“““编辑资料” 邮箱栏输入超长字符"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        self.assertTrue(mup.is_on_this_page())
+        mup.click_edit()
+        me_edit = MeEditUserProfilePage()
+        time.sleep(1)
+        self.assertTrue(me_edit.is_on_this_page())
+        # 职位栏输入超长字符
+        me_edit.page_up()
+        text = 'youxiang' * 20
+        me_edit.input_email(text)
+        me_edit.click_save()
+        self.assertTrue(me_edit.is_on_this_page())
+        time.sleep(2)
+
+
 
 
