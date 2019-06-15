@@ -15,12 +15,15 @@ class SelectOneGroupPage(BasePage):
                   '群聊列表': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
                   '群聊列表-第一个群': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'),
                   '群聊头像': (MobileBy.ACCESSIBILITY_ID, '(//XCUIElementTypeImage[@name="cc_chat_group_default"])'),
-                  #弹出框
                   '发送名片': (MobileBy.ACCESSIBILITY_ID, '发送名片'),
-                  '': (MobileBy.ACCESSIBILITY_ID, ''),
-                  '': (MobileBy.ACCESSIBILITY_ID, ''),
-                  '': (MobileBy.ACCESSIBILITY_ID, ''),
-                  '': (MobileBy.ACCESSIBILITY_ID, ''),
+                  #搜索结果
+                  '搜索群组框': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索群组"])[1]'),
+                  '搜索结果展示': (MobileBy.XPATH
+                       , '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'),
+                  '搜索结果头像': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_group_default'),
+                  #弹出框
+                  '取消': (MobileBy.ACCESSIBILITY_ID, '取消'),
+                  '发送': (MobileBy.ACCESSIBILITY_ID, '发送'),
 
 
 
@@ -51,116 +54,17 @@ class SelectOneGroupPage(BasePage):
                   '左侧字母索引': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_index"]'),
                   # 选择一个群转发消息时的弹框
                   '发送给': (MobileBy.XPATH, "//*[contains(@text, '发送给')]"),
-                  '取消': (MobileBy.XPATH, "//*[contains(@text, '取消')]"),
-                  '确定': (MobileBy.XPATH, "//*[contains(@text, '确定')]"),
-                  # '分享名片': (MobileBy.ID,'com.chinasofti.rcs:id/send_tv'),
-                  '群-搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/edit_query'),
-                  '搜索-返回': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_back'),
-                  '搜索结果展示': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
-                  '黏贴': (MobileBy.XPATH, "//*[contains(@text, '黏贴')]"),
-                  '搜索群组框': (MobileBy.XPATH, "//*[@name='搜索群组']"),
+
+
                   }
 
     @TestLogger.log()
-    def click_sure_forward(self):
-        """点击确定转发"""
-        self.click_element(self.__class__.__locators['确定'])
-
-    @TestLogger.log()
-    def click_cancel_forward(self):
-        """点击取消转发"""
-        self.click_element(self.__class__.__locators['取消'])
-
-    @TestLogger.log()
-    def get_group_name(self):
-        """获取群名"""
-        els = self.get_elements(self.__class__.__locators["群聊列表"])
-        group_names = []
-        if els:
-            for el in els:
-                group_names.append(el.text)
-        return group_names
-
-    @TestLogger.log()
-    def click_share_card(self):
-        """点击发送名片"""
-        self.click_element(self.__class__.__locators['发送名片'])
-
-
-    # @TestLogger.log()
-    # def select_one_group_by_name(self, name):
-    #     """通过群名选择一个群"""
-    #     self.click_element(
-    #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text ="%s"]' % name))
-    #
-
-    @TestLogger.log()
-    def select_first_group(self):
-        """选择第一个群"""
-        self.click_element(self.__class__.__locators['群聊列表-第一个群'])
-
-
-    @TestLogger.log()
-    def click_one_contact(self, contactName):
-        """选择特定联系人"""
-        el = self.find_element_by_swipe((MobileBy.XPATH, '//*[contains(@text, "%s")]' % contactName))
-        if el:
-            el.click()
-            return el
-        else:
-            print("本地联系人中无%s ，请添加此联系人再操作" % contactName)
-
-
-    @TestLogger.log()
-    def click_search_group(self):
-        """点击搜索群组"""
-        self.click_element(self.__class__.__locators['搜索群组'])
-
-    @TestLogger.log("点击分享名片")
-    def click_share_business_card(self):
-        """点击分享名片"""
-        time.sleep(2)
-        self.click_element(self.__locators['分享名片'])
-        time.sleep(1)
-        els=self.get_elements(self.__locators['分享名片'])
-        if els:
-            print("控件点击失败")
-            self.tap_coordinate([(700,1900)])
-
-    @TestLogger.log()
-    def click_back_by_android(self, times=1):
-        """
-        点击返回，通过android返回键
-        """
-        # times 返回次数
-        for i in range(times):
-            self.driver.back()
-            time.sleep(1)
-
-    @TestLogger.log('点击联系人')
-    def click_contact(self, name):
-        self.click_element((MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_name" and ' +
-                            '@text="{}"]'.format(name)))
-
-    @TestLogger.log()
-    def input_search_keyword(self, keyword):
-        """输入搜索内容"""
-        self.input_text(self.__locators['群-搜索'], keyword)
-
-    @TestLogger.log()
-    def is_exists_group_search_box(self):
-        """是否存在群搜索输入框"""
-        return self._is_element_present(self.__class__.__locators['群-搜索'])
-
-    @TestLogger.log()
-    def click_back_icon(self):
-        """点击返回按钮"""
-        self.click_element(self.__class__.__locators['搜索-返回'])
-
-    @TestLogger.log()
-    def click_back(self):
-        """点击返回"""
-        self.click_element(self.__class__.__locators['返回'])
+    def is_on_this_page(self):
+        """当前页面是否在选择一个群"""
+        el = self.get_elements(self.__locators['选择一个群'])
+        if len(el) > 0:
+            return True
+        return False
 
     @TestLogger.log()
     def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
@@ -178,13 +82,104 @@ class SelectOneGroupPage(BasePage):
             )
         return self
 
+
     @TestLogger.log()
-    def is_on_this_page(self):
-        """当前页面是否在选择一个群"""
-        el = self.get_elements(self.__locators['选择一个群'])
-        if len(el) > 0:
-            return True
-        return False
+    def click_back(self):
+        """点击返回"""
+        self.click_element(self.__class__.__locators['返回'])
+
+
+    @TestLogger.log()
+    def input_search_keyword(self, keyword):
+        """输入搜索内容"""
+        self.input_text(self.__locators['搜索群组框'], keyword)
+
+    @TestLogger.log()
+    def click_search_box(self):
+        """点击搜索群组"""
+        self.click_element(self.__class__.__locators["搜索群组"])
+
+    @TestLogger.log()
+    def click_share_card(self):
+        """点击发送名片"""
+        self.click_element(self.__class__.__locators['发送名片'])
+
+    @TestLogger.log()
+    def select_first_group(self):
+        """选择第一个群"""
+        self.click_element(self.__class__.__locators['群聊列表-第一个群'])
+
+    @TestLogger.log('点击搜索结果')
+    def click_search_result(self):
+        self.click_element(self.__class__.__locators['搜索结果展示'])
+
+    @TestLogger.log()
+    def click_sure_forward(self):
+        """点击确定发送"""
+        self.click_element(self.__class__.__locators['发送'])
+
+    @TestLogger.log()
+    def click_cancel_forward(self):
+        """点击取消发送"""
+        self.click_element(self.__class__.__locators['取消'])
+
+    @TestLogger.log()
+    def page_contain_element_result(self):
+        """页面应该展示搜索结果"""
+        self.page_should_contain_element(self.__class__.__locators['搜索结果展示'])
+
+
+    @TestLogger.log()
+    def page_not_contain_element_result(self):
+        """页面应该不展示搜索结果"""
+        self.page_should_not_contain_element(self.__class__.__locators['搜索结果展示'])
+
+
+
+
+
+
+
+    @TestLogger.log()
+    def get_group_name(self):
+        """获取群名"""
+        els = self.get_elements(self.__class__.__locators["群聊列表"])
+        group_names = []
+        if els:
+            for el in els:
+                group_names.append(el.text)
+        return group_names
+
+
+
+    # @TestLogger.log()
+    # def select_one_group_by_name(self, name):
+    #     """通过群名选择一个群"""
+    #     self.click_element(
+    #         (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/contact_name" and @text ="%s"]' % name))
+    #
+
+
+
+    @TestLogger.log()
+    def click_one_contact(self, contactName):
+        """选择特定联系人"""
+        el = self.find_element_by_swipe((MobileBy.XPATH, '//*[contains(@text, "%s")]' % contactName))
+        if el:
+            el.click()
+            return el
+        else:
+            print("本地联系人中无%s ，请添加此联系人再操作" % contactName)
+
+
+
+    @TestLogger.log()
+    def is_exists_group_search_box(self):
+        """是否存在群搜索输入框"""
+        return self._is_element_present(self.__class__.__locators['搜索群组'])
+
+
+
 
     @TestLogger.log('搜索群')
     def search_group(self, group_name):
@@ -203,9 +198,6 @@ class SelectOneGroupPage(BasePage):
     def catch_message_in_page(self, text):
         return self.is_toast_exist(text)
 
-    @TestLogger.log('点击搜索结果')
-    def click_search_result(self):
-        self.click_element(self.__class__.__locators['搜索结果展示'])
 
     @TestLogger.log()
     def selecting_one_group_by_name(self, name):
@@ -213,10 +205,6 @@ class SelectOneGroupPage(BasePage):
         locator = (MobileBy.XPATH, '//*[contains(@name, "%s")]' % name)
         self.click_element(locator, 20)
 
-    @TestLogger.log()
-    def click_search_box(self):
-        """点击搜索群组"""
-        self.click_element(self.__class__.__locators["搜索群组框"])
 
     @TestLogger.log()
     def input_search_box(self, message):
@@ -256,10 +244,6 @@ class SelectOneGroupPage(BasePage):
         elements = self.get_elements(self.__class__.__locators["群聊名"])
         elements[0].click()
 
-    @TestLogger.log()
-    def page_contain_element_result(self):
-        """页面应该展示搜索结果"""
-        self.page_should_contain_element(self.__class__.__locators['搜索结果展示'])
 
     @TestLogger.log('搜索结果是否存在')
     def is_element_present_result(self):

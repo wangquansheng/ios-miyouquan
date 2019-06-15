@@ -11,7 +11,7 @@ class MePage(FooterPage):
 
     __locators = {
         '页头-我':(MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="我"]'),
-        '我的二维码': (MobileBy.ACCESSIBILITY_ID, 'cc me qrcode normal'),
+        '二维码入口': (MobileBy.ACCESSIBILITY_ID, 'cc me qrcode normal'),
         '我的名称': (MobileBy.ACCESSIBILITY_ID, 'Label'),
         '查看并编辑个人资料': (MobileBy.ACCESSIBILITY_ID, '查看并编辑个人资料'),
         '个人头像': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeImage'),
@@ -41,17 +41,7 @@ class MePage(FooterPage):
 
 
 
-        '菜单区域': (MobileBy.CLASS_NAME, 'android.widget.ScrollView'),
-        'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
-        'android:id/content': (MobileBy.ID, 'android:id/content'),
-        'com.chinasofti.rcs:id/activity_main': (MobileBy.ID, 'com.chinasofti.rcs:id/activity_main'),
-        'com.chinasofti.rcs:id/home_tag_view_pager': (MobileBy.ID, 'com.chinasofti.rcs:id/home_tag_view_pager'),
-        'com.chinasofti.rcs:id/constraintLayout_home_tab': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/constraintLayout_home_tab'),
-        'com.chinasofti.rcs:id/viewPager': (MobileBy.ID, 'com.chinasofti.rcs:id/viewPager'),
-        'com.chinasofti.rcs:id/titleBar': (MobileBy.ID, 'com.chinasofti.rcs:id/titleBar'),
         '页脚-我': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tvMe" and @selected="true"]'),
-        '二维码入口': (MobileBy.ID, 'com.chinasofti.rcs:id/qr_code_imageview'),
         'com.chinasofti.rcs:id/rl_person': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_person'),
         'com.chinasofti.rcs:id/fl_name': (MobileBy.ID, 'com.chinasofti.rcs:id/fl_name'),
         '请完善名片': (MobileBy.ID, 'com.chinasofti.rcs:id/card_name_hint'),
@@ -97,6 +87,39 @@ class MePage(FooterPage):
         "联系人管理":("com.chinasofti.rcs:id/manage_contact_text")
     }
 
+    @TestLogger.log('点击二维码图标')
+    def click_qr_code_icon(self):
+        self.click_element(self.__locators['二维码入口'])
+
+    @TestLogger.log()
+    def is_on_this_page(self):
+        """当前页面是否在我的页面"""
+        el = self.get_elements(self.__locators['查看并编辑个人资料'])
+        if len(el) > 0:
+            return True
+        return False
+
+    @TestLogger.log()
+    def click_view_edit(self):
+        """点击查看并编辑资料按钮"""
+        self.click_element(self.__locators['查看并编辑个人资料'])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @TestLogger.log('点击个人名片头像')
     def click_head(self):
         self.click_element(self.__locators['个人头像'])
@@ -117,9 +140,7 @@ class MePage(FooterPage):
             )
         return self
 
-    @TestLogger.log('点击二维码图标')
-    def click_qr_code_icon(self):
-        self.click_element(self.__locators['二维码入口'])
+
 
     @TestLogger.log('点击移动营业厅')
     def click_mobile_hall_butten(self):
@@ -244,13 +265,6 @@ class MePage(FooterPage):
         """点击收藏按钮"""
         self.click_element(self.__locators['收藏'])
 
-    @TestLogger.log()
-    def is_on_this_page(self):
-        """当前页面是否在我的页面"""
-        el = self.get_elements(self.__locators['查看并编辑个人资料'])
-        if len(el) > 0:
-            return True
-        return False
 
     @TestLogger.log()
     def is_element_exist(self, text):
@@ -262,10 +276,6 @@ class MePage(FooterPage):
         """当前页面是否包含此元素"""
         return self.is_text_present(text)
 
-    @TestLogger.log()
-    def click_view_edit(self):
-        """点击查看并编辑资料按钮"""
-        self.click_element(self.__locators['查看并编辑个人资料'])
 
     @TestLogger.log()
     def wait_for_me_page_load(self, timeout=20, auto_accept_alerts=True):

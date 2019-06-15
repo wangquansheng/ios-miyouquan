@@ -3,7 +3,7 @@ import re
 import time
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
-
+from selenium.common.exceptions import NoSuchElementException
 
 class SelectLocalContactsPage(BasePage):
     """选择联系人->本地联系人 页面"""
@@ -30,6 +30,8 @@ class SelectLocalContactsPage(BasePage):
                   '': (MobileBy.XPATH, ''),
                   '': (MobileBy.XPATH, ''),
 
+
+
                   'com.chinasofti.rcs:id/contact_index_bar_container': (
                   MobileBy.ID, 'com.chinasofti.rcs:id/contact_index_bar_container'),
                   '右侧字母索引': (MobileBy.XPATH,
@@ -54,17 +56,30 @@ class SelectLocalContactsPage(BasePage):
                   }
 
     @TestLogger.log()
-    def swipe_select_one_member_by_name(self, name, times=15):
+    def swipe_select_one_member_by_name(self, name, max_try=5, default_timeout=5, auto_accept_permission_alert=True):
         """通过人名选择一个联系人"""
         time.sleep(2)
-        while times > 0:
-            els = self.get_elements((MobileBy.ACCESSIBILITY_ID, '%s' % name))
-            if els:
-                els[0].click()
-                break
-            self.page_up()
-            times = times - 1
-        return "no %s" % name
+        locator = (MobileBy.ACCESSIBILITY_ID, '%s' % name)
+        if self._is_element_present(locator):
+            n = max_try
+            while n:
+                try:
+                    self.click_element(locator,default_timeout, auto_accept_permission_alert)
+                    return
+                except Exception as e:
+                    print(e)
+                    self.swipe_by_percent_on_screen(50,70,50,30)
+                    n -= 1
+            m = max_try
+            while m:
+                try:
+                    self.click_element(locator,default_timeout, auto_accept_permission_alert)
+                    return
+                except:
+                    self.swipe_by_percent_on_screen(50,30,50,70)
+                    m -= 1
+        else:
+            raise NoSuchElementException('找不到元素 {}'.format(locator))
 
 
     @TestLogger.log()
@@ -111,6 +126,14 @@ class SelectLocalContactsPage(BasePage):
     def page_down(self):
         """向下滑动"""
         self.driver.execute_script('mobile: swipe', {'direction': 'down'})
+
+    @TestLogger.log()
+    def click_element_by_id(self, text='搜索结果列表1'):
+        """点击元素"""
+        self.click_element(self.__class__.__locators[text])
+
+
+
 
 
 

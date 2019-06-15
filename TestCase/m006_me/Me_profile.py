@@ -1,24 +1,15 @@
-import random
-import re
+
 import time
-import unittest
-import uuid
-
-
-from pages.me.MeCallMulti import MeCallMultiPage
-from pages.me.MeCardName import MeCardNamePage
+from library.core.common.simcardtype import CardType
 from pages.me.MeEditUserProfile import MeEditUserProfilePage
 from pages.me.MeViewUserProfile import MeViewUserProfilePage
-from pages.me.MeWefare import MeSetWefarePage
-from preconditions.BasePreconditions import WorkbenchPreconditions
-from preconditions.BasePreconditions import LoginPreconditions
 
 from preconditions.BasePreconditions import LoginPreconditions
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from pages import *
-from pages.contacts.EditContactPage import EditContactPage
 from library.core.utils.testcasefilter import tags
+import warnings
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -127,6 +118,7 @@ class Meprofile(TestCase):
     """我页面-个人资料"""
 
     def default_setUp(self):
+        warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.make_already_in_message_page()
         MessagePage().open_me_page()
         time.sleep(2)
@@ -159,7 +151,7 @@ class Meprofile(TestCase):
         mup.click_back()
 
 
-    @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
     def test_me_zhangshuli_011(self):
         """分享名片-选择一个群"""
         # 0.检验是否跳转到我页面,点击进入查看并编辑资料
@@ -187,7 +179,7 @@ class Meprofile(TestCase):
         time.sleep(2)
 
 
-    @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
     def test_me_zhangshuli_012(self):
         """分享名片-选择一个团队联系人"""
         # 0.检验是否跳转到我页面,点击进入查看并编辑资料
@@ -219,7 +211,7 @@ class Meprofile(TestCase):
         time.sleep(2)
 
 
-    @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
     def test_me_zhangshuli_013(self):
         """分享名片-选择团队联系人-通过手机号或姓名搜索团队存在的联系人"""
         # 0.检验是否跳转到我页面,点击进入查看并编辑资料
@@ -253,7 +245,7 @@ class Meprofile(TestCase):
         time.sleep(2)
 
 
-    @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
     def test_me_zhangshuli_014(self):
         """分享名片-选择团队联系人-通过手机号或姓名搜索我的团队不存在的联系人"""
         # 0.检验是否跳转到我页面,点击进入查看并编辑资料
@@ -288,7 +280,7 @@ class Meprofile(TestCase):
         # #点击分享名片
         # sdp.click_share_card()
 
-    @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
     def test_me_zhangshuli_015(self):
         """分享名片-选择团队联系人-通过手机号或姓名搜索我的团队中的自己"""
         # 0.检验是否跳转到我页面,点击进入查看并编辑资料
@@ -321,7 +313,7 @@ class Meprofile(TestCase):
         # #点击分享名片
         # sdp.click_share_card()
 
-    @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
     def test_me_zhangshuli_016(self):
         """分享名片-选择手机联系人-选择任意联系人（非自己）"""
         # 0.检验是否跳转到我页面,点击进入查看并编辑资料
@@ -351,7 +343,7 @@ class Meprofile(TestCase):
         time.sleep(2)
 
 
-    @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
     def test_me_zhangshuli_017(self):
         """分享名片-选择手机联系人-通过姓名关键字或者手机号码搜索在手机通讯录中的联系人（非自己）"""
         # 0.检验是否跳转到我页面,点击进入查看并编辑资料
@@ -382,11 +374,35 @@ class Meprofile(TestCase):
         self.assertTrue(mup.is_on_this_page())
         time.sleep(2)
 
-    @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
     def test_me_zhangshuli_018(self):
         """分享名片-选择手机联系人-通过姓名关键字或者手机号码搜索自己"""
-        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
         mep = MePage()
+        #预置本地联系人 本机
+        mep.open_contacts_page()
+        con=ContactsPage()
+        con.click_phone_contact()
+        con.click_search_phone_contact()
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)
+        con.input_search_keyword(phone_number)
+        if con.is_element_present_by_id('本地联系人搜索结果'):
+            con.click_back()
+        else:
+            con.click_add()
+            time.sleep(2)
+            creat=CreateContactPage()
+            creat.click_input_name()
+            creat.input_name('本机')
+            creat.click_input_number()
+            creat.input_number(phone_number[0])
+            creat.click_save()
+            time.sleep(2)
+            ContactDetailsPage().click_back()
+            con.click_back()
+        #进入通讯录页面
+        con.open_me_page()
+
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
         self.assertEquals(mep.is_on_this_page(), True)
         mep.click_view_edit()
         mup = MeViewUserProfilePage()
@@ -411,7 +427,7 @@ class Meprofile(TestCase):
         slp.is_toast_exist('该联系人不可选择')
 
 
-    @tags('ALL', 'CMCC', 'me_all', 'debug_fk_me1')
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
     def test_me_zhangshuli_019(self):
         """分享名片-选择手机联系人-搜索不在本地通讯录的联系人"""
         # 0.检验是否跳转到我页面,点击进入查看并编辑资料
@@ -440,12 +456,434 @@ class Meprofile(TestCase):
         slp.page_should_contain_text('无搜索结果')
         time.sleep(2)
 
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_020(self):
+        """分享名片-选择最近聊天联系人"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击选择一个最近聊天-分享名片
+        scp.click_recent_chat_contact()
+        time.sleep(2)
+        # 点击弹框右上角的取消按钮
+
+        # 分享名片
+        scp.click_share_card()
+        time.sleep(2)
+        self.assertTrue(mup.is_on_this_page())
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_021_A(self):
+        """分享名片-关键字搜索-输入中文搜索"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击搜索框进行搜索 -页面展示
+        scp.click_search_contact()
+        scp.input_search_keyword('大佬')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_exist(text='搜索结果列表1')
+        # 点击弹框右上角的取消按钮
+
+        # 分享名片
+        scp.click_element_by_id(text='搜索结果列表1')
+        scp.click_share_card()
+        time.sleep(2)
+        self.assertTrue(mup.is_on_this_page())
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_021_B(self):
+        """分享名片-关键字搜索-输入英文搜索"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击搜索框进行搜索 -页面展示
+        scp.click_search_contact()
+        scp.input_search_keyword('dalao')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_exist(text='搜索结果列表1')
+        # 点击弹框右上角的取消按钮
+
+        # 分享名片
+        scp.click_element_by_id(text='搜索结果列表1')
+        scp.click_share_card()
+        time.sleep(2)
+        self.assertTrue(mup.is_on_this_page())
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_021_C(self):
+        """分享名片-关键字搜索-输入特殊字符搜索"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击搜索框进行搜索 -页面展示
+        scp.click_search_contact()
+        scp.input_search_keyword('#')
+        scp.page_down()
+        time.sleep(2)
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_exist(text='搜索结果列表1')
+        # 点击弹框右上角的取消按钮
+
+        # 分享名片
+        scp.click_element_by_id(text='搜索结果列表1')
+        scp.click_share_card()
+        time.sleep(2)
+        self.assertTrue(mup.is_on_this_page())
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_021_D(self):
+        """分享名片-关键字搜索-输入数字搜索"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击搜索框进行搜索 -页面展示
+        scp.click_search_contact()
+        scp.input_search_keyword('13800')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_exist(text='搜索结果列表1')
+        # 点击弹框右上角的取消按钮
+
+        # 分享名片
+        scp.click_element_by_id(text='搜索结果列表1')
+        scp.click_share_card()
+        time.sleep(2)
+        self.assertTrue(mup.is_on_this_page())
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_021_E(self):
+        """分享名片-关键字搜索-无搜索结果"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击搜索框进行搜索 -页面展示
+        scp.click_search_contact()
+        scp.input_search_keyword('张无忌')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_not_exist(text='搜索结果列表1')
+
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_022(self):
+        """分享名片-输入手机号码搜索"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.有搜索结果时 -页面展示
+        scp.click_search_contact()
+        scp.input_search_keyword('13800138005')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_exist(text='搜索结果列表1')
+          # 分享名片
+        scp.click_element_by_id(text='搜索结果列表1')
+        scp.click_share_card()
+        time.sleep(2)
+        self.assertTrue(mup.is_on_this_page())
+        time.sleep(2)
+        # 无搜索结果时，仅展示团队联系人入口
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        scp.click_search_contact()
+        scp.input_search_keyword('11223344556')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_not_exist(text='搜索结果列表1')
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_024(self):
+        """分享名片-未知号码搜索"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击搜索框进行搜索 -页面展示
+        scp.click_search_contact()
+        scp.input_search_keyword('13128799346')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_exist(text='网络搜索结果')
+        #分享联系人成功
+        scp.click_element_by_id(text='网络搜索结果')
+        time.sleep(2)
+        scp.click_share_card()
+        time.sleep(2)
+        self.assertTrue(mup.is_on_this_page())
+
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_025(self):
+        """分享名片-搜索自己"""
+        mep = MePage()
+        #预置本地联系人 本机
+        mep.open_contacts_page()
+        con=ContactsPage()
+        con.click_phone_contact()
+        con.click_search_phone_contact()
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)
+        con.input_search_keyword(phone_number)
+        if con.is_element_present_by_id('本地联系人搜索结果'):
+            con.click_back()
+        else:
+            con.click_add()
+            time.sleep(2)
+            creat=CreateContactPage()
+            creat.click_input_name()
+            creat.input_name('本机')
+            creat.click_input_number()
+            creat.input_number(phone_number[0])
+            creat.click_save()
+            time.sleep(2)
+            ContactDetailsPage().click_back()
+            con.click_back()
+        #进入通讯录页面
+        con.open_me_page()
+
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击搜索框进行搜索 -本机
+        scp.click_search_contact()
+        scp.input_search_keyword('19849476421')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_exist(text='搜索结果列表1')
+        scp.click_element_by_id(text='搜索结果列表1')
+        time.sleep(2)
+        scp.is_toast_exist('该联系人不可选择')
+        #团队联系人中搜索
+        scp.click_element_by_id(text='搜索团队联系人入口')
+        time.sleep(2)
+        scp.check_if_element_exist(text='团队联系人搜索结果')
+        time.sleep(2)
+        scp.click_element_by_id(text='团队联系人搜索结果')
+        scp.is_toast_exist('该联系人不可选择')
 
 
 
 
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_026(self):
+        """分享名片-选择一个群页面搜索群组"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击选择一个群
+        scp.click_select_one_group()
+        sop = SelectOneGroupPage()
+        sop.wait_for_page_load()
+        self.assertTrue(sop.is_on_this_page())
+         #搜索群组-分享名片
+        sop.click_search_box()
+        sop.input_search_keyword('给个红包1')
+        time.sleep(1)
+        sop.click_search_result()
+        sop.click_share_card()
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_027(self):
+        """分享名片-分享名片-搜索我的电脑"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击搜索框进行搜索 -页面展示
+        scp.click_search_contact()
+        scp.input_search_keyword('我的电脑')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_not_exist(text='搜索结果列表1')
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_042(self):
+        """“编辑资料” 头像设置-修改头像未保存退出编辑-取消"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        self.assertTrue(mup.is_on_this_page())
+        mup.click_edit()
+        me_edit=MeEditUserProfilePage()
+        time.sleep(1)
+        self.assertTrue(me_edit.is_on_this_page())
+        #选择一张图片修改头像
+        me_edit.click_take_photo_icon()
+        me_edit.click_select_one_picture()
+        time.sleep(1)
+        me_edit.select_first_picture()
+        time.sleep(1)
+        me_edit.click_save_picture()
+        time.sleep(2)
+        me_edit.element_should_contain(text='拍照图标')
+        #编辑资料页面，点击返回
+        me_edit.click_back()
+        me_edit.page_should_contain_text('当前资料已修改，是否保存')
+        me_edit.click_cancel_mod()
+        time.sleep(2)
+        self.assertTrue(mup.is_on_this_page())
 
 
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_049(self):
+        """“““编辑资料” 职位栏输入超长字符"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        self.assertTrue(mup.is_on_this_page())
+        mup.click_edit()
+        me_edit = MeEditUserProfilePage()
+        time.sleep(1)
+        self.assertTrue(me_edit.is_on_this_page())
+        # 职位栏输入超长字符
+        me_edit.page_up()
+        text='职员'*30
+        me_edit.input_position(text)
+        me_edit.click_save()
+        self.assertTrue(me_edit.is_on_this_page())
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_050(self):
+        """“““编辑资料” 邮箱栏输入超长字符"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        self.assertTrue(mup.is_on_this_page())
+        mup.click_edit()
+        me_edit = MeEditUserProfilePage()
+        time.sleep(1)
+        self.assertTrue(me_edit.is_on_this_page())
+        # 职位栏输入超长字符
+        me_edit.page_up()
+        text = 'youxiang' * 20
+        me_edit.input_email(text)
+        me_edit.click_save()
+        self.assertTrue(me_edit.is_on_this_page())
+        time.sleep(2)
 
 
 

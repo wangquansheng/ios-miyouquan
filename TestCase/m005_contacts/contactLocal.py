@@ -10,6 +10,8 @@ from pages.contacts.EditContactPage import EditContactPage
 from pages.contacts.local_contact import localContactPage
 import preconditions
 from dataproviders import contact2
+import warnings
+
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
@@ -192,9 +194,9 @@ class ContactsLocalhigh(TestCase):
     #
 
 
-
     def default_setUp(self):
         """确保每个用例执行前在通讯录页面"""
+        warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.make_already_in_message_page()
         time.sleep(2)
         MessagePage().click_contacts()
@@ -774,6 +776,7 @@ class SearchLocalContacts(TestCase):
 
     def default_setUp(self):
         """确保每个用例运行前在通讯录-手机联系人页面"""
+        warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.make_already_in_message_page()
         MessagePage().wait_for_page_load()
         MessagePage().click_contacts()
@@ -900,24 +903,6 @@ class SearchLocalContacts(TestCase):
         lcontact.page_should_contain_text('13800138005')
 
 
-    @tags('ALL', 'CONTACTS', 'CMCC')
-    def test_contacts_chenjixiang_0007(self):
-        '''
-        测试sim单卡测试，有联系人，手机系统设置开启“显示SIM联系人”，和飞信开启“显示sim卡联系人”，是否能搜索到sim联系人
-        auther:darcy
-        :return:
-        '''
-        lcontact = ContactsPage()
-        lcontact.click_search_phone_contact()
-        time.sleep(1)
-        lcontact.input_search_keyword('sim联系人')
-        time.sleep(3)
-        els=lcontact.get_page_elements(text='列表项')
-        self.assertTrue(len(els) == 1)
-        lcontact.page_contain_element(text='联系人头像')
-        lcontact.page_should_contain_text('大佬1')
-        lcontact.page_should_contain_text('13800138005')
-
 
     @tags('ALL', 'CONTACTS', 'CMCC')
     def test_contacts_chenjixiang_0030(self):
@@ -1019,6 +1004,7 @@ class SearchAllcontacts(TestCase):
 
     def default_setUp(self):
         """确保每个用例运行前在通讯录-手机联系人页面"""
+        warnings.simplefilter('ignore',ResourceWarning)
         Preconditions.make_already_in_message_page()
         MessagePage().wait_for_page_load()
         MessagePage().click_contacts()

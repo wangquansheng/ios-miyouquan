@@ -49,7 +49,7 @@ class ContactsPage(FooterPage):
                    '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]'),
         '列表项': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell'),
         '联系人头像': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeImage'),
-
+        '本地联系人搜索结果': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell'),
 
     }
 
@@ -133,15 +133,10 @@ class ContactsPage(FooterPage):
     @TestLogger.log()
     def select_contacts_by_name(self, name):
         """根据名字选择一个联系人"""
-        locator = (MobileBy.ACCESSIBILITY_ID, '//*[@name="%s"]' % name)
-        max_try = 10
-        current = 0
-        while current < max_try:
-            if self._is_element_present(locator):
-                break
-            current += 1
-            self.page_up()
-        self.click_element(locator)
+        locator = (MobileBy.ACCESSIBILITY_ID, '%s' % name)
+        self.click_element(locator,max_try=10)
+
+
 
     @TestLogger.log()
     def wait_for_page_load(self, timeout=20, auto_accept_alerts=True):
@@ -230,11 +225,6 @@ class ContactsPage(FooterPage):
                 c += 1
             return None
 
-    @TestLogger.log("通过人名选择一个联系人")
-    def select_people_by_name(self, name):
-        """通过人名选择一个联系人"""
-        self.click_element((MobileBy.XPATH, '//*[@text ="%s"]' % name))
-
 
 
     @TestLogger.log("滚动列表到顶部")
@@ -269,12 +259,12 @@ class ContactsPage(FooterPage):
 
     def page_up(self):
         """向上滑动一页"""
-        self.driver.execute_script('mobile: scroll', {'direction': 'down'})
+        self.driver.execute_script('mobile: swipe', {'direction': 'up'})
 
     @TestLogger.log("上一页")
     def page_down(self):
         """向下滑动"""
-        self.driver.execute_script('mobile: scroll', {'direction': 'up'})
+        self.driver.execute_script('mobile: swipe', {'direction': 'down'})
 
     @TestLogger.log()
     def get_all_contacts_name(self):
@@ -447,11 +437,24 @@ class ContactsPage(FooterPage):
         else:
             c = 0
             while c < times:
-                self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+                self.page_up()
                 if self._is_element_present(self.__class__.__locators[locator]):
                     return self.page_should_contain_element(self.__class__.__locators[locator])
                 c += 1
             return self.page_should_contain_element(self.__class__.__locators[locator])
+
+    @TestLogger.log('判断元素是否存在')
+    def is_element_present_by_id(self, locator,times=10):
+        if self._is_element_present(self.__class__.__locators[locator]):
+            return True
+        else:
+            c = 0
+            while c < times:
+                self.page_up()
+                if self._is_element_present(self.__class__.__locators[locator]):
+                    return True
+                c += 1
+            return False
 
 
     @TestLogger.log("根据导航栏的第一个字母定位")
@@ -477,20 +480,20 @@ class ContactsPage(FooterPage):
         self.click_element(self.__class__.__locators['新建手机联系人'])
 
 
-
-    @TestLogger.log()
-    def select_contacts_by_number(self, number):
-        """根据号码选择一个联系人"""
-        locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_number" and @text ="%s"]' % number)
-        max_try = 20
-        current = 0
-        while current < max_try:
-
-            if self._is_element_present(locator):
-                break
-            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
-            current += 1
-        self.click_element(locator)
+    #
+    # @TestLogger.log()
+    # def select_contacts_by_number(self, number):
+    #     """根据号码选择一个联系人"""
+    #     locator = (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_number" and @text ="%s"]' % number)
+    #     max_try = 20
+    #     current = 0
+    #     while current < max_try:
+    #
+    #         if self._is_element_present(locator):
+    #             break
+    #         self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+    #         current += 1
+    #     self.click_element(locator)
 
     @TestLogger.log()
     def is_exit_element_by_text_swipe(self, number):
