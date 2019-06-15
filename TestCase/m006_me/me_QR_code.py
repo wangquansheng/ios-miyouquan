@@ -130,3 +130,79 @@ class MyQRcodePageTest(TestCase):
     def default_tearDown(self):
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
+    def test_me_zhangshuli_060(self):
+        """我的二维码分享-非手机号码的数字搜索"""
+        me=MePage()
+        me.click_qr_code_icon()
+        #进入我的二维码界面
+        qr_code = MyQRCodePage()
+        qr_code.click_forward_qr_code()
+        time.sleep(2)
+        select=SelectContactsPage()
+        time.sleep(2)
+        select.page_contain_element(locator='最近聊天')
+        select.page_should_contain_text('搜索或输入手机号')
+        select.check_if_element_not_exist(text='清空搜索文本')
+        # 搜索联系人-有搜索结果
+        select.click_search_contact()
+        select.input_search_keyword('13800')
+        time.sleep(2)
+        select.check_if_element_exist(text='清空搜索文本')
+        select.check_if_element_exist(text='搜索团队联系人入口')
+        select.check_if_element_exist(text='搜索结果列表1')
+        self.assertTrue(select.is_keyboard_shown())
+        #无搜索结果时
+        select.click_x_icon()
+        select.input_search_keyword('张无忌')
+        select.check_if_element_exist(text='搜索团队联系人入口')
+        select.check_if_element_not_exist(text='搜索结果列表1')
+
+
+    def test_me_zhangshuli_061(self):
+        """我的二维码分享-无本地结果且二次查询无结果"""
+        me=MePage()
+        me.click_qr_code_icon()
+        #进入我的二维码界面
+        qr_code = MyQRCodePage()
+        qr_code.click_forward_qr_code()
+        time.sleep(2)
+        select=SelectContactsPage()
+        time.sleep(2)
+        select.page_contain_element(locator='最近聊天')
+        select.click_search_contact()
+        select.input_search_keyword('张无忌')
+        select.check_if_element_exist(text='搜索团队联系人入口')
+        select.click_element_by_id(text='搜索团队联系人入口')
+        time.sleep(2)
+        select.page_should_contain_text('无搜索结果')
+
+
+    def test_me_zhangshuli_062(self):
+        """我的二维码分享-搜索未保存在本地的手机号码"""
+        me=MePage()
+        me.click_qr_code_icon()
+        #进入我的二维码界面
+        qr_code = MyQRCodePage()
+        qr_code.click_forward_qr_code()
+        time.sleep(2)
+        select=SelectContactsPage()
+        time.sleep(2)
+        select.page_contain_element(locator='最近聊天')
+        #顶部搜索框搜索
+        select.click_search_contact()
+        select.input_search_keyword('19674361585')
+        select.check_if_element_exist(text='网络搜索结果')
+        #点击取消发送
+        select.click_element_by_id(text='网络搜索结果')
+        time.sleep(1)
+        select.click_cancel_send()
+        time.sleep(2)
+        select.check_if_element_not_exist(text='确定发送')
+        select.page_contain_element(locator='搜索团队联系人入口')
+        #点击确定发送
+        time.sleep(2)
+        select.click_element_by_id(text='网络搜索结果')
+        select.click_sure_send()
+        time.sleep(1)
+        self.assertTrue(qr_code.is_on_this_page())
+
