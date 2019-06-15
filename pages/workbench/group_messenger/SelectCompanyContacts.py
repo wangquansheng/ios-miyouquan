@@ -111,34 +111,46 @@ class SelectCompanyContactsPage(BasePage):
     @TestLogger.log()
     def is_search_contacts_number_full_match(self, number):
         """搜索联系人号码是否精准匹配"""
-        text = self.get_element(self.__class__.__locators["联系人号码"]).text
-        if number == text[(text.index(" ") + 1):]:
-            return True
-        raise AssertionError('搜索结果"{}"没有找到与关键字"{}"完全匹配的号码'.format(text, number))
+        if self._is_element_present2(self.__class__.__locators["联系人号码"]):
+            text = self.get_element(self.__class__.__locators["联系人号码"]).text
+            if number == text[(text.index(" ") + 1):]:
+                return True
+            raise AssertionError('搜索结果"{}"没有找到与关键字"{}"完全匹配的号码'.format(text, number))
+        else:
+            raise AssertionError('找不到元素 {}'.format(number))
 
     @TestLogger.log()
     def is_search_contacts_number_match(self, number):
         """搜索联系人号码是否模糊匹配"""
-        text = self.get_element(self.__class__.__locators["联系人号码"]).text
-        if number in text[(text.index(" ") + 1):]:
-            return True
-        raise AssertionError('搜索结果"{}"没有找到包含关键字"{}"的号码'.format(text, number))
+        if self._is_element_present2(self.__class__.__locators["联系人号码"]):
+            text = self.get_element(self.__class__.__locators["联系人号码"]).text
+            if number in text[(text.index(" ") + 1):]:
+                return True
+            raise AssertionError('搜索结果"{}"没有找到包含关键字"{}"的号码'.format(text, number))
+        else:
+            raise AssertionError('找不到元素 {}'.format(number))
 
     @TestLogger.log()
     def is_search_contacts_name_full_match(self, name):
         """搜索联系人名是否精准匹配"""
-        text = self.get_element(self.__class__.__locators["联系人名"]).text
-        if name == text[:text.index(" ")]:
-            return True
-        raise AssertionError('搜索结果"{}"没有找到与关键字"{}"完全匹配的文本'.format(text, name))
+        if self._is_element_present2(self.__class__.__locators["联系人名"]):
+            text = self.get_element(self.__class__.__locators["联系人名"]).text
+            if name == text[:text.index(" ")]:
+                return True
+            raise AssertionError('搜索结果"{}"没有找到与关键字"{}"完全匹配的文本'.format(text, name))
+        else:
+            raise AssertionError('找不到元素 {}'.format(name))
 
     @TestLogger.log()
     def is_search_contacts_name_match(self, name):
         """搜索联系人名是否模糊匹配"""
-        text = self.get_element(self.__class__.__locators["联系人号码"]).text
-        if name in text[:text.index(" ")]:
-            return True
-        raise AssertionError('搜索结果"{}"没有找到包含关键字"{}"的文本'.format(text, name))
+        if self._is_element_present2(self.__class__.__locators["联系人名"]):
+            text = self.get_element(self.__class__.__locators["联系人名"]).text
+            if name in text[:text.index(" ")]:
+                return True
+            raise AssertionError('搜索结果"{}"没有找到包含关键字"{}"的文本'.format(text, name))
+        else:
+            raise AssertionError('找不到元素 {}'.format(name))
 
     @TestLogger.log()
     def click_contacts_by_name(self, name):
@@ -178,16 +190,19 @@ class SelectCompanyContactsPage(BasePage):
     @TestLogger.log()
     def is_clear_search_box(self, content):
         """输入框是否自动清空"""
-        text = self.get_element(self.__class__.__locators["搜索框"]).text
-        if not text == content:
-            return True
-        return False
+        if self._is_element_present2(self.__class__.__locators["搜索框"]):
+            text = self.get_element(self.__class__.__locators["搜索框"]).text
+            if not text == content:
+                return True
+            return False
+        else:
+            raise AssertionError('找不到元素 {}'.format(content))
 
     @TestLogger.log()
     def is_exist_select_contacts_name(self, name):
         """是否存在已选联系人名"""
         locator = (MobileBy.ACCESSIBILITY_ID, "%s" % name)
-        return self._is_element_present(locator)
+        return self._is_element_present2(locator)
 
     @TestLogger.log()
     def click_select_contacts_name(self, name):
@@ -199,7 +214,7 @@ class SelectCompanyContactsPage(BasePage):
     def is_exist_select_contacts_image(self, name):
         """是否存在已选联系人头像"""
         locator = (MobileBy.XPATH, '//*[@name="%s"]/../XCUIElementTypeImage' % name)
-        return self._is_element_present(locator)
+        return self._is_element_present2(locator)
 
     @TestLogger.log()
     def click_contacts_image(self):
@@ -214,29 +229,22 @@ class SelectCompanyContactsPage(BasePage):
     @TestLogger.log()
     def is_exist_select_and_all(self, text):
         """是否展示已选人数"""
-        return self._is_element_present((MobileBy.XPATH, "//*[contains(@name, '确定(%s/')]" % text))
+        return self._is_element_present2((MobileBy.XPATH, "//*[contains(@name, '确定(%s/')]" % text))
 
     @TestLogger.log()
     def is_exist_corporate_grade(self):
         """是否存在企业层级"""
-        return self._is_element_present(self.__class__.__locators['企业层级'])
+        return self._is_element_present2(self.__class__.__locators['企业层级'])
 
     @TestLogger.log()
     def is_exist_department_name(self):
         """是否存在部门/企业名称"""
-        return self._is_element_present(self.__class__.__locators['部门名称'])
+        return self._is_element_present2(self.__class__.__locators['部门名称'])
 
     @TestLogger.log()
     def click_contacts_image_by_name(self, name):
         """点击指定联系人头像"""
         locator = (MobileBy.XPATH, '//*[@name="%s"]/../XCUIElementTypeImage' % name)
-        # max_try = 20
-        # current = 0
-        # while current < max_try:
-        #     if self._is_element_present(locator):
-        #         break
-        #     current += 1
-        #     self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         self.click_element(locator)
 
     @TestLogger.log()

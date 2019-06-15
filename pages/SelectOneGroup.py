@@ -211,14 +211,7 @@ class SelectOneGroupPage(BasePage):
     def selecting_one_group_by_name(self, name):
         """根据群名选择一个群"""
         locator = (MobileBy.XPATH, '//*[contains(@name, "%s")]' % name)
-        # max_try = 20
-        # current = 0
-        # while current < max_try:
-        #     if self._is_element_present(locator):
-        #         break
-        #     current += 1
-        #     self.driver.execute_script('mobile: swipe', {'direction': 'up'})
-        self.click_element(locator)
+        self.click_element(locator, 20)
 
     @TestLogger.log()
     def click_search_box(self):

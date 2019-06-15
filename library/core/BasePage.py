@@ -397,9 +397,14 @@ class BasePage(object):
                                  "but did not" % text)
         return True
 
-    def page_should_contain_text2(self, text):
+    def page_should_contain_text2(self, text, default_timeout=5, auto_accept_permission_alert=True):
         try:
-            return self.wait_until(condition=lambda x: self.is_text_present(text))
+            self.wait_until(
+                condition=lambda x: self.is_text_present(text),
+                timeout=default_timeout,
+                auto_accept_permission_alert=auto_accept_permission_alert
+            )
+            return True
         except:
             return False
 
@@ -744,7 +749,7 @@ class BasePage(object):
     @TestLogger.log()
     def is_exists_accessibility_id_attribute_by_name(self, name):
         """是否存在accessibility id属性"""
-        return self._is_element_present((MobileBy.ACCESSIBILITY_ID, "%s" % name))
+        return self._is_element_present2((MobileBy.ACCESSIBILITY_ID, "%s" % name))
 
     @TestLogger.log()
     def click_name_attribute_by_name(self, name, exact_match=False):

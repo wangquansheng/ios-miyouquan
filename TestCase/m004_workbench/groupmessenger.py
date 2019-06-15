@@ -46,8 +46,6 @@ class Preconditions(WorkbenchPreconditions):
         mp.click_workbench()
         wbp = WorkbenchPage()
         wbp.wait_for_page_load()
-        # 查找并点击所有展开元素
-        # wbp.find_and_click_open_element()
         wbp.click_add_group_messenger()
         # n = 1
         # # 解决工作台不稳定问题
@@ -254,19 +252,16 @@ class MassMessengerAllTest(TestCase):
         hcp.wait_for_introduction_page_load()
         hcp.click_back_button()
         hcp.wait_for_page_load()
-        time.sleep(1)
         # 查看操作指引
         hcp.click_guide()
         hcp.wait_for_guide_page_load()
         hcp.click_back_button()
         hcp.wait_for_page_load()
-        time.sleep(1)
         # 查看资费说明
         hcp.click_explain()
         hcp.wait_for_explain_page_load()
         hcp.click_back_button()
         hcp.wait_for_page_load()
-        time.sleep(1)
         # 查看常见问题
         hcp.click_problem()
         hcp.wait_for_problem_page_load()
@@ -294,16 +289,14 @@ class MassMessengerAllTest(TestCase):
         search_name = "大佬1"
         # 输入查找信息
         sccp.input_search_message(search_name)
-        time.sleep(2)
         # 点击勾选搜索出的联系人头像
         sccp.click_contacts_image()
         # 点击确定
         sccp.click_sure_button()
         nmp.wait_for_page_load()
         # 1.搜索出的联系人是否被选择
-        self.assertEquals(nmp.is_exist_text(search_name), True)
+        self.assertEquals(nmp.is_exists_accessibility_id_attribute_by_name(search_name), True)
         nmp.click_back_button()
-        time.sleep(2)
         nmp.click_no()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
@@ -323,27 +316,19 @@ class MassMessengerAllTest(TestCase):
         sccp = SelectCompanyContactsPage()
         # 等待群发信使->新建短信->选择联系人页面加载
         sccp.wait_for_page_load()
-        time.sleep(2)
-        sccp.driver.execute_script('mobile: swipe', {'direction': 'up'})
-        sccp.driver.execute_script('mobile: swipe', {'direction': 'up'})
-        time.sleep(2)
         sccp.click_accessibility_id_attribute_by_name("测试部门1")
-        time.sleep(1)
         # 添加多个联系人
         sccp.click_accessibility_id_attribute_by_name("大佬1")
         sccp.click_accessibility_id_attribute_by_name("大佬2")
         sccp.click_accessibility_id_attribute_by_name("大佬3")
-        time.sleep(2)
         # 是否成功选中
         self.assertEquals(sccp.is_exist_select_contacts_name("佬1"), True)
         self.assertEquals(sccp.is_exist_select_contacts_name("佬2"), True)
         self.assertEquals(sccp.is_exist_select_contacts_name("佬3"), True)
         # 点击部门已选成员图像取消勾选
         sccp.click_contacts_image_by_name("大佬1")
-        time.sleep(1)
         # 点击顶部已选成员信息移除成员
         sccp.click_select_contacts_name("佬2")
-        time.sleep(2)
         # 点击确定
         sccp.click_sure_button()
         nmp.wait_for_page_load()
@@ -353,7 +338,6 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(nmp.is_exists_accessibility_id_attribute_by_name("大佬2"), False)
         self.assertEquals(nmp.is_exists_accessibility_id_attribute_by_name("大佬3"), True)
         nmp.click_back_button()
-        time.sleep(2)
         nmp.click_no()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
@@ -373,37 +357,23 @@ class MassMessengerAllTest(TestCase):
         sccp = SelectCompanyContactsPage()
         # 等待群发信使->新建短信->选择联系人页面加载
         sccp.wait_for_page_load()
-        time.sleep(2)
-        sccp.driver.execute_script('mobile: swipe', {'direction': 'up'})
-        sccp.driver.execute_script('mobile: swipe', {'direction': 'up'})
-        time.sleep(2)
         # 1.进入多个部门，添加成员
         sccp.click_accessibility_id_attribute_by_name("测试部门1")
-        time.sleep(1)
         sccp.click_accessibility_id_attribute_by_name("大佬1")
-        time.sleep(2)
         self.assertEquals(sccp.is_exist_select_contacts_name("佬1"), True)
         self.assertEquals(sccp.is_exist_select_and_all("1"), True)
         sccp.click_back_button()
-        time.sleep(1)
-        sccp.driver.execute_script('mobile: swipe', {'direction': 'up'})
-        sccp.driver.execute_script('mobile: swipe', {'direction': 'up'})
-        time.sleep(1)
         sccp.click_accessibility_id_attribute_by_name("测试部门2")
-        time.sleep(1)
         sccp.click_accessibility_id_attribute_by_name("大佬2")
-        time.sleep(2)
         self.assertEquals(sccp.is_exist_select_contacts_name("佬2"), True)
         # 2.各个部门添加成员是否累计
         self.assertEquals(sccp.is_exist_select_and_all("2"), True)
         # 点击确定
         sccp.click_sure_button()
         nmp.wait_for_page_load()
-        time.sleep(1)
         self.assertEquals(nmp.is_exists_accessibility_id_attribute_by_name("大佬1"), True)
         self.assertEquals(nmp.is_exists_accessibility_id_attribute_by_name("大佬2"), True)
         nmp.click_back_button()
-        time.sleep(2)
         nmp.click_no()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
@@ -423,17 +393,14 @@ class MassMessengerAllTest(TestCase):
         sccp = SelectCompanyContactsPage()
         # 等待群发信使->新建短信->选择联系人页面加载
         sccp.wait_for_page_load()
-        time.sleep(2)
         # 1.是否直接进入企业子一层级
         self.assertEquals(sccp.is_exist_corporate_grade(), True)
         sccp.click_back_button()
-        time.sleep(2)
         # 2.页面是否跳转到企业层级
         self.assertEquals(sccp.is_exist_corporate_grade(), False)
         self.assertEquals(sccp.is_exist_department_name(), True)
         sccp.click_back_button()
         nmp.wait_for_page_load()
-        time.sleep(2)
         nmp.click_back_button()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
@@ -494,8 +461,6 @@ class MassMessengerAllTest(TestCase):
     #             mp.open_workbench_page()
     #             wbp = WorkbenchPage()
     #             Preconditions.delete_department_by_name("admin_department")
-    #             # 查找并点击所有展开元素
-    #             wbp.find_and_click_open_element()
     #             # 解决用户部门变更后不能及时刷新的问题
     #             wbp.click_company_contacts()
     #             ecp = EnterpriseContactsPage()
@@ -577,8 +542,6 @@ class MassMessengerAllTest(TestCase):
     #             mp.open_workbench_page()
     #             wbp = WorkbenchPage()
     #             Preconditions.delete_department_by_name("admin_department")
-    #             # 查找并点击所有展开元素
-    #             wbp.find_and_click_open_element()
     #             # 解决用户部门变更后不能及时刷新的问题
     #             wbp.click_company_contacts()
     #             ecp = EnterpriseContactsPage()
@@ -662,8 +625,6 @@ class MassMessengerAllTest(TestCase):
     #             wbp = WorkbenchPage()
     #             Preconditions.delete_department_by_name("admin_department1")
     #             Preconditions.delete_department_by_name("admin_department2")
-    #             # 查找并点击所有展开元素
-    #             wbp.find_and_click_open_element()
     #             # 解决用户部门变更后不能及时刷新的问题
     #             wbp.click_company_contacts()
     #             ecp = EnterpriseContactsPage()
@@ -734,20 +695,16 @@ class MassMessengerAllTest(TestCase):
         search_number = "13800138005"
         # 输入查找信息
         sccp.input_search_message(search_number)
-        time.sleep(2)
         # 1.检查搜索结果是否完全匹配关键字
         self.assertEquals(sccp.is_search_contacts_number_full_match(search_number), True)
         # 选择搜索结果
         sccp.click_name_attribute_by_name(search_number)
-        time.sleep(2)
         # 2.是否成功选中，输入框是否自动清空
         self.assertEquals(sccp.is_exist_select_contacts_name("佬1"), True)
         self.assertEquals(sccp.is_clear_search_box(search_number), True)
         sccp.click_back_button()
-        time.sleep(2)
         sccp.click_back_button()
         nmp.wait_for_page_load()
-        time.sleep(2)
         nmp.click_back_button()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
@@ -770,20 +727,16 @@ class MassMessengerAllTest(TestCase):
         search_number = "138005"
         # 输入查找信息
         sccp.input_search_message(search_number)
-        time.sleep(2)
         # 1.检查搜索结果是否模糊匹配关键字
         self.assertEquals(sccp.is_search_contacts_number_match(search_number), True)
         # 选择搜索结果
         sccp.click_name_attribute_by_name(search_number)
-        time.sleep(2)
         # 2.是否成功选中，输入框是否自动清空
         self.assertEquals(sccp.is_exist_select_contacts_name("佬1"), True)
         self.assertEquals(sccp.is_clear_search_box(search_number), True)
         sccp.click_back_button()
-        time.sleep(2)
         sccp.click_back_button()
         nmp.wait_for_page_load()
-        time.sleep(2)
         nmp.click_back_button()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
@@ -806,22 +759,18 @@ class MassMessengerAllTest(TestCase):
         search_name = "大佬1"
         # 输入查找信息
         sccp.input_search_message(search_name)
-        time.sleep(2)
         # 1.检查搜索结果是否精准匹配关键字
         self.assertEquals(sccp.is_search_contacts_name_full_match(search_name), True)
         # 选择搜索结果
         sccp.click_name_attribute_by_name(search_name)
-        time.sleep(2)
         # 2.搜索栏是否清空，是否出现已选人名和头像，是否展示已选人数/上限人数
         self.assertEquals(sccp.is_clear_search_box(search_name), True)
         self.assertEquals(sccp.is_exist_select_contacts_name("佬1"), True)
         self.assertEquals(sccp.is_exist_select_contacts_image("佬1"), True)
         self.assertEquals(sccp.is_exist_select_and_all("1"), True)
         sccp.click_back_button()
-        time.sleep(2)
         sccp.click_back_button()
         nmp.wait_for_page_load()
-        time.sleep(2)
         nmp.click_back_button()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
@@ -844,22 +793,18 @@ class MassMessengerAllTest(TestCase):
         search_name = "佬1"
         # 输入查找信息
         sccp.input_search_message(search_name)
-        time.sleep(2)
         # 1.检查搜索结果是否模糊匹配关键字
         self.assertEquals(sccp.is_search_contacts_name_match(search_name), True)
         # 选择搜索结果
         sccp.click_name_attribute_by_name(search_name)
-        time.sleep(2)
         # 2.搜索栏是否清空，是否出现已选人名和头像，是否展示已选人数/上限人数
         self.assertEquals(sccp.is_clear_search_box(search_name), True)
         self.assertEquals(sccp.is_exist_select_contacts_name("佬1"), True)
         self.assertEquals(sccp.is_exist_select_contacts_image("佬1"), True)
         self.assertEquals(sccp.is_exist_select_and_all("1"), True)
         sccp.click_back_button()
-        time.sleep(2)
         sccp.click_back_button()
         nmp.wait_for_page_load()
-        time.sleep(2)
         nmp.click_back_button()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()
@@ -1080,7 +1025,6 @@ class MassMessengerAllTest(TestCase):
         sccp.click_accessibility_id_attribute_by_name("大佬1")
         sccp.click_accessibility_id_attribute_by_name("大佬2")
         sccp.click_accessibility_id_attribute_by_name("大佬3")
-        time.sleep(2)
         # 联系人是否为已选中状态
         self.assertEquals(sccp.is_exist_select_contacts_name("佬1"), True)
         self.assertEquals(sccp.is_exist_select_contacts_name("佬2"), True)
@@ -1089,16 +1033,13 @@ class MassMessengerAllTest(TestCase):
         self.assertEquals(sccp.is_exist_select_and_all("3"), True)
         # 取消已选联系人
         sccp.click_accessibility_id_attribute_by_name("大佬1")
-        time.sleep(2)
         # 1.被取消联系人名和头像是否被移除，已选人数/上限人数是否改变
         self.assertEquals(sccp.is_exist_select_contacts_name("佬1"), False)
         self.assertEquals(sccp.is_exist_select_contacts_image("佬1"), False)
         self.assertEquals(sccp.is_exist_select_and_all("2"), True)
         sccp.click_back_button()
-        time.sleep(2)
         sccp.click_back_button()
         nmp.wait_for_page_load()
-        time.sleep(2)
         nmp.click_back_button()
         # 等待群发信使首页加载
         gmp.wait_for_page_load()

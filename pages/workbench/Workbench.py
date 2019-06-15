@@ -39,46 +39,46 @@ class WorkbenchPage(FooterPage):
                   'com.chinasofti.rcs:id/view_header_space': (MobileBy.ID, 'com.chinasofti.rcs:id/view_header_space'),
                   'com.chinasofti.rcs:id/rl_icon_content': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_icon_content'),
                   'com.chinasofti.rcs:id/iv_iron': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_iron'),
-                  '组织架构': (MobileBy.XPATH, '//*[@text="组织架构"]'),
-                  '工作台管理': (MobileBy.XPATH, '//*[@text="工作台管理"]'),
+                  '组织架构': (MobileBy.ACCESSIBILITY_ID, "组织架构"),
+                  '工作台管理': (MobileBy.ACCESSIBILITY_ID, "工作台管理"),
                   '邀请成员': (MobileBy.XPATH, '//*[@text="邀请成员"]'),
-                  '管理员指引': (MobileBy.XPATH, '//*[@text="管理员指引"]'),
+                  '管理员指引': (MobileBy.ACCESSIBILITY_ID, "管理员指引"),
                   'com.chinasofti.rcs:id/ll_content': (MobileBy.ID, 'com.chinasofti.rcs:id/ll_content'),
                   '常用应用': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_category'),
                   '公告信息': (MobileBy.XPATH, '//*[@text="公告信息"]'),
-                  '企业新闻': (MobileBy.XPATH, '//*[@text="企业新闻"]'),
-                  '企业通讯录': (MobileBy.XPATH, '//*[@text="企业通讯录"]'),
+                  '企业新闻': (MobileBy.ACCESSIBILITY_ID, "企业新闻"),
+                  '企业通讯录': (MobileBy.ACCESSIBILITY_ID, "企业通讯录"),
                   '团队通讯': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_category'),
                   '超级会议': (MobileBy.XPATH, '//*[@text="超级会议"]'),
                   '群发信使': (MobileBy.ACCESSIBILITY_ID, '群发信使'),
-                  '移动出勤': (MobileBy.XPATH, '//*[@text="移动出勤"]'),
+                  '移动出勤': (MobileBy.ACCESSIBILITY_ID, "移动出勤"),
                   '语音通知': (MobileBy.XPATH, '//*[@text="语音通知"]'),
                   '139邮箱': (MobileBy.XPATH, '//*[@text="139邮箱"]'),
                   '协同办公': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_category'),
-                  '考勤打卡': (MobileBy.XPATH, '//*[@text="考勤打卡"]'),
-                  '审批': (MobileBy.XPATH, '//*[@text="审批"]'),
-                  '日志': (MobileBy.XPATH, '//*[@text="日志"]'),
-                  '重要事项': (MobileBy.XPATH, '//*[@text="重要事项"]'),
-                  '个人应用': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_category" and @text="个人应用"]'),
-                  '咪咕影院': (MobileBy.XPATH, '//*[@text="咪咕影院"]'),
-                  '帮助中心': (MobileBy.XPATH, '//*[@text="帮助中心"]'),
-                  '网易考拉': (MobileBy.XPATH, '//*[@text="网易考拉"]'),
-                  '政企优惠': (MobileBy.XPATH, '//*[@text="政企优惠"]'),
-                  '人事管理': (MobileBy.XPATH, '//*[@text="人事管理"]'),
-                  '考试评测': (MobileBy.XPATH, '//*[@text="考试评测"]'),
-                  '移动报销': (MobileBy.XPATH, '//*[@text="移动报销"]'),
-                  '考勤签到': (MobileBy.XPATH, '//*[@text="考勤签到"]'),
-                  '企业云盘': (MobileBy.XPATH, '//*[@text="企业云盘"]'),
-                  '岭南优品': (MobileBy.XPATH, '//*[@text="岭南优品"]'),
-                  '展开': (MobileBy.XPATH, '//*[@text="展开"]'),
+                  '考勤打卡': (MobileBy.ACCESSIBILITY_ID, "考勤打卡"),
+                  '审批': (MobileBy.ACCESSIBILITY_ID, "审批"),
+                  '日志': (MobileBy.ACCESSIBILITY_ID, "日志"),
+                  '重要事项': (MobileBy.ACCESSIBILITY_ID, "重要事项"),
+                  '个人应用': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="个人应用"]'),
+                  '咪咕影院': (MobileBy.ACCESSIBILITY_ID, "咪咕影院"),
+                  '帮助中心': (MobileBy.ACCESSIBILITY_ID, "帮助中心"),
+                  '网易考拉': (MobileBy.ACCESSIBILITY_ID, "网易考拉"),
+                  '政企优惠': (MobileBy.ACCESSIBILITY_ID, "政企优惠"),
+                  '人事管理': (MobileBy.ACCESSIBILITY_ID, "人事管理"),
+                  '考试评测': (MobileBy.ACCESSIBILITY_ID, "考试评测"),
+                  '移动报销': (MobileBy.ACCESSIBILITY_ID, "移动报销"),
+                  '考勤签到': (MobileBy.ACCESSIBILITY_ID, "考勤签到"),
+                  '企业云盘': (MobileBy.ACCESSIBILITY_ID, "企业云盘"),
+                  '岭南优品': (MobileBy.ACCESSIBILITY_ID, "岭南优品"),
+                  '展开': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="展开"]'),
                   'com.chinasofti.rcs:id/rl_bottom': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_bottom'),
                   'com.chinasofti.rcs:id/recyclerView': (MobileBy.ID, 'com.chinasofti.rcs:id/recyclerView'),
                   '应用商城': (MobileBy.ACCESSIBILITY_ID, "应用商城"),
                   'com.chinasofti.rcs:id/iv_logo': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_logo'),
-                  '应用管理': (MobileBy.XPATH, '//*[@text="应用管理"]'),
+                  '应用管理': (MobileBy.ACCESSIBILITY_ID, "应用管理"),
                   '咨询客服': (MobileBy.XPATH, '//*[@text="咨询客服"]'),
                   '创建团队': (MobileBy.XPATH, '//*[@text="创建团队"]'),
-                  '创建群': (MobileBy.XPATH, '//*[@text="创建群"]'),
+                  '创建群': (MobileBy.ACCESSIBILITY_ID, "创建群"),
                   '马上创建群': (MobileBy.XPATH, '//*[@text="马上创建群"]'),
                   '消息': (MobileBy.ID, 'com.chinasofti.rcs:id/tvMessage'),
                   '通话': (MobileBy.ID, 'com.chinasofti.rcs:id/tvCall'),
@@ -144,33 +144,11 @@ class WorkbenchPage(FooterPage):
     @TestLogger.log()
     def find_and_click_open_element(self):
         """查找并点击所有展开元素"""
-        current = 0
-        while True:
-            current += 1
-            if current > 5:
-                return
-            if self._is_element_present(self.__class__.__locators["展开"]):
-                self.click_element(self.__class__.__locators["展开"])
-                self.find_and_click_open_element()
-                return
-            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
-            # 滑动到底部还未找到元素则终止滑动
-            if self._is_element_present(self.__class__.__locators["创建团队"]):
-                break
 
-        current = 0
-        while True:
-            current += 1
-            if current > 5:
-                return
-            if self._is_element_present(self.__class__.__locators["展开"]):
-                self.click_element(self.__class__.__locators["展开"])
-                self.find_and_click_open_element()
-                return
-            self.swipe_by_percent_on_screen(50, 30, 50, 70, 700)
-            # 滑动到顶部还未找到元素则终止滑动
-            if self._is_element_present(self.__class__.__locators["广告banner"]):
-                break
+        if self._is_element_present2(self.__class__.__locators["展开"]):
+            self.click_element(self.__class__.__locators["展开"])
+            self.find_and_click_open_element()
+            return
 
     @TestLogger.log()
     def click_organization(self):
@@ -220,11 +198,7 @@ class WorkbenchPage(FooterPage):
     @TestLogger.log()
     def click_company_news(self):
         """点击企业新闻"""
-        els = self.find_els(self.__class__.__locators['企业新闻'])
-        if els:
-            els[0].click()
-        else:
-            raise AssertionError("该页面没有定位到 企业新闻 控件")
+        self.click_element(self.__class__.__locators['企业新闻'])
 
     @TestLogger.log()
     def click_company_contacts(self):
@@ -247,12 +221,7 @@ class WorkbenchPage(FooterPage):
     @TestLogger.log()
     def click_group_messenger(self):
         """点击群发信使"""
-        # els = self.find_els(self.__class__.__locators['群发信使'])
-        # if els:
-        #     els[0].click()
-        # else:
-        #     raise AssertionError("该页面没有定位到 群发信使 控件")
-        self.click_or_find_click_element(self.__class__.__locators['群发信使'])
+        self.click_element(self.__class__.__locators['群发信使'])
 
     @TestLogger.log()
     def click_voice_notice(self):
@@ -311,21 +280,12 @@ class WorkbenchPage(FooterPage):
     @TestLogger.log()
     def click_app_store(self):
         """点击应用商城"""
-        # els = self.find_els(self.__class__.__locators['应用商城'])
-        # if els:
-        #     els[0].click()
-        # else:
-        #     raise AssertionError("该页面没有定位到 应用商城 控件")
-        self.click_or_find_click_element(self.__class__.__locators['应用商城'])
+        self.click_element(self.__class__.__locators['应用商城'])
 
     @TestLogger.log()
     def click_app_manage(self):
         """点击应用管理"""
-        els = self.find_els(self.__class__.__locators['应用管理'])
-        if els:
-            els[0].click()
-        else:
-            raise AssertionError("该页面没有定位到 应用管理 控件")
+        self.click_element(self.__class__.__locators['应用管理'])
 
     @TestLogger.log()
     def click_custom_service(self):
@@ -424,6 +384,7 @@ class WorkbenchPage(FooterPage):
                 auto_accept_permission_alert=auto_accept_alerts,
                 condition=lambda d: self._is_element_present(self.__class__.__locators["应用商城"])
             )
+            self.find_and_click_open_element()
         except:
             message = "页面在{}s内，没有加载成功".format(str(timeout))
             raise AssertionError(
@@ -462,7 +423,7 @@ class WorkbenchPage(FooterPage):
             self.wait_until(
                 timeout=timeout,
                 auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self.driver.current_activity == self.ACTIVITY
+                condition=lambda d: self._is_element_present(self.__class__.__locators["应用商城"])
             )
             return True
         except:
@@ -471,84 +432,70 @@ class WorkbenchPage(FooterPage):
     @TestLogger.log()
     def click_add_corporate_news(self):
         """点击企业新闻"""
-        els = self.find_els(self.__class__.__locators['企业新闻'])
-        if els:
-            els[0].click()
+        if self._is_element_present(self.__class__.__locators['企业新闻']):
+            self.click_company_news()
         else:
             self.add_workbench_app("企业新闻")
-            time.sleep(2)
             self.click_company_news()
 
     @TestLogger.log()
     def click_add_group_messenger(self):
         """点击群发信使"""
-        els = self.find_els(self.__class__.__locators['群发信使'])
-        if els:
-            els[0].click()
+        if self._is_element_present(self.__class__.__locators['群发信使']):
+            self.click_group_messenger()
         else:
             self.add_workbench_app("群发信使")
-            time.sleep(2)
             self.click_group_messenger()
 
     @TestLogger.log()
     def click_add_create_group(self):
         """点击创建群"""
-        els = self.find_els(self.__class__.__locators['创建群'])
-        if els:
-            els[0].click()
+        if self._is_element_present(self.__class__.__locators['创建群']):
+            self.click_create_group()
         else:
             self.add_workbench_app("创建群")
-            time.sleep(2)
             self.click_create_group()
 
     @TestLogger.log()
     def click_add_mobile_attendance(self):
         """点击移动出勤"""
-        els = self.find_els(self.__class__.__locators['移动出勤'])
-        if els:
-            els[0].click()
+        if self._is_element_present(self.__class__.__locators['移动出勤']):
+            self.click_mobile_attendance()
         else:
             self.add_workbench_app("移动出勤")
-            time.sleep(2)
             self.click_mobile_attendance()
 
     @TestLogger.log()
     def click_add_enterprise_contacts(self):
         """点击企业通讯录"""
-        els = self.find_els(self.__class__.__locators['企业通讯录'])
-        if els:
-            els[0].click()
+        if self._is_element_present(self.__class__.__locators['企业通讯录']):
+            self.click_company_contacts()
         else:
             self.add_workbench_app("企业通讯录")
-            time.sleep(2)
             self.click_company_contacts()
 
     @TestLogger.log()
     def click_add_attendance_card(self):
         """点击考勤打卡"""
-        els = self.find_els(self.__class__.__locators['考勤打卡'])
-        if els:
-            els[0].click()
+        if self._is_element_present(self.__class__.__locators['考勤打卡']):
+            self.click_attendance_card()
         else:
             self.add_workbench_app("考勤打卡")
-            time.sleep(2)
             self.click_attendance_card()
 
     @TestLogger.log()
     def click_add_important_matters(self):
         """点击重要事项"""
-        els = self.find_els(self.__class__.__locators['重要事项'])
-        if els:
-            els[0].click()
+        if self._is_element_present(self.__class__.__locators['重要事项']):
+            self.click_important_items()
         else:
             self.add_workbench_app("重要事项")
-            time.sleep(2)
             self.click_important_items()
 
     @TestLogger.log()
     def add_workbench_app(self, name):
         """添加工作台里的应用"""
-        self.wait_for_workbench_page_load()
+        self.wait_for_page_load()
         self.click_app_store()
         asp = AppStorePage()
         asp.wait_for_page_load()
@@ -556,21 +503,12 @@ class WorkbenchPage(FooterPage):
         asp.input_store_name(name)
         asp.click_search()
         time.sleep(5)
-        if not asp.is_exist_join():
-            asp.click_close()
-            self.wait_for_workbench_page_load()
-            self.click_app_store()
-            asp.wait_for_page_load()
-            asp.click_search_app()
-            asp.input_store_name(name)
-            asp.click_search()
-            time.sleep(5)
         asp.click_join()
-        time.sleep(2)
+        asp.wait_for_app_group_page_load()
         asp.click_add_app()
-        time.sleep(2)
         asp.click_close()
-        self.wait_for_workbench_page_load()
+        time.sleep(5)
+        self.wait_for_page_load()
 
     @TestLogger.log()
     def get_workbench_name(self):
@@ -582,8 +520,4 @@ class WorkbenchPage(FooterPage):
     @TestLogger.log()
     def is_exists_app_by_name(self, name):
         """是否存在指定应用"""
-        els = self.find_els(self.__class__.__locators[name])
-        if els:
-            return True
-        else:
-            return False
+        return self._is_element_present(self.__class__.__locators[name])

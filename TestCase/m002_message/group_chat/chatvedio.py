@@ -85,10 +85,6 @@ class Preconditions(WorkbenchPreconditions):
         sog = SelectOneGroupPage()
         # 等待“选择一个群”页面加载
         sog.wait_for_page_load()
-        sog.click_search_box()
-        time.sleep(1)
-        sog.input_search_box(name)
-        time.sleep(2)
         # 选择一个普通群
         sog.selecting_one_group_by_name(name)
         gcp = GroupChatPage()

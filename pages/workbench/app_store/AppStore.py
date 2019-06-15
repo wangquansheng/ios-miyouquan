@@ -12,17 +12,16 @@ class AppStorePage(BasePage):
 
     __locators = {
         '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
-        '关闭': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_close_actionbar'),
-        '搜索应用': (MobileBy.XPATH,
-                 "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View[1]/android.view.View/android.widget.EditText"),
-        '搜索框': (MobileBy.XPATH, '//*[@class="android.widget.EditText"]'),
-        '搜索': (MobileBy.XPATH, '//*[@text="搜索"]'),
-        '添加': (MobileBy.XPATH, '//*[@text="添加"]'),
+        '关闭': (MobileBy.ACCESSIBILITY_ID, 'cc h5 ic close'),
+        '搜索应用': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="应用商城"]/XCUIElementTypeTextField'),
+        '搜索框': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="应用商城"]/XCUIElementTypeTextField'),
+        '搜索': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="搜索"]'),
+        '添加': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="添加"]'),
         '打开': (MobileBy.XPATH, '//*[@text="打开"]'),
-        '确定': (MobileBy.XPATH, '//*[@text="确定"]'),
-        '热门推荐': (MobileBy.XPATH, '//*[@text="热门推荐"]'),
+        '确定': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="确定"]'),
+        '热门推荐': (MobileBy.ACCESSIBILITY_ID, "热门推荐"),
         '个人专区': (MobileBy.XPATH, '//*[@text="个人专区"]'),
-        '添加应用': (MobileBy.XPATH, '//*[@resource-id="tjyy_but"]'),
+        '添加应用': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="添加应用"])[2]'),
         '应用介绍': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tv_title_actionbar" and @text="应用介绍"]'),
         'brenner图1': (MobileBy.XPATH, '	/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View[3]/android.view.View[1]/android.view.View'),
         'brenner图2': (MobileBy.XPATH, '	/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.RelativeLayout[2]/android.widget.FrameLayout/android.webkit.WebView/android.webkit.WebView/android.view.View[3]/android.view.View[2]/android.view.View'),
@@ -74,11 +73,6 @@ class AppStorePage(BasePage):
     def input_store_name(self, name):
         """输入商店应用名称"""
         self.input_text(self.__class__.__locators["搜索框"], name)
-        try:
-            self.driver.hide_keyboard()
-        except:
-            pass
-        return self
 
     @TestLogger.log()
     def click_search(self):
@@ -119,7 +113,7 @@ class AppStorePage(BasePage):
     @TestLogger.log()
     def is_search_result_match(self, name):
         """搜索结果是否匹配"""
-        locator = (MobileBy.XPATH, '//*[@text="添加"]/../android.view.View[2]')
+        locator = (MobileBy.XPATH, '//XCUIElementTypeLink[@name="添加"]/following-sibling::[1]')
         text = self.get_element(locator).text
         if name in text:
             return True
@@ -164,7 +158,7 @@ class AppStorePage(BasePage):
             self.wait_until(
                 timeout=timeout,
                 auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self.is_text_present("添加到分组")
+                condition=lambda d: self._is_element_present(self.__class__.__locators["添加应用"])
             )
         except:
             raise AssertionError("页面在{}s内，没有加载成功".format(str(timeout)))

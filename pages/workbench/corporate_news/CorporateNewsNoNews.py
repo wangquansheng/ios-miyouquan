@@ -12,10 +12,10 @@ class CorporateNewsNoNewsPage(BasePage):
     ACTIVITY = 'com.cmicc.module_enterprise.ui.activity.EnterpriseH5ProcessActivity'
 
     __locators = {
-        '未发新闻': (MobileBy.ID, "com.chinasofti.rcs:id/tv_title_actionbar"),
-        '新闻名称': (MobileBy.XPATH, '//*[@resource-id="news_title"]'),
+        '未发新闻': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="未发新闻"]'),
+        '新闻名称': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeLink[@name]/XCUIElementTypeLink/XCUIElementTypeStaticText'),
         '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
-        '关闭': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_close_actionbar')
+        '关闭': (MobileBy.ACCESSIBILITY_ID, 'cc h5 ic close')
     }
 
     @TestLogger.log()
@@ -60,23 +60,22 @@ class CorporateNewsNoNewsPage(BasePage):
     @TestLogger.log()
     def is_exist_no_news_by_name(self, name):
         """是否存在指定未发新闻"""
-        els = self.get_elements((MobileBy.XPATH, '//*[@resource-id="news_title" and @text="%s"]' % name))
+        els = self.get_elements((MobileBy.XPATH,
+                                 '//XCUIElementTypeOther/XCUIElementTypeLink[@name]/XCUIElementTypeLink/XCUIElementTypeStaticText[@name="%s"]' % name))
         return len(els) > 0
 
     @TestLogger.log()
     def clear_no_news(self):
         """清空未发新闻"""
+        cndp = CorporateNewsDetailsPage()
         current = 0
-        while self._is_element_present(self.__class__.__locators["新闻名称"]):
+        while self._is_element_present2(self.__class__.__locators["新闻名称"]):
             current += 1
-            if current > 5:
+            if current > 20:
                 return
-            els = self.get_elements(self.__class__.__locators["新闻名称"])
-            cndp = CorporateNewsDetailsPage()
-            for el in els:
-                el.click()
-                cndp.wait_for_page_load()
-                cndp.click_delete()
-                cndp.click_sure()
-                time.sleep(2)
-                self.wait_for_page_load()
+            el = self.get_element(self.__class__.__locators["新闻名称"])
+            el.click()
+            cndp.wait_for_page_load()
+            cndp.click_delete()
+            cndp.click_sure()
+            self.wait_for_page_load()

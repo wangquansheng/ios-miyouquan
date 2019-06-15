@@ -10,15 +10,15 @@ class CorporateNewsImageTextPage(BasePage):
     ACTIVITY = 'com.cmicc.module_enterprise.ui.activity.EnterpriseH5ProcessActivity'
 
     __locators = {
-        '图文发布': (MobileBy.XPATH, '//*[@text="图文发布"]'),
-        '链接发布': (MobileBy.XPATH, '//*[@text="链接发布"]'),
-        '新闻内容': (MobileBy.XPATH, '//*[@text="新闻内容"]'),
-        '新闻标题输入框': (MobileBy.XPATH, '//*[@resource-id="title"]'),
-        '新闻内容输入框': (MobileBy.XPATH, '//*[@resource-id="content"]'),
-        '保存': (MobileBy.XPATH, '//*[@text="保存"]'),
-        '发布': (MobileBy.XPATH, '//*[@text="发布"]'),
-        '确定': (MobileBy.XPATH, '//*[@text="确定"]'),
-        '取消': (MobileBy.XPATH, '//*[@text="取消"]')
+        '图文发布': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="图文发布"]'),
+        '链接发布': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="链接发布"]'),
+        '新闻内容': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="新闻内容"]'),
+        '新闻标题输入框': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="发布新闻"]/XCUIElementTypeOther[2]/XCUIElementTypeTextField'),
+        '新闻内容输入框': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="发布新闻"]/XCUIElementTypeOther[4]/XCUIElementTypeTextView'),
+        '保存': (MobileBy.ACCESSIBILITY_ID, "保存"),
+        '发布': (MobileBy.ACCESSIBILITY_ID, "发布"),
+        '确定': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="确定"]'),
+        '取消': (MobileBy.ACCESSIBILITY_ID, "取消")
     }
 
     @TestLogger.log()
