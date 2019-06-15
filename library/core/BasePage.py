@@ -373,6 +373,7 @@ class BasePage(object):
         if self._get_platform() == 'android':
             self.driver.swipe(x_start, y_start, x_end, y_end, duration)
         elif self._get_platform() == 'ios':
+            # 暂未实现点击控件
             self.driver.execute_script("mobile:dragFromToForDuration",
                                        {"duration": duration, "element": locator, "fromX": x_start, "fromY": y_start,
                                         "toX": x_end, "toY": y_end})
@@ -665,18 +666,6 @@ class BasePage(object):
     def page_down(self):
         """向下滑动"""
         self.swipe_by_percent_on_screen(50, 30, 50, 80)
-
-    @TestLogger.log
-    def swipe_by_on_screen(self, start_x, start_y, end_x, end_y, locator=None):
-        """百分比滑动屏幕"""
-        width = self.driver.get_window_size()["width"]
-        height = self.driver.get_window_size()["height"]
-        x_start = float(start_x) / 100 * width
-        x_end = float(end_x) / 100 * width
-        y_start = float(start_y) / 100 * height
-        y_end = float(end_y) / 100 * height
-        self.driver.execute_script("mobile:dragFromToForDuration",
-                      {"duration": 0.5, "element": locator, "fromX": x_start, "fromY": y_start, "toX": x_end, "toY": y_end})
 
     @TestLogger.log('挂断电话')
     def hang_up_the_call(self):
