@@ -150,8 +150,29 @@ class BasePage(object):
     def get_source(self):
         return self.driver.page_source
 
-    def click_element(self, locator, default_timeout=5, auto_accept_permission_alert=True):
-        self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
+    # def click_element(self, locator, default_timeout=5, auto_accept_permission_alert=True):
+    #     self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
+
+    def click_element(self, locator, max_try=3, default_timeout=5, auto_accept_permission_alert=True):
+        if self._is_element_present(locator):
+            n = max_try
+            while n:
+                try:
+                    self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
+                    return
+                except:
+                    self.page_up()
+                    n -= 1
+            m = max_try
+            while m:
+                try:
+                    self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
+                    return
+                except:
+                    self.page_down()
+                    m -= 1
+        else:
+            raise NoSuchElementException('找不到元素 {}'.format(locator))
 
     def is_current_activity_match_this_page(self):
         return self.driver == self.__class__.ACTIVITY
@@ -343,14 +364,12 @@ class BasePage(object):
     def swipe_by_percent_on_screen(self, start_x, start_y, end_x, end_y, duration=0.5, locator=None):
         width = self.driver.get_window_size()["width"]
         height = self.driver.get_window_size()["height"]
-        print(height)
         x_start = float(start_x) / 100 * width
         x_end = float(end_x) / 100 * width
         y_start = float(start_y) / 100 * height
         y_end = float(end_y) / 100 * height
         x_offset = x_end - x_start
         y_offset = y_end - y_start
-        print(y_start)
         if self._get_platform() == 'android':
             self.driver.swipe(x_start, y_start, x_end, y_end, duration)
         elif self._get_platform() == 'ios':
@@ -640,12 +659,12 @@ class BasePage(object):
     @TestLogger.log("下一页")
     def page_up(self):
         """向上滑动"""
-        self.driver.execute_script('mobile: scroll', {'direction': 'down'})
+        self.swipe_by_percent_on_screen(50, 80, 50, 30)
 
     @TestLogger.log("上一页")
     def page_down(self):
         """向下滑动"""
-        self.driver.execute_script('mobile: scroll', {'direction': 'up'})
+        self.swipe_by_percent_on_screen(50, 30, 50, 80)
 
     @TestLogger.log
     def swipe_by_on_screen(self, start_x, start_y, end_x, end_y, locator=None):
@@ -734,29 +753,5 @@ class BasePage(object):
             self.click_element((MobileBy.XPATH, "//*[@name='%s']" % name))
         else:
             self.click_element((MobileBy.XPATH, "//*[contains(@name,'%s')]" % name))
-
-    @TestLogger.log()
-    def click_or_find_click_element(self, locator,max_try=2, default_timeout=5, auto_accept_permission_alert=True):
-        """查找点击"""
-        if self._is_element_present(locator):
-            n = max_try
-            while n:
-                try:
-                    self.click_element(locator, default_timeout, auto_accept_permission_alert)
-                    return
-                except Exception as e:
-                    print(e)
-                    self.page_up()
-                    n -= 1
-            m = max_try
-            while m:
-                try:
-                    self.click_element(locator, default_timeout, auto_accept_permission_alert)
-                    return
-                except:
-                    self.page_down()
-                    m -= 1
-        else:
-            raise NoSuchElementException('找不到元素 {}'.format(locator))
 
 
