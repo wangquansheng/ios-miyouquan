@@ -67,6 +67,12 @@ class ContactDetailsPage(BasePage):
 
     }
 
+
+    @TestLogger.log('点击返回')
+    def click_back(self):
+        self.click_element(self.__locators['返回'])
+
+
     @TestLogger.log("是否在当前页面")
     def is_on_this_page(self):
         time.sleep(2)

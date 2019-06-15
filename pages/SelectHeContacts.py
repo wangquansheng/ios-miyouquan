@@ -18,6 +18,11 @@ class SelectHeContactsPage(BasePage):
         '团队联系人列表第一个': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
         '团队联系人列表第二个': (MobileBy.XPATH,
                        '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+        #搜索结果
+        '搜索结果列表头像1': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeImage'),
+        '搜索结果列表1': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
 
 
 
@@ -49,6 +54,28 @@ class SelectHeContactsPage(BasePage):
     def select_one_team_by_name(self, name):
         """选择一个团队"""
         self.click_element((MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="%s"])' % name))
+
+
+    @TestLogger.log()
+    def click_search_box(self):
+        """点击搜索框"""
+        self.click_element(self.__class__.__locators['搜索或输入手机号'])
+
+    @TestLogger.log()
+    def input_search_text(self, text):
+        """输入搜索内容"""
+        self.input_text(self.__class__.__locators['搜索或输入手机号'],text)
+
+
+    @TestLogger.log()
+    def click_element_by_id(self, text='搜索结果列表1'):
+        """输入搜索内容"""
+        self.click_element(self.__class__.__locators[text])
+
+    @TestLogger.log()
+    def page_contain_element(self, text='搜索结果列表1'):
+        """输入搜索内容"""
+        return self.page_should_contain_element(self.__class__.__locators[text])
 
 
     @TestLogger.log()

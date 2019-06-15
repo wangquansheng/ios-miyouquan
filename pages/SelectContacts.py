@@ -19,7 +19,7 @@ class SelectContactsPage(BasePage):
         '选择一个群': (MobileBy.ACCESSIBILITY_ID, '选择一个群'),
         '选择团队联系人': (MobileBy.ACCESSIBILITY_ID, '选择团队联系人'),
         '选择手机联系人': (MobileBy.ACCESSIBILITY_ID, '选择手机联系人'),
-
+        '最近聊天': (MobileBy.ACCESSIBILITY_ID, '最近聊天'),
         '最近聊天列表': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[4]'),
         #标签分组 选择联系人
         '选择联系人标题': (MobileBy.ACCESSIBILITY_ID, '选择联系人'),
@@ -35,13 +35,27 @@ class SelectContactsPage(BasePage):
         '搜索结果列表2': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[3]'),
         '搜索结果-联系人头像': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]/XCUIElementTypeImage'),
         '清空搜索文本': (MobileBy.ACCESSIBILITY_ID, 'cc contacts delete pressed'),
-        '': (MobileBy.ACCESSIBILITY_ID, ''),
-        '': (MobileBy.ACCESSIBILITY_ID, ''),
+        '网络搜索结果': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]'),
+        '团队联系人搜索结果': (MobileBy.XPATH
+                      , '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+
+        '查看更多': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="查看更多"])'),
+        # '查看更多2': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="查看更多"])[2]'),
 
 
-        '本地联系人': (MobileBy.XPATH, '//*[@text ="选择手机联系人"]'),
-        '选择和通讯录联系人': (MobileBy.XPATH, '//*[@text ="选择团队联系人"]'),
-        '最近聊天': (MobileBy.ID, 'com.chinasofti.rcs:id/text_hint'),
+
+
+        '取消转发': (MobileBy.ACCESSIBILITY_ID, "取消"),
+        '确定转发': (MobileBy.ACCESSIBILITY_ID, "确定"),
+        #分享二维码
+        '确定发送': (MobileBy.ACCESSIBILITY_ID, "发送"),
+        '取消发送': (MobileBy.ACCESSIBILITY_ID, "取消"),
+
+
+
+
+
+
         'X': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_delect'),
         '聊天电话': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_number'),
         # 分享二维码的选择联系人页面
@@ -51,15 +65,13 @@ class SelectContactsPage(BasePage):
         '未知号码': (MobileBy.XPATH, '//*[contains(@text,"未知号码")]'),
         # 选择一个联系人转发消息时的弹框
         '发送给': (MobileBy.XPATH, "//*[contains(@text, '发送给')]"),
-        '取消转发': (MobileBy.ACCESSIBILITY_ID, "取消"),
-        '确定转发': (MobileBy.ACCESSIBILITY_ID, "确定"),
+
         'local联系人': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_name'),
 
         '联系人头像': (MobileBy.ID, 'com.chinasofti.rcs:id/head_tv'),
         '右侧字母索引': (MobileBy.XPATH,
                    '//*[@resource-id="com.chinasofti.rcs:id/contact_index_bar_container"]/android.widget.TextView'),
         '左侧字母索引': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/index_text"]'),
-        '查看更多': (MobileBy.XPATH, '//*[@text ="查看更多"]'),
         '和通讯录返回': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back'),
         "最近聊天消息名称": (MobileBy.ID, "com.chinasofti.rcs:id/tv_name"),
         "联系人横框": (MobileBy.ID, "com.chinasofti.rcs:id/contact_list_item"),
@@ -124,9 +136,6 @@ class SelectContactsPage(BasePage):
         """点击元素"""
         self.click_element(self.__class__.__locators[text])
 
-
-
-
     @TestLogger.log()
     def is_element_present(self, locator='最近聊天列表'):
         return self._is_element_present(self.__class__.__locators[locator])
@@ -134,6 +143,80 @@ class SelectContactsPage(BasePage):
     @TestLogger.log("检查控件是否存在")
     def check_if_element_not_exist(self,text='发送人头像'):
         self.page_should_not_contain_element(self.__class__.__locators[text])
+
+    @TestLogger.log("最近聊天联系人")
+    def click_recent_contact(self, text='最近聊天联系人'):
+        """点击组名"""
+        time.sleep(1)
+        self.click_element(self.__locators[text])
+
+    @TestLogger.log("选择团队联系人")
+    def click_group_contact(self, text='选择团队联系人'):
+        """点击选择团队联系人"""
+        time.sleep(1)
+        self.click_element(self.__locators[text])
+
+    @TestLogger.log("选择手机联系人")
+    def click_phone_contact(self, text='选择手机联系人'):
+        """点击组名"""
+        time.sleep(1)
+        self.click_element(self.__locators[text])
+
+    @TestLogger.log('搜索或输入手机号')
+    def click_search_contact(self):
+        """点击搜索或输入手机号"""
+        self.click_element(self.__locators['搜索或输入手机号'])
+
+    @TestLogger.log('搜索或输入手机号')
+    def input_search_keyword(self, keyword):
+        """输入搜索内容"""
+        self.input_text(self.__locators['搜索或输入手机号'], keyword)
+
+    @TestLogger.log('判断该页面是否有元素')
+    def page_contain_element(self, locator):
+        return self.page_should_contain_element(self.__locators[locator])
+
+    @TestLogger.log()
+    def click_select_one_group(self):
+        """点击 选择一个群"""
+        self.click_element(self.__class__.__locators["选择一个群"])
+
+    @TestLogger.log()
+    def click_he_contacts(self):
+        """点击 选择和通讯录联系人/选择团队联系人"""
+        self.click_element(self.__class__.__locators["选择团队联系人"])
+
+    @TestLogger.log()
+    def click_local_contacts(self):
+        """点击 本地联系人"""
+        self.click_element(self.__class__.__locators["本地联系人"])
+
+    @TestLogger.log()
+    def select_local_contacts(self):
+        """选择本地联系人/选择手机联系人"""
+        self.click_element(self.__class__.__locators["选择手机联系人"])
+
+    @TestLogger.log()
+    def click_x_icon(self):
+        """点击 X"""
+        self.click_element(self.__class__.__locators["清空搜索文本"])
+
+    @TestLogger.log("选择成员ID")
+    def click_sure_send(self, text='确定发送'):
+        """点击确定发送"""
+        time.sleep(1)
+        self.click_element(self.__locators[text])
+
+    @TestLogger.log("选择成员ID")
+    def click_cancel_send(self, text='取消发送'):
+        """点击取消发送"""
+        time.sleep(1)
+        self.click_element(self.__class__.__locators[text])
+
+
+
+
+
 
 
     @TestLogger.log("点击右侧字母")
@@ -153,23 +236,6 @@ class SelectContactsPage(BasePage):
         time.sleep(1)
         self.click_element(self.__locators[text])
 
-    @TestLogger.log("最近聊天联系人")
-    def click_recent_contact(self, text='最近聊天联系人'):
-        """点击组名"""
-        time.sleep(1)
-        self.click_element(self.__locators[text])
-
-    @TestLogger.log("选择团队联系人")
-    def click_group_contact(self, text='选择团队联系人'):
-        """点击选择团队联系人"""
-        time.sleep(1)
-        self.click_element(self.__locators[text])
-
-    @TestLogger.log("选择手机联系人")
-    def click_phone_contact(self, text='选择手机联系人'):
-        """点击组名"""
-        time.sleep(1)
-        self.click_element(self.__locators[text])
 
     @TestLogger.log("选择:中软国际科技服务有限公司")
     def click_group_chinasoft(self, text='中软国际科技服务有限公司'):
@@ -268,15 +334,6 @@ class SelectContactsPage(BasePage):
         """点击分享名片"""
         self.click_element(self.__class__.__locators['发送名片'])
 
-    @TestLogger.log('搜索或输入手机号')
-    def click_search_contact(self):
-        """点击搜索或输入手机号"""
-        self.click_element(self.__locators['搜索或输入手机号'])
-
-    @TestLogger.log('搜索或输入手机号')
-    def input_search_keyword(self, keyword):
-        """输入搜索内容"""
-        self.input_text(self.__locators['搜索或输入手机号'], keyword)
 
     @TestLogger.log()
     def click_search_keyword(self):
@@ -294,25 +351,6 @@ class SelectContactsPage(BasePage):
         """点击联系人头像"""
         self.click_element(self.__locators['选中联系人头像'])
 
-    @TestLogger.log()
-    def click_select_one_group(self):
-        """点击 选择一个群"""
-        self.click_element(self.__class__.__locators["选择一个群"])
-
-    @TestLogger.log()
-    def click_he_contacts(self):
-        """点击 选择和通讯录联系人/选择团队联系人"""
-        self.click_element(self.__class__.__locators["选择团队联系人"])
-
-    @TestLogger.log()
-    def click_local_contacts(self):
-        """点击 本地联系人"""
-        self.click_element(self.__class__.__locators["本地联系人"])
-
-    @TestLogger.log()
-    def select_local_contacts(self):
-        """选择本地联系人/选择手机联系人"""
-        self.click_element(self.__class__.__locators["选择手机联系人"])
 
     @TestLogger.log()
     def click_one_local_contacts(self):
@@ -440,18 +478,12 @@ class SelectContactsPage(BasePage):
             return True
         return False
 
-    @TestLogger.log('判断该页面是否有元素')
-    def page_contain_element(self, locator):
-        return self.page_should_contain_element(self.__locators[locator])
 
     @TestLogger.log('点击最近聊天')
     def click_search_he_contact(self):
         self.click_element(self.__locators["最近聊天"])
 
-    @TestLogger.log()
-    def click_x_icon(self):
-        """点击 X"""
-        self.click_element(self.__class__.__locators["X"])
+
 
     @TestLogger.log()
     def click_read_more(self):

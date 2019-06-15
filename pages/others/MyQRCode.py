@@ -9,25 +9,35 @@ class MyQRCodePage(BasePage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.QRCodeActivity'
 
     __locators = {
-        'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
-        'android:id/content': (MobileBy.ID, 'android:id/content'),
-        'com.chinasofti.rcs:id/id_toolbar': (MobileBy.ID, 'com.chinasofti.rcs:id/id_toolbar'),
-        '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/left_back'),
-        '我的二维码': (MobileBy.ID, 'com.chinasofti.rcs:id/text_title'),
-        'com.chinasofti.rcs:id/contentFrame': (MobileBy.ID, 'com.chinasofti.rcs:id/contentFrame'),
-        '加载中': (MobileBy.ID, 'com.chinasofti.rcs:id/img_wait'),
-        'com.chinasofti.rcs:id/qr_code_info_view': (MobileBy.ID, 'com.chinasofti.rcs:id/qr_code_info_view'),
-        'com.chinasofti.rcs:id/rl_qr_info': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_qr_info'),
-        'com.chinasofti.rcs:id/profile_info': (MobileBy.ID, 'com.chinasofti.rcs:id/profile_info'),
-        '二维码中的名称': (MobileBy.ID, 'com.chinasofti.rcs:id/twodimension_name_text'),
-        '二维码中的头像': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/twodimensioncode_myprofile_icon'),
-        '二维码': (MobileBy.ID, 'com.chinasofti.rcs:id/my_twodimensionCode'),
-        '扫描二维码，添加和飞信': (MobileBy.ID, 'com.chinasofti.rcs:id/textView2'),
-        '分享二维码': (MobileBy.ID, 'com.chinasofti.rcs:id/qecode_share_btn'),
-        '保存二维码': (MobileBy.ID, 'com.chinasofti.rcs:id/qecode_save_btn'),
-        'android:id/statusBarBackground': (MobileBy.ID, 'android:id/statusBarBackground')
+
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '我的二维码': (MobileBy.ACCESSIBILITY_ID, '我的二维码'),
+        '扫一扫': (MobileBy.ACCESSIBILITY_ID, 'cc chat create qr'),
+        '二维码中的头像': (MobileBy.XPATH, '//XCUIElementTypeImage[@name="/var/containers/Bundle/Application/E90131E9-98D3-4366-9B9C-E909080E2D03/AndFetion.app/cc_me_qrcode_card@3x.png"]/XCUIElementTypeButton'),
+        '二维码': (MobileBy.XPATH, '//XCUIElementTypeImage[@name="/var/containers/Bundle/Application/E90131E9-98D3-4366-9B9C-E909080E2D03/AndFetion.app/cc_me_qrcode_card@3x.png"]/XCUIElementTypeImage[3]'),
+        '扫描二维码，加我和飞信': (MobileBy.ACCESSIBILITY_ID, '扫描二维码，加我和飞信'),
+        '分享二维码': (MobileBy.ACCESSIBILITY_ID, 'cc me qrcode share normal@3x'),
+        '保存二维码': (MobileBy.ACCESSIBILITY_ID, 'cc me qrcode save normal@3x'),
+        '': (MobileBy.ACCESSIBILITY_ID, ''),
+
+
     }
+
+
+    @TestLogger.log()
+    def is_on_this_page(self):
+        """当前页面是否在当前页面-我的二维码"""
+
+        try:
+            self.wait_until(
+                timeout=15,
+                auto_accept_permission_alert=True,
+                condition=lambda d: self._is_element_present(self.__class__.__locators["分享二维码"])
+            )
+            return True
+        except:
+            return False
+
 
     @TestLogger.log('等待加载完毕')
     def wait_for_loading_animation_end(self):
