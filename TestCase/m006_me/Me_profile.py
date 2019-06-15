@@ -630,6 +630,135 @@ class Meprofile(TestCase):
         scp.check_if_element_not_exist(text='搜索结果列表1')
 
 
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_022(self):
+        """分享名片-输入手机号码搜索"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.有搜索结果时 -页面展示
+        scp.click_search_contact()
+        scp.input_search_keyword('13800138005')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_exist(text='搜索结果列表1')
+          # 分享名片
+        scp.click_element_by_id(text='搜索结果列表1')
+        scp.click_share_card()
+        time.sleep(2)
+        self.assertTrue(mup.is_on_this_page())
+        time.sleep(2)
+        # 无搜索结果时，仅展示团队联系人入口
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        scp.click_search_contact()
+        scp.input_search_keyword('11223344556')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_not_exist(text='搜索结果列表1')
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_024(self):
+        """分享名片-未知号码搜索"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击搜索框进行搜索 -页面展示
+        scp.click_search_contact()
+        scp.input_search_keyword('13128799346')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_exist(text='网络搜索结果')
+        #分享联系人成功
+        scp.click_element_by_id(text='网络搜索结果')
+        time.sleep(2)
+        scp.click_share_card()
+        time.sleep(2)
+        self.assertTrue(mup.is_on_this_page())
+
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_025(self):
+        """分享名片-搜索自己"""
+        mep = MePage()
+        #预置本地联系人 本机
+        mep.open_contacts_page()
+        con=ContactsPage()
+        con.click_phone_contact()
+        con.click_search_phone_contact()
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)
+        con.input_search_keyword(phone_number)
+        if con.is_element_present_by_id('本地联系人搜索结果'):
+            con.click_back()
+        else:
+            con.click_add()
+            time.sleep(2)
+            creat=CreateContactPage()
+            creat.click_input_name()
+            creat.input_name('本机')
+            creat.click_input_number()
+            creat.input_number(phone_number[0])
+            creat.click_save()
+            time.sleep(2)
+            ContactDetailsPage().click_back()
+            con.click_back()
+        #进入通讯录页面
+        con.open_me_page()
+
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击搜索框进行搜索 -本机
+        scp.click_search_contact()
+        scp.input_search_keyword('19849476421')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_exist(text='搜索结果列表1')
+        scp.click_element_by_id(text='搜索结果列表1')
+        time.sleep(2)
+        scp.is_toast_exist('该联系人不可选择')
+        #团队联系人中搜索
+        scp.click_element_by_id(text='搜索团队联系人入口')
+        time.sleep(2)
+        scp.check_if_element_exist(text='团队联系人搜索结果')
+        time.sleep(2)
+        scp.click_element_by_id(text='团队联系人搜索结果')
+        scp.is_toast_exist('该联系人不可选择')
+
 
 
 
