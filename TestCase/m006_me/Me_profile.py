@@ -762,6 +762,86 @@ class Meprofile(TestCase):
 
 
 
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_026(self):
+        """分享名片-选择一个群页面搜索群组"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击选择一个群
+        scp.click_select_one_group()
+        sop = SelectOneGroupPage()
+        sop.wait_for_page_load()
+        self.assertTrue(sop.is_on_this_page())
+         #搜索群组-分享名片
+        sop.click_search_box()
+        sop.input_search_keyword('给个红包1')
+        time.sleep(1)
+        sop.click_search_result()
+        sop.click_share_card()
+        time.sleep(2)
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_027(self):
+        """分享名片-分享名片-搜索我的电脑"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        time.sleep(2)
+        # 1.点击分享名片
+        mup.page_up()
+        mup.click_share_card()
+        scp = SelectContactsPage()
+        scp.wait_for_page_load()
+        time.sleep(2)
+        # 2.点击搜索框进行搜索 -页面展示
+        scp.click_search_contact()
+        scp.input_search_keyword('我的电脑')
+        time.sleep(2)
+        scp.page_down()
+        scp.check_if_element_exist(text='搜索团队联系人入口')
+        scp.check_if_element_not_exist(text='搜索结果列表1')
+
+    @tags('ALL', 'CMCC', 'me_all', 'me_profile')
+    def test_me_zhangshuli_042(self):
+        """“编辑资料” 头像设置-修改头像未保存退出编辑-取消"""
+        # 0.检验是否跳转到我页面,点击进入查看并编辑资料
+        mep = MePage()
+        self.assertEquals(mep.is_on_this_page(), True)
+        mep.click_view_edit()
+        mup = MeViewUserProfilePage()
+        self.assertTrue(mup.is_on_this_page())
+        mup.click_edit()
+        me_edit=MeEditUserProfilePage()
+        time.sleep(1)
+        self.assertTrue(me_edit.is_on_this_page())
+        #选择一张图片修改头像
+        me_edit.click_take_photo_icon()
+        me_edit.click_select_one_picture()
+        time.sleep(1)
+        me_edit.select_first_picture()
+        time.sleep(1)
+        me_edit.click_save_picture()
+        time.sleep(2)
+        me_edit.element_should_contain(text='拍照图标')
+        #编辑资料页面，点击返回
+        me_edit.click_back()
+        me_edit.page_should_contain_text('当前资料已修改，是否保存')
+        me_edit.click_cancel_mod()
+        time.sleep(2)
+        self.assertTrue(mup.is_on_this_page())
+
 
 
 
