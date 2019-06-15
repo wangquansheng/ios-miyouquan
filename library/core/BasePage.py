@@ -90,6 +90,17 @@ class BasePage(object):
         elements = self.get_elements(locator)
         return len(elements) > 0
 
+    def _is_element_present2(self, locator, default_timeout=5, auto_accept_permission_alert=True):
+        try:
+            self.wait_until(
+                condition=lambda d: self.get_element(locator),
+                timeout=default_timeout,
+                auto_accept_permission_alert=auto_accept_permission_alert
+            )
+            return True
+        except:
+            return False
+
     def _is_visible(self, locator):
         elements = self.get_elements(locator)
         if len(elements) > 0:
@@ -154,7 +165,7 @@ class BasePage(object):
     #     self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
 
     def click_element(self, locator, max_try=3, default_timeout=5, auto_accept_permission_alert=True):
-        if self._is_element_present(locator):
+        if self._is_element_present2(locator):
             n = max_try
             while n:
                 try:
