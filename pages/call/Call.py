@@ -33,8 +33,8 @@ class CallPage(BasePage):
         '拨号盘收缩删除X': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeButton'),
         '拨打电话按键': (MobileBy.ID, 'cc call startcall normal'),
         '通话界面高清显示图片': (MobileBy.ID, 'com.chinasofti.rcs:id/ivNoRecords'),
-        '直接拨号或开始搜索': (MobileBy.XPATH, '//*[@value="直接拨号或开始搜索"]'),
-        '新建联系人': (MobileBy.XPATH, "//*[contains(@text, '新建联系人')]"),
+        '直接拨号或开始搜索': (MobileBy.XPATH, '//*[@type="XCUIElementTypeTextField"]'),
+        '新建联系人': (MobileBy.XPATH, "//*[contains(@label, '新建联系人')]"),
         '发送消息': (MobileBy.XPATH, "//*[@value='发送消息')]"),
         '结束通话': (MobileBy.ID, 'com.android.incallui:id/endButton'),
         '呼叫中': (MobileBy.ID, 'com.chinasofti.rcs:id/ivAvatar'),
@@ -54,6 +54,8 @@ class CallPage(BasePage):
         '飞信电话': (MobileBy.XPATH, '//*[@value="飞信电话"]'),
         '飞信电话(免费)': (MobileBy.XPATH, '//*[@name="飞信电话(免费)"]'),
         '多方视频': (MobileBy.XPATH, '//*[@name="多方视频"]'),
+        '语音通话': (MobileBy.XPATH, '//*[@label="语音通话"]'),
+        '视频通话': (MobileBy.XPATH, '//*[@label="视频通话"]'),
     }
 
     @TestLogger.log()
@@ -173,6 +175,7 @@ class CallPage(BasePage):
     @TestLogger.log()
     def press_delete(self):
         """长按删除X"""
+        # ios先更改为单按删除，请空文本
         # el = self.get_element(self.__locators["删除X"])
         # self.press(el)
         for i in range(20):
@@ -373,7 +376,6 @@ class CallPage(BasePage):
     def dial_number(self, text):
         """输入拨打号码"""
         # ios无法拨打直接输入号码
-        print(len(text))
         for i in range(len(text)):
             print(text[i])
             if text[i] == "1":
@@ -396,7 +398,6 @@ class CallPage(BasePage):
                 self.click_nine()
             if text[i] == "0":
                 self.click_zero()
-
 
     def dial_number_ios(self, text):
         """输入拨打号码"""
@@ -424,9 +425,8 @@ class CallPage(BasePage):
         if self.check_multiparty_video():
             for i in range(20):
                 el = self.get_elements(self.__locators["通话记录"])
-                print(len(el))
                 if len(el) > 0:
-                    self.swipe_calll_entry(90, 15, 30, 15)
+                    self.swipe_by_percent_on_screen(90, 15, 30, 15)
                     time.sleep(1)
                     self.click_text("删除")
                 else:
@@ -565,8 +565,7 @@ class CallPage(BasePage):
     @TestLogger.log()
     def select_type_start_call(self, text, calltype):
         """在call界面，输入号码选择拨打电话类型并拨打电话"""
-        if not self.is_on_the_dial_pad():
-            self.click_call()
+        self.click_dial()
         self.dial_number(text)
         self.click_call_phone()
         time.sleep(2)
@@ -657,7 +656,3 @@ class CallPage(BasePage):
         """点击飞信电话(免费)"""
         self.click_element(self.__locators["飞信电话(免费)"])
 
-    @TestLogger.log()
-    def swipe_calll_entry(self, start_x, start_y, end_x, end_y):
-        """滑动通话记录，显示删除"""
-        self.swipe_by_percent_on_screen(start_x=start_x, start_y=start_y, end_x=end_x, end_y=end_y)
