@@ -90,6 +90,17 @@ class BasePage(object):
         elements = self.get_elements(locator)
         return len(elements) > 0
 
+    def _is_element_present2(self, locator, default_timeout=5, auto_accept_permission_alert=True):
+        try:
+            self.wait_until(
+                condition=lambda d: self.get_element(locator),
+                timeout=default_timeout,
+                auto_accept_permission_alert=auto_accept_permission_alert
+            )
+            return True
+        except:
+            return False
+
     def _is_visible(self, locator):
         elements = self.get_elements(locator)
         if len(elements) > 0:
@@ -150,8 +161,29 @@ class BasePage(object):
     def get_source(self):
         return self.driver.page_source
 
-    def click_element(self, locator, default_timeout=5, auto_accept_permission_alert=True):
-        self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
+    # def click_element(self, locator, default_timeout=5, auto_accept_permission_alert=True):
+    #     self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
+
+    def click_element(self, locator, max_try=3, default_timeout=5, auto_accept_permission_alert=True):
+        if self._is_element_present2(locator):
+            n = max_try
+            while n:
+                try:
+                    self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
+                    return
+                except:
+                    self.page_up()
+                    n -= 1
+            m = max_try
+            while m:
+                try:
+                    self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
+                    return
+                except:
+                    self.page_down()
+                    m -= 1
+        else:
+            raise NoSuchElementException('找不到元素 {}'.format(locator))
 
     def is_current_activity_match_this_page(self):
         return self.driver == self.__class__.ACTIVITY
@@ -644,12 +676,12 @@ class BasePage(object):
     @TestLogger.log("下一页")
     def page_up(self):
         """向上滑动"""
-        self.driver.execute_script('mobile: scroll', {'direction': 'down'})
+        self.swipe_by_percent_on_screen(50, 80, 50, 30)
 
     @TestLogger.log("上一页")
     def page_down(self):
         """向下滑动"""
-        self.driver.execute_script('mobile: scroll', {'direction': 'up'})
+        self.swipe_by_percent_on_screen(50, 30, 50, 80)
 
     @TestLogger.log('挂断电话')
     def hang_up_the_call(self):
@@ -726,29 +758,5 @@ class BasePage(object):
             self.click_element((MobileBy.XPATH, "//*[@name='%s']" % name))
         else:
             self.click_element((MobileBy.XPATH, "//*[contains(@name,'%s')]" % name))
-
-    @TestLogger.log()
-    def click_or_find_click_element(self, locator,max_try=2, default_timeout=5, auto_accept_permission_alert=True):
-        """查找点击"""
-        if self._is_element_present(locator):
-            n = max_try
-            while n:
-                try:
-                    self.click_element(locator, default_timeout, auto_accept_permission_alert)
-                    return
-                except Exception as e:
-                    print(e)
-                    self.page_up()
-                    n -= 1
-            m = max_try
-            while m:
-                try:
-                    self.click_element(locator, default_timeout, auto_accept_permission_alert)
-                    return
-                except:
-                    self.page_down()
-                    m -= 1
-        else:
-            raise NoSuchElementException('找不到元素 {}'.format(locator))
 
 
