@@ -395,7 +395,6 @@ DEVICES_CONFIG_Nova = {
     },
 }
 
-
 DEVICES_CONFIG_LXD = {
     'iphone': {
         "MODEL": SupportedModel.iPhone_XR,
@@ -408,6 +407,10 @@ DEVICES_CONFIG_LXD = {
             "automationName": "XCUITest",
             "app": "cn.10086.rcs.beta",
             "newCommandTimeout": 60,
+            # "deviceName": "iPhone7plus",
+            # "udid": "6dd53ce9b0f2b036dde539161869be7eabec5909",
+            # "automationName": "XCUITest",
+            # "app": "cn.10086.rcs.beta",
             "xcodeOrgId": "42J4UB47JC",
             "xcodeSigningId": "iPhone Developer"
         },
@@ -415,7 +418,6 @@ DEVICES_CONFIG_LXD = {
             {
                 'TYPE': CardType.CHINA_MOBILE,
                 'CARD_NUMBER': '19874361585'
-                # 'CARD_NUMBER': '15875537278'
             },
         ]
     },
