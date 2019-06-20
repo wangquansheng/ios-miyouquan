@@ -1,19 +1,21 @@
+from selenium.common.exceptions import TimeoutException
+from library.core.TestCase import TestCase
+from library.core.TestLogger import TestLogger
+from library.core.common.simcardtype import CardType
+from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
+from library.core.utils.testcasefilter import tags
+from pages.guide import GuidePage
+from pages.login.OneKeyLogin import OneKeyLoginPage
+from pages.call.Call import CallPage
+from pages.call.Selectcontact import Selectcontactpage
+import time
 import warnings
 
-import preconditions
-from library.core.TestCase import TestCase
-from selenium.common.exceptions import TimeoutException
-from library.core.utils.applicationcache import current_mobile, switch_to_mobile, current_driver
-from library.core.common.simcardtype import CardType
-from library.core.utils.testcasefilter import tags
-from pages import *
-from pages.components.BaseChat import BaseChatPage
-import time
-import unittest
+
 
 REQUIRED_MOBILES = {
-    'Android-移动': 'M960BDQN229CH',
-    # 'Android-移动': 'single_mobile',
+    'Android-移动-N': 'M960BDQN229CH',
+    'Android-移动': 'M960BDQN229CH_NOVA',
     'IOS-移动': 'iphone',
     'Android-电信': 'single_telecom',
     'Android-联通': 'single_union',
@@ -21,1304 +23,1755 @@ REQUIRED_MOBILES = {
     'Android-移动-电信': '',
     'Android-移动-移动': 'double_mobile',
     'Android-XX-XX': 'others_double',
-    'IOS-移动-移动': 'M960BDQN229CHiphone8',
 }
 
 
 class Preconditions(object):
-    """前置条件"""
+    """
+    分解前置条件
+    """
 
     @staticmethod
-    def make_already_in_call():
-        """确保进入通话界面"""
-        preconditions.connect_mobile(REQUIRED_MOBILES['IOS-移动'])
-        current_mobile().hide_keyboard_if_display()
-        cpg = CallPage()
-        message_page = MessagePage()
-        if message_page.is_on_this_page():
-            cpg.click_call()
-            return
-        if cpg.is_on_the_call_page():
-            return
-        try:
-            current_mobile().terminate_app('com.chinasofti.rcs', timeout=2000)
-        except:
-            pass
-        current_mobile().launch_app()
-        try:
-            message_page.wait_until(
-                condition=lambda d: message_page.is_on_this_page(),
-                timeout=15
-            )
-            cpg.click_call()
-            return
-        except TimeoutException:
-            pass
-        preconditions.reset_and_relaunch_app()
-        preconditions.make_already_in_one_key_login_page()
-        preconditions.login_by_one_key_login()
-        cpg.click_call()
+    def select_single_cmcc_android_4g_client():
+        """
+        启动
+        1、4G，安卓客户端
+        2、移动卡
+        :return:
+        """
+        client = switch_to_mobile(REQUIRED_MOBILES['测试机'])
+        client.connect_mobile()
 
     @staticmethod
-    def enter_single_chat_page(name):
-        """进入单聊聊天会话页面"""
-        mp = MessagePage()
-        mp.wait_for_page_load()
-        # 点击 +
-        mp.click_add_icon()
-        # 点击“新建消息”
-        mp.click_new_message()
-        slc = SelectLocalContactsPage()
-        slc.wait_for_page_load()
-        # 进入单聊会话页面
-        slc.selecting_local_contacts_by_name(name)
-        bcp = BaseChatPage()
-        if bcp.is_exist_dialog():
-            # 点击我已阅读
-            bcp.click_i_have_read()
-        scp = SingleChatPage()
-        # 等待单聊会话页面加载
-        scp.wait_for_page_load()
+    def select_mobile(category):
+        """选择手机手机"""
+        client = switch_to_mobile(REQUIRED_MOBILES[category])
+        client.connect_mobile()
+        return client
 
     @staticmethod
-    def get_into_group_chat_page(name):
-        """进入群聊聊天会话页面"""
-        mp = MessagePage()
-        mp.wait_for_page_load()
-        # 点击 +
-        mp.click_add_icon()
-        # 点击发起群聊
-        mp.click_group_chat()
-        scg = SelectContactsPage()
-        scg.wait_for_page_load()
-        scg.click_select_one_group()
-        sog = SelectOneGroupPage()
-        # 等待“选择一个群”页面加载
-        sog.wait_for_page_load()
-        sog.click_search_box()
-        time.sleep(1)
-        sog.input_search_box(name)
+    def select_assisted_mobile2():
+        """切换到单卡、异网卡Android手机 并启动应用"""
+        switch_to_mobile(REQUIRED_MOBILES['辅助机2'])
+        current_mobile().connect_mobile()
+
+    @staticmethod
+    def make_already_in_one_key_login_page():
+        """
+        1、已经进入一键登录页
+        :return:
+        """
+        # 如果当前页面已经是一键登录页，不做任何操作
+        one_key = OneKeyLoginPage()
+        if one_key.is_on_this_page():
+            return
+        # 如果当前页不是引导页第一页，重新启动app
+        guide_page = GuidePage()
+        if not guide_page.is_on_the_first_guide_page():
+            current_mobile().launch_app()
+            guide_page.wait_for_page_load(20)
+
+        # 跳过引导页
+        guide_page.wait_for_page_load(30)
+        guide_page.swipe_to_the_second_banner()
+        guide_page.swipe_to_the_third_banner()
+        guide_page.click_start_the_experience()
+        guide_page.click_start_the_one_key()
         time.sleep(2)
-        # 选择一个普通群
-        sog.selecting_one_group_by_name(name)
-        gcp = GroupChatPage()
-        gcp.wait_for_page_load()
+        guide_page.click_always_allow()
+        one_key.wait_for_page_load(30)
 
+    @staticmethod
+    def login_by_one_key_login():
+        """
+        从一键登录页面登录
+        :return:
+        """
+        # 等待号码加载完成后，点击一键登录
+        one_key = OneKeyLoginPage()
+        one_key.wait_for_page_load()
+        # one_key.wait_for_tell_number_load(60)
+        one_key.click_one_key_login()
+        time.sleep(2)
+        if one_key.is_text_present('用户协议和隐私保护'):
+            one_key.click_agree_user_aggrement()
+            time.sleep(1)
+            one_key.click_agree_login_by_number()
 
-class CallAll(TestCase):
-    """
-    模块：通话
-    文件位置：全量/ 7.通话（拨号盘、多方视频-非RCS、视频通话、语音通话）全量测试用例-申丽思.xlsx
-    表格：通话（拨号盘、多方视频-非RCS、视频通话、语音通话）
-    Author:wangquansheng
-    """
-    #
-    # @classmethod
-    # def setUpClass(cls):
-    #     # 创建联系人
-    #     fail_time = 0
-    #     import dataproviders
-    #     while fail_time < 3:
-    #         try:
-    #             required_contacts = dataproviders.get_preset_contacts()
-    #             conts = ContactsPage()
-    #             preconditions.connect_mobile(REQUIRED_MOBILES['Android-移动'])
-    #             preconditions.make_already_in_message_page()
-    #             current_mobile().hide_keyboard_if_display()
-    #             preconditions.make_already_in_message_page()
-    #             for name, number in required_contacts:
-    #                 conts.open_contacts_page()
-    #                 if conts.is_text_present("显示"):
-    #                     conts.click_text("不显示")
-    #                 conts.create_contacts_if_not_exits(name, number)
-    #
-    #             # 创建群
-    #             required_group_chats = dataproviders.get_preset_group_chats()
-    #
-    #             conts.open_group_chat_list()
-    #             group_list = GroupListPage()
-    #             for group_name, members in required_group_chats:
-    #                 group_list.wait_for_page_load()
-    #                 group_list.create_group_chats_if_not_exits(group_name, members)
-    #             group_list.click_back()
-    #             conts.open_message_page()
-    #             return
-    #         except:
-    #             fail_time += 1
-    #             import traceback
-    #             msg = traceback.format_exc()
-    #             print(msg)
-    #
-    # @classmethod
-    # def tearDownClass(cls):
-    #     current_mobile().hide_keyboard_if_display()
-    #     preconditions.make_already_in_message_page()
+        # 等待通话页面加载
+        call_page = CallPage()
+        call_page.wait_for_page_call_load()
+        call_page.click_always_allow()
+        time.sleep(2)
+        call_page.remove_mask()
+
+    @staticmethod
+    def app_start_for_the_first_time():
+        """首次启动APP（使用重置APP代替）"""
+        current_mobile().reset_app()
+
+    @staticmethod
+    def terminate_app():
+        """
+        强制关闭app,退出后台
+        :return:
+        """
+        app_id = current_driver().capabilities['appPackage']
+        current_mobile().terminate_app(app_id)
+
+    @staticmethod
+    def background_app(seconds):
+        """后台运行"""
+        current_mobile().background_app(seconds)
+
+    @staticmethod
+    def reset_and_relaunch_app():
+        """首次启动APP（使用重置APP代替）"""
+        app_package = 'com.cmic.college'
+        current_driver().activate_app(app_package)
+        current_mobile().reset_app()
+
+    @staticmethod
+    def make_already_in_call_page():
+        """
+        前置条件：
+        1.已登录客户端
+        2.当前在消息页面
+        """
+        # 如果当前页面是在通话录页，不做任何操作
+        call_page = CallPage()
+        if call_page.is_on_this_page():
+            return
+        # 如果当前页面已经是一键登录页，进行一键登录页面
+        one_key = OneKeyLoginPage()
+        if one_key.is_on_this_page():
+            Preconditions.login_by_one_key_login()
+        # 如果当前页不是引导页第一页，重新启动app
+        else:
+            try:
+                current_mobile().terminate_app('com.cmic.college', timeout=2000)
+            except:
+                pass
+            current_mobile().launch_app()
+            try:
+                call_page.wait_until(
+                    condition=lambda d: call_page.is_on_this_page(),
+                    timeout=3
+                )
+                return
+            except TimeoutException:
+                pass
+            Preconditions.reset_and_relaunch_app()
+            Preconditions.make_already_in_one_key_login_page()
+            Preconditions.login_by_one_key_login()
+
+    @staticmethod
+    def make_sure_in_after_login_callpage():
+        Preconditions.make_already_in_call_page()
+        current_mobile().wait_until_not(condition=lambda d: current_mobile().is_text_present('正在登录...'), timeout=20)
+
+    @staticmethod
+    def get_current_activity_name():
+        import os, sys
+        global findExec
+        findExec = 'findstr' if sys.platform == 'win32' else 'grep'
+        device_name = current_driver().capabilities['deviceName']
+        cmd = 'adb -s %s shell dumpsys window | %s mCurrentFocus' % (device_name, findExec)
+        res = os.popen(cmd)
+        time.sleep(2)
+        # 截取出activity名称 == ''为第三方软件
+        current_activity = res.read().split('u0 ')[-1].split('/')[0]
+        res.close()
+        return current_activity
+
+    @staticmethod
+    def initialize_class(moudel):
+        """确保每个用例开始之前在通话界面界面"""
+        warnings.simplefilter('ignore', ResourceWarning)
+        Preconditions.select_mobile(moudel)
+        Preconditions.make_sure_in_after_login_callpage()
+
+    @staticmethod
+    def disconnect_mobile(category):
+        """断开手机连接"""
+        client = switch_to_mobile(REQUIRED_MOBILES[category])
+        client.disconnect_mobile()
+        return client
+
+class CallPageTest(TestCase):
+    """Call 模块--全量"""
 
     def default_setUp(self):
-        """进入Call页面,清空通话记录"""
+        """确保每个用例开始之前在通话界面界面"""
         warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.make_already_in_call()
-        CallPage().delete_all_call_entry()
+        Preconditions.select_mobile('IOS-移动')
+        Preconditions.make_already_in_call_page()
 
     def default_tearDown(self):
-        preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+        Preconditions.disconnect_mobile('IOS-移动')
 
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0001(self):
-        """检查进入到通话界面，“通话”按钮变为“拨号盘”"""
-        # Step:1.点击通话tab
-        cpg = CallPage()
-        cpg.click_dial()
-        # CheckPoint:1.进入到通话记录列表界面，底部“通话”按钮变成“拨号盘”，拨号盘按钮显示9蓝点
-        cpg.page_should_contain_text('拨号')
-        cpg.page_should_contain_text("直接拨号或开始搜索")
-        cpg.click_dial()
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0004(self):
-        """检查拨号盘展开"""
-        cpg = CallPage()
-        # Step:1.点击“拨号盘"按钮
-        cpg.click_dial()
-        # CheckPoint:1.拨号盘展示，输入框提示“直接拨号或者开始搜索”，菜单栏被隐藏
-        cpg.page_should_contain_text('直接拨号或开始搜索')
-        cpg.click_dial()
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0006(self):
-        """检查展开拨号盘，通话记录为空"""
-        # Step:1.查看通话记录
-        cpg = CallPage()
-        # CheckPoint:1.页面中间显示图片以及提示语
-        cpg.page_should_contain_text("高清通话，高效沟通")
-        cpg.page_should_contain_text('飞信电话')
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0007(self):
-        """检查拨号盘按键可点击"""
-        cpg = CallPage()
-        cpg.click_dial()
-        # Step:1.点击按键“1”
-        cpg.click_one()
-        # Step:2.点击按键“2”
-        cpg.click_two()
-        # Step:3.点击按键“3”
-        cpg.click_three()
-        # Step:4.点击按键“4”
-        cpg.click_four()
-        # Step:5.点击按键“5”
-        cpg.click_five()
-        # Step:6.点击按键“6”
-        cpg.click_six()
-        # Step:7.点击按键“7”
-        cpg.click_seven()
-        # Step:8.点击按键“8”
-        cpg.click_eight()
-        # Step:9.点击按键“9”
-        cpg.click_nine()
-        # Step:10.点击按键“0”
-        cpg.click_zero()
-        # Step:11.点击按键“*”
-        cpg.click_star()
-        # Step:12.点击按键“#”
-        cpg.click_sharp()
-        # CheckPoint:1.步骤1-12：拨号盘各键输入正常
-        cpg.page_should_contain_text("1234567890*#")
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0008(self):
-        """检查在拨号盘输入“+”"""
-        # Step:1.检查在拨号盘输入“+”
-        cpg = CallPage()
-        cpg.click_dial()
-        time.sleep(1)
-        cpg.press_zero()
-        # CheckPoint:1.展开后，通话记录按最近通话顺序展示
-        cpg.page_should_contain_text("+")
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0009(self):
-        """检查输入框有内容时拨号盘可切换到其它模块"""
-        # Step:1.切换至其它模块后又返回到拨号盘
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("15343030000")
-        time.sleep(1)
-        # CheckPoint:1.收起时切换到其他的模块，内容不清除，正常显示
-        cpg.page_should_contain_text("15343030000")
-        # Step:2. 切换为消息
-        cpg.click_message()
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_0001(self):
+        """通话界面显示"""
         time.sleep(2)
-        # CheckPoint:2.收起时切换到其他的模块，内容不清除，正常显示
-        cpg.page_should_not_contain_text("15343030000")
-        # Step:3. 切换为拨号盘
-        cpg.click_call()
-        # CheckPoint:3.收起时切换到其他的模块，内容不清除，正常显示
-        cpg.page_should_contain_text("15343030000")
+        call = CallPage()
+        call.page_contain_element('通话文案')
+        call.page_contain_element('拨号键盘')
+        if call.is_element_present('来电名称'):
+            call.page_contain_element('来电名称')
+        else:
+            call.page_should_contain_text('打电话不花钱')
 
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0010(self):
-        """检查拨号盘删除按键可点击"""
-        # 1.和飞信登录系统：通话tab
-        # 2.拨号盘输入框存在手机号
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("15343038860")
-        # Step:1.点击按键“X”
-        cpg.click_delete()
-        # CheckPoit:1.可删除输入框的数据
-        cpg.page_should_contain_text("1534303886")
-        # Step:2.长按“X”
-        cpg.press_delete()
-        # CheckPoit:2.连续删除输入框的数据
-        cpg.page_should_contain_text("直接拨号或开始搜索")
-        cpg.click_dial()
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0011(self):
-        """检查拨号盘“多方电话”按键可点击"""
-        # Step:1.点击按键“多方电话”
-        cpg = CallPage()
-        cpg.click_feixin_call()
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_0002(self):
+        """通话界面-拨号键盘显示"""
         time.sleep(2)
-        # CheckPoint:1.调起联系人多方电话联系人选择器
-        self.assertTrue(CalllogBannerPage().is_exist_contact_search_bar())
+        call = CallPage()
+        call.page_contain_element('拨号键盘')
+        if call.is_element_present('来电名称'):
+            call.page_contain_element('来电名称')
+        else:
+            call.page_should_contain_text('打电话不花钱')
+        # 点击键盘
+        call.click_keyboard()
+        time.sleep(5)
 
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0012(self):
-        """检查拨号盘输入框为空点击“拨打”按钮"""
-        # 1.和飞信登录系统：通话tab
-        # 2.拨号盘为展开状态
-        # 3.拨号盘输入框为空
-        cpg = CallPage()
-        cpg.click_dial()
+        # 文本框输入'123'
+        text = '123'
+        call.click_keyboard_call('keyboard_1')
         time.sleep(2)
-        # Step:1.点击“拨号”按钮
-        cpg.click_call_phone()
-        time.sleep(1)
-        # # CheckPoint:1.提示“拨打号码不能为空”
-        # flag = cpg.is_toast_exist("拨打的号码不能为空")
-        # self.assertTrue(flag)
-        cpg.page_should_contain_text("号码不能为空")
-        cpg.click_dial()
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0013(self):
-        """检查拨号盘展开状态可收起"""
-        # 1.和飞信登录系统：通话tab
-        # 2.拨号盘为展开状态
-        cpg = CallPage()
-        # Step:1.点击拨号盘按钮
-        cpg.click_dial()
-        time.sleep(1)
-        # CheckPoint:1.拨号盘可收起展开，拨号盘图标变为7个蓝点
-        self.assertTrue(cpg.is_on_the_dial_pad())
-        cpg.click_dial()
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0014(self):
-        """检查输入框有内容可收起拨号盘"""
-        # 1.和飞信登录系统：通话tab
-        # 2.拨号盘为展开状态
-        # 3.拨号盘存在数值
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("153")
-        # Step:1点击拨号盘按钮
-        cpg.click_dial()
-        # CheckPoint:1.拨号盘可收起展开，收起展开内容保留不清除，正常显示
-        flag = cpg.check_delete_hide()
-        self.assertTrue(flag)
-        cpg.page_should_contain_text("153")
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0015(self):
-        """检查输入框有内容收起拨号盘可切换到其它模块"""
-        # 1.和飞信登录系统：通话tab
-        # 2.拨号盘为收起展开状态
-        # 3.拨号盘存在数值
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("153")
-        # Step:1.切换至其它模块后又返回到拨号盘
-        cpg.click_message()
-        flag = cpg.check_call_phone()
-        self.assertFalse(flag)
-        cpg.click_call()
-        # CheckPoint:1.拨号盘可收起展开，收起展开内容保留不清除，正常显示
-        flag = cpg.check_call_phone()
-        self.assertTrue(flag)
-        cpg.page_should_contain_text("153")
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0020(self):
-        """检查输入框输入超长数字"""
-        # 1.和飞信登录系统：通话tab
-        # 2.拨号盘展开状态
-        # 3.拨号盘存在超长数值（数值超一行）
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("153153153153153")
-        # Step:1.查看输入框样式
-        # CheckPoint:1.显示正常
-        time.sleep(1)
-        flag = cpg.check_call_phone()
-        self.assertTrue(flag)
-        time.sleep(1)
-        flag = cpg.check_call_text(val="153153153153153")
-        self.assertTrue(flag)
-        # Step:2.点击拨号盘，查看输入框样式
-        cpg.click_dial()
-        # 2.输入超长数字，收起显示正常
-        time.sleep(1)
-        # flag = cpg.check_call_phone()
-        # self.assertFalse(flag)
-        # time.sleep(1)
-        flag = cpg.check_call_text(val="153153153153153")
-        self.assertTrue(flag)
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0022(self):
-        """检查拨号盘精确搜索功能---内陆本地联系人"""
-        # 1.用户已登录和飞信：通话记录列表页面
-        # 2.拨号盘输入的内陆号本地已保存
-        cpg = CallPage()
-        # Step:1.点击“拨号盘”
-        cpg.click_dial()
-        time.sleep(1)
-        # CheckPoint:1.弹出拨号盘界面
-        flag = cpg.check_call_phone()
-        self.assertTrue(flag)
-        # Step:2.输入11位数内陆号
-        cpg.dial_number("13800138001")
-        # CheckPoint:2.可匹配出符合条件的联系人，匹配的结果高亮
-        cpg.page_should_contain_text("给个红包2")
-        # ret = cpg.get_call_entry_color_of_element()
-        # self.assertEqual(ret, (133, 128, 95, 255))
-        # Step:3.点击匹配出的联系人右侧的时间节点
-        cpg.click_call_time_search_status()
-        time.sleep(1)
-        # CheckPoint:3.可进入到该联系人的通话profile
-        cpg.page_should_contain_text("分享名片")
-        # Step:4.点击拨号按钮
-        cpg.click_back()
-        cpg.click_call_phone()
-        # CheckPoint:4.可弹出拨号方式
-        time.sleep(1)
-        cpg.page_should_contain_text("飞信电话")
-        cpg.page_should_contain_text("语音通话")
-        cpg.page_should_contain_text("普通电话")
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0023(self):
-        """检查拨号盘精确搜索功能---内陆陌生联系人"""
-        # 1.用户已登录和飞信：通话记录列表页面
-        # 2.拨号盘输入的内陆号本地未保存
-        # Step:1.点击“拨号盘”
-        cpg = CallPage()
-        cpg.click_dial()
-        time.sleep(1)
-        # CheckPoint:1.弹出拨号盘界面
-        flag = cpg.check_call_phone()
-        self.assertTrue(flag)
-        # Step:2.输入11位数内陆号
-        cpg.dial_number("15343039999")
+        call.click_keyboard_call('keyboard_2')
         time.sleep(2)
-        # CheckPoint:2.通话记录列表弹出“新建联系人”“发送消息”按钮
-        cpg.page_should_contain_text("新建联系人")
-        cpg.page_should_contain_text("发送消息")
-        # Step:3.点击拨号按钮
-        cpg.click_call_phone()
-        # CheckPoint:3.可弹出拨号方式
+        call.click_keyboard_call('keyboard_3')
         time.sleep(2)
-        cpg.page_should_contain_text("飞信电话")
-        cpg.page_should_contain_text("语音通话")
-        cpg.page_should_contain_text("普通电话")
+        number = call.get_input_box_text()
+        self.assertEqual(text == number, True)
 
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0024(self):
-        """检查拨号盘精确搜索功能---香港本地联系人"""
-        # 1.用户已登录和飞信：通话记录列表页面
-        # 2.拨号盘输入的香港号本地已保存
-        cpg = CallPage()
-        # Step:1.点击“拨号盘”
-        cpg.click_dial()
-        time.sleep(1)
-        # CheckPoint:1.弹出拨号盘界面
-        flag = cpg.check_call_phone()
-        self.assertTrue(flag)
-        # Step:2.输入8位数香港号
-        cpg.dial_number("67656003")
-        # CheckPoint:2.可匹配出符合条件的联系人，匹配的结果高亮
-        cpg.page_should_contain_text("香港大佬")
-        # Step:3.点击匹配出的联系人右侧的时间节点
-        cpg.click_call_time_search_status()
-        time.sleep(1)
-        # CheckPoint:3.可进入到该联系人的通话profile
-        cpg.page_should_contain_text("分享名片")
-        cpg.click_back()
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0025(self):
-        """检查拨号盘精确搜索功能---香港陌生联系人"""
-        # 1.用户已登录和飞信：通话记录列表页面
-        # 2.拨号盘输入的香港号本地未保存
-        # Step:1.点击“拨号盘”
-        cpg = CallPage()
-        cpg.click_dial()
-        time.sleep(1)
-        # CheckPoint:1.弹出拨号盘界面
-        flag = cpg.check_call_phone()
-        self.assertTrue(flag)
-        # Step:2.输入8位数香港号
-        cpg.dial_number("23454097")
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_0003(self):
+        """通话界面-拨号盘收起"""
         time.sleep(2)
-        # CheckPoint:2.通话记录列表弹出“新建联系人”“发送消息”按钮
-        cpg.page_should_contain_text("新建联系人")
-        cpg.page_should_contain_text("发送消息")
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0026(self):
-        """检查从拨号盘进入到陌生人消息会话窗口"""
-        # 1.用户已登录和飞信：通话记录列表页面
-        # 2.拨号盘已输入陌生联系人A的手机号
-        # 3.通话记录列表已弹出“新建联系人”“发送消息”按钮
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("15343038860")
-        # Step:1.点击“发送消息”按钮
-        cpg.click_send_message()
-        chatpage = BaseChatPage()
-        flag = chatpage.is_exist_dialog()
-        if flag:
-            chatpage.click_i_have_read()
-        # CheckPoint:1.进入与陌生联系人A的消息回话窗口
-        cpg.page_should_contain_text("说点什么...")
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0027(self):
-        """检查从拨号盘新建联系人"""
-        # 1.用户已登录和飞信：通话记录列表页面
-        # 2.拨号盘已输入陌生联系人A的手机号
-        # 3.通话记录列表已弹出“新建联系人”“发送消息”按钮
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("15343038860")
-        # Step:1.点击“新建联系人”按钮
-        cpg.click_new_contact()
+        call = CallPage()
+        call.page_contain_element('拨号键盘')
+        if call.is_element_present('来电名称'):
+            call.page_contain_element('来电名称')
+        else:
+            call.page_should_contain_text('打电话不花钱')
+        # 点击键盘
+        call.click_keyboard()
         time.sleep(2)
-        cpg.hide_keyboard()
-        # CheckPoint:1.跳转到新建联系人界面，电话栏自动填充联系人A的手机号，其它输入框为空
-        cpg.page_should_contain_text("输入姓名")
-        cpg.page_should_contain_text("15343038860")
-        cpg.page_should_contain_text("输入公司")
-        cpg.page_should_contain_text("输入职位")
-        cpg.page_should_contain_text("输入邮箱")
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0050(self):
-        """检查拨号盘取消拨号方式"""
-        # 1.用户已登录和飞信：通话-拨号盘
-        # 2.已弹出拨号方式
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("15340038800")
-        cpg.click_call_phone()
-        time.sleep(1)
-        # Step:1.点击“取消”按钮
-        cpg.click_back()
-        # CheckPoint:1.拨号方式收起，停留在输入号码的拨号盘页
-        self.assertTrue(cpg.check_call_phone())
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0051(self):
-        """检查在拨号盘输入异常字符拨号"""
-        # 1.用户已登录和飞信：通话-拨号盘
-        # 2.在拨号盘已输入*，#、空格等字符
-        # 3.无副号
-        # Step:1.点击拨号按钮
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("*# ")
-        cpg.click_call_phone()
-        # CheckPoint:1.提示“输入号码无效，请重新输入”
-        flag = cpg.is_toast_exist("输入的号码无效，请重新输入")
-        self.assertTrue(flag)
-        cpg.click_dial()
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0064(self):
-        """检查拨号盘搜索功能---内陆本地联系人"""
-        # 1.用户已登录和飞信：通话记录列表页面
-        # 2.拨号盘输入的内陆号本地已保存
-        # Step:1.点击“拨号盘”
-        cpg = CallPage()
-        cpg.click_dial()
+        call.is_keyboard_shown()
+        # 再次点击拨号盘
+        call.click_hide_keyboard()
         time.sleep(2)
-        # CheckPoint:1.弹出拨号盘界面
-        flag = cpg.check_call_phone()
-        self.assertTrue(flag)
-        # Step:2.输入11位数内陆号
-        cpg.dial_number("13800138001")
-        time.sleep(1)
-        # CheckPoint:2.精确匹配出与拨号盘号码一致的手机号联系人
-        cpg.page_should_contain_text("给个红包2")
+        call.page_contain_element('拨号键盘')
 
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0065(self):
-        """检查拨号盘搜索功能---内陆陌生联系人"""
-        # 1.用户已登录和飞信：通话记录列表页面
-        # 2.拨号盘输入的内陆号本地未保存
-        # Step:1.点击“拨号盘”
-        cpg = CallPage()
-        cpg.click_dial()
-        time.sleep(1)
-        # CheckPoint:1.弹出拨号盘界面
-        flag = cpg.check_call_phone()
-        self.assertTrue(flag)
-        # Step:2.输入11位数内陆号
-        cpg.dial_number("15343038867")
-        # CheckPoint:2.通话记录列表弹出“新建联系人”“发送消息”按钮
-        cpg.page_should_contain_text("新建联系人")
-        cpg.page_should_contain_text("发送消息")
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0066(self):
-        """检查拨号盘搜索功能---香港本地联系人"""
-        # 1.用户已登录和飞信：通话记录列表页面
-        # 2.拨号盘输入的香港号本地已保存
-        # Step:1.点击“拨号盘”
-        cpg = CallPage()
-        cpg.click_dial()
-        time.sleep(1)
-        # CheckPoint:1.弹出拨号盘界面
-        flag = cpg.check_call_phone()
-        self.assertTrue(flag)
-        # Step:2.输入8位数香港号
-        cpg.dial_number("67656003")
-        # CheckPoint:2.精确匹配出与拨号盘号码一致的手机号联系人
-        cpg.page_should_contain_text("香港大佬")
-        cpg.click_back()
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0067(self):
-        """检查拨号盘搜索功能---香港陌生联系人"""
-        # 1.用户已登录和飞信：通话记录列表页面
-        # 2.拨号盘输入的香港号本地未保存
-        # Step:1.点击“拨号盘”
-        cpg = CallPage()
-        cpg.click_dial()
-        time.sleep(1)
-        # CheckPoint:1.弹出拨号盘界面
-        flag = cpg.check_call_phone()
-        self.assertTrue(flag)
-        # Step:2.输入8位数香港号
-        cpg.dial_number("67656000")
-        # CheckPoint:2.通话记录列表弹出“新建联系人”“发送消息”按钮
-        cpg.page_should_contain_text("新建联系人")
-        cpg.page_should_contain_text("发送消息")
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0068(self):
-        """检查从拨号盘进入到陌生人消息会话窗口"""
-        # 1.1.用户已登录和飞信：通话记录列表页面
-        # 2.拨号盘已输入陌生联系人A的手机号
-        # 3.通话记录列表已弹出“新建联系人”“发送消息”按钮
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("15343038867")
-        # Step:1.点击“发送消息”按钮
-        cpg.click_send_message()
-        chatpage = BaseChatPage()
-        if chatpage.is_exist_dialog():
-            chatpage.click_i_have_read()
-        # CheckPoint:1.进入与陌生联系人A的消息回话窗口
-        cpg.page_should_contain_text("说点什么...")
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0069(self):
-        """检查从拨号盘新建联系人"""
-        # 1.用户已登录和飞信：通话记录列表页面
-        # 2.拨号盘已输入陌生联系人A的手机号
-        # 3.通话记录列表已弹出“新建联系人”“发送消息”按钮
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("15343038867")
-        # Step:1.点击“新建联系人”按钮
-        cpg.click_new_contact()
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_0004(self):
+        """通话界面-点击视频通话"""
+        call = CallPage()
+        call.click_add()
         time.sleep(2)
-        cpg.hide_keyboard()
-        # CheckPoint:1.跳转到新建联系人界面，电话栏自动填充联系人A的手机号，其它输入框为空
-        cpg.page_should_contain_text("输入姓名")
-        cpg.page_should_contain_text("15343038867")
-        cpg.page_should_contain_text("输入公司")
-        cpg.page_should_contain_text("输入职位")
-        cpg.page_should_contain_text("输入邮箱")
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0070(self):
-        """检查单聊富媒体面板-音频通话拨打"""
-        # 1.登录和飞信：消息tab-单聊会话窗口-富媒体面板
-        # 2.已弹出语音通话与视频通话按钮
-        cpg = CallPage()
-        ContactsPage().click_message_icon()
-        Preconditions.enter_single_chat_page("给个红包2")
-        BaseChatPage().click_more()
-        ChatMorePage().click_voice_and_video_call()
-        # Step:1.点击语音通话
-        cpg.click_voice_call()
-        # CheckPoint:1.直接呼出一对一语音通话
+        call.is_element_present('视频通话')
+        call.is_element_present('多方电话')
         time.sleep(2)
-        cpg.page_should_contain_text("正在呼叫")
-        cpg.wait_until(
-            timeout=30,
-            auto_accept_permission_alert=True,
-            condition=lambda d: cpg.is_text_present("说点什么..."))
-        # Step:2.点击视频电话
-        BaseChatPage().click_more()
-        ChatMorePage().click_voice_and_video_call()
-        cpg.click_video_call()
-        # Step:2.直接呼出一对一视频通话
+        call.click_call('视频通话')
         time.sleep(2)
-        cpg.page_should_contain_text("视频通话呼叫中")
+        # 视频通话页面
+        call.is_element_present('视频通话')
 
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0086(self):
-        """检查语音通话记录-本地联系人"""
-        # 1.A已登录和飞信
-        # 2.用户A已成功发起与用户B的语音通话
-        # Step:1.用户A查看通话记录
-        cpg = CallPage()
-        cpg.click_dial()
-        time.sleep(1)
-        cpg.select_type_start_call(calltype=1, text="13800138001")
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_0005(self):
+        """通话界面-打开通话键盘,显示通话记录"""
         time.sleep(2)
-        cpg.hang_up_the_call()
-        cpg.wait_for_dial_pad()
-        # CheckPoint:1.通话记录展示与用户B的语音通话记录，显示用户B的名称、通话类型【语音通话】、归属地。右侧显示通话时间以及时间节点图标
-        cpg.page_should_contain_text("给个红包2")
-        cpg.page_should_contain_text("语音通话")
-        # cpg.page_should_contain_text("广东深圳")
-        # cpg.page_should_contain_text("移动")
-        self.assertTrue(cpg.is_exist_call_time())
-        # Step:2.点击时间节点
-        cpg.click_call_time()
-        time.sleep(1)
-        # CheckPoint:2.进入到用户B的通话profile
-        self.assertTrue(cpg.is_exist_profile_name())
-        cpg.click_back()
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0087(self):
-        """检查语音通话记录-企业联系人"""
-        # 1.A已登录和飞信
-        # 2.用户A已成功发起与用户N的语音通话
-        # Step:1.用户A查看通话记录
-        cpg = CallPage()
-        cpg.click_dial()
-        time.sleep(1)
-        cpg.select_type_start_call(calltype=1, text="13800137003")
-        time.sleep(1)
-        cpg.hang_up_the_call()
-        cpg.wait_for_dial_pad()
-        time.sleep(1)
-        if not cpg.is_on_the_call_page():
-            cpg.click_call()
-        time.sleep(1)
-        # CheckPoint:1.通话记录展示与用户B的语音通话记录，显示用户B的名称、通话类型【语音通话】、归属地。右侧显示通话时间以及时间节点图标
-        cpg.page_should_contain_text("哈 马上")
-        cpg.page_should_contain_text("语音通话")
-        self.assertTrue(cpg.is_exist_call_time())
-        # Step:2.点击时间节点
-        # Step:3.用户N为企业联系人（非本地联系人）
-        cpg.click_call_time()
-        time.sleep(1)
-        # CheckPoint:2.进入到用户N的通话profile
-        self.assertTrue(cpg.is_exist_profile_name())
-        cpg.click_back()
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0088(self):
-        """检查语音通话记录-陌生联系人"""
-        # 1.A已登录和飞信
-        # 2.用户A已成功发起与用户B的语音通话
-        # Step:1.用户A查看通话记录
-        cpg = CallPage()
-        cpg.create_call_entry("13537795364")
-        # CheckPoint:1.通话记录展示与用户B的语音通话记录，显示用户B的名称、通话类型【语音通话】、归属地。右侧显示通话时间以及时间节点图标
-        cpg.page_should_contain_text("13537795364")
-        cpg.page_should_contain_text("语音通话")
-        # cpg.page_should_contain_text("广东深圳")
-        # cpg.page_should_contain_text("移动")
-        self.assertTrue(cpg.is_exist_call_time())
-        # Step:2.点击时间节点
-        cpg.click_call_time()
-        time.sleep(1)
-        # CheckPoint:2.进入到用户B的通话profile
-        self.assertTrue(cpg.is_exist_profile_name())
-        cpg.click_back()
-
-    @staticmethod
-    def setUp_test_call_shenlisi_0155():
-        # 关闭WiFi，打开4G网络
-        warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.make_already_in_call()
-        CallPage().delete_all_call_entry()
-        CallPage().set_network_status(4)
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0155(self):
-        """检查语音通话-未订购每月10G用户--4g弹出每月10G免流特权提示窗口"""
-        # 1.客户端已登录
-        # 2.未订购每月10G用户
-        # 3.网络使用4G
-        cpg = CallPage()
-        # Step:1.发起语音通话
-        cpg.select_type_start_call(calltype=1, text="13800138001")
-        time.sleep(1)
-        # CheckPoint:1.弹出每月10G免流特权提示窗口。
-        cpg.page_should_contain_text("每月10G免流特权")
-        # Step:2.查看界面
-        # CheckPoint:2.加粗文案为：语音通话每分钟消耗约0.3MB流量，订购[每月10G]畅聊语音/视频通话。弹窗底部显示“继续拨打”、“订购免流特权”、“以后不再提示”
-        cpg.page_should_contain_text("语音通话每分钟消耗约0.3MB流量，订购[每月10G]畅聊语音/视频通话")
-        cpg.page_should_contain_text("继续拨打")
-        cpg.page_should_contain_text("订购免流特权")
-        cpg.page_should_contain_text("以后不再提示")
-        # Step:3.点击“继续拨打”
-        cpg.click_text("继续拨打")
-        # CheckPoint:3.点击后，直接呼叫
-        cpg.page_should_contain_text("正在呼叫")
-        # Step:4.再次点击语音通话
-        cpg.wait_for_dial_pad()
-        cpg.select_type_start_call(calltype=1, text="13800138001")
-        # CheckPoint:4.继续弹出提示窗口
-        cpg.page_should_contain_text("每月10G免流特权")
-
-    @staticmethod
-    def tearDown_test_call_shenlisi_0155():
-        # 打开网络
-        cpg = CallPage()
-        cpg.set_network_status(6)
-        preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
-
-    @staticmethod
-    def setUp_test_call_shenlisi_0156():
-        # 关闭WiFi，打开4G网络
-        warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.make_already_in_call()
-        CallPage().delete_all_call_entry()
-        CallPage().set_network_status(4)
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0156(self):
-        """检查4g免流特权提示权订购免流特权提示窗口订购免流界面跳转---语音通话"""
-        # 1.客户端已登录
-        # 2.已弹出4g弹出每月10G免流特权提示窗口
-        cpg = CallPage()
-        cpg.select_type_start_call(calltype=1, text="13800138001")
-        # 1.点击订购免流特权
-        cpg.click_text("订购免流特权")
-        # 1.跳转到【和飞信送你每月10G流量】H5页面
-        cpg.wait_until(timeout=30, auto_accept_permission_alert=True,
-                       condition=lambda d: cpg.is_text_present("和飞信送你每月10G流量"))
-        cpg.page_should_contain_text("和飞信送你每月10G流量")
-        # 2.点击返回按钮
-        cpg.click_back()
-        # 2.点击返回按钮，返回上一级
-        cpg.page_should_contain_text("每月10G免流特权")
-
-    @staticmethod
-    def tearDown_test_call_shenlisi_0156():
-        # 打开网络
-        cpg = CallPage()
-        cpg.set_network_status(6)
-        preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
-
-    @staticmethod
-    def setUp_test_call_shenlisi_0158():
-        # 确保打开WiFi网络
-        Preconditions.make_already_in_call()
-        # CalllogBannerPage().skip_multiparty_call()
-        # CallPage().delete_all_call_entry()
-        # CallPage().set_network_status(6)
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0158(self):
-        """检查语音呼叫-未订购每月10G用户--用户在WiFi环境下不提示此类弹窗"""
-        # 1.客户端已登录
-        # 2.未订购每月10G用户
-        # 3.网络使用WIFI
-        # 1.发起语音通话
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("13800138001")
-        cpg.click_call_phone()
+        call = CallPage()
+        # 点击键盘
+        call.click_keyboard()
         time.sleep(2)
-        CallTypeSelectPage().click_call_by_voice()
+        call.is_keyboard_shown()
         time.sleep(2)
-        # 1.直接发起语音通话，没有弹窗
-        cpg.page_should_not_contain_text("每月10G免流特权")
-        time.sleep(1)
-        cpg.wait_for_dial_pad()
-        cpg.click_dial()
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0213(self):
-        """检查视频通话记录——本地联系人"""
-        # 1.A已登录和飞信
-        # 2.用户A已成功发起与用户B的视频通话
-        cpg = CallPage()
-        cpg.click_multi_party_video()
-        time.sleep(1)
-        CalllogBannerPage().input_telephone("13800138001")
-        time.sleep(1)
-        cpg.click_text("给个红包2")
-        time.sleep(1)
-        cpg.click_text("呼叫")
-        time.sleep(1)
-        # Step:1.用户A查看通话记录
-        cpg.wait_for_page_load()
-        # CheckPoint:1.通话记录展示与用户B的视频通话记录，显示用户B的名称、通话类型【视频通话】、手机号/归属地
-        cpg.page_should_contain_text("给个红包2")
-        cpg.page_should_contain_text("视频通话")
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0215(self):
-        """检查视频通话记录-陌生联系人"""
-        # 1.A已登录和飞信
-        # 2.用户A已成功发起与用户B的视频通话
-        cpg = CallPage()
-        cpg.click_multi_party_video()
-        CalllogBannerPage().input_telephone("13537795364")
-        cpg.swipe_by_percent_on_screen(50, 40, 50, 10)
-        # cpg.hide_keyboard()
+        if call.is_element_present('来电名称'):
+            call.page_contain_element('来电名称')
         time.sleep(2)
-        cpg.click_text("未知号码")
-        time.sleep(1)
-        cpg.click_text("呼叫")
-        time.sleep(1)
-        # Step:1.用户A查看通话记录
-        cpg.wait_for_page_load()
-        # CheckPoint:1.通话记录展示与用户B的视频通话记录，显示用户B的名称、通话类型【视频通话】、手机号/归属地
-        cpg.page_should_contain_text("13537795364")
-        cpg.page_should_contain_text("视频通话")
-        cpg.page_should_contain_text("广东深圳")
-        # cpg.page_should_contain_text("移动")
-        # self.assertTrue(cpg.is_exist_call_time())
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0218(self):
-        """检查呼叫本地联系人，呼叫界面展示名称+手机号"""
-        # 1.已登录和飞信
-        # 2.用户M为本地联系人
-        # 3.已开启麦克风，相机权限
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("13800138001")
-        cpg.click_call_time_search_status()
-        time.sleep(1)
-        # Step:1.视频呼叫M，进入到呼叫界面
-        CallContactDetailPage().click_video_call()
-        time.sleep(1)
-        # CheckPoint:1.头像下展示用户M的名称+手机号
-        cpg.page_should_contain_text("13800138001")
-        cpg.page_should_contain_text("给个红包2")
-        CallContactDetailPage().wait_for_star()
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0219(self):
-        """检查呼叫陌生联系人，呼叫界面展示手机号+归属地"""
-        # 1.已登录和飞信
-        # 2.用户M为陌生联系人可获取到归属地
-        # 3.用户N为陌生联系人无法获取归属地（香港号，198开头11位手机号）
-        # 3.已开启麦克风，相机权限
-        cpg = CallPage()
-        cpg.create_call_entry("15343038867")
-        cpg.click_dial()
-        cpg.click_call_time_search_status()
-        time.sleep(1)
-        # Step:1.视频呼叫M，进入到呼叫界面
-        CallContactDetailPage().click_video_call()
-        time.sleep(1)
-        # CheckPoint:1.头像下展示用户M的手机号+归属地
-        cpg.page_should_contain_text("15343038867")
-        cpg.page_should_contain_text("湖南-株洲")
-        CallContactDetailPage().wait_for_star()
-        cpg.click_back()
-
-        # Step:2.视频呼叫N，进入到呼叫界面
-        cpg = CallPage()
-        cpg.create_call_entry("19823452586")
-        cpg.click_dial()
-        cpg.click_call_time_search_status()
-        time.sleep(1)
-        # Step:2.视频呼叫N，进入到呼叫界面
-        CallContactDetailPage().click_video_call()
-        time.sleep(1)
-        # CheckPoint:2.头像下展示用户M的手机号+未知归属地
-        cpg.page_should_contain_text("19823452586")
-        cpg.page_should_contain_text("未知归属地")
-        CallContactDetailPage().wait_for_star()
-
-    @staticmethod
-    def setUp_test_call_shenlisi_0234():
-        # 确保打开WiFi网络
-        Preconditions.make_already_in_call()
-        # CalllogBannerPage().skip_multiparty_call()
-        # CallPage().delete_all_call_entry()
-        # CallPage().set_network_status(6)
-
-    @tags('ALL', 'CMCC', 'Call', "ios")
-    def test_call_shenlisi_0234(self):
-        """检查视频呼叫-未订购每月10G用户--用户在WiFi环境下不提示此类弹窗"""
-        # 1.客户端已登录
-        # 2.未订购每月10G用户
-        # 3.网络使用WIFI
-        # 1.发起视频通话
-        cpg = CallPage()
-        cpg.click_dial()
-        cpg.dial_number("13800138001")
-        cpg.click_call_time_search_status()
-        CallContactDetailPage().click_video_call()
+        call.page_left()
         time.sleep(2)
-        # 1.直接发起语音通话，没有弹窗
-        cpg.page_should_not_contain_text("每月10G免流特权")
+        call.page_contain_element('收起键盘')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_0006(self):
+        """展开拨号盘，不可以左右滑动切换tab，上方内容显示通话模块通话记录内容"""
+        time.sleep(2)
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘是拉起的，则不需要再次拉起
+        if call.is_on_this_page():
+            call.click_show_keyboard()
         time.sleep(1)
-        CallContactDetailPage().wait_for_star()
-        cpg.click_back()
+        # 向左滑动
+        call.swipe_by_percent_on_screen(20, 50, 90, 50, 1000)
+        # 判断滑动后是否还在此页面
+        if not call.is_exist_call_key():
+            raise RuntimeError('滑动后不在通话界面')
+        # 向右滑动
+        call.swipe_by_percent_on_screen(90, 50, 20, 50, 1000)
+        # 判断滑动后是否还在此页面
+        if not call.is_exist_call_key():
+            raise RuntimeError('滑动后不在通话界面')
 
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0314(self):
-        """检查通话界面发起多方视频"""
-        # 1.客户端已登陆在：通话界面
-        # 2.网络正常
-        # 3.成员手机号有效
-        # Step:1.点击【多方视频】按钮
-        cpg = CallPage()
-        cmvp = MultiPartyVideoPage()
-        cpg.click_multi_party_video()
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_0007(self):
+        """跳出下拉框，可选择视频通话与多方电话"""
         time.sleep(2)
-        # CheckPoint:1.跳转至发起视频-选择成员界面
-        cpg.page_should_contain_text("选择团队联系人")
-        # Step:2.选择成员
-        # 选择本地一个，号码搜索一个
-        cmvp.click_contact_item(index=2)
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 点击加号
+        call.click_add()
         time.sleep(1)
-        cmvp.input_contact_search("13537795364")
-        cpg.click_text("未知号码")
-        # CheckPoint:2.被选的成员接显示在已选成员列表
-        self.assertTrue(cmvp.is_exist_contact_selection())
-        # Step:3.点击【呼叫】按钮
-        cmvp.click_tv_sure()
+        # 判断是否有视频通话与多方电话
+        if not call.is_element_present('视频通话x'):
+            raise RuntimeError('没有视频通话')
+        if not call.is_element_present('多方电话x'):
+            raise RuntimeError('没有多方电话')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_0008(self):
+        """打开视频通话界面-联系人选择器页面（该页面逻辑与现网保持一致）"""
+        time.sleep(2)
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 点击加号
+        call.click_add()
         time.sleep(1)
-        # CheckPoint:3.转入多方视频拨通界面
-        cpg.page_should_contain_text("关闭摄像头")
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0324(self):
-        """在通话界面邀请无效手机号发起多方视频"""
-        # 1.客户端已登陆在：通话界面
-        # 2.网络正常
-        # 3.邀请无效手机号进入到多方视频通话
-        cpg = CallPage()
-        cmvp = MultiPartyVideoPage()
-        # Step:1.【多方视频】按钮
-        cpg.click_multi_party_video()
-        time.sleep(2)
-        # CheckPoint:1.跳转至发起视频-选择成员界面
-        cpg.page_should_contain_text("选择团队联系人")
-        # Step:2.输入任意非手机号数字
-        cmvp.input_contact_search("13800138005991")
-        time.sleep(2)
-        # CheckPoint:2.联系人选择器无法识别出无效手机号
-        cpg.page_should_not_contain_text("本地联系人")
-        cpg.page_should_not_contain_text("网络搜索")
-
-        cpg.click_back()
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0326(self):
-        """检查无副号时通话记录列表页面"""
-        # 1.用户已登录和飞信通话记录列表页面
-        # 2.无副号
-        cpg = CallPage()
+        call.click_locator_key('视频通话x')
         time.sleep(1)
-        # Step:1，查看界面
-        # CheckPoint:1.左上角显示“通话”，右边显示“视频”按钮，中间显示通话记录，右下方显示“多方电话”悬浮
-        self.assertTrue(cpg.check_call_display())
-        self.assertTrue(cpg.check_multiparty_video())
-        self.assertTrue(cpg.check_feixin_call())
-        # Step:2.点击拨号盘
-        cpg.click_dial()
-        # CheckPoint:2.弹出拨号盘，顶部栏被遮挡
-        self.assertFalse(cpg.check_call_display())
-        self.assertFalse(cpg.check_multiparty_video())
-        cpg.click_dial()
+        if not call.check_text_exist('发起视频通话'):
+            raise RuntimeError('没有在视频通话页面')
 
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0328(self):
-        """检查通通话列表为空"""
-        # 1.用户已登录和飞信通话记录列表页面
-        # 2.通讯录为空
-        cpg = CallPage()
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_0009(self):
+        """打开多方电话-联系人选择器页面（该页面逻辑与现网保持一致）"""
+        time.sleep(2)
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 点击加号
+        call.click_add()
         time.sleep(1)
-        # Step:1，查看界面
-        # CheckPoint:1.界面logo提示“给你的好友打个电话吧”
-        # self.assertTrue(cpg.check_call_image())
-        cpg.page_should_contain_text("高清通话，高效沟通")
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0333(self):
-        """检查清零未接通话数"""
-        # 1.用户已登录和飞信消息tab
-        # 2.通话tab右上角显示未读消息气泡
-        # Step:1.点击通话tab
-        cpg = CallPage()
-        cpg.click_call()
-        # CheckPoint:1.通话未接数清零，图标变为拨号盘按钮
-        # 清空通话记录
-        cpg.delete_all_call_entry()
-        cpg.page_should_contain_text("高清通话，高效沟通")
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0347(self):
-        """检查本地联系人通话profile左上角显示名称"""
-        # 1.已登录和飞信：通话tab
-        # 2.已存在与本地联系人的通话记录M
-        # Step:1.点击记录M的时间节点
-        cpg = CallPage()
-        cpg.create_call_entry("13800138001")
-        cpg.click_dial()
-        cpg.click_call_time_search_status()
-        # CheckPoint:1.进入到M的通话profile界面
-        time.sleep(2)
-        cpg.page_should_contain_text("分享名片")
-        # Step:2.查看左上角的名称
-        ret = cpg.get_profile_name()
-        # CheckPoint:2.左上角<按钮。以及M名称
-        self.assertEqual(ret, "给个红包2")
-        # Step:3.点击<按钮>
-        cpg.click_back()
-        cpg.click_dial()
-        time.sleep(2)
-        # CheckPoint:3.返回到上一个界面
-        self.assertTrue(cpg.is_on_the_call_page())
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0348(self):
-        """检查陌生联系人通话profile左上角显示手机号"""
-        # 1.已登录和飞信：通话tab
-        # 2.已存在与陌生联系人的通话记录M
-        # Step:1.点击记录M的时间节点
-        cpg = CallPage()
-        cpg.create_call_entry("19912345678")
-        cpg.click_dial()
-        cpg.click_call_time_search_status()
-        # CheckPoint:1.进入到M的通话profile界面
-        time.sleep(2)
-        self.assertTrue(cpg.is_exist_profile_name())
-        # Step:2.查看左上角的名称
-        ret = cpg.get_profile_name()
-        # CheckPoint:2.左上角<按钮。以及N的手机号
-        self.assertEqual(ret, "19912345678")
-        # Step:3.点击<按钮>
-        cpg.click_back()
-        cpg.click_dial()
-        time.sleep(2)
-        # CheckPoint:3.返回到上一个界面
-        self.assertTrue(cpg.is_on_the_call_page())
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0353_001(self):
-        """检查通话profile界面可进入到消息会话窗口--本地联系人"""
-        # 1.已登录和飞信：通话tab
-        # 2.已进入到联系人通话profile
-        # 本地联系人
-        cpg = CallPage()
-        cpg.create_call_entry("13800138001")
-        cpg.click_dial()
-        cpg.click_call_time_search_status()
-        time.sleep(2)
-        cpg.page_should_contain_text("分享名片")
-        # Step:1.点击消息按钮
-        CallContactDetailPage().click_normal_message()
-
-        # CheckPoint:1.进入到与该联系人的消息会话框。本地联系人左上角显示名称。陌生联系人，左上角显示手机号
-        chatpage = BaseChatPage()
-        flag = chatpage.is_exist_dialog()
-        if flag:
-            chatpage.click_i_have_read()
-        cpg.page_should_contain_text("说点什么...")
-        cpg.page_should_contain_text("给个红包2")
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0353_002(self):
-        """检查通话profile界面可进入到消息会话窗口--陌生联系人"""
-        # 陌生联系人
-        cpg = CallPage()
-        cpg.create_call_entry("19912345678")
-        cpg.click_dial()
-        cpg.click_call_time_search_status()
-        time.sleep(2)
-        self.assertTrue(cpg.is_exist_profile_name())
-        # Step:1.点击消息按钮
-        CallContactDetailPage().click_normal_message()
-        # CheckPoint:1.进入到与该联系人的消息会话框。本地联系人左上角显示名称。陌生联系人，左上角显示手机号
-        chatpage = BaseChatPage()
-        flag = chatpage.is_exist_dialog()
-        if flag:
-            chatpage.click_i_have_read()
-        cpg.page_should_contain_text("说点什么...")
-        cpg.page_should_contain_text("19912345678")
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0355(self):
-        """检查通话profile界面发起语音通话"""
-        # 1.已登录和飞信：通话tab
-        # 2.已进入到联系人通话profile
-        # 3.有效手机号
-        # Step:1.点击语音通话按钮
-        cpg = CallPage()
-        cpg.create_call_entry("13800138001")
-        cpg.click_dial()
-        cpg.click_call_time_search_status()
-        time.sleep(2)
-        self.assertTrue(cpg.is_exist_profile_name())
-        CallContactDetailPage().click_voice_call()
-        cpg.page_should_contain_text("正在呼叫")
-        # CheckPoint:1.发起1v1语音呼叫
-        CallContactDetailPage().wait_for_star()
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0356(self):
-        """检查通话profile界面发起视频通话"""
-        # 1.已登录和飞信：通话tab
-        # 2.已进入到联系人通话profile
-        # 3.有效手机号
-        # Step:1.点击视频通话
-        cpg = CallPage()
-        cpg.create_call_entry("13800138001")
-        cpg.click_dial()
-        cpg.click_call_time_search_status()
-        time.sleep(2)
-        CallContactDetailPage().click_video_call()
-        cpg.page_should_contain_text("网络视频通话呼叫中")
-        # CheckPoint:1.发起1v1视频呼叫
-        CallContactDetailPage().wait_for_star()
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0358(self):
-        """检查本地联系人通话profile"""
-        # 1.已登录和飞信-通话记录列表
-        # 2.已进入到本地联系人A的通话profile
-        # 3.用户A为RCS用户并保存至本地
-        # 4.当前登录账号无副号
-        # Step:1.查看界面
-        cpg = CallPage()
-        cpg.create_call_entry("13800138001")
-        cpg.click_dial()
-        cpg.click_call_time_search_status()
-        time.sleep(2)
-        # CheckPoint:1.进功能有：星标、编辑、分享名片。消息、电话、语音通话、视频通话、和飞信电话高亮。页面显示：在和飞信电话按钮下显示公司、职位、邮箱（公司、职位、邮箱有则显示），通话记录。底部显示【分享名片】，点击调起联系人选择器
-        self.assertTrue(CallContactDetailPage().is_exist_star())
-        cpg.page_should_contain_text("编辑")
-        cpg.page_should_contain_text("分享名片")
-        cpg.page_should_contain_text("消息")
-        cpg.page_should_contain_text("电话")
-        cpg.page_should_contain_text("语音通话")
-        cpg.page_should_contain_text("视频通話")
-        cpg.page_should_contain_text("飞信电话")
-        cpg.page_should_contain_text("拨出电话")
-        CallContactDetailPage().click_share_card()
-        time.sleep(2)
-        cpg.page_should_contain_text("选择联系人")
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0360(self):
-        """检查陌生人通话profile"""
-        # 1.已登录和飞信-通话记录列表
-        # 2.已进入到陌生联系人B的通话profile
-        # 3.用户B为RCS用户并为陌生人
-        # 4.当前登录账号无副号
-        # Step:1.查看界面
-        cpg = CallPage()
-        cpg.create_call_entry("13537795364")
-        cpg.click_dial()
-        cpg.click_call_time_search_status()
-        time.sleep(2)
-        # CheckPoint:1.功能有：保存到通讯录。消息、电话、语音通话、视频通话、和飞信电话高亮。页面显示：在和飞信电话按钮下显示通话记录。底部显示【保存到通讯录】，点击进入到编辑页面
-        time.sleep(2)
-        cpg.page_should_contain_text("保存到通讯录")
-        cpg.page_should_contain_text("消息")
-        cpg.page_should_contain_text("电话")
-        cpg.page_should_contain_text("语音通话")
-        cpg.page_should_contain_text("视频通話")
-        cpg.page_should_contain_text("飞信电话")
-        cpg.page_should_contain_text("拨出电话")
-        CallContactDetailPage().click_save_contacts()
-
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0363(self):
-        """检查非RCS通话profile--陌生联系人"""
-        # 1.已登录和飞信-通话记录列表
-        # 2.已进入到本地联系人C的通话profile
-        # 3.用户C为非RCS用户并为陌生人
-        # 4.当前登录账号无副号
-        # Step:1.查看界面
-        cpg = CallPage()
-        cpg.create_call_entry("15343038890")
-        cpg.click_dial()
-        cpg.click_call_time_search_status()
-        # CheckPoint:1.功能有：保存到通讯录、邀请使用。消息、电话、语音通话、视频通话、和飞信电话高亮。页面显示：在和飞信电话按钮下显示通话记录。底部显示【保存到通讯录】，点击进入到编辑页面。【邀请使用】，点击调起系统短信
-        time.sleep(2)
-        cpg.page_should_contain_text("保存到通讯录")
-        cpg.page_should_contain_text("邀请使用")
-        cpg.page_should_contain_text("消息")
-        cpg.page_should_contain_text("电话")
-        cpg.page_should_contain_text("语音通话")
-        cpg.page_should_contain_text("视频通話")
-        cpg.page_should_contain_text("飞信电话")
-        cpg.page_should_contain_text("拨出电话")
-        ContactDetailsPage().click_invitation_use()
+        call.click_locator_key('多方电话x')
         time.sleep(1)
-        cpg.page_should_contain_text("新信息")
-        cpg.page_should_contain_text("收件人：")
+        if not call.check_text_exist('多方电话'):
+            raise RuntimeError('没有在多方电话页面')
 
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0381(self):
-        """检查单聊富媒体面板-音频通话包含语音通话年华、视频"""
-        # 1.登录和飞信：消息tab-单聊会话窗口-富媒体面板
-        # Step: 1.1.点击音频电话按钮
-        cpg = CallPage()
-        ContactsPage().click_message_icon()
-        Preconditions.enter_single_chat_page("给个红包2")
-        BaseChatPage().click_more()
-        ChatMorePage().click_voice_and_video_call()
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00010(self):
+        """
+            跳转至通话详情页面中，页面布局左上方返回按钮，顶部展示联系人头像与名称，
+            中部展示通话、视频通话，设置备注名，下方展示手机号码与号码归属地，通话记录（视频通话），
+            显示通话类型、通话时 长，通话时间点
+        """
+        time.sleep(2)
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_vedio_record()
+        call.click_tag_detail_first_element('视频通话')
+        # 判断
         time.sleep(1)
-        # CheckPoint: 1.展开的富媒体消息体选择面板收起后Android：中间弹出”语音通话、视频通话“两个按钮
-        cpg.page_should_contain_text("语音通话")
-        cpg.page_should_contain_text("视频通话")
-        cpg.page_should_contain_text("取消")
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        r = call.check_vedio_call_detail_page()
+        if not r:
+            raise RuntimeError(r)
 
-    @tags('ALL', 'CMCC', 'Call')
-    def test_call_shenlisi_0395(self):
-        """检查群聊聊富媒体面板-多方电话入口拨打"""
-        # 1.登录和飞信：消息tab-群聊会话窗口-富媒体面板
-        # 2.已弹出系统选择弹窗多方电话和多方视频
-        ContactsPage().click_message_icon()
-        Preconditions.get_into_group_chat_page("群聊1")
-        # Step:1.点击多方电话
-        gpg = GroupListPage()
-        gpg.click_mult_call_icon()
-        CallPage().click_feixin_call_free()
-        # CheckPoint:1.调起联系人选择器
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00011(self):
+        """
+            跳转至多方视频详情页面中，页面布局左上方返回按钮，右边为多方视频文字，下方为：
+            发起多方视频按钮栏，展示联系人头像与名称，通话记录（多方视频），
+            显示通话类型、通话时长，通话时间点
+        """
+        time.sleep(2)
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_multiplayer_vedio_record()
+        time.sleep(2)
+        call.click_tag_detail_first_element('多方视频')
+        # 判断
         time.sleep(1)
-        gpg.page_should_contain_text("搜索群成员")
-        CallPage().click_back()
-        # Step:2.点击多方视频
-        gpg = GroupListPage()
-        gpg.click_mult_call_icon()
-        CallPage().click_mutil_video_call()
-        # CheckPoint:2.调起联系人选择器
+        # 是否在多方视频详情页面
+        if not call.on_this_page_multi_video_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        r = call.check_multiplayer_vedio_detail_page()
+        if not r:
+            raise RuntimeError(r)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00012(self):
+        """
+            跳转至通话详情页面中，返回到通话记录列表页面
+        """
+        time.sleep(2)
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.click_tag_detail_first_element('飞信电话')
         time.sleep(1)
-        gpg.page_should_contain_text("搜索群成员")
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        # 单击左上角返回按钮
+        call.click_detail_back()
+        call.wait_for_page_load()
+        if not call.is_on_this_page():
+            raise RuntimeError('从详情页面返回失败')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00013(self):
+        """
+            验证通话记录详情页-编辑备注名---正确输入并点击保存（中文、英文、特殊符号）---保存成功
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_voicecall_record()
+        call.click_tag_detail_first_element('飞信电话')
+        time.sleep(1)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        # 1. 修改为中文
+        name = '测试中文备注'
+        if not self.check_modify_nickname(name):
+            raise RuntimeError('测试中文备注出错')
+        # 2. 修改为全英文
+        name = 'testEnglishNickname'
+        if not self.check_modify_nickname(name):
+            raise RuntimeError('测试英文备注出错')
+        # 3. 修改为特殊字符
+        name = '汉字English%^&*()_!@#'
+        if not self.check_modify_nickname(name):
+            raise RuntimeError('测试特殊字符备注出错')
+
+    def check_modify_nickname(self, name):
+        """修改并验证备注是否修改成功"""
+        call = CallPage()
+        call.click_modify_nickname()
+        call.wait_for_page_modify_nickname()
+        time.sleep(0.5)
+        # call.input_text_in_nickname('')
+        call.edit_clear()
+        call.input_text_in_nickname(name)
+        call.click_save_nickname()
+        time.sleep(2)
+        if not call.on_this_page_call_detail():
+            return False
+        if name != call.get_nickname():
+            return False
+        return True
+
+    # @tags('ALL', 'CMCC', 'call')
+    # def test_call_00014(self):
+    #     """超长的字符不显示"""
+    #     call = CallPage()
+    #     call.wait_for_page_load()
+    #     # 判断如果键盘已拉起，则收起键盘
+    #     if call.is_exist_call_key():
+    #         call.click_hide_keyboard()
+    #         time.sleep(1)
+    #     call.make_sure_have_p2p_voicecall_record()
+    #     call.click_tag_detail_first_element('飞信电话')
+    #     time.sleep(1)
+    #     if not call.on_this_page_call_detail():
+    #         raise RuntimeError('通话记录---详情：打开失败')
+    #     # 1. 修改为中文
+    #     name = '测试超长字符TestTooLong@#$%^&%$^&^$&**&^%'
+    #     call.click_modify_nickname()
+    #     call.wait_for_page_modify_nickname()
+    #     time.sleep(0.5)
+    #     call.edit_clear()
+    #     call.input_text_in_nickname(name)
+    #     call.click_save_nickname()
+    #     time.sleep(2)
+    #     if not call.on_this_page_call_detail():
+    #         return False
+    #     lenTxt = len(name)
+    #     lenTxt_utf8 = len(name.encode('utf-8'))
+    #     size = int((lenTxt_utf8 - lenTxt) / 2 + lenTxt)
+    #     if size > 30:
+    #         if name != call.get_nickname():
+    #             return
+    #     else:
+    #         raise RuntimeError('测试备注没有大于最大长度')
+    #     return True
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00016(self):
+        """
+            验证通话记录详情页-编辑备注名---输入sql语句并点击保存---保存成功
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_vedio_record()
+        call.click_tag_detail_first_element('视频通话')
+        time.sleep(1)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        # 1. 修改为中文
+        name = 'select now()'
+        if not self.check_modify_nickname(name):
+            raise RuntimeError('测试sql备注出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00017(self):
+        """
+            验证通话记录详情页-编辑备注名---输入html标签并点击保存---保存成功
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_vedio_record()
+        call.click_tag_detail_first_element('视频通话')
+        time.sleep(1)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        # 1. 修改为中文
+        name = '<a href="www.baidu.com"/>a<a/>'
+        if not self.check_modify_nickname(name):
+            raise RuntimeError('测试sql备注出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00019(self):
+        """
+            1、联网正常已登录
+            2、对方离线
+            3、当前页通话记录详情
+            1、点击视频通话---1、进入拨打视频通话界面，并弹出提示窗，“对方未接听，请稍候再尝试”
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_vedio_record()
+        call.click_tag_detail_first_element('视频通话')
+        time.sleep(1)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        # 1. 点击视频通话按钮
+        call.click_locator_key('详情_视频')
+        time.sleep(1)
+        if call.on_this_page_flow():
+            call.set_not_reminders()
+            time.sleep(1)
+            call.click_locator_key('流量_继续拨打')
+        time.sleep(25)
+        count = 20
+        while count > 0:
+            exist = call.is_toast_exist("对方未接听，请稍候再尝试")
+            if exist:
+                break
+            time.sleep(0.3)
+            count -= 1
+        else:
+            raise RuntimeError('测试出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00020(self):
+        """
+            1、联网正常已登录
+            2、对方离线
+            3、当前页通话记录详情
+            点击视频通话---点击取消---进入拨打视频通话界面，并弹出提示窗，“通话结束”---返回通话记录详情页
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_vedio_record()
+        call.click_tag_detail_first_element('视频通话')
+        time.sleep(1)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        # 1. 点击视频通话按钮
+        call.click_locator_key('详情_视频')
+        time.sleep(1)
+        if call.on_this_page_flow():
+            call.set_not_reminders()
+            time.sleep(1)
+            call.click_locator_key('流量_继续拨打')
+        time.sleep(3)
+        call.click_locator_key('视频_结束视频通话')
+        exist = call.is_toast_exist("通话结束")
+        if not exist:
+            raise RuntimeError('测试出错[通话结束]')
+        time.sleep(5)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('测试出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00023(self):
+        """
+            1、联网正常已登录
+            2、对方未注册
+            3、当前页通话记录详情
+            点击视频通话---点击取消---"1、进入拨打视频电话界面，并弹出提示窗--下方是“取消” 和“确定”按钮--返回通话记录详情页"
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_vedio_record()
+        call.click_tag_detail_first_element('视频通话')
+        time.sleep(2)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        # 1. 点击视频通话按钮
+        call.click_locator_key('详情_视频')
+        time.sleep(1)
+        if call.on_this_page_flow():
+            call.set_not_reminders()
+            time.sleep(1)
+            call.click_locator_key('流量_继续拨打')
+        time.sleep(1)
+        if call.on_this_page_common('无密友圈_提示文本'):
+            call.click_locator_key('无密友圈_取消')
+        time.sleep(3)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('测试出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00025(self):
+        """
+            1、联网正常已登录
+            2、对方未注册
+            3、当前页通话记录详情
+            "1、进入拨打视频通话界面，并弹出提示窗，
+            下方是“取消” 和“确定”按钮
+            2、调起系统短信界面，复制文案到短信编辑器，文案如下：
+            我在使用联系人圈，视频通话免流量哦，你也赶紧来使用吧，下载地址：feixin.10086.cn/miyou
+            3、发送成功，接收方收到短信"
+
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_vedio_record()
+        call.click_tag_detail_first_element('视频通话')
+        time.sleep(2)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        # 1. 点击视频通话按钮
+        call.click_locator_key('详情_视频')
+        time.sleep(1)
+        if call.on_this_page_flow():
+            call.set_not_reminders()
+            time.sleep(1)
+            call.click_locator_key('流量_继续拨打')
+        time.sleep(1)
+        if call.on_this_page_common('无密友圈_提示文本'):
+            call.click_locator_key('无密友圈_确定')
+        time.sleep(1)
+        name = Preconditions.get_current_activity_name()
+        if 'com.android.mms' != name:
+            raise RuntimeError('测试出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00026(self):
+        """
+            1、联网正常已登录
+            2、对方未注册
+            3、当前页通话记录详情
+            点击视频通话---点击取消---"1、进入拨打视频电话界面，并弹出提示窗--下方是“取消” 和“确定”按钮--返回通话记录详情页"
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_vedio_record()
+        call.click_tag_detail_first_element('视频通话')
+        time.sleep(2)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        # 1. 点击视频通话按钮
+        call.click_locator_key('详情_视频')
+        time.sleep(1)
+        if call.on_this_page_flow():
+            call.set_not_reminders()
+            time.sleep(1)
+            call.click_locator_key('流量_继续拨打')
+        time.sleep(1)
+        if call.on_this_page_common('无密友圈_提示文本'):
+            call.click_locator_key('无密友圈_取消')
+        time.sleep(3)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('测试出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00027(self):
+        """
+            1、联网正常已登录
+            2、对方未注册
+            3、当前页通话记录详情
+            点击视频通话---点击取消---"1、进入拨打视频电话界面，并弹出提示窗--下方是“取消” 和“确定”按钮--返回通话记录详情页"
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_vedio_record()
+        call.click_tag_detail_first_element('视频通话')
+        time.sleep(2)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        # 1. 点击视频通话按钮
+        call.click_locator_key('详情_视频')
+        time.sleep(1)
+        if call.on_this_page_flow():
+            call.set_not_reminders()
+            time.sleep(1)
+            call.click_locator_key('回呼_我知道了')
+        time.sleep(1)
+        # TODO 限时回呼电话
+
+    # @tags('ALL', 'CMCC', 'call')
+    # def test_call_00030(self):
+    #     """
+    #         验证通话记录详情页-编辑备注名---正确输入并点击保存（中文、英文、特殊符号）---保存成功
+    #     """
+    #     call = CallPage()
+    #     call.wait_for_page_load()
+    #     # 判断如果键盘已拉起，则收起键盘
+    #     if call.is_exist_call_key():
+    #         call.click_hide_keyboard()
+    #         time.sleep(1)
+    #     call.make_sure_have_p2p_voicecall_record()
+    #     call.click_tag_detail_first_element('飞信电话')
+    #     time.sleep(1)
+    #     if not call.on_this_page_call_detail():
+    #         raise RuntimeError('通话记录---详情：打开失败')
+    #     # 1. 修改为中文
+    #     name = '修改后的备注'
+    #     if not self.check_modify_nickname(name):
+    #         raise RuntimeError('修改备注出错')
+    #     call.click_locator_key('详情_返回')
+    #     call.wait_for_page_call_load()
+    #     self.assertEquals(call.check_text_exist(name), True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00031(self):
+        """
+            1、备注名修改成功后，视频通话入口；
+            2、查看用户名
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_voicecall_record()
+        call.click_tag_detail_first_element('飞信电话')
+        time.sleep(1)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        # 1. 修改为中文
+        name = '修改后的备注'
+        if not self.check_modify_nickname(name):
+            raise RuntimeError('修改备注出错')
+        call.click_locator_key('详情_视频')
+        time.sleep(3)
+        comment = call.get_element_text('视频_备注')
+        self.assertEquals(name == comment, True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00032(self):
+        """
+            1、联网正常已登录
+            2、对方未注册
+            3、当前页通话记录详情
+            4 点击邀请使用按钮
+            5 跳转至系统短信页面，附带发送号码与发送内容
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_voicecall_record()
+        call.click_tag_detail_first_element('飞信电话')
+        time.sleep(1)
+        if not call.on_this_page_call_detail():
+            raise RuntimeError('通话记录---详情：打开失败')
+        call.click_locator_key('详情_邀请使用')
+        time.sleep(0.5)
+        call.click_locator_key('邀请_短信')
+        time.sleep(1)
+        activity_name = Preconditions.get_current_activity_name()
+        print(activity_name)
+        self.assertEquals('com.android.mms' == activity_name, True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00034(self):
+        """
+            1、4G网络
+            2、已登录客户端
+            3、当前页面在通话页面
+            4、有点对点语音通话和点对点视频通话记录、多方视频通话记录
+            5、长按对点语音通话和点对点视频通话记录、多方视频通话记录
+            6、弹出删除该通话记录和清除全部通话记录选择框
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.make_sure_have_p2p_voicecall_record()
+        call.press_tag_detail_first_element('飞信电话')
+        time.sleep(1)
+        self.assertEquals(call.check_text_exist('删除该通话记录') and call.check_text_exist('清除全部通话记录'), True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00035(self):
+        """
+            1、4G网络
+            2、已登录客户端
+            3、当前页面在通话页面
+            4、有点对点语音通话和点对点视频通话记录、多方视频通话记录
+            5、长按对点语音通话和点对点视频通话记录、多方视频通话记录
+            6、点击删除该通话记录按钮
+            7、弹出删除该通话记录和清除全部通话记录选择框
+            8、该条记录删除成功"
+        """
+        call = CallPage()
+        time.sleep(5)
+        call.close_ad_if_exist()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 点对点通话
+        call.make_sure_have_p2p_voicecall_record()
+        call.press_tag_detail_first_element('飞信电话')
+        time.sleep(1)
+        if call.check_text_exist('删除该通话记录'):
+            call.click_locator_key('通话记录_删除一条')
+            call.wait_for_page_load()
+        else:
+            raise RuntimeError('没有弹出菜单')
+        if not call.is_on_this_page():
+            raise RuntimeError('删除点对点通话出错')
+        time.sleep(3)
+        # 点对点视频
+        call.make_sure_have_p2p_vedio_record()
+        call.press_tag_detail_first_element('视频通话')
+        time.sleep(1)
+        if call.check_text_exist('删除该通话记录'):
+            call.click_locator_key('通话记录_删除一条')
+            call.wait_for_page_load()
+        else:
+            raise RuntimeError('没有弹出菜单')
+        if not call.is_on_this_page():
+            raise RuntimeError('删除点对点视频出错')
+        time.sleep(3)
+        # 多方视频
+        call.make_sure_have_multiplayer_vedio_record()
+        call.press_tag_detail_first_element('多方视频')
+        time.sleep(1)
+        if call.check_text_exist('删除该通话记录'):
+            call.click_locator_key('通话记录_删除一条')
+            call.wait_for_page_load()
+        else:
+            raise RuntimeError('没有弹出菜单')
+        if not call.is_on_this_page():
+            raise RuntimeError('删除多方视频出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00036(self):
+        """
+            1、4G网络
+            2、已登录客户端
+            3、当前页面在通话页面
+            4、有点对点语音通话和点对点视频通话记录、多方视频通话记录
+            5、长按对点语音通话和点对点视频通话记录、多方视频通话记录
+            6、点击清除全部通话记录按钮
+            7、弹出删除该通话记录和清除全部通话记录选择框
+            8、所有通话记录删除成功
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 点对点通话
+        call.make_sure_have_p2p_voicecall_record()
+        call.wait_for_page_load()
+        call.press_tag_detail_first_element('飞信电话')
+        time.sleep(1)
+        if call.check_text_exist('清除全部通话记录'):
+            call.click_locator_key('通话记录_删除全部')
+            time.sleep(0.5)
+            call.click_locator_key('通话记录_确定')
+            call.wait_for_page_load()
+        else:
+            raise RuntimeError('没有弹出菜单')
+        if not call.is_on_this_page():
+            raise RuntimeError('清除全部通话记录出错')
+        time.sleep(3)
+        # 点对点视频
+        call.make_sure_have_p2p_vedio_record()
+        call.wait_for_page_load()
+        call.press_tag_detail_first_element('视频通话')
+        time.sleep(1)
+        if call.check_text_exist('清除全部通话记录'):
+            call.click_locator_key('通话记录_删除全部')
+            time.sleep(0.5)
+            call.click_locator_key('通话记录_确定')
+            call.wait_for_page_load()
+        else:
+            raise RuntimeError('没有弹出菜单')
+        if not call.is_on_this_page():
+            raise RuntimeError('清除全部通话记录出错')
+        time.sleep(3)
+        # 多方视频
+        call.make_sure_have_multiplayer_vedio_record()
+        # call.click_locator_key('多方通话_返回')
+        call.wait_for_page_load()
+        call.press_tag_detail_first_element('多方视频')
+        time.sleep(1)
+        if call.check_text_exist('清除全部通话记录'):
+            call.click_locator_key('通话记录_删除全部')
+            time.sleep(0.5)
+            call.click_locator_key('通话记录_确定')
+            call.wait_for_page_load()
+        else:
+            raise RuntimeError('没有弹出菜单')
+        if not call.is_on_this_page():
+            raise RuntimeError('清除全部通话记录出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00037(self):
+        """
+            1、4G网络
+            2、已登录客户端
+            3、当前页面在通话页面
+            4、有联系人或者家庭网联系人
+            5、左上方有通话标题，右上方为"+"图标，下方有指引攻略，页面空白中间区域中有“点击左下角拨号盘icon，打电话不花钱”字样
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 清除全部通话记录
+        if call.is_text_present('飞信电话'):
+            call.press_tag_detail_first_element('飞信电话')
+            time.sleep(1)
+            if call.check_text_exist('清除全部通话记录'):
+                call.click_locator_key('通话记录_删除全部')
+                time.sleep(0.5)
+                call.click_locator_key('通话记录_确定')
+                call.wait_for_page_load()
+            else:
+                raise RuntimeError('清除通话记录出错')
+        elif call.is_text_present('视频通话'):
+            call.press_tag_detail_first_element('视频通话')
+            time.sleep(1)
+            if call.check_text_exist('清除全部通话记录'):
+                call.click_locator_key('通话记录_删除全部')
+                time.sleep(0.5)
+                call.click_locator_key('通话记录_确定')
+                call.wait_for_page_load()
+            else:
+                raise RuntimeError('清除通话记录出错')
+        elif call.is_text_present('多方视频'):
+            call.press_tag_detail_first_element('多方视频')
+            time.sleep(1)
+            if call.check_text_exist('清除全部通话记录'):
+                call.click_locator_key('通话记录_删除全部')
+                time.sleep(0.5)
+                call.click_locator_key('通话记录_确定')
+                call.wait_for_page_load()
+            else:
+                raise RuntimeError('清除通话记录出错')
+        elif call.is_text_present('多方电话'):
+            call.press_tag_detail_first_element('多方电话')
+            time.sleep(1)
+            if call.check_text_exist('清除全部通话记录'):
+                call.click_locator_key('通话记录_删除全部')
+                time.sleep(0.5)
+                call.click_locator_key('通话记录_确定')
+                call.wait_for_page_load()
+            else:
+                raise RuntimeError('清除通话记录出错')
+        call.wait_for_page_call_load()
+        # 判断是否有通话标签、‘+’、打电话不花钱
+        if not call.is_text_present('通话'):
+            raise RuntimeError('没有找到[通话]标签')
+        if not call.on_this_page_common('+'):
+            raise RuntimeError('没有找到[+]标签')
+        if not call.is_text_present('打电话不花钱'):
+            raise RuntimeError('没有找到[打电话不花钱]字样')
+
+    # @tags('ALL', 'CMCC', 'call')
+    # def test_call_00038(self):
+    #     """
+    #         1、4G网络
+    #         2、已登录客户端
+    #         3、当前页面在通话页面
+    #         4、有联系人或者家庭网联系人
+    #         5、左上方有通话标题，右上方为"+"图标，下方有指引攻略，
+    #         页面空白中间区域中有“点击左下角拨号盘icon，打电话不花钱”字样
+    #     """
+    #     call = CallPage()
+    #     call.wait_for_page_load()
+    #     # 判断如果键盘已拉起，则收起键盘
+    #     if call.is_exist_call_key():
+    #         call.click_hide_keyboard()
+    #         time.sleep(1)
+    #     # 清除全部通话记录
+    #     if call.is_text_present('飞信电话'):
+    #         call.press_tag_detail_first_element('飞信电话')
+    #         time.sleep(1)
+    #         if call.check_text_exist('清除全部通话记录'):
+    #             call.click_locator_key('通话记录_删除全部')
+    #             time.sleep(0.5)
+    #             call.click_locator_key('通话记录_确定')
+    #             call.wait_for_page_load()
+    #         else:
+    #             raise RuntimeError('清除通话记录出错')
+    #     elif call.is_text_present('视频通话'):
+    #         call.press_tag_detail_first_element('视频通话')
+    #         time.sleep(1)
+    #         if call.check_text_exist('清除全部通话记录'):
+    #             call.click_locator_key('通话记录_删除全部')
+    #             time.sleep(0.5)
+    #             call.click_locator_key('通话记录_确定')
+    #             call.wait_for_page_load()
+    #         else:
+    #             raise RuntimeError('清除通话记录出错')
+    #     elif call.is_text_present('多方视频'):
+    #         call.press_tag_detail_first_element('多方视频')
+    #         time.sleep(1)
+    #         if call.check_text_exist('清除全部通话记录'):
+    #             call.click_locator_key('通话记录_删除全部')
+    #             time.sleep(0.5)
+    #             call.click_locator_key('通话记录_确定')
+    #             call.wait_for_page_load()
+    #         else:
+    #             raise RuntimeError('清除通话记录出错')
+    #     elif call.is_text_present('多方电话'):
+    #         call.press_tag_detail_first_element('多方电话')
+    #         time.sleep(1)
+    #         if call.check_text_exist('清除全部通话记录'):
+    #             call.click_locator_key('通话记录_删除全部')
+    #             time.sleep(0.5)
+    #             call.click_locator_key('通话记录_确定')
+    #             call.wait_for_page_load()
+    #         else:
+    #             raise RuntimeError('清除通话记录出错')
+    #     call.wait_for_page_call_load()
+    #     # 判断是否有通话标签、‘+’、打电话不花钱
+    #     if not call.is_text_present('通话'):
+    #         raise RuntimeError('没有找到[通话]标签')
+    #     if not call.on_this_page_common('+'):
+    #         raise RuntimeError('没有找到[+]标签')
+    #     if not call.is_text_present('打电话不花钱'):
+    #         raise RuntimeError('没有找到[打电话不花钱]字样')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00040(self):
+        """
+            点击视频通话图标
+            跳转至视频通话选择页面，页面布局左上方返回按钮，多方视频字体，
+            右上方呼叫按钮，下面显示不限时长成员，家庭V网与联系人联系人、
+            未知号码页面，右边为字母快速定位。
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.click_locator_key('+')
+        time.sleep(0.5)
+        call.click_locator_key('视频通话')
+        time.sleep(0.5)
+        if not call.is_text_present('发起视频通话'):
+            raise RuntimeError('发起视频通话验证出错')
+        if not call.on_this_page_common('多方通话_返回'):
+            raise RuntimeError('多方通话_返回验证出错')
+        if not call.on_this_page_common('呼叫'):
+            raise RuntimeError('呼叫验证出错')
+        if not call.on_this_page_common('联系人列表'):
+            raise RuntimeError('联系人列表验证出错')
+        if not call.on_this_page_common('视频通话_字母'):
+            raise RuntimeError('视频通话_字母验证出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00041(self):
+        """
+            点击视频通话图标
+            跳转至视频通话选择页面，页面布局左上方返回按钮，多方视频字体，
+            右上方呼叫按钮，下面显示不限时长成员，家庭V网与联系人联系人、
+            未知号码页面，右边为字母快速定位。
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.click_locator_key('+')
+        time.sleep(0.5)
+        call.click_locator_key('视频通话')
+        time.sleep(1)
+        call.wait_page_load_common('发起视频通话')
+        time.sleep(1)
+        call.click_locator_key('字母_C')
+        time.sleep(0.3)
+        text = call.get_element_text('字母_第一个')
+        if 'C' != text:
+            raise RuntimeError('快速定位出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00042(self):
+        """
+            点击视频通话图标
+            点击选择1个家庭网成员，1个家庭网成员的头像变化为勾选的图标，右上方呼叫字体变为蓝色显示“呼叫（1/8）”。
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.click_locator_key('+')
+        time.sleep(0.5)
+        call.click_locator_key('视频通话')
+        time.sleep(1)
+        call.wait_page_load_common('发起视频通话')
+        time.sleep(1)
+        call.select_contact_n(1)
+        text = call.get_element_text('呼叫')
+        if '呼叫(1/8)' != text:
+            raise RuntimeError('测试出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00043(self):
+        """
+            点击视频通话图标
+            点击选择2个家庭网成员，2个家庭网成员的头像变化为勾选的图标，右上方呼叫字体变为蓝色显示“呼叫（2/8）”。
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.click_locator_key('+')
+        time.sleep(0.5)
+        call.click_locator_key('视频通话')
+        time.sleep(1)
+        call.wait_page_load_common('发起视频通话')
+        time.sleep(1)
+        call.select_contact_n(2)
+        text = call.get_element_text('呼叫')
+        if '呼叫(2/8)' != text:
+            raise RuntimeError('测试出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00044(self):
+        """
+            点击视频通话图标
+            点击选择3个家庭网成员，3个家庭网成员的头像变化为勾选的图标，右上方呼叫字体变为蓝色显示“呼叫（3/8）”。
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.click_locator_key('+')
+        time.sleep(0.5)
+        call.click_locator_key('视频通话')
+        time.sleep(1)
+        call.wait_page_load_common('发起视频通话')
+        time.sleep(1)
+        call.select_contact_n(3)
+        text = call.get_element_text('呼叫')
+        if '呼叫(3/8)' != text:
+            raise RuntimeError('测试出错')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00045(self):
+        """
+            点击视频通话图标
+            点击选择8个家庭网成员，8个家庭网成员的头像变化为勾选的图标，右上方呼叫字体变为蓝色显示“呼叫（8/8）”。
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.click_locator_key('+')
+        time.sleep(0.5)
+        call.click_locator_key('视频通话')
+        time.sleep(1)
+        call.wait_page_load_common('发起视频通话')
+        time.sleep(1)
+        call.select_contact_more(9)
+        if not call.is_toast_exist('最多只能选择8人', timeout=8):
+            raise RuntimeError('测试出错')
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00051(self):
+        """
+            弹出“通话结束”提示框，页面回到呼叫前的页面中
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 初始化被叫手机
+        Preconditions.initialize_class('Android-移动-N')
+        # 获取手机号码
+        cards = call.get_cards(CardType.CHINA_MOBILE)
+        # 切换主叫手机
+        Preconditions.select_mobile('Android-移动')
+        # 拨打视频电话
+        call.pick_up_p2p_video(cards)
+        # 等待返回结果
+        if not self.to_pick_phone_00051():
+            raise RuntimeError('视频通话出错')
+        # 切换回主叫手机
+        Preconditions.select_mobile('Android-移动')
+        if call.is_phone_in_calling_state():
+            # 挂断电话
+            call.hang_up_the_call()
+            # 判断是否有‘通话结束’字样
+            if not call.is_toast_exist('通话结束'):
+                raise RuntimeError('结束通话出错')
+
+    @TestLogger.log('切换手机，接听电话')
+    def to_pick_phone_00051(self):
+        call = CallPage()
+        # 切换到被叫手机
+        Preconditions.select_mobile('Android-移动-N')
+        count = 40
+        try:
+            while count > 0:
+                if call.is_text_present('进行视频通话'):
+                    # 接听视频
+                    call.pick_up_video_call()
+                    time.sleep(2)
+                    return True
+                else:
+                    count -= 1
+                    time.sleep(1)
+                    print(count, '切换手机，接听电话')
+                    continue
+            else:
+                return False
+        except:
+            return False
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00052(self):
+        """
+            1、被叫方接到申请后点击“接听”
+            2、点击“切换语音通话”按钮
+
+            3、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），大屏为被叫方界面（默认前摄像头）。
+            界面右上角为“静音”和“免提”功能，静音默认未选中，免提默认选中。提供“切到语音通话”和“切换摄像头”的功能。
+            4、跳转至语音通话页面，页面布局上方中间为被叫方头像，头像下方为被叫人名称、号码、时间显示，下方左边为静音按钮、
+            中间为切到视频通话按钮、右边为免提按钮，再下方为挂断按钮，背景为灰黑色。
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 初始化被叫手机
+        Preconditions.initialize_class('Android-移动-N')
+        # 获取手机号码
+        cards = call.get_cards(CardType.CHINA_MOBILE)
+        # 切换主叫手机
+        Preconditions.select_mobile('Android-移动')
+        # 拨打视频电话
+        call.pick_up_p2p_video(cards)
+        # 等待返回结果
+        if not self.to_pick_phone_00052():
+            raise RuntimeError('视频通话出错')
+
+    @TestLogger.log('切换手机，接听电话')
+    def to_pick_phone_00052(self):
+        call = CallPage()
+        # 切换手机
+        Preconditions.select_mobile('Android-移动-N')
+        count = 40
+        try:
+            while count > 0:
+                # 如果在视频通话界面，接听视频
+                if call.is_text_present('进行视频通话'):
+                    print('接听视频')
+                    call.pick_up_video_call()
+                    time.sleep(2)
+                    # 检测页面元素
+                    if self.check_video_call_00052():
+                        return True
+                    else:
+                        return False
+                else:
+                    count -= 1
+                    # 1s检测一次，40s没有接听，则失败
+                    time.sleep(1)
+                    print(count, '切换手机，接听电话')
+                    continue
+            else:
+                return False
+        except:
+            return False
+
+    @TestLogger.log()
+    def check_video_call_00052(self):
+        """
+        1、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），
+            大屏为被叫方界面（默认前摄像头）。
+            界面右上角为“静音”和“免提”功能，静音默认未选中，
+            免提默认选中。提供“切到语音通话”和“切换摄像头”的功能。
+        2、跳转至语音通话页面，页面布局上方中间为被叫方头像，头像下方为被叫人名称、号码、时间显示，下方左边为静音按钮、
+            中间为切到视频通话按钮、右边为免提按钮，再下方为挂断按钮，背景为灰黑色。
+        :return: True
+        """
+        call = CallPage()
+        try:
+            call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            time.sleep(1)
+            if not call.is_element_already_exist('视频界面_时长'):
+                call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            self.assertEqual(call.is_element_already_exist('视频界面_静音'), True)
+            # time.sleep(12)
+            if not call.is_element_already_exist('视频界面_时长'):
+                call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            self.assertEqual('false' == call.get_one_element('视频界面_静音').get_attribute('selected'), True)
+            # time.sleep(12)
+            if not call.is_element_already_exist('视频界面_时长'):
+                call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            self.assertEqual(call.is_element_already_exist('视频界面_免提'), True)
+            # time.sleep(12)
+            if not call.is_element_already_exist('视频界面_时长'):
+                call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            self.assertEqual('true' == call.get_one_element('视频界面_免提').get_attribute('selected'), True)
+            # time.sleep(12)
+            if not call.is_element_already_exist('视频界面_时长'):
+                call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            self.assertEqual(call.is_element_already_exist('视频界面_转为语音'), True)
+            # time.sleep(12)
+            if not call.is_element_already_exist('视频界面_时长'):
+                call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            self.assertEqual(call.is_element_already_exist('视频界面_切换摄像头'), True)
+            time.sleep(12)
+            if not call.is_element_already_exist('视频界面_时长'):
+                call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            call.click_locator_key('视频界面_转为语音')
+            time.sleep(1)
+            self.assertEqual(call.is_element_already_exist('视频界面_头像'), True)
+            self.assertEqual(call.is_element_already_exist('视频界面_备注'), True)
+            self.assertEqual(call.is_element_already_exist('视频界面_号码'), True)
+            self.assertEqual(call.is_element_already_exist('语音界面_时长'), True)
+            self.assertEqual(call.is_element_already_exist('语音界面_静音'), True)
+            self.assertEqual(call.is_element_already_exist('语音界面_转为视频'), True)
+            self.assertEqual(call.is_element_already_exist('语音界面_免提'), True)
+            self.assertEqual(call.is_element_already_exist('语音界面_挂断'), True)
+            call.click_locator_key('语音界面_挂断')
+            return True
+        except:
+            return False
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00053(self):
+        """
+            1、被叫方接到申请后点击“接听”
+            2、点击“切换语音通话”按钮
+            3、被叫方接到申请后点击“接听”
+            4、点击静音按钮
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 初始化被叫手机
+        Preconditions.initialize_class('Android-移动-N')
+        # 获取手机号码
+        cards = call.get_cards(CardType.CHINA_MOBILE)
+        # 切换主叫手机
+        Preconditions.select_mobile('Android-移动')
+        # 拨打视频电话
+        call.pick_up_p2p_video(cards)
+        # 等待返回结果
+        if not self.to_pick_phone_00053():
+            raise RuntimeError('视频通话出错')
+
+    @TestLogger.log('切换手机，接听电话')
+    def to_pick_phone_00053(self):
+        call = CallPage()
+        # 切换手机
+        Preconditions.select_mobile('Android-移动-N')
+        count = 40
+        try:
+            while count > 0:
+                # 如果在视频通话界面，接听视频
+                if call.is_text_present('进行视频通话'):
+                    print('接听视频')
+                    call.pick_up_video_call()
+                    time.sleep(2)
+                    # 检测页面元素
+                    if self.check_video_call_00053():
+                        print('静音成功')
+                        return True
+                    else:
+                        print('静音失败')
+                        return False
+                else:
+                    count -= 1
+                    # 1s检测一次，40s没有接听，则失败
+                    time.sleep(1)
+                    print(count, '切换手机，接听电话')
+                    continue
+            else:
+                return False
+        except:
+            return False
+
+    @TestLogger.log()
+    def check_video_call_00053(self):
+        """
+        1、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），
+            大屏为被叫方界面（默认前摄像头）。
+            界面右上角为“静音”和“免提”功能，静音默认未选中，
+            免提默认选中。提供“切到语音通话”和“切换摄像头”的功能。
+        2、跳转至语音通话页面，页面布局上方中间为被叫方头像，头像下方为被叫人名称、号码、时间显示，下方左边为静音按钮、
+            中间为切到视频通话按钮、右边为免提按钮，再下方为挂断按钮，背景为灰黑色。
+        :return: True
+        """
+        call = CallPage()
+        try:
+            call.click_locator_key('视频界面_免提')
+            call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            time.sleep(1)
+            if not call.is_element_already_exist('视频界面_时长'):
+                call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            call.click_locator_key('视频界面_静音')
+            if 'true' != call.get_one_element('视频界面_静音').get_attribute('selected'):
+                raise RuntimeError('静音出错')
+            call.click_locator_key('视频界面_挂断')
+            return True
+        except:
+            return False
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00054(self):
+        """
+            1、被叫方接到申请后点击“接听”
+            2、点击“切换语音通话”按钮
+            3、被叫方接到申请后点击“接听”
+            4、点击免提按钮
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 初始化被叫手机
+        Preconditions.initialize_class('Android-移动-N')
+        # 获取手机号码
+        cards = call.get_cards(CardType.CHINA_MOBILE)
+        # 切换主叫手机
+        Preconditions.select_mobile('Android-移动')
+        # 拨打视频电话
+        call.pick_up_p2p_video(cards)
+        # 等待返回结果
+        if not self.to_pick_phone_00054():
+            raise RuntimeError('视频通话出错')
+
+    @TestLogger.log('切换手机，接听电话')
+    def to_pick_phone_00054(self):
+        call = CallPage()
+        # 切换手机
+        Preconditions.select_mobile('Android-移动-N')
+        count = 40
+        try:
+            while count > 0:
+                # 如果在视频通话界面，接听视频
+                if call.is_text_present('进行视频通话'):
+                    print('接听视频')
+                    call.pick_up_video_call()
+                    time.sleep(2)
+                    # 检测页面元素
+                    if self.check_video_call_00054():
+                        print('静音成功')
+                        return True
+                    else:
+                        print('静音失败')
+                        return False
+                else:
+                    count -= 1
+                    # 1s检测一次，40s没有接听，则失败
+                    time.sleep(1)
+                    print(count, '切换手机，接听电话')
+                    continue
+            else:
+                return False
+        except:
+            return False
+
+    @TestLogger.log()
+    def check_video_call_00054(self):
+        """
+        1、被叫方接到申请后点击“接听”
+        2、点击免提按钮"
+        3、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），大屏为被叫方界面（默认前摄像头）。界面右上角为“静音”和“免提”功能，静音默认未选中，免提默认选中。
+        提供“切到语音通话”和“切换摄像头”的功能。
+        4、免提按钮亮起（对方说话声音变大）。"
+        """
+        call = CallPage()
+        try:
+            if not call.is_element_already_exist('视频界面_时长'):
+                call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            call.click_locator_key('视频界面_免提')
+            if 'false' != call.get_one_element('视频界面_免提').get_attribute('selected'):
+                raise RuntimeError('关闭免提出错')
+            call.click_locator_key('视频界面_挂断')
+            return True
+        except:
+            return False
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00056(self):
+        """
+            1、被叫方接到申请后点击“接听”
+            2、点击“切换语音通话”按钮
+            3、被叫方接到申请后点击“接听”
+            4、点击挂断按钮
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('Android-移动-N')
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 切换主叫手机
+            Preconditions.select_mobile('Android-移动')
+            # 拨打视频电话
+            call.pick_up_p2p_video(cards)
+            # 等待返回结果
+            if not self.to_pick_phone_00056():
+                raise RuntimeError('视频通话出错')
+            # 切换回主叫手机
+            Preconditions.select_mobile('Android-移动')
+            time.sleep(12)
+            if not call.is_element_already_exist('视频界面_时长'):
+                call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+                time.sleep(0.5)
+            call.click_locator_key('视频界面_挂断')
+            print('视频界面_挂断')
+            if not call.is_toast_exist('通话结束'):
+                raise RuntimeError('没有出现‘通话结束’提示')
+            else:
+                print('山检测到‘通话结束’提示')
+                time.sleep(3)
+            if not call.is_on_this_page():
+                raise RuntimeError('没有回到‘通话’页面')
+            else:
+                print('回到‘通话’界面')
+            time.sleep(2)
+        except:
+            print('测试出错')
+            if call.is_element_already_exist('视频界面_挂断'):
+                call.click_locator_key('视频界面_挂断')
+
+    @TestLogger.log('切换手机，接听电话')
+    def to_pick_phone_00056(self):
+        call = CallPage()
+        # 切换手机
+        Preconditions.select_mobile('Android-移动-N')
+        count = 40
+        try:
+            while count > 0:
+                # 如果在视频通话界面，接听视频
+                if call.is_text_present('进行视频通话'):
+                    print('接听视频')
+                    call.pick_up_video_call()
+                    time.sleep(2)
+                    # 检测页面元素
+                    if self.check_video_call_00056():
+                        print('静音成功')
+                        return True
+                    else:
+                        print('静音失败')
+                        return False
+                else:
+                    count -= 1
+                    # 1s检测一次，40s没有接听，则失败
+                    time.sleep(1)
+                    print(count, '切换手机，接听电话')
+                    continue
+            else:
+                return False
+        except:
+            return False
+
+    @TestLogger.log()
+    def check_video_call_00056(self):
+        """
+        1、被叫方接到申请后点击“接听”
+        2、点击挂断按钮"
+        3、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），大屏为被叫方界面（默认前摄像头）。界面右上角为“静音”和“免提”功能，静音默认未选中，免提默认选中。
+        提供“切到语音通话”和“切换摄像头”的功能。
+        4、弹出“通话结束”提示框，回到呼叫前页面中
+        """
+        call = CallPage()
+        try:
+            if not call.is_element_already_exist('视频界面_时长'):
+                call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            call.click_locator_key('视频界面_免提')
+            if 'false' != call.get_one_element('视频界面_免提').get_attribute('selected'):
+                raise RuntimeError('关闭免提出错')
+            return True
+        except:
+            return False
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00058(self):
+        """
+            1、被叫方接到申请后点击“接听”
+            2、点击“切换语音通话”按钮
+            3、被叫方接到申请后点击“接听”
+            4、点击挂断按钮
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('Android-移动-N')
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 切换主叫手机
+            Preconditions.select_mobile('Android-移动')
+            # 拨打视频电话
+            call.pick_up_p2p_video(cards)
+            # 等待返回结果
+            if not self.to_pick_phone_00058():
+                raise RuntimeError('视频通话出错')
+        except:
+            print('测试出错')
+            raise
+
+    @TestLogger.log('切换手机，接听电话')
+    def to_pick_phone_00058(self):
+        call = CallPage()
+        # 切换手机
+        try:
+            Preconditions.select_mobile('Android-移动-N')
+            self.assertEqual(call.is_element_already_exist('视频界面_头像'), True)
+            self.assertEqual(call.is_element_already_exist('视频界面_备注'), True)
+            self.assertEqual(call.is_element_already_exist('视频界面_号码'), True)
+            self.assertEqual(call.is_text_present('进行视频通话'), True)
+            self.assertEqual(call.is_element_already_exist('视频通话_挂断'), True)
+            self.assertEqual(call.is_element_already_exist('视频通话_接听'), True)
+            return True
+        except:
+            return False
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00059(self):
+        """
+            视频通话页面（被叫方不在线）
+            1、被叫方接到申请后长时间未点击“接听”或“挂断”（根据SDK反馈的结果）
+            2、显示“用户暂时无法接通”，回到呼叫前的页面中
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        try:
+            # 切换主叫手机
+            Preconditions.initialize_class('Android-移动-N')
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            call.set_network_status(0)
+            # 切换主叫手机
+            Preconditions.select_mobile('Android-移动')
+            # 拨打视频电话
+            call.pick_up_p2p_video(cards)
+            time.sleep(20)
+            if not call.is_toast_exist('对方未接听', timeout=20):
+                raise
+        finally:
+            Preconditions.select_mobile('Android-移动-N')
+            call.set_network_status(6)
+            print('已设置被叫手机网络为开启')

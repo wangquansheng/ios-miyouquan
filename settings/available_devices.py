@@ -605,3 +605,29 @@ DEVICES_CONFIG_IPHONEX = {
         ]
     },
 }
+
+
+DEVICES_CONFIG_CYH = {
+    'iphone': {
+        "MODEL": SupportedModel.iPhone_XR,
+        "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
+        "DEFAULT_CAPABILITY": {
+            "platformName": "ios",
+            "platformVersion": "11.0.3",
+            "deviceName": "iPhone 7",
+            "udid": "d20ea7886c5fcea7f6494de6b878f94bb1cf3727",
+            "automationName": "XCUITest",
+            "app": "com.cmic.college",
+            "xcodeOrgId": "42J4UB47JC",
+            "newCommandTimeout": 60,
+            "xcodeSigningId": "iPhone Developer"
+        },
+        'CARDS': [
+            {
+                'TYPE': CardType.CHINA_MOBILE,
+                'CARD_NUMBER': '19876463626'
+            },
+        ]
+    },
+}
+

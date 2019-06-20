@@ -4,7 +4,6 @@ import time
 
 from appium.webdriver.common.mobileby import MobileBy
 from appium.webdriver.common.touch_action import TouchAction
-from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -81,7 +80,6 @@ class BasePage(object):
     def get_element_attribute(self, locator, attr, wait_time=0):
         return self.mobile.get_element_attribute(locator, attr, wait_time)
 
-    @TestLogger.log()
     def is_text_present(self, text):
         """检查屏幕是否包含文本"""
         return self.mobile.is_text_present(text)
@@ -89,17 +87,6 @@ class BasePage(object):
     def _is_element_present(self, locator):
         elements = self.get_elements(locator)
         return len(elements) > 0
-
-    def _is_element_present2(self, locator, default_timeout=5, auto_accept_permission_alert=True):
-        try:
-            self.wait_until(
-                condition=lambda d: self.get_element(locator),
-                timeout=default_timeout,
-                auto_accept_permission_alert=auto_accept_permission_alert
-            )
-            return True
-        except:
-            return False
 
     def _is_visible(self, locator):
         elements = self.get_elements(locator)
@@ -161,29 +148,8 @@ class BasePage(object):
     def get_source(self):
         return self.driver.page_source
 
-    # def click_element(self, locator, default_timeout=5, auto_accept_permission_alert=True):
-    #     self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
-
-    def click_element(self, locator, max_try=3, default_timeout=5, auto_accept_permission_alert=True):
-        if self._is_element_present2(locator):
-            n = max_try
-            while n:
-                try:
-                    self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
-                    return
-                except:
-                    self.page_up()
-                    n -= 1
-            m = max_try
-            while m:
-                try:
-                    self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
-                    return
-                except:
-                    self.page_down()
-                    m -= 1
-        else:
-            raise NoSuchElementException('找不到元素 {}'.format(locator))
+    def click_element(self, locator, default_timeout=5, auto_accept_permission_alert=True):
+        self.mobile.click_element(locator, default_timeout, auto_accept_permission_alert)
 
     def is_current_activity_match_this_page(self):
         return self.driver == self.__class__.ACTIVITY
@@ -201,7 +167,6 @@ class BasePage(object):
             else:
                 _xpath = u'//*[contains(@{},"{}")]'.format('text', text)
             self.get_element((MobileBy.XPATH, _xpath)).click()
-            # self.click_element((MobileBy.XPATH, _xpath))
 
     def input_text(self, locator, text):
         self.mobile.input_text(locator, text)
@@ -304,75 +269,7 @@ class BasePage(object):
                 y_offset = height
                 self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
 
-    def swipe_by_direction2(self, locator, direction, number, duration=None):
-        """
-        在元素内滑动
-        :param locator: 定位器
-        :param direction: 方向（left,right,up,down）
-        :param duration: 持续时间ms
-        :return:
-        """
-        elements = self.get_elements(locator)
-        element = elements[number]
-        rect = element.rect
-        left, right = int(rect['x']) + 1, int(rect['x'] + rect['width']) - 1
-        top, bottom = int(rect['y']) + 1, int(rect['y'] + rect['height']) - 1
-        width = int(rect['width']) - 2
-        height = int(rect['height']) - 2
-
-        if self._get_platform() == 'android':
-            if direction.lower() == 'left':
-                x_start = right
-                x_end = left
-                y_start = (top + bottom) // 2
-                y_end = (top + bottom) // 2
-                self.driver.swipe(x_start, y_start, x_end, y_end, duration)
-            elif direction.lower() == 'right':
-                x_start = left
-                x_end = right
-                y_start = (top + bottom) // 2
-                y_end = (top + bottom) // 2
-                self.driver.swipe(x_start, y_start, x_end, y_end, duration)
-            elif direction.lower() == 'up':
-                x_start = (left + right) // 2
-                x_end = (left + right) // 2
-                y_start = bottom
-                y_end = top
-                self.driver.swipe(x_start, y_start, x_end, y_end, duration)
-            elif direction.lower() == 'down':
-                x_start = (left + right) // 2
-                x_end = (left + right) // 2
-                y_start = top
-                y_end = bottom
-                self.driver.swipe(x_start, y_start, x_end, y_end, duration)
-
-        else:
-            if direction.lower() == 'left':
-                x_start = right
-                x_offset = width
-                y_start = (top + bottom) // 2
-                y_offset = 0
-                self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
-            elif direction.lower() == 'right':
-                x_start = left
-                x_offset = width
-                y_start = -(top + bottom) // 2
-                y_offset = 0
-                self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
-            elif direction.lower() == 'up':
-                x_start = (left + right) // 2
-                x_offset = 0
-                y_start = bottom
-                y_offset = -height
-                self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
-            elif direction.lower() == 'down':
-                x_start = (left + right) // 2
-                x_offset = 0
-                y_start = top
-                y_offset = height
-                self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
-
-    def swipe_by_percent_on_screen(self, start_x, start_y, end_x, end_y, duration=0.5, locator=None):
+    def swipe_by_percent_on_screen(self, start_x, start_y, end_x, end_y, duration):
         width = self.driver.get_window_size()["width"]
         height = self.driver.get_window_size()["height"]
         x_start = float(start_x) / 100 * width
@@ -383,30 +280,14 @@ class BasePage(object):
         y_offset = y_end - y_start
         if self._get_platform() == 'android':
             self.driver.swipe(x_start, y_start, x_end, y_end, duration)
-        elif self._get_platform() == 'ios':
-            # 暂未实现点击控件
-            self.driver.execute_script("mobile:dragFromToForDuration",
-                                       {"duration": duration, "element": locator, "fromX": x_start, "fromY": y_start,
-                                        "toX": x_end, "toY": y_end})
         else:
             self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
 
     def page_should_contain_text(self, text):
-        if not self.wait_until(condition=lambda x: self.is_text_present(text)):
+        if not self.is_text_present(text):
             raise AssertionError("Page should have contained text '{}' "
                                  "but did not" % text)
         return True
-
-    def page_should_contain_text2(self, text, default_timeout=5, auto_accept_permission_alert=True):
-        try:
-            self.wait_until(
-                condition=lambda x: self.is_text_present(text),
-                timeout=default_timeout,
-                auto_accept_permission_alert=auto_accept_permission_alert
-            )
-            return True
-        except:
-            return False
 
     def page_should_not_contain_text(self, text):
         if self.is_text_present(text):
@@ -551,12 +432,28 @@ class BasePage(object):
         return code_info
 
     def get_network_status(self):
-        """获取网络链接状态"""
+        """获取网络链接状态
+        Connection types are specified here:
+        https://code.google.com/p/selenium/source/browse/spec-draft.md?repo=mobile#120
+        Value (Alias)      | Data | Wifi | Airplane Mode
+        -------------------------------------------------
+        0 (None)           | 0    | 0    | 0
+        1 (Airplane Mode)  | 0    | 0    | 1
+        2 (Wifi only)      | 0    | 1    | 0
+        4 (Data only)      | 1    | 0    | 0
+        6 (All network on) | 1    | 1    | 0
+
+        class ConnectionType(object):
+            NO_CONNECTION = 0
+            AIRPLANE_MODE = 1
+            WIFI_ONLY = 2
+            DATA_ONLY = 4
+            ALL_NETWORK_ON = 6
+        """
         return self.mobile.get_network_status()
 
     def set_network_status(self, status):
         """设置网络
-        IOS目前只适用于全屏幕手机
         Connection types are specified here:
         https://code.google.com/p/selenium/source/browse/spec-draft.md?repo=mobile#120
         Value (Alias)      | Data | Wifi | Airplane Mode
@@ -587,7 +484,7 @@ class BasePage(object):
          is_toast_exist("toast的内容")
         """
         try:
-            toast_loc = ("ACCESSIBILITY_ID", "%s" % text)
+            toast_loc = ("xpath", ".//*[contains(@text,'%s')]" % text)
             WebDriverWait(self.driver, timeout, poll_frequency).until(EC.presence_of_element_located(toast_loc))
             return True
         except:
@@ -598,18 +495,9 @@ class BasePage(object):
         """隐藏键盘"""
         self.mobile.hide_keyboard(key_name, key, strategy)
 
-    def press(self, el, times=3000):
+    def press(self, el, times=3000, wait_time=1):
         """按压操作"""
-        TouchAction(self.driver).long_press(el, duration=times).wait(1).perform()
-
-    def press_xy(self,times=3000):
-        """按压操作"""
-        width = self.driver.get_window_size()["width"]
-        height = self.driver.get_window_size()["height"]
-        x=width/2
-        y=height/2
-        el = None
-        TouchAction(self.driver).long_press(el,x,y, duration=times).wait(1).perform()
+        TouchAction(self.driver).long_press(el, duration=times).wait(wait_time).perform()
 
     @TestLogger.log('获取元素指定坐标颜色')
     def get_coordinate_color_of_element(self, element, x, y, by_percent=False, mode='RGBA') -> tuple:
@@ -620,36 +508,21 @@ class BasePage(object):
         """按住并滑动"""
         element = self.get_element(locator)
         rect = element.rect
-        pointX = int(rect["x"]) + int(rect["width"])/2
+        pointX = int(rect["x"]) + int(rect["width"]) / 2
         pointY = int(rect["y"]) + int(rect["height"]) * 1
         TouchAction(self.driver).long_press(element, duration=3000).move_to(element, pointX,
-                                                                                    pointY).wait(1).release().perform()
+                                                                            pointY).wait(1).release().perform()
 
     @TestLogger.log("按住并向上滑动")
     def press_and_move_to_up(self, locator):
         """按住并滑动"""
         element = self.get_element(locator)
         rect = element.rect
-        pointX = int(rect["x"]) + int(rect["width"])/2
+        pointX = int(rect["x"]) + int(rect["width"]) / 2
         pointY = -(int(rect["y"]) - 20)
         # pointY=0
         TouchAction(self.driver).long_press(element, duration=3000).move_to(element, pointX,
-                                                                                    pointY).wait(3).release().perform()
-    #
-    # def press_and_move_to_left(self, locator, ):
-    #
-    #     element = self.get_element(locator)
-    #     rect = element.rect
-    #     start_x=int(rect['X'])
-    #     start_y = int(rect['y'])
-    #     end_x= int(rect['x'])-50
-    #     end_y=int(rect['y'])
-    #     TouchAction(self.driver).long_press(start_x, start_y,duration = 3000).move_to(element, end_x,
-    #                              end_y).wait(1).release().perform()
-    #
-    #     self.driver.execute_script("mobile:dragFromToForDuration",
-    #                       {"duration": 0.5, "element": None, "fromX": wd1, "fromY": he1, "toX": wd2, "toY": he2})
-    #
+                                                                            pointY).wait(3).release().perform()
 
     def tap_coordinate(self, positions):
         """模拟手指点击（最多五个手指）positions:[(100, 20), (100, 60), (100,100)]"""
@@ -663,107 +536,40 @@ class BasePage(object):
     @TestLogger.log("点击返回")
     def click_back(self):
         """点击返回"""
-        self.click_element((MobileBy.ACCESSIBILITY_ID, "back"), 10)
-
-    @TestLogger.log()
-    def click_back_by_android(self, times=1):
-        """android内置键返回"""
-        # times 返回次数
-        for i in range(times):
-            self.driver.back()
-            time.sleep(1)
+        self.click_element((MobileBy.XPATH, "//*[contains(@resource-id, 'back')], 10"))
 
     @TestLogger.log("下一页")
     def page_up(self):
-        """向上滑动"""
-        self.swipe_by_percent_on_screen(50, 80, 50, 30)
+        """向上滑动一页"""
+        self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
 
     @TestLogger.log("上一页")
     def page_down(self):
         """向下滑动"""
-        self.swipe_by_percent_on_screen(50, 30, 50, 80)
+        self.swipe_by_percent_on_screen(50, 30, 50, 70, 800)
+
+    @TestLogger.log("向左滑动一页")
+    def page_left(self):
+        """向右滑动"""
+        self.swipe_by_percent_on_screen(50, 70, 20, 70, 800)
 
     @TestLogger.log('挂断电话')
     def hang_up_the_call(self):
         """挂断电话"""
         return self.mobile.hang_up_the_call()
 
+    @TestLogger.log('接听电话')
+    def pick_up_the_call(self):
+        """接听电话"""
+        return self.mobile.pick_up_the_call()
+
     @TestLogger.log('判断是否在通话界面')
     def is_phone_in_calling_state(self):
         """判断是否在通话界面"""
-        return self.mobile.is_phone_in_calling_state()
-
-    @TestLogger.log()
-    def find_element_by_swipe(self, locator, times=10):
-        """找不到元素就滑动"""
-        if self._is_element_present(locator):
-            return self.get_element(locator)
-        else:
-            c = 0
-            while c < times:
-                self.page_up()
-                if self._is_element_present(locator):
-                    return self.get_element(locator)
-                c += 1
-            return None
-
-    @TestLogger.log()
-    def click_one_contact(self, contactName):
-        """选择特定联系人"""
-        el = self.find_element_by_swipe((MobileBy.XPATH, '//*[@text="%s"]' % contactName))
-        if el:
-            el.click()
-            return el
-        else:
-            print("本地联系人中无%s ，请添加此联系人再操作" % contactName)
-
-    @TestLogger.log('模擬android电源键')
-    def press_power_key(self):
-        """模擬android电源键"""
-        return self.execute_shell_command('input', 'keyevent', 26)
-
-    @TestLogger.log("判断设备是否锁屏")
-    def is_locked(self):
-        """判断设备是否锁屏"""
-        return self.driver.is_locked()
-
-    @TestLogger.log()
-    def is_exit_element_by_text_swipe(self, contactName):
-        """滑动判断特定元素是否存在"""
-        el = self.find_element_by_swipe((MobileBy.XPATH, '//*[@text="%s"]' % contactName))
-        if el:
-            return True
-        else:
+        try:
+            state = self.mobile.is_phone_in_calling_state()
+            if state:
+                return True
             return False
-
-    @TestLogger.log("点击返回按钮")
-    def click_back_button(self):
-        """点击返回按钮"""
-        self.click_element((MobileBy.ACCESSIBILITY_ID, "back"))
-
-    @TestLogger.log()
-    def click_accessibility_id_attribute_by_name(self, name):
-        """点击accessibility id属性"""
-        self.click_element((MobileBy.ACCESSIBILITY_ID, "%s" % name))
-
-    @TestLogger.log()
-    def is_exists_accessibility_id_attribute_by_name(self, name):
-        """是否存在accessibility id属性"""
-        return self._is_element_present2((MobileBy.ACCESSIBILITY_ID, "%s" % name))
-
-    @TestLogger.log()
-    def click_name_attribute_by_name(self, name, exact_match=False):
-        """点击name属性"""
-        if exact_match:
-            self.click_element((MobileBy.XPATH, "//*[@name='%s']" % name))
-        else:
-            self.click_element((MobileBy.XPATH, "//*[contains(@name,'%s')]" % name))
-
-    @TestLogger.log()
-    def click_coordinate(self, x, y):
-        """点击坐标"""
-        width = self.driver.get_window_size()["width"]
-        height = self.driver.get_window_size()["height"]
-        x = float(x / 100) * width
-        y = float(y / 100) * height
-        self.driver.execute_script("mobile: tap", {"y": y, "x": x, "duration": 50})
+        except:
+            return False

@@ -1,662 +1,819 @@
 from appium.webdriver.common.mobileby import MobileBy
-from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
+from library.core.utils.applicationcache import current_mobile
+from pages.components.Footer import FooterPage
 import time
-from pages import MessagePage, MePage, SettingPage, MeSetDialPage, MeSetDialWayPage, GroupListPage, SelectContacts
-from pages.call.CallTypeSelect import CallTypeSelectPage
-from pages.contacts.local_contact import localContactPage
-from pages.call.MultiPartyVideo import MultiPartyVideoPage
 
 
-class CallPage(BasePage):
-    """主界面-通话tab页"""
+class CallPage(FooterPage):
+    """通话页面"""
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
     __locators = {
-        '通话': (MobileBy.ID, '通话'),
-        '拨号': (MobileBy.ID, '拨号盘'),
-        "消息": (MobileBy.ID, "消息"),
-        "拨号盘": (MobileBy.ID, "com.chinasofti.rcs:id/tvCall"),
-        '拨号键1': (MobileBy.ID, 'cc_call_keypad_1'),
-        '拨号键2': (MobileBy.ID, 'cc_call_keypad_2'),
-        '拨号键3': (MobileBy.ID, 'cc_call_keypad_3'),
-        '拨号键4': (MobileBy.ID, 'cc_call_keypad_4'),
-        '拨号键5': (MobileBy.ID, 'cc_call_keypad_5'),
-        '拨号键6': (MobileBy.ID, 'cc_call_keypad_6'),
-        '拨号键7': (MobileBy.ID, 'cc_call_keypad_7'),
-        '拨号键8': (MobileBy.ID, 'cc_call_keypad_8'),
-        '拨号键9': (MobileBy.ID, 'cc_call_keypad_9'),
-        '拨号键0': (MobileBy.ID, 'cc_call_keypad_0'),
-        '拨号键*': (MobileBy.ID, 'cc_call_keypad_*'),
-        '拨号键#': (MobileBy.ID, 'cc_call_keypad_#'),
-        '删除X': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeButton[3]'),
-        '拨号盘收缩删除X': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[1]/XCUIElementTypeButton'),
-        '拨打电话按键': (MobileBy.ID, 'cc call startcall normal'),
-        '通话界面高清显示图片': (MobileBy.ID, 'com.chinasofti.rcs:id/ivNoRecords'),
-        '直接拨号或开始搜索': (MobileBy.XPATH, '//*[@type="XCUIElementTypeTextField"]'),
-        '新建联系人': (MobileBy.XPATH, "//*[contains(@label, '新建联系人')]"),
-        '发送消息': (MobileBy.XPATH, "//*[@value='发送消息')]"),
-        '结束通话': (MobileBy.ID, 'com.android.incallui:id/endButton'),
-        '呼叫中': (MobileBy.ID, 'com.chinasofti.rcs:id/ivAvatar'),
-        '挂断语音通话': (MobileBy.ID, 'com.chinasofti.rcs:id/smart_call_out_term'),
-        '挂断视频通话': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_out_Cancel'),
-        '挂断和飞信电话': (MobileBy.ID, 'com.chinasofti.rcs:id/ivDecline'),
-        '通话显示': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="通话"]'),
-        '通话记录': (MobileBy.XPATH, '//*[@type="XCUIElementTypeCell"]'),
-        '删除通话记录': (MobileBy.ID, "com.chinasofti.rcs:id/tvContent"),
-        '通话profile': (MobileBy.XPATH, "call list details normal@2x"),
-        "返回": (MobileBy.ID, "back"),
-        "多方视频图标": (MobileBy.ID, "cc call groupvideo normal"),
-        "通话记录时间": (MobileBy.XPATH, "//*[@type='XCUIElementTypeButton']"),
-        "通话记录时间-搜索状态": (MobileBy.XPATH, '//*[@label="call list details normal@2x"]'),
-        "profileName": (MobileBy.XPATH, "//*[@type='XCUIElementTypeStaticText']"),
-        "+号": (MobileBy.ACCESSIBILITY_ID, 'cc contacts add normal'),
-        '飞信电话': (MobileBy.XPATH, '//*[@value="飞信电话"]'),
-        '飞信电话(免费)': (MobileBy.XPATH, '//*[@name="飞信电话(免费)"]'),
-        '多方视频': (MobileBy.XPATH, '//*[@label="多方视频"]'),
-        '语音通话': (MobileBy.XPATH, '//*[@label="语音通话"]'),
-        '视频通话': (MobileBy.XPATH, '//*[@label="视频通话"]'),
+        # 权限框
+        # '禁止': (MobileBy.ID, 'com.android.packageinstaller:id/permission_deny_button'),
+        # '始终允许': (MobileBy.ID, 'com.android.packageinstaller:id/permission_allow_button'),
+        # '遮罩1': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
+        # '遮罩2': (MobileBy.ID, 'com.cmic.college:id/header'),
+
+        #
+        '通话文案': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="通话"]'),
+        '来电名称': (MobileBy.XPATH, '//XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
+        '来电详情': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic@2x'),
+        '+': (MobileBy.ACCESSIBILITY_ID, 'add normal@2x'),
+
+        # 通话界面
+        '通话_通话': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="通话"]'),
+        '视频通话': (MobileBy.IOS_PREDICATE, 'name=="视频通话"'),
+        '多方电话': (MobileBy.IOS_PREDICATE, 'name=="多方电话"'),
+
+        # '视频通话x': (
+        #     MobileBy.XPATH,
+        #     '//android.widget.TextView[@resource-id="com.cmic.college:id/pop_navi_text" and @text="视频通话"]'),
+        # '多方电话x': (
+        #     MobileBy.XPATH,
+        #             '//android.widget.TextView[@resource-id="com.cmic.college:id/pop_navi_text" and @text="多方电话"]'),
+        '空白文案': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="点击下方，打电话不花钱"]'),
+        '键盘输入框': (MobileBy.XPATH,
+                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther'
+                  '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
+                  '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
+                  '/XCUIElementTypeOther[1]/XCUIElementTypeTextField'),
+        '收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic@2x'),
+
+        # 通话页签数字
+        'keyboard_1': (MobileBy.ACCESSIBILITY_ID,
+                       '/var/containers/Bundle/Application/F8CB15BD-96DD-441F-9F10-0B014FE40C0B/YL.app/my_call_1@2x.png'),
+        'keyboard_2': (MobileBy.ACCESSIBILITY_ID,
+                       '/var/containers/Bundle/Application/F8CB15BD-96DD-441F-9F10-0B014FE40C0B/YL.app/my_call_2@2x.png'),
+        'keyboard_3': (MobileBy.ACCESSIBILITY_ID,
+                       '/var/containers/Bundle/Application/F8CB15BD-96DD-441F-9F10-0B014FE40C0B/YL.app/my_call_3@2x.png'),
+
+        # 'tip1': (MobileBy.ID, 'com.cmic.college:id/ivFreeCall'),
+        # 'tip2': (MobileBy.ID, 'com.cmic.college:id/ivKeyboard'),
+        # 'tip3': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
+        # '视频': (MobileBy.ID, 'com.cmic.college:id/ivMultipartyCall'),
+        # '通话类型标签': (MobileBy.ID, 'com.cmic.college:id/tvCallManner'),
+        # '联系人_详情图标': (MobileBy.ID, 'com.cmic.college:id/ivDetail'),
+        # '电话图标': (MobileBy.ID, 'com.cmic.college:id/ivFreeCall'),
+        '拨号键盘': (MobileBy.ACCESSIBILITY_ID, 'my dialing nor@2x'),
+
+        # 发起视频通话页面
+        '呼叫': (MobileBy.ACCESSIBILITY_ID, 'my dialing keyboard nor@2x'),
+
+        # '联系人列表': (MobileBy.ID, 'com.cmic.college:id/contact_list_item'),
+        # '通话_发起视频通话': (MobileBy.XPATH, '//android.widget.TextView[@text="发起视频通话"]'),
+        # '视频通话_第一个联系人': (MobileBy.XPATH,
+        #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
+        #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
+        #                 'LinearLayout[1]/android.widget.RelativeLayout'),
+        # '视频通话_第二个联系人': (MobileBy.XPATH,
+        #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
+        #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
+        #                 'LinearLayout[2]/android.widget.RelativeLayout'),
+        # '视频通话_第三个联系人': (MobileBy.XPATH,
+        #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
+        #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
+        #                 'LinearLayout[3]/android.widget.RelativeLayout'),
+        #
+        # '多方通话_返回': (MobileBy.XPATH, '//android.widget.ImageButton[@content-desc="转到上一层级"]'),
+        # '电话号码': (MobileBy.ID, 'com.cmic.college:id/contact_number'),
+        # '视频通话_字母': (MobileBy.ID, 'com.cmic.college:id/contact_index_bar_container'),
+        # '字母_第一个': (MobileBy.XPATH, '//android.widget.ListView[@resource-id="com.cmic.'
+        #                            'college:id/contact_list"]/android.widget.'
+        #                            'LinearLayout[1]/android.widget.LinearLayout'
+        #                            '[1]/android.widget.LinearLayout[1]/android.widget.TextView[1]'),
+        # '字母_C': (MobileBy.XPATH, '//android.widget.LinearLayout[@resource-id="com.cmic.college:id/contact_in'
+        #                          'dex_bar_container"]/android.widget.TextView[3]'),
+        # '视频通话_搜索': (MobileBy.ID, 'com.cmic.college:id/editText_keyword'),
+        # '视频通话_接听': (MobileBy.ID, 'com.cmic.college:id/ivVideoAnswer'),
+        # '视频通话_挂断': (MobileBy.ID, 'com.cmic.college:id/ivCancel'),
+        #
+        # # 视频通话接通界面
+        # '进行视频通话': (MobileBy.XPATH, '//*[contains(@text,"邀请你进行视频通话")]'),
+        # '视频界面_备注': (MobileBy.ID, 'com.cmic.college:id/tvUserName'),
+        # '视频界面_号码': (MobileBy.ID, 'com.cmic.college:id/tvUserPhone'),
+        # '视频界面_头像': (MobileBy.ID, 'com.cmic.college:id/ivUser'),
+        # '视频界面_时长': (MobileBy.ID, 'com.cmic.college:id/video_chrState'),
+        # '视频界面_免提': (MobileBy.ID, 'com.cmic.college:id/video_iv_speaker'),
+        # '视频界面_静音': (MobileBy.ID, 'com.cmic.college:id/video_iv_mute'),
+        # '视频界面_画笔': (MobileBy.ID, 'com.cmic.college:id/video_iv_doodle'),
+        # '视频界面_转为语音': (MobileBy.ID, 'com.cmic.college:id/video_iv_change_to_voice'),
+        # '视频界面_挂断': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
+        # '视频界面_切换摄像头': (MobileBy.ID, 'com.cmic.college:id/video_iv_switch_camera'),
+        #
+        # # 语音通话界面
+        # '语音界面_时长': (MobileBy.ID, 'com.cmic.college:id/chrState'),
+        # '语音界面_免提': (MobileBy.ID, 'com.cmic.college:id/ivHf'),
+        # '语音界面_转为视频': (MobileBy.ID, 'com.cmic.college:id/switch_to_video_call'),
+        # '语音界面_静音': (MobileBy.ID, 'com.cmic.college:id/ivMute'),
+        # '语音界面_挂断': (MobileBy.ID, 'com.cmic.college:id/ivDecline'),
+        #
+        # # 多人视频通话页面
+        # '挂断_多方通话': (MobileBy.ID, 'com.cmic.college:id/end_video_call_btn'),
+        # '挂断_多方通话_确定': (MobileBy.ID, 'com.cmic.college:id/btnConfirm'),
+        # '删除_一条通话记录': (MobileBy.XPATH,
+        #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]'),
+        # '删除_全部通话记录': (MobileBy.XPATH,
+        #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[2]'),
+        # '通话记录_删除一条': (
+        #     MobileBy.XPATH,
+        #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="删除该通话记录"]'),
+        # '通话记录_删除全部': (
+        #     MobileBy.XPATH,
+        #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="清除全部通话记录"]'),
+        # '通话记录_确定': (MobileBy.ID, 'com.cmic.college:id/btnConfirm'),
+        # '通话记录_取消': (MobileBy.ID, 'com.cmic.college:id/btnCancel'),
+        #
+        # # 单人视频详情页
+        # '详情_视频按钮': (MobileBy.ID, 'com.cmic.college:id/tvVideoCall'),
+        # '详情_信息按钮': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
+        # # '详情_返回': (MobileBy.ID, 'com.cmic.college:id/ivBack'),
+        # '挂断': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
+        # # 多人视频详情页
+        # '详情_多人视频': (MobileBy.ID, 'com.cmic.college:id/rlStartMultipartyVideo'),
+        # '详情_群聊': (MobileBy.ID, 'com.cmic.college:id/rlCreateGroup'),
+        # '群聊_确定': (MobileBy.ID, 'com.cmic.college:id/tv_sure'),
+        # '群聊_返回上一层': (MobileBy.ID, 'com.cmic.college:id/back_arrow'),
+        # '多人_挂断': (MobileBy.ID, 'com.cmic.college:id/end_video_call_btn'),
+        # '信息_聊天框': (MobileBy.ID, 'com.cmic.college:id/et_message'),
+        # '信息_发送': (MobileBy.ID, 'com.cmic.college:id/ib_send'),
+        # # 拨号界面
+        # '拨叫号码': (MobileBy.ID, 'com.cmic.college:id/etInputNum'),
+        # '拨号界面_呼叫': (MobileBy.ID, 'com.cmic.college:id/ivVoiceCall'),
+        # '拨号界面_挂断': (MobileBy.ID, 'com.android.incallui:id/endButton'),
+        # '拨号_返回': (MobileBy.XPATH,
+        #           '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.view.ViewGroup/android.widget.ImageButton'),
+        # # 福利电话
+        # '页面规则': (MobileBy.ID, 'com.cmic.college:id/action_rule'),
+        # '电话_搜索栏': (MobileBy.ID, 'com.cmic.college:id/action_search'),
+        # '搜索_电话': (MobileBy.ID, 'com.cmic.college:id/search_src_text'),
+        # '搜索_电话显示': (MobileBy.ID, 'com.cmic.college:id/tvPhoneNum'),
+        # '搜索_电话昵称': (MobileBy.ID, 'com.cmic.college:id/tvName'),
+        # '免费时长': (MobileBy.ID, 'com.cmic.college:id/tv_leftDuration'),
+        #
+        # # 关闭广告页面
+        # '广告_关闭': (MobileBy.ID, 'com.cmic.college:id/ivClose'),
+        # '广告_内容': (MobileBy.ID, 'com.cmic.college:id/ivContent'),
+        # '广告_立即参与': (MobileBy.ID, 'com.cmic.college:id/ivEnter'),
+        #
+        # # 通话详情页面
+        # '详情_返回': (MobileBy.ID, 'com.cmic.college:id/ivBack'),
+        # '详情_更多': (MobileBy.ID, 'com.cmic.college:id/iv_more'),
+        # '详情_红点': (MobileBy.ID, 'com.cmic.college:id/view_red_dot'),
+        # '详情_头像': (MobileBy.ID, 'com.cmic.college:id/ivAvatar'),
+        # '详情_名称': (MobileBy.ID, 'com.cmic.college:id/tvName'),
+        # '详情_通话': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
+        # '详情_视频': (MobileBy.ID, 'com.cmic.college:id/tvVideoCall'),
+        # '详情_备注标签': (MobileBy.ID, 'com.cmic.college:id/tv_nickname'),
+        # '详情_备注内容': (MobileBy.ID, 'com.cmic.college:id/tv_nickset'),
+        # '详情_>': (MobileBy.ID, 'com.cmic.college:id/iv_arrow_right'),
+        # '详情_归属地': (MobileBy.ID, 'com.cmic.college:id/tv_phoneProperty'),
+        # '详情_电话号码': (MobileBy.ID, 'com.cmic.college:id/tv_phoneValue'),
+        # '详情_通话记录': (MobileBy.ID, 'com.cmic.college:id/tvCallRecordsType'),
+        # '详情_通话时间': (MobileBy.ID, 'com.cmic.college:id/tvCallTime'),
+        # '详情_通话类型': (MobileBy.ID, 'com.cmic.college:id/tvCallType'),
+        # '详情_通话时长': (MobileBy.ID, 'com.cmic.college:id/tvCallDuration'),
+        # '详情_邀请使用': (MobileBy.ID, 'com.cmic.college:id/bt_add_meetyou'),
+        # '详情_发起多方视频': (MobileBy.ID, 'com.cmic.college:id/tv_start_call_again'),
+        # # 邀请使用
+        # '邀请_微信好友': (MobileBy.ID, 'com.cmic.college:id/tv_wechat'),
+        # '邀请_QQ好友': (MobileBy.ID, 'com.cmic.college:id/tv_qq'),
+        # '邀请_短信': (MobileBy.ID, 'com.cmic.college:id/tv_sms'),
+        #
+        # #  修改备注页面
+        # '备注_保存': (MobileBy.ID, 'com.cmic.college:id/nick_name_save'),
+        # '备注_返回': (MobileBy.XPATH, '//android.widget.ImageButton[@content-desc="到上一层级"]'),
+        # '修改备注名': (MobileBy.XPATH, '//android.widget.TextView[@text="修改备注名"]'),
+        # '备注': (MobileBy.ID, 'com.cmic.college:id/edit_query'),
+        # '备注_备注': (MobileBy.XPATH, '//android.widget.EditText[@resource-id="com.cmic.college:id/edit_query"]'),
+        #
+        # # 流量优惠提示框
+        # '流量_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
+        # '流量_去开通': (MobileBy.ID, 'com.cmic.college:id/bt_open'),
+        # '流量_继续拨打': (MobileBy.ID, 'com.cmic.college:id/tv_continue'),
+        # '流量_提示内容': (MobileBy.ID, 'com.cmic.college:id/content'),
+        #
+        # # 视频通话界面
+        # '视频_转为语音通话': (MobileBy.ID, 'com.cmic.college:id/video_iv_change_to_voice'),
+        # '视频_结束视频通话': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
+        # '视频_切换摄像头': (MobileBy.ID, 'com.cmic.college:id/video_iv_switch_camera'),
+        # '视频_备注': (MobileBy.ID, 'com.cmic.college:id/video_tv_name'),
+        #
+        # # 对方还未使用密友圈，喊他一起来免流量视频通话
+        # '无密友圈_提示文本': (MobileBy.XPATH, '//*[contains(@text,"对方还未使用密友圈")]'),
+        # '无密友圈_确定': (MobileBy.ID, 'com.cmic.college:id/btnConfirm'),
+        # '无密友圈_取消': (MobileBy.ID, 'com.cmic.college:id/btnCancel'),
+        # '回呼_提示文本': (MobileBy.ID, 'com.cmic.college:id/content'),
+        # '回呼_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
+        # '回呼_我知道了': (MobileBy.ID, 'com.cmic.college:id/bt_open'),
+        #
+        # # 悬浮窗授权提示
+        # '悬浮窗_内容': (MobileBy.XPATH, '//*[contains(@text,"您的手机没有授予悬浮窗权限，请开启后再试")]'),
+        # '暂不开启': (MobileBy.ID, 'android:id/button2'),
+        # '现在去开启': (MobileBy.ID, 'android:id/button1'),
+
     }
 
-    @TestLogger.log()
-    def click_free_call(self):
-        """点击多方通话"""
-        self.click_element(self.__locators["多方通话"])
-
-    @TestLogger.log()
-    def wait_for_call_page(self, timeout=60, auto_accept_alerts=True):
-        """
-        等待通话界面
-        """
-        try:
-            self.wait_until(
-                timeout=timeout,
-                auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self.is_text_present("拨号盘")
-            )
-        except:
-            raise AssertionError("通话界面未显示")
-        return self
-
-    @TestLogger.log()
-    def is_on_the_call_page(self):
-        """判断当前页是否通话界面"""
-        flag = False
-        element = self.get_elements(self.__locators["多方视频图标"])
-        if len(element) > 0:
-            flag = True
-        return flag
-
-    @TestLogger.log()
-    def is_on_the_dial_pad(self):
-        """判断当前页是否调起拨号盘"""
-        flag = False
-        element = self.get_elements(self.__locators["拨打电话按键"])
-        if len(element) > 0:
-            flag = True
-        return flag
-
-    @TestLogger.log()
-    def click_one(self):
-        """点击拨号键1"""
-        self.click_element(self.__locators["拨号键1"])
-
-    @TestLogger.log()
-    def click_two(self):
-        """点击拨号键2"""
-        self.click_element(self.__locators["拨号键2"])
-
-    @TestLogger.log()
-    def click_three(self):
-        """点击拨号键3"""
-        self.click_element(self.__locators["拨号键3"])
-
-    @TestLogger.log()
-    def click_four(self):
-        """点击拨号键4"""
-        self.click_element(self.__locators["拨号键4"])
-
-    @TestLogger.log()
-    def click_five(self):
-        """点击拨号键5"""
-        self.click_element(self.__locators["拨号键5"])
-
-    @TestLogger.log()
-    def click_six(self):
-        """点击拨号键6"""
-        self.click_element(self.__locators["拨号键6"])
-
-    @TestLogger.log()
-    def click_seven(self):
-        """点击拨号键7"""
-        self.click_element(self.__locators["拨号键7"])
-
-    @TestLogger.log()
-    def click_eight(self):
-        """点击拨号键8"""
-        self.click_element(self.__locators["拨号键8"])
-
-    @TestLogger.log()
-    def click_nine(self):
-        """点击拨号键9"""
-        self.click_element(self.__locators["拨号键9"])
-
-    @TestLogger.log()
-    def click_zero(self):
-        """点击拨号键0"""
-        self.click_element(self.__locators["拨号键0"])
-
-    @TestLogger.log()
-    def click_star(self):
-        """点击拨号键*"""
-        self.click_element(self.__locators["拨号键*"])
-
-    @TestLogger.log()
-    def click_sharp(self):
-        """点击拨号键#"""
-        self.click_element(self.__locators["拨号键#"])
-
-    @TestLogger.log()
-    def click_delete(self):
-        """点击删除X"""
-        self.click_element(self.__locators["删除X"])
-
-    @TestLogger.log()
-    def click_delete_hide(self):
-        """点击拨号盘收缩删除X"""
-        self.click_element(self.__locators["拨号盘收缩删除X"])
-
-    @TestLogger.log()
-    def press_zero(self):
-        """长按按键0"""
-        el = self.get_element(self.__locators["拨号键0"])
-        self.press(el, times=5)
-
-    @TestLogger.log()
-    def press_delete(self):
-        """长按删除X"""
-        # ios先更改为单按删除，请空文本
-        # el = self.get_element(self.__locators["删除X"])
-        # self.press(el)
-        for i in range(20):
-            self.click_element(self.__locators["删除X"])
-
-    @TestLogger.log()
-    def press_delete_hide(self):
-        """拨号盘收缩删除X"""
-        el = self.get_element(self.__locators["拨号盘收缩删除X"])
-        self.press(el)
-
-    @TestLogger.log()
-    def click_call(self):
-        """点击通话"""
-        self.click_element(self.__locators["通话"])
-
-    @TestLogger.log()
-    def click_message(self):
-        """点击消息"""
-        self.click_element(self.__locators["消息"])
-
-    @TestLogger.log()
-    def click_call_phone(self):
-        """点击拨打电话按键"""
-        self.click_element(self.__locators["拨打电话按键"])
-
-    @TestLogger.log()
-    def check_call_phone(self):
-        """检查拨打电话按键"""
-        flag = False
-        element = self.get_elements(self.__locators["拨打电话按键"])
-        if len(element) > 0:
-            flag = True
-        return flag
-
-    @TestLogger.log()
-    def check_call_image(self):
-        """检查通话界面高清图片"""
-        flag = False
-        element = self.get_elements(self.__locators["通话界面高清显示图片"])
-        if len(element) > 0:
-            flag = True
-        return flag
-
-    @TestLogger.log()
-    def check_call_text(self, val=""):
-        """检查拨号输入框文本内容与输入相同
-        value：输入的文本内容：电话号码，str
-        """
-        callText = self.get_text(self.__locators["直接拨号或开始搜索"])
-        flag = False
-        if callText == val:
-            flag = True
-        return flag
-
-    @TestLogger.log()
-    def check_delete_hide(self):
-        """检查拨号盘收缩删除X"""
-        flag = False
-        element = self.get_elements(self.__locators["拨号盘收缩删除X"])
-        if len(element) > 0:
-            flag = True
-        return flag
-
-    @TestLogger.log()
-    def click_new_contact(self):
-        """点击新建联系人"""
-        self.click_element(self.__locators["新建联系人"])
-
-    @TestLogger.log()
-    def click_send_message(self):
-        """点击发送消息"""
-        self.click_element(self.__locators["发送消息"])
-
-    @TestLogger.log()
-    def click_call_end(self):
-        """点击结束通话"""
-        self.click_element(self.__locators["结束通话"])
-
-    @TestLogger.log()
-    def check_call_success(self):
-        """检查拨打电话成功"""
-        flag = False
-        element = self.get_elements(self.__locators["结束通话"])
-        if len(element) > 0:
-            flag = True
-        return flag
-
-    @TestLogger.log()
-    def wait_for_dial_pad(self, timeout=60, auto_accept_alerts=True):
-        """
-        等待拨号键盘
-        """
-        try:
-            self.wait_until(
-                timeout=timeout,
-                auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self.is_text_present("直接拨号")
-            )
-        except:
-            raise AssertionError("通话界面未显示")
-        return self
-
-    @TestLogger.log()
-    def click_back_by_android(self, times=1):
-        """通过android键返回"""
-        # times 返回次数
-        for i in range(times):
-            self.driver.back()
-            time.sleep(1)
-
-    @TestLogger.log()
-    def get_call_color_of_element(self):
-        """获取打电话控件坐标颜色"""
-        self.get_coordinate_color_of_element(element=self.__locators["通话"], x=50, y=50, by_percent=True, mode='RGBA')
-
-    @TestLogger.log()
-    def check_end_voice_call(self):
-        """检查语音通话结束按键是否存在"""
-        flag = False
-        element = self.get_elements(self.__locators["挂断语音通话"])
-        if len(element) > 0:
-            flag = True
-        return flag
-
-    @TestLogger.log()
-    def click_end_voice_call(self):
-        """点击结束语音通话"""
-        self.click_element(self.__locators["挂断语音通话"])
-
-    @TestLogger.log()
-    def hang_up_voice_call(self):
-        """挂断语音通话"""
-        if self._is_element_present(self.__class__.__locators["挂断语音通话"]):
-            self.click_element(self.__class__.__locators["挂断语音通话"])
-
-    @TestLogger.log()
-    def hang_up_video_call(self):
-        """挂断视频通话"""
-        if self._is_element_present(self.__class__.__locators["挂断视频通话"]):
-            self.click_element(self.__class__.__locators["挂断视频通话"])
-
-    @TestLogger.log()
-    def hang_up_hefeixin_call(self):
-        """挂断和飞信电话"""
-        if self._is_element_present(self.__class__.__locators["挂断和飞信电话"]):
-            self.click_element(self.__class__.__locators["挂断和飞信电话"])
-
-    @TestLogger.log()
-    def is_phone_in_calling_state(self):
-        """判断是否在通话界面"""
-        return self.driver.current_activity == '.InCallActivity'
-
-    @TestLogger.log()
-    def is_on_calling_page(self, timeout=20, auto_accept_alerts=True):
-        """当前是否在通话页面"""
-        try:
-            self.wait_until(
-                timeout=timeout,
-                auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self.driver.current_activity == '.InCallActivity'
-            )
-            return True
-        except:
-            return False
-
-    @TestLogger.log()
-    def hang_up_the_call(self):
-        """挂断电话"""
-        command = 'input keyevent KEYCODE_ENDCALL'
-        if self.is_phone_in_calling_state():
-            return self.execute_shell_command(command)
-
-    @TestLogger.log()
-    def check_multiparty_video(self):
-        """判断是否存在视频图片来检查是否在通话界面"""
-        return self._is_element_present(self.__locators["多方视频图标"])
-
-    @TestLogger.log()
-    def check_call_display(self):
-        """判断是否存在通话显示"""
-        return self._is_element_present(self.__locators["通话显示"])
-
-    @TestLogger.log()
-    def check_feixin_call(self):
-        """判断是否存在多方通话"""
-        return self._is_element_present(self.__locators["飞信电话"])
-
-    def get_call_history(self, index):
-        """通过下标获取通话记录号码"""
-        elements = self.get_elements(self.__locators["通话记录"])
-        try:
-            if len(elements) > 0:
-                return elements[index].text
-        except:
-            raise IndexError("元素超出索引")
-
-    def dial_number(self, text):
-        """输入拨打号码"""
-        # ios无法拨打直接输入号码
-        for i in range(len(text)):
-            if text[i] == "1":
-                self.click_one()
-            if text[i] == "2":
-                self.click_two()
-            if text[i] == "3":
-                self.click_three()
-            if text[i] == "4":
-                self.click_four()
-            if text[i] == "5":
-                self.click_five()
-            if text[i] == "6":
-                self.click_six()
-            if text[i] == "7":
-                self.click_seven()
-            if text[i] == "8":
-                self.click_eight()
-            if text[i] == "9":
-                self.click_nine()
-            if text[i] == "0":
-                self.click_zero()
-
-    def dial_number_ios(self, text):
-        """输入拨打号码"""
-        self.input_text(self.__locators["直接拨号或开始搜索_ios"], text)
-
-    @TestLogger.log()
-    def press_delete_entry(self):
-        """长按删除通话记录"""
-        el = self.get_element(self.__locators["通话记录"])
-        self.press(el)
-
-    @TestLogger.log()
-    def click_delete_entry(self):
-        """删除通话记录"""
-        self.click_element(self.__locators["删除通话记录"])
-
-    @TestLogger.log()
-    def check_delete_entry(self):
-        """判断是否删除通话记录弹框"""
-        return self._is_element_present(self.__locators["删除通话记录"])
-
-    @TestLogger.log("清空通话记录")
-    def delete_all_call_entry(self):
-        """前置条件：当前已进入call界面"""
-        if self.check_multiparty_video():
-            for i in range(20):
-                el = self.get_elements(self.__locators["通话记录"])
-                if len(el) > 0:
-                    self.swipe_by_percent_on_screen(90, 15, 30, 15)
-                    time.sleep(1)
-                    self.click_text("删除")
-                else:
-                    print("已删除通话记录")
-                    break
-        else:
-            raise AttributeError
-
-    @TestLogger.log()
-    def get_call_entry_color_of_element(self):
-        """获取通话记录控件坐标颜色"""
-        return self.get_coordinate_color_of_element(element=self.__locators["通话记录"], x=50, y=50, by_percent=True,
-                                                    mode='RGBA')
-
-    @TestLogger.log()
-    def click_call_profile(self):
-        """点击通话profile"""
-        self.click_element(self.__locators["通话profile"])
-
-    @TestLogger.log()
-    def press_keyboard(self):
-        """长按拨号盘输入框"""
-        el = self.get_element(self.__locators["直接拨号或开始搜索"])
-        self.press(el)
-
-    @TestLogger.log()
-    def is_exist_specified_prompt(self):
-        """是否存在指定提示"""
-        return self._is_element_present(self.__class__.__locators["指定提示"])
-
-    @TestLogger.log()
-    def click_multi_party_telephone(self):
-        """点击多方电话"""
-        self.click_element(self.__class__.__locators["多方电话提示框"])
-
-    @TestLogger.log()
-    def is_exist_know(self):
-        """是否存在“知道了”文本"""
-        return self._is_element_present(self.__class__.__locators["知道了"])
-
-    @TestLogger.log()
-    def click_know(self):
-        """点击知道了"""
-        self.click_element(self.__class__.__locators["知道了"])
-
-    @TestLogger.log()
-    def click_back(self):
-        """点击返回"""
-        self.click_element(self.__class__.__locators["返回"])
-
-    @TestLogger.log()
-    def is_exist_allow_button(self):
-        """是否存在始终允许"""
-        return self._is_element_present(self.__class__.__locators["始终允许"])
-
-    @TestLogger.log()
-    def click_allow_button(self, auto_accept_permission_alert=True):
-        """点击允许"""
-        self.click_element(self.__class__.__locators["始终允许"], auto_accept_permission_alert=auto_accept_permission_alert)
-
-    @TestLogger.log()
-    def wait_for_page_load(self, timeout=20, auto_accept_alerts=True):
-        """等待通话页面加载"""
-        try:
-            self.wait_until(
-                timeout=timeout,
-                auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self._is_element_present(self.__class__.__locators["多方视频图标"])
-            )
-        except:
-            raise AssertionError("页面在{}s内，没有加载成功".format(str(timeout)))
-        return self
-
-    @TestLogger.log()
-    def click_call_time(self):
-        """点击通话记录时间"""
-        self.click_element(self.__class__.__locators["通话记录时间"])
-
-    @TestLogger.log()
-    def is_exist_call_time(self):
-        """判断是否存在通话记录时间"""
-        return self._is_element_present(self.__locators["通话记录时间"])
-
-    @TestLogger.log()
-    def click_call_time_search_status(self):
-        """点击通话记录时间-搜索状态"""
-        self.click_element(self.__class__.__locators["通话记录时间"])
-
-    @TestLogger.log()
-    def is_exist_profile_name(self):
-        """判断是否存在profile_name"""
-        return self._is_element_present(self.__locators["profileName"])
-
-    @TestLogger.log()
-    def get_profile_name(self):
-        """获取profile_name"""
-        return self.get_text(self.__locators["profileName"])
-
-    @TestLogger.log()
-    def select_dial_mode(self):
-        """进入拨号方式选择"""
-        MessagePage().open_me_page()
-        MePage().click_setting_menu()
-        SettingPage().click_dial_setting()
-        MeSetDialPage().click_dial_mode()
-
-    @TestLogger.log()
-    def setting_dial_mode_and_go_back_call(self):
-        """设置拨号方式为总是询问，并返回call界面"""
-        self.select_dial_mode()
-        MeSetDialWayPage().click_call_type_alaways_ask()
-        self.click_back_by_android(times=3)
-        self.click_call()
-
-    @TestLogger.log()
-    def create_call_entry(self, text):
-        """当前界面已在call界面，创建通话记录，并返回call界面"""
-        self.click_dial()
-        time.sleep(1)
-        self.dial_number(text)
-        self.click_call_phone()
-        time.sleep(2)
-        if CallTypeSelectPage().is_select_call():
-            CallTypeSelectPage().click_call_by_voice()
-        # self.click_call_end()
-        self.wait_for_dial_pad()
-        time.sleep(1)
-        if not self.is_on_the_call_page():
-            self.click_dial()
-
-    @TestLogger.log()
-    def click_multi_party_video(self):
-        """点击多方视频"""
-        self.click_element(self.__class__.__locators["多方视频图标"])
-
-    @TestLogger.log()
-    def select_type_start_call(self, text, calltype):
-        """在call界面，输入号码选择拨打电话类型并拨打电话"""
-        self.click_dial()
-        self.dial_number(text)
-        self.click_call_phone()
-        time.sleep(2)
-        if CallTypeSelectPage().is_select_call():
-            if calltype == 2:
-                CallTypeSelectPage().click_call_by_general()
-            if calltype == 1:
-                CallTypeSelectPage().click_call_by_voice()
-            if calltype == 0:
-                CallTypeSelectPage().click_call_by_app()
-        time.sleep(1)
-
-    @TestLogger.log()
-    def is_on_this_messagepage(self):
-        """当前页面是否在消息页"""
-        try:
-            self.wait_until(
-                timeout=30,
-                auto_accept_permission_alert=True,
-                condition=lambda d: self._is_element_present(self.__class__.__locators["+号"])
-            )
-            return True
-        except:
-            return False
-
-    @TestLogger.log()
-    def enter_contact_details(self, name):
-        """进入联系人详情界面"""
-        GroupListPage().open_contacts_page()
-        for i in range(10):
+    @TestLogger.log('点击通话引导页')
+    def click_contact_tip(self):
+        self.click_element(self.__locators['tip1'])
+        self.click_element(self.__locators['tip2'])
+        self.click_element(self.__locators['tip3'])
+
+    @TestLogger.log()
+    def click_always_allow(self):
+        """权限框-点击始终允许"""
+        while self.is_text_present('始终允许'):
+            self.click_text('始终允许')
             time.sleep(2)
-            if self.is_text_present(name):
-                self.click_text(name)
-                break
-            else:
-                self.page_up()
 
     @TestLogger.log()
-    def click_video_call(self):
-        """点击视频通话"""
-        self.click_element(self.__class__.__locators["视频通话"])
+    def remove_mask(self):
+        """去除遮罩"""
+        self.click_element(self.__class__.__locators['遮罩1'])
+        self.click_element(self.__class__.__locators['遮罩2'])
 
-    @TestLogger.log()
-    def click_voice_call(self):
-        """点击语音通话"""
-        self.click_element(self.__class__.__locators["语音通话"])
+    @TestLogger.log("页面是否包含广告推送页，并关闭")
+    def close_ad_if_exist(self):
+        """页面是否包含广告推送页，并关闭"""
+        if self.on_this_page_common('广告_关闭') and self.on_this_page_common('广告_立即参与'):
+            self.click_locator_key('广告_关闭')
 
-    @TestLogger.log()
-    def click_mutil_call(self):
-        """点击多方电话"""
-        self.click_element(self.__class__.__locators["多方电话"])
+    @TestLogger.log("您的手机没有授予悬浮窗权限，请开启后再试")
+    def close_suspension_if_exist(self):
+        """您的手机没有授予悬浮窗权限，请开启后再试"""
+        while self.is_text_present('您的手机没有授予悬浮窗权限，请开启后再试') and self.is_text_present(
+                '暂不开启') and self.is_text_present('现在去开启'):
+            self.click_text('暂不开启')
 
-    @TestLogger.log()
-    def click_mutil_video_call(self):
-        """点击多方视频"""
-        self.click_element(self.__class__.__locators["多方视频"])
+    #
+    # @TestLogger.log("您的的好友没有开通密友圈")
+    # def close_not_opened_if_exist(self):
+    #     """您的的好友没有开通密友圈"""
+    #     while self.on_this_page_common('无密友圈_提示文本'):
+    #         self.click_locator_key('无密友圈_取消')
 
-    @TestLogger.log('点击继续拨打')
-    def click_go_on(self):
-        self.click_element(self.__locators['继续拨打'])
-
-    @TestLogger.log()
-    def is_exist_go_on(self):
-        """是否存在继续拨打按钮"""
-        return self._is_element_present(self.__class__.__locators["继续拨打"])
-
-
-    @TestLogger.log()
-    def wait_for_chat_page(self):
-        """等待单聊界面展示"""
+    @TestLogger.log('等待页面自动跳转')
+    def wait_for_page_call(self, max_wait_time=30):
         self.wait_until(
-            timeout=30,
-            auto_accept_permission_alert=True,
-            condition=lambda d: self.is_text_present("说点什么..."))
+            condition=lambda d: self.is_text_present("不花钱打电话"),
+            timeout=max_wait_time,
+        )
+
+    @TestLogger.log('等待页面自动跳转')
+    def wait_for_page_call_load(self, max_wait_time=30):
+        self.wait_until(
+            condition=lambda d: self.is_text_present("通话"),
+            timeout=max_wait_time,
+        )
+
+    @TestLogger.log('等待页面加载完毕')
+    def wait_page_load_common(self, text, max_wait_time=30):
+        self.wait_until(
+            condition=lambda d: self.is_text_present(text),
+            timeout=max_wait_time,
+        )
+
+    @TestLogger.log('是否在通话页面')
+    def is_on_this_page(self):
+        el = self.get_elements(self.__locators['拨号键盘'])
+        if len(el) > 0:
+            return True
+        return False
+
+    @TestLogger.log("点击locators对应的元素")
+    def click_locator_key(self, locator):
+        self.click_element(self.__locators[locator])
+
+    @TestLogger.log("当前页面是否包含此文本")
+    def check_text_exist(self, text):
+        """当前页面是否包含此文本"""
+        return self.is_text_present(text)
+
+    @TestLogger.log("点击包含文本的元素")
+    def click_by_text(self, text):
+        """点击文本"""
+        return self.click_text(text)
+
+    @TestLogger.log("点击包含文本的元素")
+    def input_locator_text(self, locator, text):
+        """输入文本"""
+        return self.input_text(self.__locators[locator], text)
+
+    @TestLogger.log("点击包含文本的第一个元素")
+    def click_tag_text_first_element(self, text):
+        elements_list = self.get_elements(self.__locators['通话类型标签'])
+        text_list = [i.text for i in elements_list]
+        for index, value in enumerate(text_list):
+            if value == '[' + text + ']':
+                element_first = elements_list[index]
+                element_first.click()
+                return
+        raise AssertionError("没有找到对应的标签--{}".format(text))
+
+    @TestLogger.log("点击包含文本的第一个详细信息(i)元素")
+    def click_tag_detail_first_element(self, text):
+        elements_list = self.get_elements(self.__locators['通话类型标签'])
+        detail_list = self.get_elements(self.__locators['联系人_详情图标'])
+        text_list = [i.text for i in elements_list]
+        for index, value in enumerate(text_list):
+            if value == '[' + text + ']':
+                element_first = detail_list[index]
+                element_first.click()
+                return
+        raise AssertionError("没有找到对应的标签--{}".format(text))
+
+    @TestLogger.log("长按包含文本的第一个通话记录元素")
+    def press_tag_detail_first_element(self, text):
+        elements_list = self.get_elements(self.__locators['通话类型标签'])
+        text_list = [i.text for i in elements_list]
+        for index, value in enumerate(text_list):
+            if value == '[' + text + ']':
+                element_first = elements_list[index]
+                self.press(element_first)
+                return
+
+    @TestLogger.log('拨打并挂断一个点对点语音通话')
+    def point2point_voice_call(self):
+        self.click_locator_key('拨号键盘')
+        self.input_text(self.__locators['拨叫号码'], '10086')
+        self.click_locator_key('拨号界面_呼叫')
+        import time
+        time.sleep(1)
+        print(self.get_elements(("id", 'com.cmic.college:id/bt_open')))
+        if len(self.get_elements(("id", 'com.cmic.college:id/bt_open'))) > 0:
+            self.click_element(("id", 'com.cmic.college:id/bt_open'))
+        self.wait_until(condition=lambda x: self.is_text_present('飞信电话'), timeout=30)
+        self.click_locator_key('拨号界面_挂断')
+
+    @TestLogger.log('拨打并挂断一个点对点视频通话')
+    def point2point_vedio_call(self):
+        self.click_locator_key('+')
+        self.click_locator_key('视频通话')
+        self.click_locator_key('视频通话_第一个联系人')
+        time.sleep(0.5)
+        if self.is_toast_exist('不能选择本机号码', timeout=8):
+            self.click_locator_key('视频通话_第二个联系人')
+        self.click_locator_key('呼叫')
+        time.sleep(1)
+        if self.on_this_page_common('流量_继续拨打'):
+            self.click_locator_key('流量_继续拨打')
+        if self.on_this_page_common('无密友圈_提示文本'):
+            self.click_locator_key('无密友圈_取消')
+        time.sleep(5)
+        if self.on_this_page_common('挂断'):
+            self.click_locator_key('挂断')
+
+    @TestLogger.log('拨打并挂断一个多方视频通话')
+    def multiplayer_vedio_call(self):
+        # self.remove_mask()
+        time.sleep(0.5)
+        self.click_locator_key('+')
+        time.sleep(0.5)
+        self.click_locator_key('视频通话')
+        time.sleep(0.5)
+        self.click_locator_key('视频通话_第一个联系人')
+        self.click_locator_key('视频通话_第二个联系人')
+        self.click_locator_key('视频通话_第三个联系人')
+        self.click_locator_key('呼叫')
+        time.sleep(1)
+        if self.is_text_present('您的手机没有授予悬浮窗权限，请开启后再试') and self.is_text_present(
+                '暂不开启') and self.is_text_present('现在去开启'):
+            self.click_text('暂不开启')
+        time.sleep(2)
+        if self.on_this_page_common('挂断_多方通话'):
+            self.click_locator_key('挂断_多方通话')
+        if self.on_this_page_common('挂断_多方通话_确定'):
+            self.click_locator_key('挂断_多方通话_确定')
+        time.sleep(1)
+        if self.is_element_already_exist('多方通话_返回'):
+            self.click_locator_key('多方通话_返回')
+
+    @TestLogger.log('确保页面有点对点视频的记录')
+    def make_sure_have_p2p_vedio_record(self):
+        if self.is_text_present('视频通话'):
+            return
+        self.point2point_vedio_call()
+        self.wait_until(
+            condition=lambda d: self.is_text_present("视频通话"),
+            timeout=50,
+        )
+
+    @TestLogger.log('确保页面有多方视频的记录')
+    def make_sure_have_multiplayer_vedio_record(self):
+        if self.is_text_present('多方视频'):
+            return
+        self.multiplayer_vedio_call()
+        self.wait_until(
+            condition=lambda d: self.is_text_present("多方视频"),
+            timeout=50,
+        )
+
+    @TestLogger.log('确保页面有点对点通话的记录')
+    def make_sure_have_p2p_voicecall_record(self):
+        if self.is_text_present('飞信电话'):
+            return
+        self.point2point_voice_call()
+        self.wait_until(
+            condition=lambda d: self.is_text_present("飞信电话"),
+            timeout=8,
+        )
+
+    @TestLogger.log('检查是否在点对点通话页面')
+    def check_p2p_vedio_call_page(self):
+        el = self.get_elements(self.__locators['挂断'])
+        if len(el) > 0 or self.is_toast_exist('对方未接听，请稍候再尝试'):
+            return True
+        return False
+
+    @TestLogger.log('检查是否在多方通话页面')
+    def check_multiplayer_call_page(self):
+        el = self.get_elements(self.__locators['多人_挂断'])
+        return len(el) > 0
+
+    @TestLogger.log('检查是否在消息页面')
+    def check_message_page(self):
+        el = self.get_elements(self.__locators['信息_聊天框'])
+        return len(el) > 0
+
+    @TestLogger.log("清除全部通话记录")
+    def click_tag_text_delete_all_record(self, text):
+        elements_list = self.get_elements(self.__locators['通话类型标签'])
+        text_list = [i.text for i in elements_list]
+        for index, value in enumerate(text_list):
+            if value == '[' + text + ']':
+                element_first = elements_list[index]
+                self.press(element_first)
+                self.click_text('清除全部通话记录')
+                self.click_element((MobileBy.ID, 'com.cmic.college:id/btnConfirm'))
+                return
+
+    @TestLogger.log("删除包含文本的第一个通话记录")
+    def check_delete_text_first_element(self, text):
+        elements_list = self.get_elements(self.__locators['通话类型标签'])
+        text_list = [i.text for i in elements_list]
+        for index, value in enumerate(text_list):
+            if value == '[' + text + ']':
+                element_first = elements_list[index]
+                self.press(element_first)
+                self.click_text('删除该通话记录')
+                elements_check_list = self.get_elements(self.__locators['通话类型标签'])
+                return element_first not in elements_check_list
+        raise AssertionError("没有找到对应的标签--{}".format(text))
+
+    @TestLogger.log("检查是否有联系人")
+    def check_is_have_friend(self):
+        self.click_locator_key('视频')
+        el = self.wait_until(condition=lambda x: self.get_elements(self.__locators['视频通话_第一个联系人']), timeout=10)
+        if len(el) > 0:
+            self.click_locator_key('多方通话_返回')
+        else:
+            raise AssertionError("通讯录没有密友")
+
+    @TestLogger.log("检查点对点视频通话详细页")
+    def check_vedio_call_detail_page(self):
+        for locator in [self.__locators['详情_信息按钮'], self.__locators['详情_视频按钮'], self.__locators['详情_返回']]:
+            if not self._is_enabled(locator):
+                return "检查点[%s]未通过" % locator
+        # 头像  名字  通话时间  通话类型
+        locator_list = [("id", 'com.cmic.college:id/ivAvatar'), ("id", 'com.cmic.college:id/tvName'),
+                        ("id", 'com.cmic.college:id/tvCallTime'), ("id", 'com.cmic.college:id/tvCallType')]
+        for locator in locator_list:
+            if not self._is_visible(locator):
+                l = locator[-1]
+                if l == 'com.cmic.college:id/ivAvatar':
+                    locator = '详情_头像'
+                elif l == 'com.cmic.college:id/tvName':
+                    locator = '详情_名字'
+                elif l == 'com.cmic.college:id/tvCallTime':
+                    locator = '详情_通话时间'
+                elif l == 'com.cmic.college:id/tvCallType':
+                    locator = '详情_通话类型'
+                else:
+                    locator = '未知错误'
+                return "检查点[%s]未通过" % locator
+        if '通话记录 (视频通话)' != self.get_text(("id", 'com.cmic.college:id/tvCallRecordsType')):
+            return "检查点[通话记录 (视频通话)]未通过"
+        if len(self.get_elements(("id", 'com.cmic.college:id/tvCallDuration'))) > 0:
+            if not self._is_visible(("id", 'com.cmic.college:id/tvCallDuration')):  # 通话时长
+                return "检查点[通话时长]未通过"
+        return True
+
+    @TestLogger.log("检查多方视频详细页")
+    def check_multiplayer_vedio_detail_page(self):
+        if not self._is_enabled(self.__locators['多方通话_返回']):
+            return False
+        # 头像  名字  通话时间  通话类型
+        locator_list = [("id", 'com.cmic.college:id/ivAvatar'), ("id", 'com.cmic.college:id/tvName'),
+                        ("id", 'com.cmic.college:id/tvCallTime'), ("id", 'com.cmic.college:id/tvCallType')]
+        for locator in locator_list:
+            if not self._is_visible(locator):
+                return False
+        if '通话记录 (多方视频)' != self.get_text(("id", 'com.cmic.college:id/tvCallRecordsType')):
+            return False
+        if len(self.get_elements(("id", 'com.cmic.college:id/tvCallDuration'))) > 0:
+            if not self._is_visible(("id", 'com.cmic.college:id/tvCallDuration')):  # 通话时长
+                return False
+        return True
+
+    @TestLogger.log("检查视频页面显示")
+    def check_vedio_page(self):
+        for locator in [self.__locators['多方通话_返回'], self.__locators['呼叫']]:
+            if not self._is_enabled(locator):
+                return
+        # 联系人  快速定位
+        locator_list = [("id", 'com.cmic.college:id/contact_selection_list_view'),
+                        ("id", 'com.cmic.college:id/contact_index_bar_view')]
+        for locator in locator_list:
+            if not self._is_visible(locator):
+                return
+        return True
+
+    @TestLogger.log("截图")
+    def take_screen_out(self):
+        import os
+        import time
+        path = os.getcwd() + "/screenshot"
+        print(path)
+        timestamp = time.strftime('%Y-%m-%d-%H-%M-%S', time.localtime(time.time()))
+        if not os.path.isdir(os.getcwd() + "/screenshot"):
+            os.makedirs(path)
+        self.driver.get_screenshot_as_file(path + "/" + timestamp + ".png")
+
+    @TestLogger.log("获得元素的文本")
+    def get_element_text(self, locator):
+        return self.get_text(self.__locators[locator])
+
+    @TestLogger.log("获得元素对应的数量")
+    def get_elements_count(self, locator):
+        return self.get_elements(self.__locators[locator])
+
+    @TestLogger.log("页面应该包含元素")
+    def page_contain_element(self, locator):
+        self.page_should_contain_element(self.__locators[locator])
+
+    @TestLogger.log("判断页面元素是否存在")
+    def is_element_present(self, locator):
+        return self._is_element_present(self.__locators[locator])
+
+    @TestLogger.log("页面应该包含元素")
+    def click_keyboard(self):
+        self.click_element(self.__locators['拨号键盘'])
+
+    @TestLogger.log("点击键盘输入框")
+    def click_keyboard_input_box(self):
+        self.click_element(self.__locators['键盘输入框'])
 
     @TestLogger.log()
-    def click_feixin_call(self):
-        """点击飞信电话"""
-        self.click_element(self.__locators['飞信电话'])
+    def click_keyboard_call(self, text):
+        """点击通话模块文本弹出框"""
+        self.click_element(self.__locators[text])
 
     @TestLogger.log()
-    def click_dial(self):
-        """点击拨号"""
-        self.click_element(self.__locators['拨号'])
+    def click_call(self, text):
+        """点击事件"""
+        self.click_element(self.__locators[text])
+
+    @TestLogger.log("键盘输入框输入文本")
+    def input_text_in_input_box(self, text):
+        self.input_text(self.__locators['键盘输入框'], text)
+
+    @TestLogger.log("获取输入框文本")
+    def get_input_box_text(self, ):
+        return self.get_element(self.__class__.__locators['键盘输入框']).text
+
+    @TestLogger.log("点击收起键盘")
+    def click_hide_keyboard(self):
+        self.click_element(self.__class__.__locators['收起键盘'])
+
+    @TestLogger.log("点击打开键盘")
+    def click_show_keyboard(self):
+        self.click_element(self.__class__.__locators['拨号键盘'])
+
+    @TestLogger.log("点击+")
+    def click_add(self):
+        self.click_element(self.__class__.__locators['+'])
 
     @TestLogger.log()
-    def click_feixin_call_free(self):
-        """点击飞信电话(免费)"""
-        self.click_element(self.__locators["飞信电话(免费)"])
+    def close_ad(self):
+        if self._is_element_present('关闭广告'):
+            self.click_element('关闭广告')
+        return
 
-    @TestLogger.log()
-    def click_call_entry(self):
-        """点击通话记录"""
-        self.click_element(self.__locators["通话记录"])
+    @TestLogger.log('是否在拨号界面')
+    def is_exist_call_key(self):
+        el = self.get_elements(self.__locators['拨号界面_呼叫'])
+        if len(el) > 0:
+            return True
+        return False
 
+    @TestLogger.log('是否在通话记录详情页面')
+    def on_this_page_call_detail(self):
+        """是否在通话记录详情页面"""
+        el = self.get_elements(self.__locators['详情_通话'])
+        if len(el) > 0:
+            return True
+        return False
+
+    @TestLogger.log('是否在多方视频页面')
+    def on_this_page_multi_video_detail(self):
+        """是否在多方视频页面"""
+        el = self.get_elements(self.__locators['详情_发起多方视频'])
+        if len(el) > 0:
+            return True
+        return False
+
+    @TestLogger.log("点击详情页返回")
+    def click_detail_back(self):
+        self.click_element(self.__class__.__locators['详情_返回'])
+
+    @TestLogger.log("修改备注")
+    def click_modify_nickname(self):
+        self.click_element(self.__class__.__locators['详情_>'])
+
+    @TestLogger.log('等待页面自动跳转')
+    def wait_for_page_modify_nickname(self, max_wait_time=30):
+        self.wait_until(
+            condition=lambda d: self.is_text_present("修改备注名"),
+            timeout=max_wait_time,
+        )
+
+    @TestLogger.log("点击备注输入框")
+    def click_nickname_input_box(self):
+        self.click_element(self.__locators['备注'])
+
+    @TestLogger.log("备注输入框输入文本")
+    def input_text_in_nickname(self, text):
+        self.input_text(self.__locators['备注_备注'], text)
+        # self.input_text(self.__locators[locator], text)
+
+    @TestLogger.log("保存备注")
+    def click_save_nickname(self, ):
+        return self.click_element(self.__locators['备注_保存'])
+
+    @TestLogger.log("获取备注")
+    def get_nickname(self):
+        return self.get_element(self.__class__.__locators['详情_备注内容']).text
+
+    @TestLogger.log('清空文本框内容')
+    def edit_clear(self):
+        locator = self.get_element(self.__class__.__locators['备注']).text
+        self.click_element(self.__locators['备注'])
+        #     123代表光标移动到末尾
+        self.driver.keyevent(123)
+        for i in range(0, len(locator)):
+            # 67退格键
+            self.driver.keyevent(67)
+
+    @TestLogger.log('是否有流量优惠界面')
+    def on_this_page_flow(self):
+        """是否在流量优惠界面页面"""
+        el = self.get_elements(self.__locators['流量_提示内容'])
+        if len(el) > 0:
+            return True
+        return False
+
+    @TestLogger.log('设置不再提醒为选中')
+    def set_not_reminders(self):
+        """设置不再提醒为选中"""
+        el = self.get_elements(self.__locators['流量_不再提醒'])[0].get_attribute('checked')
+        if 'false' == el:
+            self.click_element(self.__locators['流量_不再提醒'])
+            el = self.get_elements(self.__locators['流量_不再提醒'])[0].get_attribute('checked')
+            if 'true' == el:
+                return True
+        return False
+
+    @TestLogger.log('是否有某个标签')
+    def on_this_page_common(self, locator):
+        """是否有某个标签"""
+        try:
+            el = self.get_elements(self.__locators[locator])
+            if len(el) > 0:
+                return True
+            return False
+        except:
+            return False
+
+    # @TestLogger.log('获取某个标签的文本')
+    # def get_first_text(self, locator):
+    #     """是否有某个标签"""
+    #     try:
+    #         t = self.get_element(self.__locators[locator]).text
+    #         if t:
+    #             return t
+    #         return ''
+    #     except:
+    #         return ''
+
+    @TestLogger.log('选择第n个联系人')
+    def select_contact_n(self, number):
+        """选择第n个联系人"""
+        try:
+            lists = []
+            locator = (MobileBy.ID, 'com.cmic.college:id/contact_number')
+            count = 0
+            els = self.get_elements(locator)
+            while True:
+                if count > len(els) - 1:
+                    count = 0
+                    self.page_up()
+                    time.sleep(1)
+                    els = self.get_elements(locator)
+                    continue
+                el = els[count]
+                count += 1
+                if el.text in lists:
+                    continue
+                el.click()
+                lists.append(el.text)
+                selected = self.get_element_text('呼叫').split('/')[0].split('(')[-1]
+                if number > int(selected):
+                    continue
+                else:
+                    return False
+        except Exception as e:
+            print(e)
+            return False
+
+    @TestLogger.log('获取指定运营商类型的手机卡（不传类型返回全部配置的手机卡）')
+    def get_cards(self, card_type):
+        """返回指定类型卡手机号列表"""
+        return current_mobile().get_cards(card_type)
+
+    @TestLogger.log('选择第n个联系人')
+    def select_contact_more(self, number):
+        """选择第n个联系人"""
+        try:
+            lists = []
+            locator = (MobileBy.ID, 'com.cmic.college:id/contact_number')
+            count = 0
+            els = self.get_elements(locator)
+            while True:
+                if count > len(els) - 1:
+                    count = 0
+                    self.page_up()
+                    time.sleep(1)
+                    els = self.get_elements(locator)
+                    continue
+                el = els[count]
+                count += 1
+                if el.text in lists:
+                    continue
+                el.click()
+                lists.append(el.text)
+                selected = self.get_element_text('呼叫').split('/')[0].split('(')[-1]
+                if self.is_toast_exist('最多只能选择8人', timeout=1):
+                    return True
+                elif int(selected) <= 8:
+                    continue
+                else:
+                    return False
+        except Exception as e:
+            print(e)
+            return False
+
+    @TestLogger.log('拨打一个点对点视频通话')
+    def pick_up_p2p_video(self, cards):
+        self.click_locator_key('+')
+        self.click_locator_key('视频通话')
+        # self.click_locator_key('视频通话_搜索')
+        self.input_text(self.__locators['视频通话_搜索'], cards)
+        self.get_elements(self.__locators['电话号码'])[0].click()
+        self.click_locator_key('呼叫')
+        time.sleep(0.5)
+        if self.on_this_page_common('流量_继续拨打'):
+            self.click_locator_key('流量_继续拨打')
+        if self.on_this_page_common('无密友圈_提示文本'):
+            self.click_locator_key('无密友圈_取消')
+
+    @TestLogger.log('拨打并挂断一个点对点视频通话')
+    def pick_up_video_call(self):
+        self.click_locator_key('视频通话_接听')
+
+    @TestLogger.log('判断元素是否存在')
+    def is_element_already_exist(self, locator):
+        """判断元素是否存在"""
+        try:
+            elements = self.get_elements(self.__locators[locator])
+            if len(elements) > 0:
+                return True
+            else:
+                return False
+        except:
+            return False
+
+    @TestLogger.log('获取元素')
+    def get_one_element(self, locator):
+        return self.mobile.get_element(self.__locators[locator])
+
+    @TestLogger.log('获取所有元素')
+    def get_some_elements(self, locator):
+        return self.mobile.get_elements(self.__locators[locator])

@@ -12,21 +12,23 @@ class OneKeyLoginPage(BasePage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.OneKeyLoginActivity'
 
     __locators = {
-        "电话号码": (MobileBy.ID, 'com.chinasofti.rcs:id/tv_content'),
-        "一键登录": (MobileBy.ID, 'com.chinasofti.rcs:id/one_key_login'),
+        "电话号码": (MobileBy.ID, 'com.cmic.college:id/tv_content'),
+        "一键登录": (MobileBy.ID, 'com.cmic.college:id/one_key_login'),
         "切换另一号码登录": (MobileBy.ID, "com.chinasofti.rcs:id/change_to_smslogin"),
-        "已阅读并同意复选框": (MobileBy.ID, "com.chinasofti.rcs:id/agreement_checkbox"),
-        "客户端头像": (MobileBy.ID, "com.chinasofti.rcs:id/login_iron"),
-        "和飞信软件许可及服务协议": (MobileBy.ID, "com.chinasofti.rcs:id/agreement_text"),
+        "已阅读并同意复选框": (MobileBy.ID, "	com.cmic.college:id/agreement_checkbox"),
+        "客户端头像": (MobileBy.ID, "com.cmic.college:id/profile_photo_one_login"),
+        "软件许可及服务协议": (MobileBy.ID, "com.cmic.college:id/agreement_text"),
         '提示内容': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_content'),
-        '查看详情': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_check_detail'),
-        '语言': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_language'),
-    }
 
-    @TestLogger.log()
-    def click_language(self):
-        """点击语言"""
-        self.click_element(self.__locators["语言"])
+        "用户协议与隐私保护": (MobileBy.ID, "com.cmic.college:id/tvTitle"),
+        "同意": (MobileBy.ID, "com.cmic.college:id/btnConfirm"),
+        "不同意": (MobileBy.ID, "com.cmic.college:id/btnCancel"),
+
+        "使用号码登录": (MobileBy.ID, "com.cmic.college:id/tvTitle"),
+        "确定": (MobileBy.ID, "com.cmic.college:id/btnConfirm"),
+
+
+    }
 
     @TestLogger.log()
     def is_on_this_page(self):
@@ -48,17 +50,41 @@ class OneKeyLoginPage(BasePage):
         self.click_element(self.__locators["一键登录"])
 
     @TestLogger.log()
-    def have_read_agreement_detail(self):
-        """是否弹出 查看详情"""
+    def click_agree_user_aggrement(self):
+        """点击同意用户协议"""
+        self.click_element(self.__locators["同意"])
+
+    @TestLogger.log()
+    def click_agree_login_by_number(self):
+        """点击同意号码登录"""
+        self.click_element(self.__locators["确定"])
+
+
+    @TestLogger.log()
+    def click_sure_login(self):
+        """是否弹出 确定登录"""
+        try:
+            self.wait_until(
+                timeout=10,
+                auto_accept_permission_alert=True,
+                condition=lambda d: self.is_text_present("确定")
+            )
+            self.click_text("确定")
+        except:
+            raise AssertionError("没有加载出来“确定”登录弹框")
+
+    @TestLogger.log()
+    def click_start_experience(self):
+        """是否弹出 确定登录"""
         try:
             self.wait_until(
                 timeout=3,
                 auto_accept_permission_alert=True,
-                condition=lambda d: self._is_element_present(self.__class__.__locators["查看详情"])
+                condition=lambda d: self._is_element_present(self.__class__.__locators["确定"])
             )
-            return True
+            self.click_text("确定")
         except:
-            return False
+            raise AssertionError("没有加载出来“确定”登录弹框")
 
     @TestLogger.log()
     def click_read_agreement_detail(self):
@@ -133,8 +159,8 @@ class OneKeyLoginPage(BasePage):
 
     @TestLogger.log()
     def click_license_agreement(self):
-        """点击和飞信软件许可及服务协议"""
-        self.click_element(self.__locators["和飞信软件许可及服务协议"])
+        """点击软件许可及服务协议"""
+        self.click_element(self.__locators["软件许可及服务协议"])
 
     @TestLogger.log()
     def wait_one_key_or_sms_login_page_load(self, timeout=20):
@@ -165,13 +191,4 @@ class OneKeyLoginPage(BasePage):
 
     @TestLogger.log('关闭应用')
     def kill_flyme_app(self):
-        self.execute_shell_command('am','force','-stop','com.chinasofti.rcs')
-
-    @TestLogger.log('点按手机Home键')
-    def press_home_key(self,times=1):
-        try:
-            for i in range(times):
-                self.execute_shell_command('input','keyevent',3)
-            return
-        except:
-            raise NotImplementedError('该API不支持android/ios以外的系统')
+        self.execute_shell_command('adb shell am force-stop com.chinasofti.rcs')
