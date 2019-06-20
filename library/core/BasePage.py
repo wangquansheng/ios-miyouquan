@@ -269,7 +269,7 @@ class BasePage(object):
                 y_offset = height
                 self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
 
-    def swipe_by_percent_on_screen(self, start_x, start_y, end_x, end_y, duration):
+    def swipe_by_percent_on_screen(self, start_x, start_y, end_x, end_y, duration=0.5, locator=None):
         width = self.driver.get_window_size()["width"]
         height = self.driver.get_window_size()["height"]
         x_start = float(start_x) / 100 * width
@@ -280,6 +280,10 @@ class BasePage(object):
         y_offset = y_end - y_start
         if self._get_platform() == 'android':
             self.driver.swipe(x_start, y_start, x_end, y_end, duration)
+        elif self._get_platform() == 'ios':
+            self.driver.execute_script("mobile:dragFromToForDuration",
+                                       {"duration": duration, "element": locator, "fromX": x_start, "fromY": y_start,
+                                        "toX": x_end, "toY": y_end})
         else:
             self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
 

@@ -26,13 +26,6 @@ class CallPage(FooterPage):
         '通话_通话': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="通话"]'),
         '视频通话': (MobileBy.IOS_PREDICATE, 'name=="视频通话"'),
         '多方电话': (MobileBy.IOS_PREDICATE, 'name=="多方电话"'),
-
-        # '视频通话x': (
-        #     MobileBy.XPATH,
-        #     '//android.widget.TextView[@resource-id="com.cmic.college:id/pop_navi_text" and @text="视频通话"]'),
-        # '多方电话x': (
-        #     MobileBy.XPATH,
-        #             '//android.widget.TextView[@resource-id="com.cmic.college:id/pop_navi_text" and @text="多方电话"]'),
         '空白文案': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="点击下方，打电话不花钱"]'),
         '键盘输入框': (MobileBy.XPATH,
                   '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther'
@@ -53,9 +46,10 @@ class CallPage(FooterPage):
         # 'tip2': (MobileBy.ID, 'com.cmic.college:id/ivKeyboard'),
         # 'tip3': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
         # '视频': (MobileBy.ID, 'com.cmic.college:id/ivMultipartyCall'),
-        # '通话类型标签': (MobileBy.ID, 'com.cmic.college:id/tvCallManner'),
-        # '联系人_详情图标': (MobileBy.ID, 'com.cmic.college:id/ivDetail'),
-        # '电话图标': (MobileBy.ID, 'com.cmic.college:id/ivFreeCall'),
+        # 视频通话/多方电话/飞信电话
+        '通话类型标签': (MobileBy.XPATH, '//XCUIElementTypeCell/XCUIElementTypeStaticText[2]'),
+        '联系人_详情图标': (MobileBy.ACCESSIBILITY_ID, 'call info outline@2x'),
+        '电话图标': (MobileBy.ACCESSIBILITY_ID, 'my call white n@2x'),
         '拨号键盘': (MobileBy.ACCESSIBILITY_ID, 'my dialing nor@2x'),
 
         # 发起视频通话页面
@@ -132,9 +126,8 @@ class CallPage(FooterPage):
         # '通话记录_取消': (MobileBy.ID, 'com.cmic.college:id/btnCancel'),
         #
         # # 单人视频详情页
-        # '详情_视频按钮': (MobileBy.ID, 'com.cmic.college:id/tvVideoCall'),
-        # '详情_信息按钮': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
-        # # '详情_返回': (MobileBy.ID, 'com.cmic.college:id/ivBack'),
+        '详情_视频按钮': (MobileBy.ID, 'my profile ic vedio n@2x'),
+        # # '详情_信息按钮': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
         # '挂断': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
         # # 多人视频详情页
         # '详情_多人视频': (MobileBy.ID, 'com.cmic.college:id/rlStartMultipartyVideo'),
@@ -144,9 +137,10 @@ class CallPage(FooterPage):
         # '多人_挂断': (MobileBy.ID, 'com.cmic.college:id/end_video_call_btn'),
         # '信息_聊天框': (MobileBy.ID, 'com.cmic.college:id/et_message'),
         # '信息_发送': (MobileBy.ID, 'com.cmic.college:id/ib_send'),
+
         # # 拨号界面
         # '拨叫号码': (MobileBy.ID, 'com.cmic.college:id/etInputNum'),
-        # '拨号界面_呼叫': (MobileBy.ID, 'com.cmic.college:id/ivVoiceCall'),
+        '拨号界面_呼叫': (MobileBy.ACCESSIBILITY_ID, 'my dialing keyboard nor@2x'),
         # '拨号界面_挂断': (MobileBy.ID, 'com.android.incallui:id/endButton'),
         # '拨号_返回': (MobileBy.XPATH,
         #           '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.view.ViewGroup/android.widget.ImageButton'),
@@ -164,12 +158,16 @@ class CallPage(FooterPage):
         # '广告_立即参与': (MobileBy.ID, 'com.cmic.college:id/ivEnter'),
         #
         # # 通话详情页面
-        # '详情_返回': (MobileBy.ID, 'com.cmic.college:id/ivBack'),
+        '详情_返回': (MobileBy.ACCESSIBILITY_ID, 'contact info back normal@2x'),
         # '详情_更多': (MobileBy.ID, 'com.cmic.college:id/iv_more'),
         # '详情_红点': (MobileBy.ID, 'com.cmic.college:id/view_red_dot'),
-        # '详情_头像': (MobileBy.ID, 'com.cmic.college:id/ivAvatar'),
-        # '详情_名称': (MobileBy.ID, 'com.cmic.college:id/tvName'),
-        # '详情_通话': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
+        '详情_头像': (MobileBy.ACCESSIBILITY_ID,
+                  '/var/containers/Bundle/Application/F8CB15BD-96DD-441F-9F10-0B014FE40C0B'
+                  '/YL.app/UserDefaultSquareHeadImage@2x.png'),
+        '详情_名称': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
+        '详情_通话时间': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
+        '详情_通话类型': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
+        '详情_通话': (MobileBy.ACCESSIBILITY_ID, 'my call white n@2x'),
         # '详情_视频': (MobileBy.ID, 'com.cmic.college:id/tvVideoCall'),
         # '详情_备注标签': (MobileBy.ID, 'com.cmic.college:id/tv_nickname'),
         # '详情_备注内容': (MobileBy.ID, 'com.cmic.college:id/tv_nickset'),
@@ -181,7 +179,7 @@ class CallPage(FooterPage):
         # '详情_通话类型': (MobileBy.ID, 'com.cmic.college:id/tvCallType'),
         # '详情_通话时长': (MobileBy.ID, 'com.cmic.college:id/tvCallDuration'),
         # '详情_邀请使用': (MobileBy.ID, 'com.cmic.college:id/bt_add_meetyou'),
-        # '详情_发起多方视频': (MobileBy.ID, 'com.cmic.college:id/tv_start_call_again'),
+        '详情_发起多方视频': (MobileBy.ID, 'com.cmic.college:id/tv_start_call_again'),
         # # 邀请使用
         # '邀请_微信好友': (MobileBy.ID, 'com.cmic.college:id/tv_wechat'),
         # '邀请_QQ好友': (MobileBy.ID, 'com.cmic.college:id/tv_qq'),
@@ -220,6 +218,15 @@ class CallPage(FooterPage):
         # '现在去开启': (MobileBy.ID, 'android:id/button1'),
 
     }
+
+    def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
+        """默认使用activity作为判断页面是否加载的条件，继承类应该重写该方法"""
+        self.wait_until(
+            lambda d: self.is_text_present('通话'),
+            timeout,
+            auto_accept_alerts
+        )
+        return self
 
     @TestLogger.log('点击通话引导页')
     def click_contact_tip(self):
@@ -320,11 +327,14 @@ class CallPage(FooterPage):
 
     @TestLogger.log("点击包含文本的第一个详细信息(i)元素")
     def click_tag_detail_first_element(self, text):
+        # 获取通话列表所有数据
         elements_list = self.get_elements(self.__locators['通话类型标签'])
+        # 获取"详情"按钮列表
         detail_list = self.get_elements(self.__locators['联系人_详情图标'])
         text_list = [i.text for i in elements_list]
+        # 单击第一个匹配节点
         for index, value in enumerate(text_list):
-            if value == '[' + text + ']':
+            if value.strip() == '[' + text + ']':
                 element_first = detail_list[index]
                 element_first.click()
                 return
@@ -479,31 +489,25 @@ class CallPage(FooterPage):
 
     @TestLogger.log("检查点对点视频通话详细页")
     def check_vedio_call_detail_page(self):
-        for locator in [self.__locators['详情_信息按钮'], self.__locators['详情_视频按钮'], self.__locators['详情_返回']]:
+        # 检查视频按钮/电话按钮
+        for locator in [self.__locators['详情_视频按钮'], self.__locators['详情_返回']]:
             if not self._is_enabled(locator):
                 return "检查点[%s]未通过" % locator
-        # 头像  名字  通话时间  通话类型
-        locator_list = [("id", 'com.cmic.college:id/ivAvatar'), ("id", 'com.cmic.college:id/tvName'),
-                        ("id", 'com.cmic.college:id/tvCallTime'), ("id", 'com.cmic.college:id/tvCallType')]
-        for locator in locator_list:
-            if not self._is_visible(locator):
-                l = locator[-1]
-                if l == 'com.cmic.college:id/ivAvatar':
-                    locator = '详情_头像'
-                elif l == 'com.cmic.college:id/tvName':
-                    locator = '详情_名字'
-                elif l == 'com.cmic.college:id/tvCallTime':
-                    locator = '详情_通话时间'
-                elif l == 'com.cmic.college:id/tvCallType':
-                    locator = '详情_通话类型'
-                else:
-                    locator = '未知错误'
-                return "检查点[%s]未通过" % locator
-        if '通话记录 (视频通话)' != self.get_text(("id", 'com.cmic.college:id/tvCallRecordsType')):
+        # 检查头像/名称/通话时间/通话类型
+        if not self.page_contain_element('详情_头像'):
+            return "检查点[详情_头像]未通过"
+        if not self.page_contain_element('详情_名称'):
+            return "检查点[详情_名称]未通过"
+        if not self.page_contain_element('详情_通话时间'):
+            return "检查点[详情_通话时间]未通过"
+        if not self.page_contain_element('详情_通话类型'):
+            return "检查点[详情_通话类型]未通过"
+        # 检查文字
+        if '通话记录(视频通话)' != self.get_text((MobileBy.ACCESSIBILITY_ID, '通话记录(视频通话)')):
             return "检查点[通话记录 (视频通话)]未通过"
-        if len(self.get_elements(("id", 'com.cmic.college:id/tvCallDuration'))) > 0:
-            if not self._is_visible(("id", 'com.cmic.college:id/tvCallDuration')):  # 通话时长
-                return "检查点[通话时长]未通过"
+        # if len(self.get_elements(("id", 'com.cmic.college:id/tvCallDuration'))) > 0:
+        #     if not self._is_visible(("id", 'com.cmic.college:id/tvCallDuration')):  # 通话时长
+        #         return "检查点[通话时长]未通过"
         return True
 
     @TestLogger.log("检查多方视频详细页")

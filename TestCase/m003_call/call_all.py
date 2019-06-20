@@ -7,7 +7,6 @@ from library.core.utils.testcasefilter import tags
 from pages.guide import GuidePage
 from pages.login.OneKeyLogin import OneKeyLoginPage
 from pages.call.Call import CallPage
-from pages.call.Selectcontact import Selectcontactpage
 import time
 import warnings
 
@@ -224,6 +223,18 @@ class CallPageTest(TestCase):
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_0002(self):
+        """通话界面显示"""
+        time.sleep(2)
+        call = CallPage()
+        call.page_contain_element('通话文案')
+        call.page_contain_element('拨号键盘')
+        if call.is_element_present('来电名称'):
+            call.page_contain_element('来电名称')
+        else:
+            call.page_should_contain_text('打电话不花钱')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_0003(self):
         """通话界面-拨号键盘显示"""
         time.sleep(2)
         call = CallPage()
@@ -248,7 +259,7 @@ class CallPageTest(TestCase):
         self.assertEqual(text == number, True)
 
     @tags('ALL', 'CMCC', 'call')
-    def test_call_0003(self):
+    def test_call_0004(self):
         """通话界面-拨号盘收起"""
         time.sleep(2)
         call = CallPage()
@@ -267,7 +278,7 @@ class CallPageTest(TestCase):
         call.page_contain_element('拨号键盘')
 
     @tags('ALL', 'CMCC', 'call')
-    def test_call_0004(self):
+    def test_call_0005(self):
         """通话界面-点击视频通话"""
         call = CallPage()
         call.click_add()
@@ -280,23 +291,7 @@ class CallPageTest(TestCase):
         # 视频通话页面
         call.is_element_present('视频通话')
 
-    @tags('ALL', 'CMCC', 'call')
-    def test_call_0005(self):
-        """通话界面-打开通话键盘,显示通话记录"""
-        time.sleep(2)
-        call = CallPage()
-        # 点击键盘
-        call.click_keyboard()
-        time.sleep(2)
-        call.is_keyboard_shown()
-        time.sleep(2)
-        if call.is_element_present('来电名称'):
-            call.page_contain_element('来电名称')
-        time.sleep(2)
-        call.page_left()
-        time.sleep(2)
-        call.page_contain_element('收起键盘')
-
+    # 滑动待定???
     @tags('ALL', 'CMCC', 'call')
     def test_call_0006(self):
         """展开拨号盘，不可以左右滑动切换tab，上方内容显示通话模块通话记录内容"""
@@ -308,22 +303,19 @@ class CallPageTest(TestCase):
             call.click_show_keyboard()
         time.sleep(1)
         # 向左滑动
-        call.swipe_by_percent_on_screen(20, 50, 90, 50, 1000)
+        call.swipe_by_percent_on_screen(50, 80, 50, 30)
         # 判断滑动后是否还在此页面
-        if not call.is_exist_call_key():
-            raise RuntimeError('滑动后不在通话界面')
+        self.assertEqual(call.is_exist_call_key(), True)
         # 向右滑动
-        call.swipe_by_percent_on_screen(90, 50, 20, 50, 1000)
+        call.swipe_by_percent_on_screen(90, 50, 20, 50)
         # 判断滑动后是否还在此页面
-        if not call.is_exist_call_key():
-            raise RuntimeError('滑动后不在通话界面')
+        self.assertEqual(call.is_exist_call_key(), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_0007(self):
         """跳出下拉框，可选择视频通话与多方电话"""
         time.sleep(2)
         call = CallPage()
-        call.wait_for_page_load()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -332,10 +324,8 @@ class CallPageTest(TestCase):
         call.click_add()
         time.sleep(1)
         # 判断是否有视频通话与多方电话
-        if not call.is_element_present('视频通话x'):
-            raise RuntimeError('没有视频通话')
-        if not call.is_element_present('多方电话x'):
-            raise RuntimeError('没有多方电话')
+        self.assertEqual(call.is_element_present('视频通话'), True)
+        self.assertEqual(call.is_element_present('多方电话'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_0008(self):
@@ -350,10 +340,9 @@ class CallPageTest(TestCase):
         # 点击加号
         call.click_add()
         time.sleep(1)
-        call.click_locator_key('视频通话x')
+        call.click_locator_key('视频通话')
         time.sleep(1)
-        if not call.check_text_exist('发起视频通话'):
-            raise RuntimeError('没有在视频通话页面')
+        self.assertEqual(call.check_text_exist('视频通话'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_0009(self):
@@ -368,17 +357,16 @@ class CallPageTest(TestCase):
         # 点击加号
         call.click_add()
         time.sleep(1)
-        call.click_locator_key('多方电话x')
+        call.click_locator_key('多方电话')
         time.sleep(1)
-        if not call.check_text_exist('多方电话'):
-            raise RuntimeError('没有在多方电话页面')
+        self.assertEqual(call.check_text_exist('多方电话'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00010(self):
         """
             跳转至通话详情页面中，页面布局左上方返回按钮，顶部展示联系人头像与名称，
             中部展示通话、视频通话，设置备注名，下方展示手机号码与号码归属地，通话记录（视频通话），
-            显示通话类型、通话时 长，通话时间点
+            显示通话类型、通话时长，通话时间点
         """
         time.sleep(2)
         call = CallPage()
@@ -387,15 +375,14 @@ class CallPageTest(TestCase):
         if call.is_exist_call_key():
             call.click_hide_keyboard()
             time.sleep(1)
+        # 视频通话
         call.make_sure_have_p2p_vedio_record()
+        time.sleep(3)
         call.click_tag_detail_first_element('视频通话')
         # 判断
         time.sleep(1)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
-        r = call.check_vedio_call_detail_page()
-        if not r:
-            raise RuntimeError(r)
+        self.assertEqual(call.on_this_page_call_detail(), True)
+        self.assertEqual(call.check_vedio_call_detail_page(), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00011(self):
@@ -417,11 +404,8 @@ class CallPageTest(TestCase):
         # 判断
         time.sleep(1)
         # 是否在多方视频详情页面
-        if not call.on_this_page_multi_video_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
-        r = call.check_multiplayer_vedio_detail_page()
-        if not r:
-            raise RuntimeError(r)
+        self.assertEqual(call.on_this_page_multi_video_detail(), True)
+        self.assertEqual(call.check_multiplayer_vedio_detail_page(), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00012(self):
@@ -437,13 +421,11 @@ class CallPageTest(TestCase):
             time.sleep(1)
         call.click_tag_detail_first_element('飞信电话')
         time.sleep(1)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
+        self.assertEqual(call.on_this_page_call_detail(), True)
         # 单击左上角返回按钮
         call.click_detail_back()
         call.wait_for_page_load()
-        if not call.is_on_this_page():
-            raise RuntimeError('从详情页面返回失败')
+        self.assertEqual(call.is_on_this_page(), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00013(self):
@@ -459,20 +441,16 @@ class CallPageTest(TestCase):
         call.make_sure_have_p2p_voicecall_record()
         call.click_tag_detail_first_element('飞信电话')
         time.sleep(1)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
+        self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 修改为中文
         name = '测试中文备注'
-        if not self.check_modify_nickname(name):
-            raise RuntimeError('测试中文备注出错')
+        self.assertEqual(self.check_modify_nickname(name), True)
         # 2. 修改为全英文
         name = 'testEnglishNickname'
-        if not self.check_modify_nickname(name):
-            raise RuntimeError('测试英文备注出错')
+        self.assertEqual(self.check_modify_nickname(name), True)
         # 3. 修改为特殊字符
         name = '汉字English%^&*()_!@#'
-        if not self.check_modify_nickname(name):
-            raise RuntimeError('测试特殊字符备注出错')
+        self.assertEqual(self.check_modify_nickname(name), True)
 
     def check_modify_nickname(self, name):
         """修改并验证备注是否修改成功"""
