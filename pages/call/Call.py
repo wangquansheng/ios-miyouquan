@@ -76,7 +76,7 @@ class CallPage(FooterPage):
         #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
         #                 'LinearLayout[3]/android.widget.RelativeLayout'),
         #
-        # '多方通话_返回': (MobileBy.XPATH, '//android.widget.ImageButton[@content-desc="转到上一层级"]'),
+        '多方通话_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
         # '电话号码': (MobileBy.ID, 'com.cmic.college:id/contact_number'),
         # '视频通话_字母': (MobileBy.ID, 'com.cmic.college:id/contact_index_bar_container'),
         # '字母_第一个': (MobileBy.XPATH, '//android.widget.ListView[@resource-id="com.cmic.'
@@ -164,34 +164,39 @@ class CallPage(FooterPage):
         '详情_头像': (MobileBy.ACCESSIBILITY_ID,
                   '/var/containers/Bundle/Application/F8CB15BD-96DD-441F-9F10-0B014FE40C0B'
                   '/YL.app/UserDefaultSquareHeadImage@2x.png'),
-        '详情_名称': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
-        '详情_通话时间': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
-        '详情_通话类型': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
+        '详情_名称': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeStaticText'),
+        '详情_通话时长': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeStaticText[2]'),
+        '详情_通话时间': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeStaticText[3]'),
+        '详情_通话类型': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeStaticText[1]'),
+        # 详情 多方视频
+        '详情_头像_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeOther[1]/XCUIElementTypeStaticText[2]'),
+        '详情_名称_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeOther[1]/XCUIElementTypeStaticText[2]'),
+        '详情_通话时长_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[3]/XCUIElementTypeStaticText[2]'),
+        '详情_通话时间_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[3]/XCUIElementTypeStaticText[3]'),
+        '详情_通话类型_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[3]/XCUIElementTypeStaticText[1]'),
         '详情_通话': (MobileBy.ACCESSIBILITY_ID, 'my call white n@2x'),
         # '详情_视频': (MobileBy.ID, 'com.cmic.college:id/tvVideoCall'),
         # '详情_备注标签': (MobileBy.ID, 'com.cmic.college:id/tv_nickname'),
         # '详情_备注内容': (MobileBy.ID, 'com.cmic.college:id/tv_nickset'),
-        # '详情_>': (MobileBy.ID, 'com.cmic.college:id/iv_arrow_right'),
+        '详情_>': (MobileBy.ACCESSIBILITY_ID, '更多信息'),
         # '详情_归属地': (MobileBy.ID, 'com.cmic.college:id/tv_phoneProperty'),
         # '详情_电话号码': (MobileBy.ID, 'com.cmic.college:id/tv_phoneValue'),
         # '详情_通话记录': (MobileBy.ID, 'com.cmic.college:id/tvCallRecordsType'),
         # '详情_通话时间': (MobileBy.ID, 'com.cmic.college:id/tvCallTime'),
-        # '详情_通话类型': (MobileBy.ID, 'com.cmic.college:id/tvCallType'),
-        # '详情_通话时长': (MobileBy.ID, 'com.cmic.college:id/tvCallDuration'),
         # '详情_邀请使用': (MobileBy.ID, 'com.cmic.college:id/bt_add_meetyou'),
-        '详情_发起多方视频': (MobileBy.ID, 'com.cmic.college:id/tv_start_call_again'),
+        '详情_发起多方视频': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="多方视频"]'),
         # # 邀请使用
         # '邀请_微信好友': (MobileBy.ID, 'com.cmic.college:id/tv_wechat'),
         # '邀请_QQ好友': (MobileBy.ID, 'com.cmic.college:id/tv_qq'),
         # '邀请_短信': (MobileBy.ID, 'com.cmic.college:id/tv_sms'),
         #
         # #  修改备注页面
-        # '备注_保存': (MobileBy.ID, 'com.cmic.college:id/nick_name_save'),
+        '备注_保存': (MobileBy.ACCESSIBILITY_ID, '	完成'),
         # '备注_返回': (MobileBy.XPATH, '//android.widget.ImageButton[@content-desc="到上一层级"]'),
-        # '修改备注名': (MobileBy.XPATH, '//android.widget.TextView[@text="修改备注名"]'),
-        # '备注': (MobileBy.ID, 'com.cmic.college:id/edit_query'),
-        # '备注_备注': (MobileBy.XPATH, '//android.widget.EditText[@resource-id="com.cmic.college:id/edit_query"]'),
-        #
+        '修改备注名': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar[@name="修改备注名称"]'),
+        '清除': (MobileBy.ACCESSIBILITY_ID, '清除文本'),
+        '备注_文本': (MobileBy.XPATH, '//XCUIElementTypeTextField/XCUIElementTypeTextField[@value="设置备注名"]'),
+
         # # 流量优惠提示框
         # '流量_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
         # '流量_去开通': (MobileBy.ID, 'com.cmic.college:id/bt_open'),
@@ -260,13 +265,6 @@ class CallPage(FooterPage):
                 '暂不开启') and self.is_text_present('现在去开启'):
             self.click_text('暂不开启')
 
-    #
-    # @TestLogger.log("您的的好友没有开通密友圈")
-    # def close_not_opened_if_exist(self):
-    #     """您的的好友没有开通密友圈"""
-    #     while self.on_this_page_common('无密友圈_提示文本'):
-    #         self.click_locator_key('无密友圈_取消')
-
     @TestLogger.log('等待页面自动跳转')
     def wait_for_page_call(self, max_wait_time=30):
         self.wait_until(
@@ -334,7 +332,7 @@ class CallPage(FooterPage):
         text_list = [i.text for i in elements_list]
         # 单击第一个匹配节点
         for index, value in enumerate(text_list):
-            if value.strip() == '[' + text + ']':
+            if value.strip() == text:
                 element_first = detail_list[index]
                 element_first.click()
                 return
@@ -408,21 +406,21 @@ class CallPage(FooterPage):
 
     @TestLogger.log('确保页面有点对点视频的记录')
     def make_sure_have_p2p_vedio_record(self):
-        if self.is_text_present('视频通话'):
+        if self.is_text_present('[视频通话]'):
             return
         self.point2point_vedio_call()
         self.wait_until(
-            condition=lambda d: self.is_text_present("视频通话"),
+            condition=lambda d: self.is_text_present("[视频通话]"),
             timeout=50,
         )
 
     @TestLogger.log('确保页面有多方视频的记录')
     def make_sure_have_multiplayer_vedio_record(self):
-        if self.is_text_present('多方视频'):
+        if self.is_text_present('[多方视频]'):
             return
         self.multiplayer_vedio_call()
         self.wait_until(
-            condition=lambda d: self.is_text_present("多方视频"),
+            condition=lambda d: self.is_text_present("[多方视频]"),
             timeout=50,
         )
 
@@ -493,38 +491,51 @@ class CallPage(FooterPage):
         for locator in [self.__locators['详情_视频按钮'], self.__locators['详情_返回']]:
             if not self._is_enabled(locator):
                 return "检查点[%s]未通过" % locator
-        # 检查头像/名称/通话时间/通话类型
-        if not self.page_contain_element('详情_头像'):
-            return "检查点[详情_头像]未通过"
-        if not self.page_contain_element('详情_名称'):
-            return "检查点[详情_名称]未通过"
-        if not self.page_contain_element('详情_通话时间'):
-            return "检查点[详情_通话时间]未通过"
-        if not self.page_contain_element('详情_通话类型'):
-            return "检查点[详情_通话类型]未通过"
-        # 检查文字
+
+        # 检查文字"通话记录(视频通话)"文字
+        time.sleep(1)
         if '通话记录(视频通话)' != self.get_text((MobileBy.ACCESSIBILITY_ID, '通话记录(视频通话)')):
             return "检查点[通话记录 (视频通话)]未通过"
-        # if len(self.get_elements(("id", 'com.cmic.college:id/tvCallDuration'))) > 0:
-        #     if not self._is_visible(("id", 'com.cmic.college:id/tvCallDuration')):  # 通话时长
-        #         return "检查点[通话时长]未通过"
+        # 检查头像/名称/通话时间/通话类型
+        time.sleep(1)
+        if not self.is_element_already_exist('详情_头像'):
+            return "检查点[详情_头像]未通过"
+        time.sleep(1)
+        if not self.is_element_already_exist('详情_名称'):
+            return "检查点[详情_名称]未通过"
+        time.sleep(1)
+        if not self.is_element_already_exist('详情_通话类型'):
+            return "检查点[详情_通话类型]未通过"
+        time.sleep(1)
+        if not self.is_element_already_exist('详情_通话时间'):
+            return "检查点[详情_通话时间]未通过"
+        time.sleep(1)
+        if not self.is_element_already_exist('详情_通话时长'):
+            return "检查点[详情_通话时长]未通过"
         return True
 
     @TestLogger.log("检查多方视频详细页")
     def check_multiplayer_vedio_detail_page(self):
         if not self._is_enabled(self.__locators['多方通话_返回']):
             return False
-        # 头像  名字  通话时间  通话类型
-        locator_list = [("id", 'com.cmic.college:id/ivAvatar'), ("id", 'com.cmic.college:id/tvName'),
-                        ("id", 'com.cmic.college:id/tvCallTime'), ("id", 'com.cmic.college:id/tvCallType')]
-        for locator in locator_list:
-            if not self._is_visible(locator):
-                return False
-        if '通话记录 (多方视频)' != self.get_text(("id", 'com.cmic.college:id/tvCallRecordsType')):
+        if '通话记录(多方视频)' != self.get_text((MobileBy.ACCESSIBILITY_ID, '通话记录(多方视频)')):
             return False
-        if len(self.get_elements(("id", 'com.cmic.college:id/tvCallDuration'))) > 0:
-            if not self._is_visible(("id", 'com.cmic.college:id/tvCallDuration')):  # 通话时长
-                return False
+        # 检查头像/名称/通话时间/通话类型
+        time.sleep(1)
+        if not self.is_element_already_exist('详情_头像_多方视频'):
+            return "检查点[详情_头像_多方视频]未通过"
+        time.sleep(1)
+        if not self.is_element_already_exist('详情_名称_多方视频'):
+            return "检查点[详情_名称_多方视频]未通过"
+        time.sleep(1)
+        if not self.is_element_already_exist('详情_通话类型_多方视频'):
+            return "检查点[详情_通话类型_多方视频]未通过"
+        time.sleep(1)
+        if not self.is_element_already_exist('详情_通话时间_多方视频'):
+            return "检查点[详情_通话时间_多方视频]未通过"
+        time.sleep(1)
+        if not self.is_element_already_exist('详情_通话时长_多方视频'):
+            return "检查点[详情_通话时长_多方视频]未通过"
         return True
 
     @TestLogger.log("检查视频页面显示")
@@ -655,8 +666,7 @@ class CallPage(FooterPage):
 
     @TestLogger.log("备注输入框输入文本")
     def input_text_in_nickname(self, text):
-        self.input_text(self.__locators['备注_备注'], text)
-        # self.input_text(self.__locators[locator], text)
+        self.input_text(self.__locators['备注_文本'], text)
 
     @TestLogger.log("保存备注")
     def click_save_nickname(self, ):
@@ -667,14 +677,8 @@ class CallPage(FooterPage):
         return self.get_element(self.__class__.__locators['详情_备注内容']).text
 
     @TestLogger.log('清空文本框内容')
-    def edit_clear(self):
-        locator = self.get_element(self.__class__.__locators['备注']).text
-        self.click_element(self.__locators['备注'])
-        #     123代表光标移动到末尾
-        self.driver.keyevent(123)
-        for i in range(0, len(locator)):
-            # 67退格键
-            self.driver.keyevent(67)
+    def edit_clear(self, clearkey):
+        self.click_element(self.__locators[clearkey])
 
     @TestLogger.log('是否有流量优惠界面')
     def on_this_page_flow(self):
@@ -821,3 +825,20 @@ class CallPage(FooterPage):
     @TestLogger.log('获取所有元素')
     def get_some_elements(self, locator):
         return self.mobile.get_elements(self.__locators[locator])
+
+    @TestLogger.log('飞信电话修改备注')
+    def check_modify_nickname(self, name):
+        """修改并验证备注是否修改成功"""
+        time.sleep(2)
+        self.click_modify_nickname()
+        self.wait_for_page_modify_nickname()
+        time.sleep(0.5)
+        self.edit_clear('清除')
+        self.input_text_in_nickname(name)
+        self.click_save_nickname()
+        time.sleep(2)
+        if not self.on_this_page_call_detail():
+            return False
+        if name != self.get_nickname():
+            return False
+        return True

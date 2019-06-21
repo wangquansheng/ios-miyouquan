@@ -378,7 +378,8 @@ class CallPageTest(TestCase):
         # 视频通话
         call.make_sure_have_p2p_vedio_record()
         time.sleep(3)
-        call.click_tag_detail_first_element('视频通话')
+        # 通话列表筛选"[视频通话]"
+        call.click_tag_detail_first_element('[视频通话]')
         # 判断
         time.sleep(1)
         self.assertEqual(call.on_this_page_call_detail(), True)
@@ -400,7 +401,7 @@ class CallPageTest(TestCase):
             time.sleep(1)
         call.make_sure_have_multiplayer_vedio_record()
         time.sleep(2)
-        call.click_tag_detail_first_element('多方视频')
+        call.click_tag_detail_first_element('[多方视频]')
         # 判断
         time.sleep(1)
         # 是否在多方视频详情页面
@@ -419,7 +420,7 @@ class CallPageTest(TestCase):
         if call.is_exist_call_key():
             call.click_hide_keyboard()
             time.sleep(1)
-        call.click_tag_detail_first_element('飞信电话')
+        call.click_tag_detail_first_element('[飞信电话]')
         time.sleep(1)
         self.assertEqual(call.on_this_page_call_detail(), True)
         # 单击左上角返回按钮
@@ -439,35 +440,18 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_voicecall_record()
-        call.click_tag_detail_first_element('飞信电话')
+        call.click_tag_detail_first_element('[飞信电话]')
         time.sleep(1)
         self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 修改为中文
         name = '测试中文备注'
-        self.assertEqual(self.check_modify_nickname(name), True)
-        # 2. 修改为全英文
-        name = 'testEnglishNickname'
-        self.assertEqual(self.check_modify_nickname(name), True)
-        # 3. 修改为特殊字符
-        name = '汉字English%^&*()_!@#'
-        self.assertEqual(self.check_modify_nickname(name), True)
-
-    def check_modify_nickname(self, name):
-        """修改并验证备注是否修改成功"""
-        call = CallPage()
-        call.click_modify_nickname()
-        call.wait_for_page_modify_nickname()
-        time.sleep(0.5)
-        # call.input_text_in_nickname('')
-        call.edit_clear()
-        call.input_text_in_nickname(name)
-        call.click_save_nickname()
-        time.sleep(2)
-        if not call.on_this_page_call_detail():
-            return False
-        if name != call.get_nickname():
-            return False
-        return True
+        self.assertEqual(call.check_modify_nickname(name), True)
+        # # 2. 修改为全英文
+        # name = 'testEnglishNickname'
+        # self.assertEqual(call.check_modify_nickname(name), True)
+        # # 3. 修改为特殊字符
+        # name = '汉字English%^&*()_!@#'
+        # self.assertEqual(call.check_modify_nickname(name), True)
 
     # @tags('ALL', 'CMCC', 'call')
     # def test_call_00014(self):
