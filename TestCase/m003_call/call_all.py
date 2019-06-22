@@ -540,6 +540,7 @@ class CallPageTest(TestCase):
         name = '<a href="www.baidu.com"/>a<a/>'
         self.assertEqual(call.check_modify_nickname(name), True)
 
+    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00019(self):
         """
@@ -576,6 +577,7 @@ class CallPageTest(TestCase):
         else:
             self.assertEqual("测试等待时间异常。", True)
 
+    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00020(self):
         """
@@ -610,6 +612,7 @@ class CallPageTest(TestCase):
         # if not call.on_this_page_call_detail():
         #     raise RuntimeError('测试出错')
 
+    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00023(self):
         """
@@ -625,24 +628,24 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_vedio_record()
-        call.click_tag_detail_first_element('视频通话')
+        call.click_tag_detail_first_element('[视频通话]')
         time.sleep(2)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
+        self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 点击视频通话按钮
-        call.click_locator_key('详情_视频')
-        time.sleep(1)
-        if call.on_this_page_flow():
-            call.set_not_reminders()
-            time.sleep(1)
-            call.click_locator_key('流量_继续拨打')
+        call.click_locator_key('详情_视频按钮')
+        # time.sleep(1)
+        # if call.on_this_page_flow():
+        #     call.set_not_reminders()
+        #     time.sleep(1)
+        #     call.click_locator_key('流量_继续拨打')
         time.sleep(1)
         if call.on_this_page_common('无密友圈_提示文本'):
             call.click_locator_key('无密友圈_取消')
         time.sleep(3)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('测试出错')
+        self.assertEqual(call.on_this_page_call_detail(), True)
+        self.assertEqual(call.on_this_page_call_detail(), True)
 
+    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00025(self):
         """
@@ -663,25 +666,23 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_vedio_record()
-        call.click_tag_detail_first_element('视频通话')
+        call.click_tag_detail_first_element('[视频通话]')
         time.sleep(2)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
+        self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 点击视频通话按钮
-        call.click_locator_key('详情_视频')
+        call.click_locator_key('详情_视频按钮')
         time.sleep(1)
-        if call.on_this_page_flow():
-            call.set_not_reminders()
-            time.sleep(1)
-            call.click_locator_key('流量_继续拨打')
+        # if call.on_this_page_flow():
+        #     call.set_not_reminders()
+        #     time.sleep(1)
+        #     call.click_locator_key('流量_继续拨打')
         time.sleep(1)
-        if call.on_this_page_common('无密友圈_提示文本'):
-            call.click_locator_key('无密友圈_确定')
+        self.assertEqual(call.on_this_page_common('无密友圈_提示文本'), True)
         time.sleep(1)
         name = Preconditions.get_current_activity_name()
-        if 'com.android.mms' != name:
-            raise RuntimeError('测试出错')
+        self.assertEqual('com.android.mms' == name, True)
 
+    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00026(self):
         """
@@ -697,24 +698,23 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_vedio_record()
-        call.click_tag_detail_first_element('视频通话')
+        call.click_tag_detail_first_element('[视频通话]')
         time.sleep(2)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
+        self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 点击视频通话按钮
-        call.click_locator_key('详情_视频')
-        time.sleep(1)
-        if call.on_this_page_flow():
-            call.set_not_reminders()
-            time.sleep(1)
-            call.click_locator_key('流量_继续拨打')
+        call.click_locator_key('详情_视频按钮')
+        # time.sleep(1)
+        # if call.on_this_page_flow():
+        #     call.set_not_reminders()
+        #     time.sleep(1)
+        #     call.click_locator_key('流量_继续拨打')
         time.sleep(1)
         if call.on_this_page_common('无密友圈_提示文本'):
             call.click_locator_key('无密友圈_取消')
         time.sleep(3)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('测试出错')
+        self.assertEqual(call.on_this_page_call_detail(), True)
 
+    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00027(self):
         """
@@ -732,10 +732,9 @@ class CallPageTest(TestCase):
         call.make_sure_have_p2p_vedio_record()
         call.click_tag_detail_first_element('视频通话')
         time.sleep(2)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
+        self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 点击视频通话按钮
-        call.click_locator_key('详情_视频')
+        call.click_locator_key('详情_视频按钮')
         time.sleep(1)
         if call.on_this_page_flow():
             call.set_not_reminders()
@@ -768,6 +767,7 @@ class CallPageTest(TestCase):
     #     call.wait_for_page_call_load()
     #     self.assertEquals(call.check_text_exist(name), True)
 
+    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00031(self):
         """
@@ -781,19 +781,18 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_voicecall_record()
-        call.click_tag_detail_first_element('飞信电话')
+        call.click_tag_detail_first_element('[飞信电话]')
         time.sleep(1)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
+        self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 修改为中文
         name = '修改后的备注'
-        if not self.check_modify_nickname(name):
-            raise RuntimeError('修改备注出错')
-        call.click_locator_key('详情_视频')
+        self.assertEqual(call.check_modify_nickname(name), True)
+        call.click_locator_key('详情_视频按钮')
         time.sleep(3)
         comment = call.get_element_text('视频_备注')
         self.assertEquals(name == comment, True)
 
+    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00032(self):
         """
@@ -810,10 +809,9 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_voicecall_record()
-        call.click_tag_detail_first_element('飞信电话')
+        call.click_tag_detail_first_element('[飞信电话]')
         time.sleep(1)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
+        self.assertEqual(call.on_this_page_call_detail(), True)
         call.click_locator_key('详情_邀请使用')
         time.sleep(0.5)
         call.click_locator_key('邀请_短信')
@@ -822,6 +820,7 @@ class CallPageTest(TestCase):
         print(activity_name)
         self.assertEquals('com.android.mms' == activity_name, True)
 
+    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00034(self):
         """
@@ -839,10 +838,11 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_voicecall_record()
-        call.press_tag_detail_first_element('飞信电话')
+        call.press_tag_detail_first_element('[飞信电话]')
         time.sleep(1)
         self.assertEquals(call.check_text_exist('删除该通话记录') and call.check_text_exist('清除全部通话记录'), True)
 
+    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00035(self):
         """
@@ -865,7 +865,7 @@ class CallPageTest(TestCase):
             time.sleep(1)
         # 点对点通话
         call.make_sure_have_p2p_voicecall_record()
-        call.press_tag_detail_first_element('飞信电话')
+        call.press_tag_detail_first_element('[飞信电话]')
         time.sleep(1)
         if call.check_text_exist('删除该通话记录'):
             call.click_locator_key('通话记录_删除一条')
@@ -898,7 +898,7 @@ class CallPageTest(TestCase):
             raise RuntimeError('没有弹出菜单')
         if not call.is_on_this_page():
             raise RuntimeError('删除多方视频出错')
-
+    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00036(self):
         """
@@ -963,6 +963,7 @@ class CallPageTest(TestCase):
         if not call.is_on_this_page():
             raise RuntimeError('清除全部通话记录出错')
 
+    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00037(self):
         """
@@ -1109,19 +1110,17 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.click_locator_key('+')
-        time.sleep(0.5)
+        time.sleep(1)
         call.click_locator_key('视频通话')
-        time.sleep(0.5)
-        if not call.is_text_present('发起视频通话'):
-            raise RuntimeError('发起视频通话验证出错')
-        if not call.on_this_page_common('多方通话_返回'):
-            raise RuntimeError('多方通话_返回验证出错')
-        if not call.on_this_page_common('呼叫'):
-            raise RuntimeError('呼叫验证出错')
-        if not call.on_this_page_common('联系人列表'):
-            raise RuntimeError('联系人列表验证出错')
-        if not call.on_this_page_common('视频通话_字母'):
-            raise RuntimeError('视频通话_字母验证出错')
+        time.sleep(2)
+        self.assertEqual(call.is_text_present('视频通话'), True)
+        time.sleep(1)
+        self.assertEqual(call.on_this_page_common('视频呼叫_取消'), True)
+        self.assertEqual(call.on_this_page_common('视频呼叫_确定'), True)
+        time.sleep(1)
+        self.assertEqual(call.on_this_page_common('视频呼叫_联系人列表'), True)
+        time.sleep(1)
+        self.assertEqual(call.on_this_page_common('视频通话_字母'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00041(self):
@@ -1141,13 +1140,12 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         call.click_locator_key('视频通话')
         time.sleep(1)
-        call.wait_page_load_common('发起视频通话')
+        call.wait_page_load_common('视频呼叫_通话选择')
         time.sleep(1)
-        call.click_locator_key('字母_C')
+        call.click_locator_key('视频呼叫_字母C')
         time.sleep(0.3)
-        text = call.get_element_text('字母_第一个')
-        if 'C' != text:
-            raise RuntimeError('快速定位出错')
+        text = call.get_element_text('视频呼叫_字母第一个')
+        self.assertEqual('C' == text, True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00042(self):
@@ -1162,15 +1160,14 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.click_locator_key('+')
-        time.sleep(0.5)
+        time.sleep(1)
         call.click_locator_key('视频通话')
         time.sleep(1)
-        call.wait_page_load_common('发起视频通话')
-        time.sleep(1)
-        call.select_contact_n(1)
-        text = call.get_element_text('呼叫')
-        if '呼叫(1/8)' != text:
-            raise RuntimeError('测试出错')
+        self.assertEqual(call.is_text_present('视频通话'), True)
+        time.sleep(10)
+        # call.select_contact_n(1)
+        # text = call.get_element_text('视频呼叫_确定')
+        # self.assertEqual('呼叫(1/8)' == text, True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00043(self):

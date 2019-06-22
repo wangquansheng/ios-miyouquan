@@ -53,9 +53,11 @@ class CallPage(FooterPage):
         '拨号键盘': (MobileBy.ACCESSIBILITY_ID, 'my dialing nor@2x'),
 
         # 通话发起：视频通话页面
-        '视频_通话选择': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="视频通话"]'),
+        '视频呼叫_通话选择': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="视频通话"]'),
         '呼叫': (MobileBy.ACCESSIBILITY_ID, 'my dialing keyboard nor@2x'),
-        # '联系人列表': (MobileBy.ID, 'com.cmic.college:id/contact_list_item'),
+        '视频呼叫_取消': (MobileBy.ACCESSIBILITY_ID, '取消'),
+        '视频呼叫_确定': (MobileBy.ACCESSIBILITY_ID, '确定'),
+        '视频呼叫_联系人列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'),
         # '通话_发起视频通话': (MobileBy.XPATH, '//android.widget.TextView[@text="发起视频通话"]'),
         # '视频通话_第一个联系人': (MobileBy.XPATH,
         #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
@@ -78,13 +80,9 @@ class CallPage(FooterPage):
         #
         '多方通话_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
         # '电话号码': (MobileBy.ID, 'com.cmic.college:id/contact_number'),
-        # '视频通话_字母': (MobileBy.ID, 'com.cmic.college:id/contact_index_bar_container'),
-        # '字母_第一个': (MobileBy.XPATH, '//android.widget.ListView[@resource-id="com.cmic.'
-        #                            'college:id/contact_list"]/android.widget.'
-        #                            'LinearLayout[1]/android.widget.LinearLayout'
-        #                            '[1]/android.widget.LinearLayout[1]/android.widget.TextView[1]'),
-        # '字母_C': (MobileBy.XPATH, '//android.widget.LinearLayout[@resource-id="com.cmic.college:id/contact_in'
-        #                          'dex_bar_container"]/android.widget.TextView[3]'),
+        '视频通话_字母': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeOther'),
+        '视频呼叫_字母第一个': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="C"]'),
+        '视频呼叫_字母C': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="C"]'),
         # '视频通话_搜索': (MobileBy.ID, 'com.cmic.college:id/editText_keyword'),
         # '视频通话_接听': (MobileBy.ID, 'com.cmic.college:id/ivVideoAnswer'),
         # '视频通话_挂断': (MobileBy.ID, 'com.cmic.college:id/ivCancel'),
@@ -183,7 +181,7 @@ class CallPage(FooterPage):
         # '详情_电话号码': (MobileBy.ID, 'com.cmic.college:id/tv_phoneValue'),
         # '详情_通话记录': (MobileBy.ID, 'com.cmic.college:id/tvCallRecordsType'),
         # '详情_通话时间': (MobileBy.ID, 'com.cmic.college:id/tvCallTime'),
-        # '详情_邀请使用': (MobileBy.ID, 'com.cmic.college:id/bt_add_meetyou'),
+        '详情_邀请使用': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
         '详情_发起多方视频': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="多方视频"]'),
         # # 邀请使用
         # '邀请_微信好友': (MobileBy.ID, 'com.cmic.college:id/tv_wechat'),
@@ -312,16 +310,16 @@ class CallPage(FooterPage):
         """输入文本"""
         return self.input_text(self.__locators[locator], text)
 
-    @TestLogger.log("点击包含文本的第一个元素")
-    def click_tag_text_first_element(self, text):
-        elements_list = self.get_elements(self.__locators['通话类型标签'])
-        text_list = [i.text for i in elements_list]
-        for index, value in enumerate(text_list):
-            if value == '[' + text + ']':
-                element_first = elements_list[index]
-                element_first.click()
-                return
-        raise AssertionError("没有找到对应的标签--{}".format(text))
+    # @TestLogger.log("点击包含文本的第一个元素")
+    # def click_tag_text_first_element(self, text):
+    #     elements_list = self.get_elements(self.__locators['通话类型标签'])
+    #     text_list = [i.text for i in elements_list]
+    #     for index, value in enumerate(text_list):
+    #         if value == '[' + text + ']':
+    #             element_first = elements_list[index]
+    #             element_first.click()
+    #             return
+    #     raise AssertionError("没有找到对应的标签--{}".format(text))
 
     @TestLogger.log("点击包含文本的第一个详细信息(i)元素")
     def click_tag_detail_first_element(self, text):
