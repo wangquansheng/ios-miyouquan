@@ -1162,12 +1162,13 @@ class CallPageTest(TestCase):
         call.click_locator_key('+')
         time.sleep(1)
         call.click_locator_key('视频通话')
+        time.sleep(2)
+        call.is_element_present('视频呼叫_通话选择')
+        time.sleep(2)
+        self.assertEqual(call.select_contact_n(1), True)
         time.sleep(1)
-        self.assertEqual(call.is_text_present('视频通话'), True)
-        time.sleep(10)
-        # call.select_contact_n(1)
-        # text = call.get_element_text('视频呼叫_确定')
-        # self.assertEqual('呼叫(1/8)' == text, True)
+        text = call.get_element_text('视频呼叫_确定')
+        self.assertEqual('确定(1/8)' == text, True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00043(self):
@@ -1185,12 +1186,13 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         call.click_locator_key('视频通话')
         time.sleep(1)
-        call.wait_page_load_common('发起视频通话')
+        call.is_element_present('视频呼叫_通话选择')
+        # 选择联系人
         time.sleep(1)
-        call.select_contact_n(2)
-        text = call.get_element_text('呼叫')
-        if '呼叫(2/8)' != text:
-            raise RuntimeError('测试出错')
+        self.assertEqual(call.select_contact_n(2), True)
+        # 校验联系人
+        text = call.get_element_text('视频呼叫_确定')
+        self.assertEqual('确定(2/8)' == text, True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00044(self):
@@ -1208,12 +1210,11 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         call.click_locator_key('视频通话')
         time.sleep(1)
-        call.wait_page_load_common('发起视频通话')
+        call.is_element_present('视频呼叫_通话选择')
         time.sleep(1)
-        call.select_contact_n(3)
-        text = call.get_element_text('呼叫')
-        if '呼叫(3/8)' != text:
-            raise RuntimeError('测试出错')
+        self.assertEqual(call.select_contact_n(3), True)
+        text = call.get_element_text('视频呼叫_确定')
+        self.assertEqual('确定(3/8)' == text, True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00045(self):
@@ -1231,11 +1232,10 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         call.click_locator_key('视频通话')
         time.sleep(1)
-        call.wait_page_load_common('发起视频通话')
+        call.is_element_present('视频呼叫_通话选择')
         time.sleep(1)
-        call.select_contact_more(9)
-        if not call.is_toast_exist('最多只能选择8人', timeout=8):
-            raise RuntimeError('测试出错')
+        self.assertEqual(call.select_contact_n(9), False)
+        self.assertEqual(call.is_toast_exist('最多只能选择8人', timeout=8), True)
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00051(self):

@@ -2,9 +2,11 @@ from appium.webdriver.common.mobileby import MobileBy
 from library.core.TestLogger import TestLogger
 from library.core.utils.applicationcache import current_mobile
 from pages.components.Footer import FooterPage
+import traceback
 import time
 
 
+# noinspection PyBroadException
 class CallPage(FooterPage):
     """通话页面"""
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
@@ -56,8 +58,8 @@ class CallPage(FooterPage):
         '视频呼叫_通话选择': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="视频通话"]'),
         '呼叫': (MobileBy.ACCESSIBILITY_ID, 'my dialing keyboard nor@2x'),
         '视频呼叫_取消': (MobileBy.ACCESSIBILITY_ID, '取消'),
-        '视频呼叫_确定': (MobileBy.ACCESSIBILITY_ID, '确定'),
-        '视频呼叫_联系人列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'),
+        '视频呼叫_确定': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar/XCUIElementTypeButton[2]'),
+        '视频呼叫_联系人列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
         # '通话_发起视频通话': (MobileBy.XPATH, '//android.widget.TextView[@text="发起视频通话"]'),
         # '视频通话_第一个联系人': (MobileBy.XPATH,
         #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
@@ -715,35 +717,35 @@ class CallPage(FooterPage):
     #     except:
     #         return ''
 
-    @TestLogger.log('选择第n个联系人')
+    @TestLogger.log('选择N个联系人')
     def select_contact_n(self, number):
-        """选择第n个联系人"""
+        """选择N个联系人"""
         try:
-            lists = []
-            locator = (MobileBy.ID, 'com.cmic.college:id/contact_number')
             count = 0
-            els = self.get_elements(locator)
-            while True:
-                if count > len(els) - 1:
-                    count = 0
-                    self.page_up()
-                    time.sleep(1)
-                    els = self.get_elements(locator)
-                    continue
-                el = els[count]
-                count += 1
-                if el.text in lists:
-                    continue
-                el.click()
-                lists.append(el.text)
-                selected = self.get_element_text('呼叫').split('/')[0].split('(')[-1]
-                if number > int(selected):
-                    continue
+            els = self.get_elements((MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'))
+            time.sleep(3)
+            # 联系人列表大于0，和N个联系人
+            if count >= len(els) - 1:
+                return False
+            if number > len(els) - 1:
+                return False
+            # 选择联系人, 点击之后页面变化，需重新获取元素
+            for cell in range(number):
+                els = self.get_elements((MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'))
+                els[cell].click()
+                time.sleep(3)
+            # 最多选择8个联系人
+            selected = self.get_element_text('视频呼叫_确定').split('/')[0].split('(')[-1]
+            if 8 <= int(selected):
+                return False
+            else:
+                if number == int(selected):
+                    return True
                 else:
                     return False
-        except Exception as e:
-            print(e)
-            return False
+        except Exception:
+            print(traceback.print_exc())
+        return False
 
     @TestLogger.log('获取指定运营商类型的手机卡（不传类型返回全部配置的手机卡）')
     def get_cards(self, card_type):
@@ -841,4 +843,3 @@ class CallPage(FooterPage):
         if name != nickname:
             return "检查点[%s]不等于[%s]未通过" % (name, nickname)
         return True
-
