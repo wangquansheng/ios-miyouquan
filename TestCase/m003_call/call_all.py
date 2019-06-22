@@ -446,22 +446,24 @@ class CallPageTest(TestCase):
         # 1. 修改为中文
         name = '测试中文备注'
         self.assertEqual(call.check_modify_nickname(name), True)
-        # # 2. 修改为全英文
-        # name = 'testEnglishNickname'
-        # self.assertEqual(call.check_modify_nickname(name), True)
-        # # 3. 修改为特殊字符
-        # name = '汉字English%^&*()_!@#'
-        # self.assertEqual(call.check_modify_nickname(name), True)
+        # 2. 修改为全英文
+        time.sleep(2)
+        name = 'testEnglishNickname'
+        self.assertEqual(call.check_modify_nickname(name), True)
+        # 3. 修改为特殊字符，ios输入限制"&"
+        time.sleep(2)
+        name = '汉字English%^&*()_!@#'
+        self.assertEqual(call.check_modify_nickname(name), True)
 
-    # @tags('ALL', 'CMCC', 'call')
-    # def test_call_00014(self):
-    #     """超长的字符不显示"""
-    #     call = CallPage()
-    #     call.wait_for_page_load()
-    #     # 判断如果键盘已拉起，则收起键盘
-    #     if call.is_exist_call_key():
-    #         call.click_hide_keyboard()
-    #         time.sleep(1)
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00014(self):
+        """超长的字符不显示"""
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
     #     call.make_sure_have_p2p_voicecall_record()
     #     call.click_tag_detail_first_element('飞信电话')
     #     time.sleep(1)
@@ -489,6 +491,16 @@ class CallPageTest(TestCase):
     #     return True
 
     @tags('ALL', 'CMCC', 'call')
+    def test_call_00015(self):
+        """保存后用户名称用回服务器返回的名称"""
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'call')
     def test_call_00016(self):
         """
             验证通话记录详情页-编辑备注名---输入sql语句并点击保存---保存成功
@@ -500,14 +512,13 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_vedio_record()
-        call.click_tag_detail_first_element('视频通话')
+        call.click_tag_detail_first_element('[视频通话]')
         time.sleep(1)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
+        self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 修改为中文
+        time.sleep(1)
         name = 'select now()'
-        if not self.check_modify_nickname(name):
-            raise RuntimeError('测试sql备注出错')
+        self.assertEqual(call.check_modify_nickname(name), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00017(self):
@@ -521,14 +532,13 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_vedio_record()
-        call.click_tag_detail_first_element('视频通话')
+        call.click_tag_detail_first_element('[视频通话]')
         time.sleep(1)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
-        # 1. 修改为中文
+        self.assertEqual(call.on_this_page_call_detail(), True)
+        # 1. 修改为中文, ios不支持"<",">"
+        time.sleep(1)
         name = '<a href="www.baidu.com"/>a<a/>'
-        if not self.check_modify_nickname(name):
-            raise RuntimeError('测试sql备注出错')
+        self.assertEqual(call.check_modify_nickname(name), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00019(self):
@@ -545,27 +555,26 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_vedio_record()
-        call.click_tag_detail_first_element('视频通话')
+        call.click_tag_detail_first_element('[视频通话]')
         time.sleep(1)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
+        self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 点击视频通话按钮
-        call.click_locator_key('详情_视频')
-        time.sleep(1)
-        if call.on_this_page_flow():
-            call.set_not_reminders()
-            time.sleep(1)
-            call.click_locator_key('流量_继续拨打')
-        time.sleep(25)
-        count = 20
+        call.click_locator_key('详情_视频按钮')
+        # time.sleep(1)
+        # if call.on_this_page_flow():
+        #     call.set_not_reminders()
+        #     time.sleep(1)
+        #     call.click_locator_key('流量_继续拨打')
+        time.sleep(20)
+        count = 30
         while count > 0:
-            exist = call.is_toast_exist("对方未接听，请稍候再尝试")
+            exist = call.is_text_present('对方不在线，暂时无法接听，请稍后重试。')
             if exist:
                 break
             time.sleep(0.3)
             count -= 1
         else:
-            raise RuntimeError('测试出错')
+            self.assertEqual("测试等待时间异常。", True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00020(self):
@@ -582,25 +591,24 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_vedio_record()
-        call.click_tag_detail_first_element('视频通话')
+        call.click_tag_detail_first_element('[视频通话]')
         time.sleep(1)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('通话记录---详情：打开失败')
+        self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 点击视频通话按钮
-        call.click_locator_key('详情_视频')
-        time.sleep(1)
-        if call.on_this_page_flow():
-            call.set_not_reminders()
-            time.sleep(1)
-            call.click_locator_key('流量_继续拨打')
+        call.click_locator_key('详情_视频按钮')
+        # time.sleep(1)
+        # if call.on_this_page_flow():
+        #     call.set_not_reminders()
+        #     time.sleep(1)
+        #     call.click_locator_key('流量_继续拨打')
         time.sleep(3)
         call.click_locator_key('视频_结束视频通话')
-        exist = call.is_toast_exist("通话结束")
-        if not exist:
-            raise RuntimeError('测试出错[通话结束]')
-        time.sleep(5)
-        if not call.on_this_page_call_detail():
-            raise RuntimeError('测试出错')
+        # exist = call.is_toast_exist("通话结束")
+        # if not exist:
+        #     raise RuntimeError('测试出错[通话结束]')
+        # time.sleep(5)
+        # if not call.on_this_page_call_detail():
+        #     raise RuntimeError('测试出错')
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00023(self):

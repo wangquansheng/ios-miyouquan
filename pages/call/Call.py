@@ -16,13 +16,13 @@ class CallPage(FooterPage):
         # '遮罩1': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
         # '遮罩2': (MobileBy.ID, 'com.cmic.college:id/header'),
 
-        #
+        # 通话首页
         '通话文案': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="通话"]'),
         '来电名称': (MobileBy.XPATH, '//XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
         '来电详情': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic@2x'),
         '+': (MobileBy.ACCESSIBILITY_ID, 'add normal@2x'),
 
-        # 通话界面
+        # 通话：通话界面
         '通话_通话': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="通话"]'),
         '视频通话': (MobileBy.IOS_PREDICATE, 'name=="视频通话"'),
         '多方电话': (MobileBy.IOS_PREDICATE, 'name=="多方电话"'),
@@ -34,7 +34,7 @@ class CallPage(FooterPage):
                   '/XCUIElementTypeOther[1]/XCUIElementTypeTextField'),
         '收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic@2x'),
 
-        # 通话页签数字
+        # 通话：键盘数字
         'keyboard_1': (MobileBy.ACCESSIBILITY_ID,
                        '/var/containers/Bundle/Application/F8CB15BD-96DD-441F-9F10-0B014FE40C0B/YL.app/my_call_1@2x.png'),
         'keyboard_2': (MobileBy.ACCESSIBILITY_ID,
@@ -46,15 +46,15 @@ class CallPage(FooterPage):
         # 'tip2': (MobileBy.ID, 'com.cmic.college:id/ivKeyboard'),
         # 'tip3': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
         # '视频': (MobileBy.ID, 'com.cmic.college:id/ivMultipartyCall'),
-        # 视频通话/多方电话/飞信电话
+        # 通话：类型视频通话/多方电话/飞信电话
         '通话类型标签': (MobileBy.XPATH, '//XCUIElementTypeCell/XCUIElementTypeStaticText[2]'),
         '联系人_详情图标': (MobileBy.ACCESSIBILITY_ID, 'call info outline@2x'),
         '电话图标': (MobileBy.ACCESSIBILITY_ID, 'my call white n@2x'),
         '拨号键盘': (MobileBy.ACCESSIBILITY_ID, 'my dialing nor@2x'),
 
-        # 发起视频通话页面
+        # 通话发起：视频通话页面
+        '视频_通话选择': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="视频通话"]'),
         '呼叫': (MobileBy.ACCESSIBILITY_ID, 'my dialing keyboard nor@2x'),
-
         # '联系人列表': (MobileBy.ID, 'com.cmic.college:id/contact_list_item'),
         # '通话_发起视频通话': (MobileBy.XPATH, '//android.widget.TextView[@text="发起视频通话"]'),
         # '视频通话_第一个联系人': (MobileBy.XPATH,
@@ -177,7 +177,7 @@ class CallPage(FooterPage):
         '详情_通话': (MobileBy.ACCESSIBILITY_ID, 'my call white n@2x'),
         # '详情_视频': (MobileBy.ID, 'com.cmic.college:id/tvVideoCall'),
         # '详情_备注标签': (MobileBy.ID, 'com.cmic.college:id/tv_nickname'),
-        # '详情_备注内容': (MobileBy.ID, 'com.cmic.college:id/tv_nickset'),
+        '详情_备注内容': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
         '详情_>': (MobileBy.ACCESSIBILITY_ID, '更多信息'),
         # '详情_归属地': (MobileBy.ID, 'com.cmic.college:id/tv_phoneProperty'),
         # '详情_电话号码': (MobileBy.ID, 'com.cmic.college:id/tv_phoneValue'),
@@ -191,11 +191,11 @@ class CallPage(FooterPage):
         # '邀请_短信': (MobileBy.ID, 'com.cmic.college:id/tv_sms'),
         #
         # #  修改备注页面
-        '备注_保存': (MobileBy.ACCESSIBILITY_ID, '	完成'),
+        '备注_保存': (MobileBy.ACCESSIBILITY_ID, '完成'),
         # '备注_返回': (MobileBy.XPATH, '//android.widget.ImageButton[@content-desc="到上一层级"]'),
         '修改备注名': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar[@name="修改备注名称"]'),
-        '清除': (MobileBy.ACCESSIBILITY_ID, '清除文本'),
-        '备注_文本': (MobileBy.XPATH, '//XCUIElementTypeTextField/XCUIElementTypeTextField[@value="设置备注名"]'),
+        '备注_清除': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="清除文本"]'),
+        '备注_文本': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
 
         # # 流量优惠提示框
         # '流量_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
@@ -205,7 +205,7 @@ class CallPage(FooterPage):
         #
         # # 视频通话界面
         # '视频_转为语音通话': (MobileBy.ID, 'com.cmic.college:id/video_iv_change_to_voice'),
-        # '视频_结束视频通话': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
+        '视频_结束视频通话': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
         # '视频_切换摄像头': (MobileBy.ID, 'com.cmic.college:id/video_iv_switch_camera'),
         # '视频_备注': (MobileBy.ID, 'com.cmic.college:id/video_tv_name'),
         #
@@ -676,10 +676,6 @@ class CallPage(FooterPage):
     def get_nickname(self):
         return self.get_element(self.__class__.__locators['详情_备注内容']).text
 
-    @TestLogger.log('清空文本框内容')
-    def edit_clear(self, clearkey):
-        self.click_element(self.__locators[clearkey])
-
     @TestLogger.log('是否有流量优惠界面')
     def on_this_page_flow(self):
         """是否在流量优惠界面页面"""
@@ -832,13 +828,19 @@ class CallPage(FooterPage):
         time.sleep(2)
         self.click_modify_nickname()
         self.wait_for_page_modify_nickname()
-        time.sleep(0.5)
-        self.edit_clear('清除')
+        # 点击清除按钮
+        time.sleep(1)
+        if self.is_element_already_exist('备注_清除'):
+            self.click_locator_key('备注_清除')
+        time.sleep(2)
+        # 设置文本，并且保存
         self.input_text_in_nickname(name)
         self.click_save_nickname()
-        time.sleep(2)
+        time.sleep(3)
         if not self.on_this_page_call_detail():
             return False
-        if name != self.get_nickname():
-            return False
+        nickname = self.get_nickname()
+        if name != nickname:
+            return "检查点[%s]不等于[%s]未通过" % (name, nickname)
         return True
+
