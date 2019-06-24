@@ -188,12 +188,12 @@ class CallPage(FooterPage):
         # # 邀请使用
         # '邀请_微信好友': (MobileBy.ID, 'com.cmic.college:id/tv_wechat'),
         # '邀请_QQ好友': (MobileBy.ID, 'com.cmic.college:id/tv_qq'),
-        # '邀请_短信': (MobileBy.ID, 'com.cmic.college:id/tv_sms'),
+        '飞信电话_邀请_短信': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
         #
         # #  修改备注页面
         '备注_保存': (MobileBy.ACCESSIBILITY_ID, '完成'),
         # '备注_返回': (MobileBy.XPATH, '//android.widget.ImageButton[@content-desc="到上一层级"]'),
-        '修改备注名': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar[@name="修改备注名称"]'),
+        '修改备注名称': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar[@name="修改备注名称"]'),
         '备注_清除': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="清除文本"]'),
         '备注_文本': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
 
@@ -205,14 +205,15 @@ class CallPage(FooterPage):
         #
         # # 视频通话界面
         # '视频_转为语音通话': (MobileBy.ID, 'com.cmic.college:id/video_iv_change_to_voice'),
-        '视频_结束视频通话': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
+        # '视频_结束视频通话': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
         # '视频_切换摄像头': (MobileBy.ID, 'com.cmic.college:id/video_iv_switch_camera'),
-        # '视频_备注': (MobileBy.ID, 'com.cmic.college:id/video_tv_name'),
-        #
+        '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
+
         # # 对方还未使用密友圈，喊他一起来免流量视频通话
-        # '无密友圈_提示文本': (MobileBy.XPATH, '//*[contains(@text,"对方还未使用密友圈")]'),
-        # '无密友圈_确定': (MobileBy.ID, 'com.cmic.college:id/btnConfirm'),
-        # '无密友圈_取消': (MobileBy.ID, 'com.cmic.college:id/btnCancel'),
+        '无密友圈_提示文本': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="无密友圈"]'),
+        '无密友圈_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
+        '无密友圈_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
+
         # '回呼_提示文本': (MobileBy.ID, 'com.cmic.college:id/content'),
         # '回呼_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
         # '回呼_我知道了': (MobileBy.ID, 'com.cmic.college:id/bt_open'),
@@ -343,8 +344,9 @@ class CallPage(FooterPage):
         elements_list = self.get_elements(self.__locators['通话类型标签'])
         text_list = [i.text for i in elements_list]
         for index, value in enumerate(text_list):
-            if value == '[' + text + ']':
+            if value == text:
                 element_first = elements_list[index]
+                # 向右滑动控件
                 self.press(element_first)
                 return
 
@@ -608,6 +610,30 @@ class CallPage(FooterPage):
     def click_hide_keyboard(self):
         self.click_element(self.__class__.__locators['收起键盘'])
 
+    @TestLogger.log("视频通话结束弹出框")
+    def click_conversation_popup(self):
+        """
+        视频通话结束弹出框
+        :return:
+        """
+        self.click_coordinate(185, 578)
+
+    @TestLogger.log("对方没有使用密友圈取消按钮")
+    def click_cancel_popup(self):
+        """
+        对方没有使用密友圈
+        :return:
+        """
+        self.click_element(self.__class__.__locators['无密友圈_取消'])
+
+    @TestLogger.log("对方没有使用密友圈确认按钮")
+    def click_ok_popup(self):
+        """
+        对方没有使用密友圈确认按钮
+        :return:
+        """
+        self.click_element(self.__class__.__locators['无密友圈_确定'])
+
     @TestLogger.log("点击打开键盘")
     def click_show_keyboard(self):
         self.click_element(self.__class__.__locators['拨号键盘'])
@@ -656,7 +682,7 @@ class CallPage(FooterPage):
     @TestLogger.log('等待页面自动跳转')
     def wait_for_page_modify_nickname(self, max_wait_time=30):
         self.wait_until(
-            condition=lambda d: self.is_text_present("修改备注名"),
+            condition=lambda d: self.is_element_present('修改备注名称'),
             timeout=max_wait_time,
         )
 
@@ -722,9 +748,9 @@ class CallPage(FooterPage):
         """选择N个联系人"""
         try:
             count = 0
-            els = self.get_elements((MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'))
-            time.sleep(3)
             # 联系人列表大于0，和N个联系人
+            els = self.get_elements((MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'))
+            time.sleep(2)
             if count >= len(els) - 1:
                 return False
             if number > len(els) - 1:
@@ -733,10 +759,17 @@ class CallPage(FooterPage):
             for cell in range(number):
                 els = self.get_elements((MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'))
                 els[cell].click()
-                time.sleep(3)
+                time.sleep(2)
+                # 向上滑动
+                if cell % 4 == 0:
+                    self.page_up()
+                    time.sleep(2)
+            if 8 == number:
+                time.sleep(2)
+
             # 最多选择8个联系人
             selected = self.get_element_text('视频呼叫_确定').split('/')[0].split('(')[-1]
-            if 8 <= int(selected):
+            if 8 < int(selected):
                 return False
             else:
                 if number == int(selected):
@@ -744,7 +777,7 @@ class CallPage(FooterPage):
                 else:
                     return False
         except Exception:
-            print(traceback.print_exc())
+            traceback.print_exc()
         return False
 
     @TestLogger.log('获取指定运营商类型的手机卡（不传类型返回全部配置的手机卡）')
@@ -832,7 +865,7 @@ class CallPage(FooterPage):
         time.sleep(1)
         if self.is_element_already_exist('备注_清除'):
             self.click_locator_key('备注_清除')
-        time.sleep(2)
+            time.sleep(2)
         # 设置文本，并且保存
         self.input_text_in_nickname(name)
         self.click_save_nickname()
@@ -841,5 +874,8 @@ class CallPage(FooterPage):
             return False
         nickname = self.get_nickname()
         if name != nickname:
-            return "检查点[%s]不等于[%s]未通过" % (name, nickname)
+            return False
         return True
+
+
+

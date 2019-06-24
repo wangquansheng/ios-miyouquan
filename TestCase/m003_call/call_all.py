@@ -291,7 +291,6 @@ class CallPageTest(TestCase):
         # 视频通话页面
         call.is_element_present('视频通话')
 
-    # 滑动待定???
     @tags('ALL', 'CMCC', 'call')
     def test_call_0006(self):
         """展开拨号盘，不可以左右滑动切换tab，上方内容显示通话模块通话记录内容"""
@@ -457,38 +456,28 @@ class CallPageTest(TestCase):
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00014(self):
-        """超长的字符不显示"""
+        """
+            超长的字符不显示
+        """
         call = CallPage()
         call.wait_for_page_load()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
             time.sleep(1)
-    #     call.make_sure_have_p2p_voicecall_record()
-    #     call.click_tag_detail_first_element('飞信电话')
-    #     time.sleep(1)
-    #     if not call.on_this_page_call_detail():
-    #         raise RuntimeError('通话记录---详情：打开失败')
-    #     # 1. 修改为中文
-    #     name = '测试超长字符TestTooLong@#$%^&%$^&^$&**&^%'
-    #     call.click_modify_nickname()
-    #     call.wait_for_page_modify_nickname()
-    #     time.sleep(0.5)
-    #     call.edit_clear()
-    #     call.input_text_in_nickname(name)
-    #     call.click_save_nickname()
-    #     time.sleep(2)
-    #     if not call.on_this_page_call_detail():
-    #         return False
-    #     lenTxt = len(name)
-    #     lenTxt_utf8 = len(name.encode('utf-8'))
-    #     size = int((lenTxt_utf8 - lenTxt) / 2 + lenTxt)
-    #     if size > 30:
-    #         if name != call.get_nickname():
-    #             return
-    #     else:
-    #         raise RuntimeError('测试备注没有大于最大长度')
-    #     return True
+        call.make_sure_have_p2p_voicecall_record()
+        call.click_tag_detail_first_element('[飞信电话]')
+        time.sleep(1)
+        self.assertEqual(call.on_this_page_call_detail(), True)
+        # 1. 修改为中文
+        name = '测试超长字符TestTooLong@#$%^&%$^&^$&**&^%'
+        call.check_modify_nickname(name)
+        time.sleep(2)
+        word_length = len(name)
+        word_utf_8 = len(name.encode('utf-8'))
+        size = int((word_utf_8 - word_length) / 2 + word_length)
+        self.assertEqual(size > 0, False)
+        self.assertEqual(name != call.get_nickname(), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00015(self):
@@ -499,6 +488,13 @@ class CallPageTest(TestCase):
         if call.is_exist_call_key():
             call.click_hide_keyboard()
             time.sleep(1)
+        call.make_sure_have_p2p_voicecall_record()
+        call.click_tag_detail_first_element('[飞信电话]')
+        time.sleep(1)
+        self.assertEqual(call.on_this_page_call_detail(), True)
+        # 1. 修改为中文，空格" "修改为""
+        name = ' '
+        self.assertEqual(call.check_modify_nickname(name), False)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00016(self):
@@ -540,7 +536,6 @@ class CallPageTest(TestCase):
         name = '<a href="www.baidu.com"/>a<a/>'
         self.assertEqual(call.check_modify_nickname(name), True)
 
-    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00019(self):
         """
@@ -577,10 +572,9 @@ class CallPageTest(TestCase):
         else:
             self.assertEqual("测试等待时间异常。", True)
 
-    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00020(self):
-        """
+        """ iphone7
             1、联网正常已登录
             2、对方离线
             3、当前页通话记录详情
@@ -603,16 +597,12 @@ class CallPageTest(TestCase):
         #     call.set_not_reminders()
         #     time.sleep(1)
         #     call.click_locator_key('流量_继续拨打')
-        time.sleep(3)
-        call.click_locator_key('视频_结束视频通话')
-        # exist = call.is_toast_exist("通话结束")
-        # if not exist:
-        #     raise RuntimeError('测试出错[通话结束]')
-        # time.sleep(5)
-        # if not call.on_this_page_call_detail():
-        #     raise RuntimeError('测试出错')
+        time.sleep(5)
+        # 单击通话结束按钮
+        call.click_conversation_popup()
+        time.sleep(5)
+        self.assertEqual(call.on_this_page_call_detail(), True)
 
-    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00023(self):
         """
@@ -638,14 +628,15 @@ class CallPageTest(TestCase):
         #     call.set_not_reminders()
         #     time.sleep(1)
         #     call.click_locator_key('流量_继续拨打')
+        # 点击结束通话
         time.sleep(1)
-        if call.on_this_page_common('无密友圈_提示文本'):
-            call.click_locator_key('无密友圈_取消')
+        call.click_conversation_popup()
+        # 无密友圈, 点击取消按钮
+        if call.is_element_present("无密友圈_取消"):
+            call.click_cancel_popup()
         time.sleep(3)
         self.assertEqual(call.on_this_page_call_detail(), True)
-        self.assertEqual(call.on_this_page_call_detail(), True)
 
-    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00025(self):
         """
@@ -671,18 +662,18 @@ class CallPageTest(TestCase):
         self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 点击视频通话按钮
         call.click_locator_key('详情_视频按钮')
-        time.sleep(1)
+        # time.sleep(1)
         # if call.on_this_page_flow():
         #     call.set_not_reminders()
         #     time.sleep(1)
         #     call.click_locator_key('流量_继续拨打')
-        time.sleep(1)
-        self.assertEqual(call.on_this_page_common('无密友圈_提示文本'), True)
-        time.sleep(1)
-        name = Preconditions.get_current_activity_name()
-        self.assertEqual('com.android.mms' == name, True)
+        # 对方没有使用密友圈。
+        time.sleep(5)
+        if call.is_element_present("无密友圈_确定"):
+            call.click_ok_popup()
+        else:
+            raise RuntimeError("页面元素验证异常")
 
-    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00026(self):
         """
@@ -708,9 +699,10 @@ class CallPageTest(TestCase):
         #     call.set_not_reminders()
         #     time.sleep(1)
         #     call.click_locator_key('流量_继续拨打')
-        time.sleep(1)
-        if call.on_this_page_common('无密友圈_提示文本'):
-            call.click_locator_key('无密友圈_取消')
+        # 对方没有使用密友圈。
+        time.sleep(5)
+        if call.is_element_present("无密友圈_取消"):
+            call.click_cancel_popup()
         time.sleep(3)
         self.assertEqual(call.on_this_page_call_detail(), True)
 
@@ -730,7 +722,7 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_vedio_record()
-        call.click_tag_detail_first_element('视频通话')
+        call.click_tag_detail_first_element('[视频通话]')
         time.sleep(2)
         self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 点击视频通话按钮
@@ -768,6 +760,7 @@ class CallPageTest(TestCase):
     #     self.assertEquals(call.check_text_exist(name), True)
 
     # ？？？
+
     @tags('ALL', 'CMCC', 'call')
     def test_call_00031(self):
         """
@@ -788,11 +781,12 @@ class CallPageTest(TestCase):
         name = '修改后的备注'
         self.assertEqual(call.check_modify_nickname(name), True)
         call.click_locator_key('详情_视频按钮')
-        time.sleep(3)
-        comment = call.get_element_text('视频_备注')
+        time.sleep(2)
+        comment = call.is_text_present(name)
+        time.sleep(2)
+        call.click_cancel_popup()
         self.assertEquals(name == comment, True)
 
-    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00032(self):
         """
@@ -814,13 +808,8 @@ class CallPageTest(TestCase):
         self.assertEqual(call.on_this_page_call_detail(), True)
         call.click_locator_key('详情_邀请使用')
         time.sleep(0.5)
-        call.click_locator_key('邀请_短信')
-        time.sleep(1)
-        activity_name = Preconditions.get_current_activity_name()
-        print(activity_name)
-        self.assertEquals('com.android.mms' == activity_name, True)
+        call.click_locator_key('飞信电话_邀请_短信')
 
-    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00034(self):
         """
@@ -840,9 +829,8 @@ class CallPageTest(TestCase):
         call.make_sure_have_p2p_voicecall_record()
         call.press_tag_detail_first_element('[飞信电话]')
         time.sleep(1)
-        self.assertEquals(call.check_text_exist('删除该通话记录') and call.check_text_exist('清除全部通话记录'), True)
+        self.assertEquals(call.check_text_exist('删除该通话记录'), True)
 
-    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00035(self):
         """
@@ -898,7 +886,7 @@ class CallPageTest(TestCase):
             raise RuntimeError('没有弹出菜单')
         if not call.is_on_this_page():
             raise RuntimeError('删除多方视频出错')
-    # ？？？
+
     @tags('ALL', 'CMCC', 'call')
     def test_call_00036(self):
         """
@@ -963,7 +951,6 @@ class CallPageTest(TestCase):
         if not call.is_on_this_page():
             raise RuntimeError('清除全部通话记录出错')
 
-    # ？？？
     @tags('ALL', 'CMCC', 'call')
     def test_call_00037(self):
         """
@@ -1249,7 +1236,7 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
