@@ -34,20 +34,23 @@ class CallPage(FooterPage):
                   '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
                   '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
                   '/XCUIElementTypeOther[1]/XCUIElementTypeTextField'),
-        '收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic@2x'),
-
+        '通话_删除该通话记录': (MobileBy.ACCESSIBILITY_ID, '删除'),
         # 通话：键盘数字
-        'keyboard_1': (MobileBy.ACCESSIBILITY_ID,
-                       '/var/containers/Bundle/Application/F8CB15BD-96DD-441F-9F10-0B014FE40C0B/YL.app/my_call_1@2x.png'),
-        'keyboard_2': (MobileBy.ACCESSIBILITY_ID,
-                       '/var/containers/Bundle/Application/F8CB15BD-96DD-441F-9F10-0B014FE40C0B/YL.app/my_call_2@2x.png'),
-        'keyboard_3': (MobileBy.ACCESSIBILITY_ID,
-                       '/var/containers/Bundle/Application/F8CB15BD-96DD-441F-9F10-0B014FE40C0B/YL.app/my_call_3@2x.png'),
-
+        'keyboard_1': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_1@2x.png"'),
+        'keyboard_2': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_2@2x.png"'),
+        'keyboard_3': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_3@2x.png"'),
+        'keyboard_4': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_4@2x.png"'),
+        'keyboard_5': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_5@2x.png"'),
+        'keyboard_6': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_6@2x.png"'),
+        'keyboard_7': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_7@2x.png"'),
+        'keyboard_8': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_8@2x.png"'),
+        'keyboard_0': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_0@2x.png"'),
+        '收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic@2x'),
         # 'tip1': (MobileBy.ID, 'com.cmic.college:id/ivFreeCall'),
         # 'tip2': (MobileBy.ID, 'com.cmic.college:id/ivKeyboard'),
         # 'tip3': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
         # '视频': (MobileBy.ID, 'com.cmic.college:id/ivMultipartyCall'),
+
         # 通话：类型视频通话/多方电话/飞信电话
         '通话类型标签': (MobileBy.XPATH, '//XCUIElementTypeCell/XCUIElementTypeStaticText[2]'),
         '联系人_详情图标': (MobileBy.ACCESSIBILITY_ID, 'call info outline@2x'),
@@ -161,9 +164,10 @@ class CallPage(FooterPage):
         '详情_返回': (MobileBy.ACCESSIBILITY_ID, 'contact info back normal@2x'),
         # '详情_更多': (MobileBy.ID, 'com.cmic.college:id/iv_more'),
         # '详情_红点': (MobileBy.ID, 'com.cmic.college:id/view_red_dot'),
-        '详情_头像': (MobileBy.ACCESSIBILITY_ID,
-                  '/var/containers/Bundle/Application/F8CB15BD-96DD-441F-9F10-0B014FE40C0B'
-                  '/YL.app/UserDefaultSquareHeadImage@2x.png'),
+        '详情_头像': (MobileBy.XPATH,
+                  'XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
+                  '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
+                  '/XCUIElementTypeImage[2]'),
         '详情_名称': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeStaticText'),
         '详情_通话时长': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeStaticText[2]'),
         '详情_通话时间': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeStaticText[3]'),
@@ -185,12 +189,14 @@ class CallPage(FooterPage):
         # '详情_通话时间': (MobileBy.ID, 'com.cmic.college:id/tvCallTime'),
         '详情_邀请使用': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
         '详情_发起多方视频': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="多方视频"]'),
-        # # 邀请使用
+
+        # 邀请使用
         # '邀请_微信好友': (MobileBy.ID, 'com.cmic.college:id/tv_wechat'),
         # '邀请_QQ好友': (MobileBy.ID, 'com.cmic.college:id/tv_qq'),
         '飞信电话_邀请_短信': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
-        #
-        # #  修改备注页面
+        '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
+
+        #  修改备注页面
         '备注_保存': (MobileBy.ACCESSIBILITY_ID, '完成'),
         # '备注_返回': (MobileBy.XPATH, '//android.widget.ImageButton[@content-desc="到上一层级"]'),
         '修改备注名称': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar[@name="修改备注名称"]'),
@@ -209,11 +215,10 @@ class CallPage(FooterPage):
         # '视频_切换摄像头': (MobileBy.ID, 'com.cmic.college:id/video_iv_switch_camera'),
         '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
 
-        # # 对方还未使用密友圈，喊他一起来免流量视频通话
+        # 对方还未使用密友圈，喊他一起来免流量视频通话
         '无密友圈_提示文本': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="无密友圈"]'),
         '无密友圈_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
         '无密友圈_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
-
         # '回呼_提示文本': (MobileBy.ID, 'com.cmic.college:id/content'),
         # '回呼_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
         # '回呼_我知道了': (MobileBy.ID, 'com.cmic.college:id/bt_open'),
@@ -228,7 +233,7 @@ class CallPage(FooterPage):
     def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
         """默认使用activity作为判断页面是否加载的条件，继承类应该重写该方法"""
         self.wait_until(
-            lambda d: self.is_text_present('通话'),
+            lambda d: self.is_element_present('通话_通话'),
             timeout,
             auto_accept_alerts
         )
@@ -298,8 +303,29 @@ class CallPage(FooterPage):
     def click_locator_key(self, locator):
         self.click_element(self.__locators[locator])
 
+    @TestLogger.log("通话页面点击删除按钮")
+    def click_delete_key(self, text):
+        locator = (MobileBy.XPATH, "//*[contains(@name,'%s')]/../XCUIElementTypeOther/XCUIElementTypeButton[@name='删除']" % text)
+        self.click_element(locator)
+
+    @TestLogger.log("通话页面点击删除按钮，删除所有")
+    def click_delete_all_key(self, text):
+        time.sleep(2)
+        while self.is_text_present(text):
+            time.sleep(5)
+            self.make_sure_have_multiplayer_vedio_record()
+            self.press_tag_detail_first_element(text)
+            self.assertEqual(self.is_element_already_exist('通话_删除该通话记录'), True)
+            time.sleep(5)
+            locator = (MobileBy.XPATH,
+                       "//*[contains(@name,'%s')]/../XCUIElementTypeOther/XCUIElementTypeButton[@name='删除']" % text)
+            self.click_element(locator)
+            time.sleep(2)
+        self.assertEqual(self.is_on_this_page(), True)
+
     @TestLogger.log("当前页面是否包含此文本")
     def check_text_exist(self, text):
+        """当前页面是否包含此文本"""
         """当前页面是否包含此文本"""
         return self.is_text_present(text)
 
@@ -341,14 +367,10 @@ class CallPage(FooterPage):
 
     @TestLogger.log("长按包含文本的第一个通话记录元素")
     def press_tag_detail_first_element(self, text):
-        elements_list = self.get_elements(self.__locators['通话类型标签'])
-        text_list = [i.text for i in elements_list]
-        for index, value in enumerate(text_list):
-            if value == text:
-                element_first = elements_list[index]
-                # 向右滑动控件
-                self.press(element_first)
-                return
+        time.sleep(1)
+        locator = (MobileBy.IOS_PREDICATE, "name CONTAINS '%s'" % text)
+        self.swipe_by_direction(locator, "left")
+        time.sleep(5)
 
     @TestLogger.log('拨打并挂断一个点对点语音通话')
     def point2point_voice_call(self):
@@ -499,19 +521,19 @@ class CallPage(FooterPage):
         if '通话记录(视频通话)' != self.get_text((MobileBy.ACCESSIBILITY_ID, '通话记录(视频通话)')):
             return "检查点[通话记录 (视频通话)]未通过"
         # 检查头像/名称/通话时间/通话类型
-        time.sleep(1)
+        time.sleep(2)
         if not self.is_element_already_exist('详情_头像'):
             return "检查点[详情_头像]未通过"
-        time.sleep(1)
+        time.sleep(2)
         if not self.is_element_already_exist('详情_名称'):
             return "检查点[详情_名称]未通过"
-        time.sleep(1)
+        time.sleep(2)
         if not self.is_element_already_exist('详情_通话类型'):
             return "检查点[详情_通话类型]未通过"
-        time.sleep(1)
+        time.sleep(2)
         if not self.is_element_already_exist('详情_通话时间'):
             return "检查点[详情_通话时间]未通过"
-        time.sleep(1)
+        time.sleep(2)
         if not self.is_element_already_exist('详情_通话时长'):
             return "检查点[详情_通话时长]未通过"
         return True
@@ -616,7 +638,10 @@ class CallPage(FooterPage):
         视频通话结束弹出框
         :return:
         """
-        self.click_coordinate(185, 578)
+        # iphone 7: xp=(appium x)/375, yp=(appium y)/667
+        x_percentage = 49
+        y_percentage = 86.6
+        self.click_coordinate(x_percentage, y_percentage)
 
     @TestLogger.log("对方没有使用密友圈取消按钮")
     def click_cancel_popup(self):
@@ -761,9 +786,9 @@ class CallPage(FooterPage):
                 els[cell].click()
                 time.sleep(2)
                 # 向上滑动
-                if cell % 4 == 0:
-                    self.page_up()
-                    time.sleep(2)
+                # if cell % 4 == 0:
+                #     self.page_up()
+                #     time.sleep(2)
             if 8 == number:
                 time.sleep(2)
 
@@ -877,5 +902,108 @@ class CallPage(FooterPage):
             return False
         return True
 
+    @TestLogger.log('添加视频通话记录')
+    def test_call_video_condition(self):
+        """
+        添加视频通话记录
+        :return:
+        """
+        # 初始化数据
+        time.sleep(2)
+        if not self.is_text_present("[视频通话]"):
+            self.click_add()
+            time.sleep(1)
+            self.click_call('视频通话')
+            self.select_contact_n(1)
+            time.sleep(2)
+            self.click_locator_key('视频呼叫_确定')
+            time.sleep(5)
+            self.click_conversation_popup()
+            time.sleep(2)
+            if self.is_element_present("无密友圈_确定"):
+                self.click_cancel_popup()
+                time.sleep(1)
 
+    @TestLogger.log('添加多方视频记录')
+    def test_call_more_video_condition(self):
+        """
+        添加多方视频记录
+        :return:
+        """
+        # 初始化数据
+        time.sleep(2)
+        if not self.is_text_present("[多方视频]"):
+            self.click_add()
+            time.sleep(2)
+            self.click_call('视频通话')
+            self.select_contact_n(2)
+            time.sleep(2)
+            self.click_locator_key('视频呼叫_确定')
+            time.sleep(5)
+            self.click_conversation_popup()
+            time.sleep(2)
+            if self.is_element_present("无密友圈_确定"):
+                self.click_cancel_popup()
+                time.sleep(1)
 
+    @TestLogger.log('添加飞信电话记录')
+    def test_call_more_phone_condition(self):
+        """
+        添加飞信电话记录
+        :return:
+        """
+        # 初始化数据
+        time.sleep(2)
+        self.click_keyboard()
+        time.sleep(3)
+        self.click_keyboard_call('keyboard_1')
+        time.sleep(2)
+        self.click_keyboard_call('keyboard_2')
+        time.sleep(2)
+        self.click_keyboard_call('keyboard_5')
+        time.sleep(2)
+        self.click_keyboard_call('keyboard_6')
+        time.sleep(2)
+        self.click_keyboard_call('keyboard_0')
+        time.sleep(2)
+        self.click_locator_key('呼叫')
+        time.sleep(5)
+        self.click_locator_key('飞信电话_我知道了')
+        time.sleep(5)
+        self.click_conversation_popup()
+        time.sleep(2)
+
+    @TestLogger.log('添加飞信电话记录，没有注册')
+    def test_call_more_phone_no_condition(self):
+        """
+        添加飞信电话记录
+        :return:
+        """
+        # 初始化数据
+        time.sleep(2)
+        self.click_keyboard()
+        time.sleep(3)
+        self.click_keyboard_call('keyboard_1')
+        time.sleep(2)
+        self.click_keyboard_call('keyboard_8')
+        time.sleep(2)
+        self.click_keyboard_call('keyboard_6')
+        time.sleep(2)
+        self.click_keyboard_call('keyboard_0')
+        time.sleep(2)
+        self.click_keyboard_call('keyboard_0')
+        time.sleep(2)
+        self.click_keyboard_call('keyboard_0')
+        time.sleep(2)
+        self.click_keyboard_call('keyboard_0')
+        time.sleep(2)
+        self.click_keyboard_call('keyboard_1')
+        time.sleep(2)
+        self.click_keyboard_call('keyboard_0')
+        time.sleep(2)
+        self.click_locator_key('呼叫')
+        time.sleep(5)
+        self.click_locator_key('飞信电话_我知道了')
+        time.sleep(5)
+        self.click_conversation_popup()
+        time.sleep(2)

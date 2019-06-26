@@ -197,6 +197,7 @@ class Preconditions(object):
         client.disconnect_mobile()
         return client
 
+
 class CallPageTest(TestCase):
     """Call 模块--全量"""
 
@@ -299,6 +300,7 @@ class CallPageTest(TestCase):
         call.wait_for_page_load()
         # 判断如果键盘是拉起的，则不需要再次拉起
         if call.is_on_this_page():
+            time.sleep(2)
             call.click_show_keyboard()
         time.sleep(1)
         # 向左滑动
@@ -321,7 +323,7 @@ class CallPageTest(TestCase):
             time.sleep(1)
         # 点击加号
         call.click_add()
-        time.sleep(1)
+        time.sleep(2)
         # 判断是否有视频通话与多方电话
         self.assertEqual(call.is_element_present('视频通话'), True)
         self.assertEqual(call.is_element_present('多方电话'), True)
@@ -338,9 +340,9 @@ class CallPageTest(TestCase):
             time.sleep(1)
         # 点击加号
         call.click_add()
-        time.sleep(1)
+        time.sleep(2)
         call.click_locator_key('视频通话')
-        time.sleep(1)
+        time.sleep(2)
         self.assertEqual(call.check_text_exist('视频通话'), True)
 
     @tags('ALL', 'CMCC', 'call')
@@ -355,9 +357,9 @@ class CallPageTest(TestCase):
             time.sleep(1)
         # 点击加号
         call.click_add()
-        time.sleep(1)
+        time.sleep(2)
         call.click_locator_key('多方电话')
-        time.sleep(1)
+        time.sleep(2)
         self.assertEqual(call.check_text_exist('多方电话'), True)
 
     @tags('ALL', 'CMCC', 'call')
@@ -370,6 +372,9 @@ class CallPageTest(TestCase):
         time.sleep(2)
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_video_condition()
+        time.sleep(5)
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -379,8 +384,8 @@ class CallPageTest(TestCase):
         time.sleep(3)
         # 通话列表筛选"[视频通话]"
         call.click_tag_detail_first_element('[视频通话]')
-        # 判断
-        time.sleep(1)
+        # 判断参数校验
+        time.sleep(2)
         self.assertEqual(call.on_this_page_call_detail(), True)
         self.assertEqual(call.check_vedio_call_detail_page(), True)
 
@@ -394,6 +399,8 @@ class CallPageTest(TestCase):
         time.sleep(2)
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_more_video_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -415,6 +422,8 @@ class CallPageTest(TestCase):
         time.sleep(2)
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_more_phone_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -434,15 +443,19 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_more_phone_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
             time.sleep(1)
+        # 获取当前页面
         call.make_sure_have_p2p_voicecall_record()
         call.click_tag_detail_first_element('[飞信电话]')
         time.sleep(1)
         self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 修改为中文
+        time.sleep(2)
         name = '测试中文备注'
         self.assertEqual(call.check_modify_nickname(name), True)
         # 2. 修改为全英文
@@ -461,6 +474,8 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_more_phone_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -470,6 +485,7 @@ class CallPageTest(TestCase):
         time.sleep(1)
         self.assertEqual(call.on_this_page_call_detail(), True)
         # 1. 修改为中文
+        time.sleep(1)
         name = '测试超长字符TestTooLong@#$%^&%$^&^$&**&^%'
         call.check_modify_nickname(name)
         time.sleep(2)
@@ -484,6 +500,8 @@ class CallPageTest(TestCase):
         """保存后用户名称用回服务器返回的名称"""
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_more_phone_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -503,6 +521,8 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_video_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -523,6 +543,8 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_video_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -546,6 +568,8 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_video_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -582,6 +606,8 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_video_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -613,6 +639,8 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_video_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -652,6 +680,8 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_video_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -684,6 +714,8 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_video_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -769,6 +801,8 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_more_phone_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -785,7 +819,7 @@ class CallPageTest(TestCase):
         comment = call.is_text_present(name)
         time.sleep(2)
         call.click_cancel_popup()
-        self.assertEquals(name == comment, True)
+        self.assertEqual(name == comment, True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00032(self):
@@ -798,6 +832,8 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_more_phone_no_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -822,14 +858,16 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_more_phone_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
             time.sleep(1)
         call.make_sure_have_p2p_voicecall_record()
         call.press_tag_detail_first_element('[飞信电话]')
-        time.sleep(1)
-        self.assertEquals(call.check_text_exist('删除该通话记录'), True)
+        time.sleep(2)
+        self.assertEqual(call.is_element_present('通话_删除该通话记录'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00035(self):
@@ -844,9 +882,11 @@ class CallPageTest(TestCase):
             8、该条记录删除成功"
         """
         call = CallPage()
-        time.sleep(5)
-        call.close_ad_if_exist()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_more_phone_condition()
+        call.test_call_more_video_condition()
+        call.test_call_video_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -854,38 +894,29 @@ class CallPageTest(TestCase):
         # 点对点通话
         call.make_sure_have_p2p_voicecall_record()
         call.press_tag_detail_first_element('[飞信电话]')
+        self.assertEqual(call.is_element_already_exist('通话_删除该通话记录'), True)
+        time.sleep(5)
+        call.click_delete_key('[飞信电话]')
         time.sleep(1)
-        if call.check_text_exist('删除该通话记录'):
-            call.click_locator_key('通话记录_删除一条')
-            call.wait_for_page_load()
-        else:
-            raise RuntimeError('没有弹出菜单')
-        if not call.is_on_this_page():
-            raise RuntimeError('删除点对点通话出错')
-        time.sleep(3)
+        self.assertEqual(call.is_on_this_page(), True)
         # 点对点视频
+        time.sleep(2)
         call.make_sure_have_p2p_vedio_record()
-        call.press_tag_detail_first_element('视频通话')
-        time.sleep(1)
-        if call.check_text_exist('删除该通话记录'):
-            call.click_locator_key('通话记录_删除一条')
-            call.wait_for_page_load()
-        else:
-            raise RuntimeError('没有弹出菜单')
-        if not call.is_on_this_page():
-            raise RuntimeError('删除点对点视频出错')
-        time.sleep(3)
+        call.press_tag_detail_first_element('[视频通话]')
+        self.assertEqual(call.is_element_already_exist('通话_删除该通话记录'), True)
+        time.sleep(5)
+        call.click_delete_key('[视频通话]')
+        time.sleep(2)
+        self.assertEqual(call.is_on_this_page(), True)
         # 多方视频
+        time.sleep(5)
         call.make_sure_have_multiplayer_vedio_record()
-        call.press_tag_detail_first_element('多方视频')
-        time.sleep(1)
-        if call.check_text_exist('删除该通话记录'):
-            call.click_locator_key('通话记录_删除一条')
-            call.wait_for_page_load()
-        else:
-            raise RuntimeError('没有弹出菜单')
-        if not call.is_on_this_page():
-            raise RuntimeError('删除多方视频出错')
+        call.press_tag_detail_first_element('[多方视频]')
+        self.assertEqual(call.is_element_already_exist('通话_删除该通话记录'), True)
+        time.sleep(5)
+        call.click_delete_key('[多方视频]')
+        time.sleep(2)
+        self.assertEqual(call.is_on_this_page(), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00036(self):
@@ -901,55 +932,20 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
+        # 判断是否有通话记录
+        call.test_call_more_phone_condition()
+        call.test_call_more_video_condition()
+        call.test_call_video_condition()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
             time.sleep(1)
         # 点对点通话
-        call.make_sure_have_p2p_voicecall_record()
-        call.wait_for_page_load()
-        call.press_tag_detail_first_element('飞信电话')
-        time.sleep(1)
-        if call.check_text_exist('清除全部通话记录'):
-            call.click_locator_key('通话记录_删除全部')
-            time.sleep(0.5)
-            call.click_locator_key('通话记录_确定')
-            call.wait_for_page_load()
-        else:
-            raise RuntimeError('没有弹出菜单')
-        if not call.is_on_this_page():
-            raise RuntimeError('清除全部通话记录出错')
-        time.sleep(3)
+        call.click_delete_all_key('[飞信电话]')
         # 点对点视频
-        call.make_sure_have_p2p_vedio_record()
-        call.wait_for_page_load()
-        call.press_tag_detail_first_element('视频通话')
-        time.sleep(1)
-        if call.check_text_exist('清除全部通话记录'):
-            call.click_locator_key('通话记录_删除全部')
-            time.sleep(0.5)
-            call.click_locator_key('通话记录_确定')
-            call.wait_for_page_load()
-        else:
-            raise RuntimeError('没有弹出菜单')
-        if not call.is_on_this_page():
-            raise RuntimeError('清除全部通话记录出错')
-        time.sleep(3)
+        call.click_delete_all_key('[视频通话]')
         # 多方视频
-        call.make_sure_have_multiplayer_vedio_record()
-        # call.click_locator_key('多方通话_返回')
-        call.wait_for_page_load()
-        call.press_tag_detail_first_element('多方视频')
-        time.sleep(1)
-        if call.check_text_exist('清除全部通话记录'):
-            call.click_locator_key('通话记录_删除全部')
-            time.sleep(0.5)
-            call.click_locator_key('通话记录_确定')
-            call.wait_for_page_load()
-        else:
-            raise RuntimeError('没有弹出菜单')
-        if not call.is_on_this_page():
-            raise RuntimeError('清除全部通话记录出错')
+        call.click_delete_all_key('[多方视频]')
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00037(self):
@@ -966,121 +962,70 @@ class CallPageTest(TestCase):
         if call.is_exist_call_key():
             call.click_hide_keyboard()
             time.sleep(1)
-        # 清除全部通话记录
-        if call.is_text_present('飞信电话'):
-            call.press_tag_detail_first_element('飞信电话')
-            time.sleep(1)
-            if call.check_text_exist('清除全部通话记录'):
-                call.click_locator_key('通话记录_删除全部')
-                time.sleep(0.5)
-                call.click_locator_key('通话记录_确定')
-                call.wait_for_page_load()
-            else:
-                raise RuntimeError('清除通话记录出错')
-        elif call.is_text_present('视频通话'):
-            call.press_tag_detail_first_element('视频通话')
-            time.sleep(1)
-            if call.check_text_exist('清除全部通话记录'):
-                call.click_locator_key('通话记录_删除全部')
-                time.sleep(0.5)
-                call.click_locator_key('通话记录_确定')
-                call.wait_for_page_load()
-            else:
-                raise RuntimeError('清除通话记录出错')
-        elif call.is_text_present('多方视频'):
-            call.press_tag_detail_first_element('多方视频')
-            time.sleep(1)
-            if call.check_text_exist('清除全部通话记录'):
-                call.click_locator_key('通话记录_删除全部')
-                time.sleep(0.5)
-                call.click_locator_key('通话记录_确定')
-                call.wait_for_page_load()
-            else:
-                raise RuntimeError('清除通话记录出错')
-        elif call.is_text_present('多方电话'):
-            call.press_tag_detail_first_element('多方电话')
-            time.sleep(1)
-            if call.check_text_exist('清除全部通话记录'):
-                call.click_locator_key('通话记录_删除全部')
-                time.sleep(0.5)
-                call.click_locator_key('通话记录_确定')
-                call.wait_for_page_load()
-            else:
-                raise RuntimeError('清除通话记录出错')
-        call.wait_for_page_call_load()
+        # 点对点通话
+        call.click_delete_all_key('[飞信电话]')
+        # 点对点视频
+        call.click_delete_all_key('[视频通话]')
+        # 多方视频
+        call.click_delete_all_key('[多方视频]')
         # 判断是否有通话标签、‘+’、打电话不花钱
-        if not call.is_text_present('通话'):
-            raise RuntimeError('没有找到[通话]标签')
-        if not call.on_this_page_common('+'):
-            raise RuntimeError('没有找到[+]标签')
-        if not call.is_text_present('打电话不花钱'):
-            raise RuntimeError('没有找到[打电话不花钱]字样')
+        self.assertEqual(call.is_text_present('通话'), True)
+        self.assertEqual(call.on_this_page_common('+'), True)
+        self.assertEqual(call.is_text_present('打电话不花钱'), True)
 
-    # @tags('ALL', 'CMCC', 'call')
-    # def test_call_00038(self):
-    #     """
-    #         1、4G网络
-    #         2、已登录客户端
-    #         3、当前页面在通话页面
-    #         4、有联系人或者家庭网联系人
-    #         5、左上方有通话标题，右上方为"+"图标，下方有指引攻略，
-    #         页面空白中间区域中有“点击左下角拨号盘icon，打电话不花钱”字样
-    #     """
-    #     call = CallPage()
-    #     call.wait_for_page_load()
-    #     # 判断如果键盘已拉起，则收起键盘
-    #     if call.is_exist_call_key():
-    #         call.click_hide_keyboard()
-    #         time.sleep(1)
-    #     # 清除全部通话记录
-    #     if call.is_text_present('飞信电话'):
-    #         call.press_tag_detail_first_element('飞信电话')
-    #         time.sleep(1)
-    #         if call.check_text_exist('清除全部通话记录'):
-    #             call.click_locator_key('通话记录_删除全部')
-    #             time.sleep(0.5)
-    #             call.click_locator_key('通话记录_确定')
-    #             call.wait_for_page_load()
-    #         else:
-    #             raise RuntimeError('清除通话记录出错')
-    #     elif call.is_text_present('视频通话'):
-    #         call.press_tag_detail_first_element('视频通话')
-    #         time.sleep(1)
-    #         if call.check_text_exist('清除全部通话记录'):
-    #             call.click_locator_key('通话记录_删除全部')
-    #             time.sleep(0.5)
-    #             call.click_locator_key('通话记录_确定')
-    #             call.wait_for_page_load()
-    #         else:
-    #             raise RuntimeError('清除通话记录出错')
-    #     elif call.is_text_present('多方视频'):
-    #         call.press_tag_detail_first_element('多方视频')
-    #         time.sleep(1)
-    #         if call.check_text_exist('清除全部通话记录'):
-    #             call.click_locator_key('通话记录_删除全部')
-    #             time.sleep(0.5)
-    #             call.click_locator_key('通话记录_确定')
-    #             call.wait_for_page_load()
-    #         else:
-    #             raise RuntimeError('清除通话记录出错')
-    #     elif call.is_text_present('多方电话'):
-    #         call.press_tag_detail_first_element('多方电话')
-    #         time.sleep(1)
-    #         if call.check_text_exist('清除全部通话记录'):
-    #             call.click_locator_key('通话记录_删除全部')
-    #             time.sleep(0.5)
-    #             call.click_locator_key('通话记录_确定')
-    #             call.wait_for_page_load()
-    #         else:
-    #             raise RuntimeError('清除通话记录出错')
-    #     call.wait_for_page_call_load()
-    #     # 判断是否有通话标签、‘+’、打电话不花钱
-    #     if not call.is_text_present('通话'):
-    #         raise RuntimeError('没有找到[通话]标签')
-    #     if not call.on_this_page_common('+'):
-    #         raise RuntimeError('没有找到[+]标签')
-    #     if not call.is_text_present('打电话不花钱'):
-    #         raise RuntimeError('没有找到[打电话不花钱]字样')
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00038(self):
+        """
+            1、4G网络
+            2、已登录客户端
+            3、当前页面在通话页面
+            4、有联系人或者家庭网联系人
+            5、左上方有通话标题，右上方为"+"图标，下方有指引攻略，
+            页面空白中间区域中有“点击左下角拨号盘icon，打电话不花钱”字样
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 点对点通话
+        call.click_delete_all_key('[飞信电话]')
+        # 点对点视频
+        call.click_delete_all_key('[视频通话]')
+        # 多方视频
+        call.click_delete_all_key('[多方视频]')
+        # 判断是否有通话标签、‘+’、打电话不花钱
+        self.assertEqual(call.is_text_present('通话'), True)
+        self.assertEqual(call.on_this_page_common('+'), True)
+        self.assertEqual(call.is_text_present('打电话不花钱'), True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_00039(self):
+        """
+            1、4G网络
+            2、已登录客户端
+            3、当前页面在通话页面
+            4、有联系人或者家庭网联系人
+            5、左上方有通话标题，右上方为"+"图标，下方有指引攻略，
+            页面空白中间区域中有“点击左下角拨号盘icon，打电话不花钱”字样
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 点对点通话
+        call.click_delete_all_key('[飞信电话]')
+        # 点对点视频
+        call.click_delete_all_key('[视频通话]')
+        # 多方视频
+        call.click_delete_all_key('[多方视频]')
+        # 判断是否有通话标签、‘+’、打电话不花钱
+        self.assertEqual(call.is_text_present('通话'), True)
+        self.assertEqual(call.on_this_page_common('+'), True)
+        self.assertEqual(call.is_text_present('打电话不花钱'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00040(self):

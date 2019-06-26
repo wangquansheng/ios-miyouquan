@@ -202,7 +202,7 @@ class BasePage(object):
                                  "but was not.".format(locator))
         return True
 
-    def swipe_by_direction(self, locator, direction, duration=None):
+    def swipe_by_direction(self, locator, direction, duration=0.5, locator2=None):
         """
         在元素内滑动
         :param locator: 定位器
@@ -242,6 +242,44 @@ class BasePage(object):
                 y_start = top
                 y_end = bottom
                 self.driver.swipe(x_start, y_start, x_end, y_end, duration)
+
+        elif self._get_platform() == 'ios':
+            if direction.lower() == 'left':
+                x_start = right
+                x_end = left
+                y_start = (top + bottom) // 2
+                y_end = (top + bottom) // 2
+                self.driver.execute_script("mobile:dragFromToForDuration",
+                                           {"duration": duration, "element": locator2, "fromX": x_start,
+                                            "fromY": y_start,
+                                            "toX": x_end, "toY": y_end})
+            elif direction.lower() == 'right':
+                x_start = left
+                x_end = right
+                y_start = (top + bottom) // 2
+                y_end = (top + bottom) // 2
+                self.driver.execute_script("mobile:dragFromToForDuration",
+                                           {"duration": duration, "element": locator2, "fromX": x_start,
+                                            "fromY": y_start,
+                                            "toX": x_end, "toY": y_end})
+            elif direction.lower() == 'up':
+                x_start = (left + right) // 2
+                x_end = (left + right) // 2
+                y_start = bottom
+                y_end = top
+                self.driver.execute_script("mobile:dragFromToForDuration",
+                                           {"duration": duration, "element": locator2, "fromX": x_start,
+                                            "fromY": y_start,
+                                            "toX": x_end, "toY": y_end})
+            elif direction.lower() == 'down':
+                x_start = (left + right) // 2
+                x_end = (left + right) // 2
+                y_start = top
+                y_end = bottom
+                self.driver.execute_script("mobile:dragFromToForDuration",
+                                           {"duration": duration, "element": locator2, "fromX": x_start,
+                                            "fromY": y_start,
+                                            "toX": x_end, "toY": y_end})
 
         else:
             if direction.lower() == 'left':
@@ -589,10 +627,21 @@ class BasePage(object):
             return False
 
     @TestLogger.log()
-    def click_coordinate(self, x, y):
+    def click_coordinate(self, x_percentage, y_percentage):
         """点击坐标"""
         width = self.driver.get_window_size()["width"]
         height = self.driver.get_window_size()["height"]
-        x = float(x / 100) * width
-        y = float(y / 100) * height
+        x = float(x_percentage / 100) * width
+        y = float(y_percentage / 100) * height
         self.driver.execute_script("mobile: tap", {"y": y, "x": x, "duration": 50})
+
+    @TestLogger.log()
+    def click_coordinates(self, locator):
+        """坐标点击"""
+        if self._is_element_present2(locator):
+            rect = self.get_element(locator).rect
+            x = rect['x']
+            y = rect['y']
+            self.driver.execute_script("mobile: tap", {"y": y, "x": x, "duration": 50})
+
+
