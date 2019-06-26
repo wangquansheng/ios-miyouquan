@@ -53,9 +53,16 @@ class CallPage(FooterPage):
 
         # 通话：类型视频通话/多方电话/飞信电话
         '通话类型标签': (MobileBy.XPATH, '//XCUIElementTypeCell/XCUIElementTypeStaticText[2]'),
-        '联系人_详情图标': (MobileBy.ACCESSIBILITY_ID, 'call info outline@2x'),
         '电话图标': (MobileBy.ACCESSIBILITY_ID, 'my call white n@2x'),
         '拨号键盘': (MobileBy.ACCESSIBILITY_ID, 'my dialing nor@2x'),
+        '[飞信电话]': (MobileBy.IOS_PREDICATE, 'name=="[飞信电话] "'),
+        '[视频通话]': (MobileBy.IOS_PREDICATE, 'name=="[视频通话] "'),
+        '[多方视频]': (MobileBy.IOS_PREDICATE, 'name=="[多方视频] "'),
+        '通话_第一个联系人': (MobileBy.XPATH, "//XCUIElementTypeTable/XCUIElementTypeCell[1]"),
+
+        # 联系人
+        '联系人_详情图标': (MobileBy.ACCESSIBILITY_ID, 'call info outline@2x'),
+        '联系人_最多只能选择8个人': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
 
         # 通话发起：视频通话页面
         '视频呼叫_通话选择': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="视频通话"]'),
@@ -309,19 +316,21 @@ class CallPage(FooterPage):
         self.click_element(locator)
 
     @TestLogger.log("通话页面点击删除按钮，删除所有")
-    def click_delete_all_key(self, text):
+    def click_delete_all_key(self):
         time.sleep(2)
-        while self.is_text_present(text):
-            time.sleep(5)
-            self.make_sure_have_multiplayer_vedio_record()
-            self.press_tag_detail_first_element(text)
-            self.assertEqual(self.is_element_already_exist('通话_删除该通话记录'), True)
-            time.sleep(5)
-            locator = (MobileBy.XPATH,
-                       "//*[contains(@name,'%s')]/../XCUIElementTypeOther/XCUIElementTypeButton[@name='删除']" % text)
-            self.click_element(locator)
+        while self.is_element_already_exist("通话_第一个联系人"):
             time.sleep(2)
-        self.assertEqual(self.is_on_this_page(), True)
+            self.swipe_by_direction(self.__locators["通话_第一个联系人"], "left")
+            time.sleep(5)
+            del_locator = (MobileBy.XPATH, '//XCUIElementTypeButton[@name="删除"]')
+            self.click_element(del_locator)
+            time.sleep(2)
+        # 检查当前页面
+        time.sleep(1)
+        if self.is_element_already_exist('通话_通话'):
+            return True
+        else:
+            return False
 
     @TestLogger.log("当前页面是否包含此文本")
     def check_text_exist(self, text):
@@ -786,17 +795,26 @@ class CallPage(FooterPage):
                 els[cell].click()
                 time.sleep(2)
                 # 向上滑动
-                # if cell % 4 == 0:
-                #     self.page_up()
-                #     time.sleep(2)
-            if 8 == number:
-                time.sleep(2)
-
+                if cell > 0 and (0 == cell % 5):
+                    # xp=(appium x)/375, yp=(appium y)/667
+                    x_source = 180 / 375 * 100
+                    y_source = 380 / 667 * 100
+                    x_target = 180 / 375 * 100
+                    y_target = 180 / 667 * 100
+                    self.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+                    time.sleep(2)
             # 最多选择8个联系人
-            selected = self.get_element_text('视频呼叫_确定').split('/')[0].split('(')[-1]
-            if 8 < int(selected):
-                return False
+            if 8 < number:
+                time.sleep(5)
+                if self.is_element_present("联系人_最多只能选择8个人"):
+                    self.click_locator_key("联系人_最多只能选择8个人")
+                    time.sleep(2)
+                    return True
+                else:
+                    return False
             else:
+                # 小于等于选择8个联系人
+                selected = self.get_element_text('视频呼叫_确定').split('/')[0].split('(')[-1]
                 if number == int(selected):
                     return True
                 else:
