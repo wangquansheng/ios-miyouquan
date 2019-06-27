@@ -87,8 +87,8 @@ class CallPage(FooterPage):
         # '视频通话_搜索': (MobileBy.ID, 'com.cmic.college:id/editText_keyword'),
         # '视频通话_接听': (MobileBy.ID, 'com.cmic.college:id/ivVideoAnswer'),
         # '视频通话_挂断': (MobileBy.ID, 'com.cmic.college:id/ivCancel'),
-        #
-        # # 视频通话接通界面
+
+        # 视频通话接通界面
         # '进行视频通话': (MobileBy.XPATH, '//*[contains(@text,"邀请你进行视频通话")]'),
         # '视频界面_备注': (MobileBy.ID, 'com.cmic.college:id/tvUserName'),
         # '视频界面_号码': (MobileBy.ID, 'com.cmic.college:id/tvUserPhone'),
@@ -100,8 +100,8 @@ class CallPage(FooterPage):
         # '视频界面_转为语音': (MobileBy.ID, 'com.cmic.college:id/video_iv_change_to_voice'),
         # '视频界面_挂断': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
         # '视频界面_切换摄像头': (MobileBy.ID, 'com.cmic.college:id/video_iv_switch_camera'),
-        #
-        # # 语音通话界面
+
+        # 语音通话界面
         # '语音界面_时长': (MobileBy.ID, 'com.cmic.college:id/chrState'),
         # '语音界面_免提': (MobileBy.ID, 'com.cmic.college:id/ivHf'),
         # '语音界面_转为视频': (MobileBy.ID, 'com.cmic.college:id/switch_to_video_call'),
@@ -124,7 +124,7 @@ class CallPage(FooterPage):
         # '通话记录_确定': (MobileBy.ID, 'com.cmic.college:id/btnConfirm'),
         # '通话记录_取消': (MobileBy.ID, 'com.cmic.college:id/btnCancel'),
 
-        # # 单人视频详情页
+        # 单人视频详情页
         '详情_视频按钮': (MobileBy.ID, 'my profile ic vedio n@2x'),
         # # '详情_信息按钮': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
         # '挂断': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
@@ -165,23 +165,21 @@ class CallPage(FooterPage):
         # '拨叫号码': (MobileBy.ID, 'com.cmic.college:id/etInputNum'),
         # '拨号界面_挂断': (MobileBy.ID, 'com.android.incallui:id/endButton'),
 
-        # # 福利电话
+        # 福利电话
         # '页面规则': (MobileBy.ID, 'com.cmic.college:id/action_rule'),
         # '电话_搜索栏': (MobileBy.ID, 'com.cmic.college:id/action_search'),
         # '搜索_电话': (MobileBy.ID, 'com.cmic.college:id/search_src_text'),
         # '搜索_电话显示': (MobileBy.ID, 'com.cmic.college:id/tvPhoneNum'),
         # '搜索_电话昵称': (MobileBy.ID, 'com.cmic.college:id/tvName'),
         # '免费时长': (MobileBy.ID, 'com.cmic.college:id/tv_leftDuration'),
-        #
-        # # 关闭广告页面
+
+        # 关闭广告页面
         # '广告_关闭': (MobileBy.ID, 'com.cmic.college:id/ivClose'),
         # '广告_内容': (MobileBy.ID, 'com.cmic.college:id/ivContent'),
         # '广告_立即参与': (MobileBy.ID, 'com.cmic.college:id/ivEnter'),
 
         # 通话详情页面
         '详情_返回': (MobileBy.ACCESSIBILITY_ID, 'contact info back normal@2x'),
-        # '详情_更多': (MobileBy.ID, 'com.cmic.college:id/iv_more'),
-        # '详情_红点': (MobileBy.ID, 'com.cmic.college:id/view_red_dot'),
         '详情_头像': (MobileBy.XPATH,
                   'XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
                   '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
@@ -190,6 +188,9 @@ class CallPage(FooterPage):
         '详情_通话时长': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeStaticText[2]'),
         '详情_通话时间': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeStaticText[3]'),
         '详情_通话类型': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeStaticText[1]'),
+        # '详情_更多': (MobileBy.ID, 'com.cmic.college:id/iv_more'),
+        # '详情_红点': (MobileBy.ID, 'com.cmic.college:id/view_red_dot'),
+
         # 详情 多方视频
         '详情_头像_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeOther[1]/XCUIElementTypeStaticText[2]'),
         '详情_名称_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeOther[1]/XCUIElementTypeStaticText[2]'),
@@ -197,16 +198,16 @@ class CallPage(FooterPage):
         '详情_通话时间_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[3]/XCUIElementTypeStaticText[3]'),
         '详情_通话类型_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[3]/XCUIElementTypeStaticText[1]'),
         '详情_通话': (MobileBy.ACCESSIBILITY_ID, 'my call white n@2x'),
-        # '详情_视频': (MobileBy.ID, 'com.cmic.college:id/tvVideoCall'),
-        # '详情_备注标签': (MobileBy.ID, 'com.cmic.college:id/tv_nickname'),
         '详情_备注内容': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
         '详情_>': (MobileBy.ACCESSIBILITY_ID, '更多信息'),
+        '详情_邀请使用': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
+        '详情_发起多方视频': (MobileBy.ACCESSIBILITY_ID, 'chat ic video@2x'),
         # '详情_归属地': (MobileBy.ID, 'com.cmic.college:id/tv_phoneProperty'),
         # '详情_电话号码': (MobileBy.ID, 'com.cmic.college:id/tv_phoneValue'),
         # '详情_通话记录': (MobileBy.ID, 'com.cmic.college:id/tvCallRecordsType'),
         # '详情_通话时间': (MobileBy.ID, 'com.cmic.college:id/tvCallTime'),
-        '详情_邀请使用': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
-        '详情_发起多方视频': (MobileBy.ACCESSIBILITY_ID, 'chat ic video@2x'),
+        # '详情_视频': (MobileBy.ID, 'com.cmic.college:id/tvVideoCall'),
+        # '详情_备注标签': (MobileBy.ID, 'com.cmic.college:id/tv_nickname'),
 
         # 邀请使用
         # '邀请_微信好友': (MobileBy.ID, 'com.cmic.college:id/tv_wechat'),
@@ -216,22 +217,22 @@ class CallPage(FooterPage):
 
         #  修改备注页面
         '备注_保存': (MobileBy.ACCESSIBILITY_ID, '完成'),
-        # '备注_返回': (MobileBy.XPATH, '//android.widget.ImageButton[@content-desc="到上一层级"]'),
+        '备注_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
         '修改备注名称': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar[@name="修改备注名称"]'),
         '备注_清除': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="清除文本"]'),
         '备注_文本': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
 
-        # # 流量优惠提示框
+        # 流量优惠提示框
         # '流量_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
         # '流量_去开通': (MobileBy.ID, 'com.cmic.college:id/bt_open'),
         # '流量_继续拨打': (MobileBy.ID, 'com.cmic.college:id/tv_continue'),
         # '流量_提示内容': (MobileBy.ID, 'com.cmic.college:id/content'),
-        #
-        # # 视频通话界面
+
+        # 视频通话界面
+        '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
         # '视频_转为语音通话': (MobileBy.ID, 'com.cmic.college:id/video_iv_change_to_voice'),
         # '视频_结束视频通话': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
         # '视频_切换摄像头': (MobileBy.ID, 'com.cmic.college:id/video_iv_switch_camera'),
-        '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
 
         # 对方还未使用密友圈，喊他一起来免流量视频通话
         '无密友圈_提示文本': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="无密友圈"]'),
@@ -240,8 +241,8 @@ class CallPage(FooterPage):
         # '回呼_提示文本': (MobileBy.ID, 'com.cmic.college:id/content'),
         # '回呼_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
         # '回呼_我知道了': (MobileBy.ID, 'com.cmic.college:id/bt_open'),
-        #
-        # # 悬浮窗授权提示
+
+        # 悬浮窗授权提示
         # '悬浮窗_内容': (MobileBy.XPATH, '//*[contains(@text,"您的手机没有授予悬浮窗权限，请开启后再试")]'),
         # '暂不开启': (MobileBy.ID, 'android:id/button2'),
         # '现在去开启': (MobileBy.ID, 'android:id/button1'),
