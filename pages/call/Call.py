@@ -641,10 +641,6 @@ class CallPage(FooterPage):
     def input_text_in_nickname(self, text):
         self.input_text(self.__locators['备注_文本'], text)
 
-    @TestLogger.log("保存备注")
-    def click_save_nickname(self, ):
-        return self.click_element(self.__locators['备注_保存'])
-
     @TestLogger.log("获取备注")
     def get_nickname(self):
         return self.get_element(self.__class__.__locators['详情_备注内容']).text
@@ -781,7 +777,7 @@ class CallPage(FooterPage):
             time.sleep(2)
         # 设置文本，并且保存
         self.input_text_in_nickname(name)
-        self.click_save_nickname()
+        self.click_locator_key('备注_保存')
         time.sleep(3)
         if not self.on_this_page_call_detail():
             return False
@@ -901,6 +897,10 @@ class CallPage(FooterPage):
         """长按"""
         self.swipe_by_direction(self.__class__.__locators[text], 'press', 5)
 
+    # @TestLogger.log("保存备注")
+    # def click_save_nickname(self, ):
+    #     return self.click_element(self.__locators['备注_保存'])
+    #
     # @TestLogger.log("点击包含文本的第一个元素")
     # def click_tag_text_first_element(self, text):
     #     elements_list = self.get_elements(self.__locators['通话类型标签'])
