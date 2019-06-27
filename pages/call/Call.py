@@ -148,8 +148,6 @@ class CallPage(FooterPage):
         '详情_通话时长': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeStaticText[2]'),
         '详情_通话时间': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeStaticText[3]'),
         '详情_通话类型': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeStaticText[1]'),
-        # '详情_更多': (MobileBy.ID, 'com.cmic.college:id/iv_more'),
-        # '详情_红点': (MobileBy.ID, 'com.cmic.college:id/view_red_dot'),
 
         # 详情 多方视频
         '详情_头像_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeOther[1]/XCUIElementTypeStaticText[2]'),
@@ -207,50 +205,53 @@ class CallPage(FooterPage):
         # '暂不开启': (MobileBy.ID, 'android:id/button2'),
         # '现在去开启': (MobileBy.ID, 'android:id/button1'),
 
-        # 暂停使用
-        # """ 待删除
-        #     # '拨叫号码': (MobileBy.ID, 'com.cmic.college:id/etInputNum'),
-        #     # '拨号界面_挂断': (MobileBy.ID, 'com.android.incallui:id/endButton'),
-        #     # '通话记录_确定': (MobileBy.ID, 'com.cmic.college:id/btnConfirm'),
-        #     # '通话记录_取消': (MobileBy.ID, 'com.cmic.college:id/btnCancel'),
-        #     # '通话记录_删除一条': (
-        #     #     MobileBy.XPATH,
-        #     #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="删除该通话记录"]'),
-        #     # '通话记录_删除全部': (
-        #     #     MobileBy.XPATH,
-        #     #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="清除全部通话记录"]'),
-        #     # '删除_一条通话记录': (MobileBy.XPATH,
-        #     #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget
-        #     .FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]'),
-        #     # '删除_全部通话记录': (MobileBy.XPATH,
-        #     #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget
-        #     .FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[2]'),
-        #     # '通话_发起视频通话': (MobileBy.XPATH, '//android.widget.TextView[@text="发起视频通话"]'),
-        #     # '视频通话_第一个联系人': (MobileBy.XPATH,
-        #     #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #     #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
-        #     #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #     #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
-        #     #                 'LinearLayout[1]/android.widget.RelativeLayout'),
-        #     # '视频通话_第二个联系人': (MobileBy.XPATH,
-        #     #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #     #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
-        #     #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #     #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
-        #     #                 'LinearLayout[2]/android.widget.RelativeLayout'),
-        #     # '视频通话_第三个联系人': (MobileBy.XPATH,
-        #     #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #     #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
-        #     #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #     #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
-        #     #                 'LinearLayout[3]/android.widget.RelativeLayout'),
-        #     # # '详情_信息按钮': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
-        #     # '挂断': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
-        #     # '挂断_多方通话': (MobileBy.ID, 'com.cmic.college:id/end_video_call_btn'),
-        #     # 'tip1': (MobileBy.ID, 'com.cmic.college:id/ivFreeCall'),
-        #     # 'tip2': (MobileBy.ID, 'com.cmic.college:id/ivKeyboard'),
-        #     # 'tip3': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
-        #     # '视频': (MobileBy.ID, 'com.cmic.college:id/ivMultipartyCall'),
+        # 暂停使用，待删除
+        # '拨叫号码': (MobileBy.ID, 'com.cmic.college:id/etInputNum'),
+        # '拨号界面_挂断': (MobileBy.ID, 'com.android.incallui:id/endButton'),
+        # '通话记录_确定': (MobileBy.ID, 'com.cmic.college:id/btnConfirm'),
+        # '通话记录_取消': (MobileBy.ID, 'com.cmic.college:id/btnCancel'),
+        # '通话记录_删除一条': (
+        #     MobileBy.XPATH,
+        #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="删除该通话记录"]'),
+        # '通话记录_删除全部': (
+        #     MobileBy.XPATH,
+        #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="清除全部通话记录"]'),
+        # '删除_一条通话记录': (MobileBy.XPATH,
+        #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout
+        #               /android.widget.FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView
+        #               /android.widget.LinearLayout[1]'),
+        # '删除_全部通话记录': (MobileBy.XPATH,
+        #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout
+        #               /android.widget.FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView
+        #               /android.widget.LinearLayout[2]'),
+        # '通话_发起视频通话': (MobileBy.XPATH, '//android.widget.TextView[@text="发起视频通话"]'),
+        # '视频通话_第一个联系人': (MobileBy.XPATH,
+        #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
+        #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
+        #                 'LinearLayout[1]/android.widget.RelativeLayout'),
+        # '视频通话_第二个联系人': (MobileBy.XPATH,
+        #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
+        #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
+        #                 'LinearLayout[2]/android.widget.RelativeLayout'),
+        # '视频通话_第三个联系人': (MobileBy.XPATH,
+        #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
+        #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
+        #                 'LinearLayout[3]/android.widget.RelativeLayout'),
+        # # '详情_信息按钮': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
+        # '挂断': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
+        # '挂断_多方通话': (MobileBy.ID, 'com.cmic.college:id/end_video_call_btn'),
+        # 'tip1': (MobileBy.ID, 'com.cmic.college:id/ivFreeCall'),
+        # 'tip2': (MobileBy.ID, 'com.cmic.college:id/ivKeyboard'),
+        # 'tip3': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
+        # '视频': (MobileBy.ID, 'com.cmic.college:id/ivMultipartyCall'),
+        # '详情_更多': (MobileBy.ID, 'com.cmic.college:id/iv_more'),
+        # '详情_红点': (MobileBy.ID, 'com.cmic.college:id/view_red_dot'),
         # """
     }
 
