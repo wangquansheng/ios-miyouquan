@@ -36,10 +36,6 @@ class CallPage(FooterPage):
                   '/XCUIElementTypeOther[1]/XCUIElementTypeTextField'),
         '通话_删除该通话记录': (MobileBy.ACCESSIBILITY_ID, '删除'),
         '通话_搜索列表_联系人名称': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeStaticText[2]'),
-        # 'tip1': (MobileBy.ID, 'com.cmic.college:id/ivFreeCall'),
-        # 'tip2': (MobileBy.ID, 'com.cmic.college:id/ivKeyboard'),
-        # 'tip3': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
-        # '视频': (MobileBy.ID, 'com.cmic.college:id/ivMultipartyCall'),
 
         # 通话：类型视频通话/多方电话/飞信电话
         '通话类型标签': (MobileBy.XPATH, '//XCUIElementTypeCell/XCUIElementTypeStaticText[2]'),
@@ -59,34 +55,14 @@ class CallPage(FooterPage):
         '视频呼叫_取消': (MobileBy.ACCESSIBILITY_ID, '取消'),
         '视频呼叫_确定': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar/XCUIElementTypeButton[2]'),
         '视频呼叫_联系人列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
-        # '通话_发起视频通话': (MobileBy.XPATH, '//android.widget.TextView[@text="发起视频通话"]'),
-        # '视频通话_第一个联系人': (MobileBy.XPATH,
-        #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
-        #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
-        #                 'LinearLayout[1]/android.widget.RelativeLayout'),
-        # '视频通话_第二个联系人': (MobileBy.XPATH,
-        #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
-        #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
-        #                 'LinearLayout[2]/android.widget.RelativeLayout'),
-        # '视频通话_第三个联系人': (MobileBy.XPATH,
-        #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
-        #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
-        #                 'LinearLayout[3]/android.widget.RelativeLayout'),
-        #
         '多方通话_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
-        # '电话号码': (MobileBy.ID, 'com.cmic.college:id/contact_number'),
         '视频通话_字母': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeOther'),
         '视频呼叫_字母第一个': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="C"]'),
         '视频呼叫_字母C': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="C"]'),
         # '视频通话_搜索': (MobileBy.ID, 'com.cmic.college:id/editText_keyword'),
         # '视频通话_接听': (MobileBy.ID, 'com.cmic.college:id/ivVideoAnswer'),
         # '视频通话_挂断': (MobileBy.ID, 'com.cmic.college:id/ivCancel'),
+        # '电话号码': (MobileBy.ID, 'com.cmic.college:id/contact_number'),
 
         # 视频通话接通界面
         # '进行视频通话': (MobileBy.XPATH, '//*[contains(@text,"邀请你进行视频通话")]'),
@@ -108,27 +84,13 @@ class CallPage(FooterPage):
         # '语音界面_静音': (MobileBy.ID, 'com.cmic.college:id/ivMute'),
         # '语音界面_挂断': (MobileBy.ID, 'com.cmic.college:id/ivDecline'),
 
-        # 多人视频通话页面
-        # '挂断_多方通话': (MobileBy.ID, 'com.cmic.college:id/end_video_call_btn'),
-        '挂断_多方通话_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
-        # '删除_一条通话记录': (MobileBy.XPATH,
-        #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]'),
-        # '删除_全部通话记录': (MobileBy.XPATH,
-        #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[2]'),
-        # '通话记录_删除一条': (
-        #     MobileBy.XPATH,
-        #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="删除该通话记录"]'),
-        # '通话记录_删除全部': (
-        #     MobileBy.XPATH,
-        #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="清除全部通话记录"]'),
-        # '通话记录_确定': (MobileBy.ID, 'com.cmic.college:id/btnConfirm'),
-        # '通话记录_取消': (MobileBy.ID, 'com.cmic.college:id/btnCancel'),
-
         # 单人视频详情页
         '详情_视频按钮': (MobileBy.ID, 'my profile ic vedio n@2x'),
-        # # '详情_信息按钮': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
-        # '挂断': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
-        # # 多人视频详情页
+
+        # 多人视频通话页面
+        '挂断_多方通话_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
+
+        # 多人视频详情页
         # '详情_多人视频': (MobileBy.ID, 'com.cmic.college:id/rlStartMultipartyVideo'),
         # '详情_群聊': (MobileBy.ID, 'com.cmic.college:id/rlCreateGroup'),
         # '群聊_确定': (MobileBy.ID, 'com.cmic.college:id/tv_sure'),
@@ -162,8 +124,6 @@ class CallPage(FooterPage):
                                    '/../preceding-sibling::*[3]/XCUIElementTypeTextField'),
         '拨号_请输入正确号码': (MobileBy.IOS_PREDICATE, 'name=="请输入正确号码"'),
         '拨号_搜索_列表联系人': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
-        # '拨叫号码': (MobileBy.ID, 'com.cmic.college:id/etInputNum'),
-        # '拨号界面_挂断': (MobileBy.ID, 'com.android.incallui:id/endButton'),
 
         # 福利电话
         # '页面规则': (MobileBy.ID, 'com.cmic.college:id/action_rule'),
@@ -247,6 +207,51 @@ class CallPage(FooterPage):
         # '暂不开启': (MobileBy.ID, 'android:id/button2'),
         # '现在去开启': (MobileBy.ID, 'android:id/button1'),
 
+        # 暂停使用
+        # """ 待删除
+        #     # '拨叫号码': (MobileBy.ID, 'com.cmic.college:id/etInputNum'),
+        #     # '拨号界面_挂断': (MobileBy.ID, 'com.android.incallui:id/endButton'),
+        #     # '通话记录_确定': (MobileBy.ID, 'com.cmic.college:id/btnConfirm'),
+        #     # '通话记录_取消': (MobileBy.ID, 'com.cmic.college:id/btnCancel'),
+        #     # '通话记录_删除一条': (
+        #     #     MobileBy.XPATH,
+        #     #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="删除该通话记录"]'),
+        #     # '通话记录_删除全部': (
+        #     #     MobileBy.XPATH,
+        #     #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="清除全部通话记录"]'),
+        #     # '删除_一条通话记录': (MobileBy.XPATH,
+        #     #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget
+        #     .FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]'),
+        #     # '删除_全部通话记录': (MobileBy.XPATH,
+        #     #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget
+        #     .FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[2]'),
+        #     # '通话_发起视频通话': (MobileBy.XPATH, '//android.widget.TextView[@text="发起视频通话"]'),
+        #     # '视频通话_第一个联系人': (MobileBy.XPATH,
+        #     #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #     #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
+        #     #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #     #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
+        #     #                 'LinearLayout[1]/android.widget.RelativeLayout'),
+        #     # '视频通话_第二个联系人': (MobileBy.XPATH,
+        #     #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #     #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
+        #     #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #     #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
+        #     #                 'LinearLayout[2]/android.widget.RelativeLayout'),
+        #     # '视频通话_第三个联系人': (MobileBy.XPATH,
+        #     #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #     #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
+        #     #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
+        #     #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
+        #     #                 'LinearLayout[3]/android.widget.RelativeLayout'),
+        #     # # '详情_信息按钮': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
+        #     # '挂断': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
+        #     # '挂断_多方通话': (MobileBy.ID, 'com.cmic.college:id/end_video_call_btn'),
+        #     # 'tip1': (MobileBy.ID, 'com.cmic.college:id/ivFreeCall'),
+        #     # 'tip2': (MobileBy.ID, 'com.cmic.college:id/ivKeyboard'),
+        #     # 'tip3': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
+        #     # '视频': (MobileBy.ID, 'com.cmic.college:id/ivMultipartyCall'),
+        # """
     }
 
     def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
@@ -258,11 +263,11 @@ class CallPage(FooterPage):
         )
         return self
 
-    @TestLogger.log('点击通话引导页')
-    def click_contact_tip(self):
-        self.click_element(self.__locators['tip1'])
-        self.click_element(self.__locators['tip2'])
-        self.click_element(self.__locators['tip3'])
+    # @TestLogger.log('点击通话引导页')
+    # def click_contact_tip(self):
+    #     self.click_element(self.__locators['tip1'])
+    #     self.click_element(self.__locators['tip2'])
+    #     self.click_element(self.__locators['tip3'])
 
     @TestLogger.log()
     def click_always_allow(self):
@@ -504,12 +509,12 @@ class CallPage(FooterPage):
             timeout=8,
         )
 
-    @TestLogger.log('检查是否在点对点通话页面')
-    def check_p2p_vedio_call_page(self):
-        el = self.get_elements(self.__locators['挂断'])
-        if len(el) > 0 or self.is_toast_exist('对方未接听，请稍候再尝试'):
-            return True
-        return False
+    # @TestLogger.log('检查是否在点对点通话页面')
+    # def check_p2p_vedio_call_page(self):
+    #     el = self.get_elements(self.__locators['挂断'])
+    #     if len(el) > 0 or self.is_toast_exist('对方未接听，请稍候再尝试'):
+    #         return True
+    #     return False
 
     @TestLogger.log('检查是否在多方通话页面')
     def check_multiplayer_call_page(self):
