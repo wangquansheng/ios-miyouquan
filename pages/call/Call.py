@@ -35,17 +35,6 @@ class CallPage(FooterPage):
                   '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
                   '/XCUIElementTypeOther[1]/XCUIElementTypeTextField'),
         '通话_删除该通话记录': (MobileBy.ACCESSIBILITY_ID, '删除'),
-        # 通话：键盘数字
-        'keyboard_1': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_1@2x.png"'),
-        'keyboard_2': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_2@2x.png"'),
-        'keyboard_3': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_3@2x.png"'),
-        'keyboard_4': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_4@2x.png"'),
-        'keyboard_5': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_5@2x.png"'),
-        'keyboard_6': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_6@2x.png"'),
-        'keyboard_7': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_7@2x.png"'),
-        'keyboard_8': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_8@2x.png"'),
-        'keyboard_0': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_0@2x.png"'),
-        '收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic@2x'),
         # 'tip1': (MobileBy.ID, 'com.cmic.college:id/ivFreeCall'),
         # 'tip2': (MobileBy.ID, 'com.cmic.college:id/ivKeyboard'),
         # 'tip3': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
@@ -66,7 +55,6 @@ class CallPage(FooterPage):
 
         # 通话发起：视频通话页面
         '视频呼叫_通话选择': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="视频通话"]'),
-        '呼叫': (MobileBy.ACCESSIBILITY_ID, 'my dialing keyboard nor@2x'),
         '视频呼叫_取消': (MobileBy.ACCESSIBILITY_ID, '取消'),
         '视频呼叫_确定': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar/XCUIElementTypeButton[2]'),
         '视频呼叫_联系人列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
@@ -118,10 +106,10 @@ class CallPage(FooterPage):
         # '语音界面_转为视频': (MobileBy.ID, 'com.cmic.college:id/switch_to_video_call'),
         # '语音界面_静音': (MobileBy.ID, 'com.cmic.college:id/ivMute'),
         # '语音界面_挂断': (MobileBy.ID, 'com.cmic.college:id/ivDecline'),
-        #
-        # # 多人视频通话页面
+
+        # 多人视频通话页面
         # '挂断_多方通话': (MobileBy.ID, 'com.cmic.college:id/end_video_call_btn'),
-        # '挂断_多方通话_确定': (MobileBy.ID, 'com.cmic.college:id/btnConfirm'),
+        '挂断_多方通话_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
         # '删除_一条通话记录': (MobileBy.XPATH,
         #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView/android.widget.LinearLayout[1]'),
         # '删除_全部通话记录': (MobileBy.XPATH,
@@ -134,7 +122,7 @@ class CallPage(FooterPage):
         #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="清除全部通话记录"]'),
         # '通话记录_确定': (MobileBy.ID, 'com.cmic.college:id/btnConfirm'),
         # '通话记录_取消': (MobileBy.ID, 'com.cmic.college:id/btnCancel'),
-        #
+
         # # 单人视频详情页
         '详情_视频按钮': (MobileBy.ID, 'my profile ic vedio n@2x'),
         # # '详情_信息按钮': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
@@ -148,12 +136,25 @@ class CallPage(FooterPage):
         # '信息_聊天框': (MobileBy.ID, 'com.cmic.college:id/et_message'),
         # '信息_发送': (MobileBy.ID, 'com.cmic.college:id/ib_send'),
 
-        # # 拨号界面
-        # '拨叫号码': (MobileBy.ID, 'com.cmic.college:id/etInputNum'),
+        # 拨号界面
+        '呼叫': (MobileBy.ACCESSIBILITY_ID, 'my dialing keyboard nor@2x'),
         '拨号界面_呼叫': (MobileBy.ACCESSIBILITY_ID, 'my dialing keyboard nor@2x'),
+        '拨号_返回': (MobileBy.ACCESSIBILITY_ID, 'my dail cannel ic@2x'),
+        '拨号_收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic@2x'),
+        '拨号_半_收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic c@2x'),
+        '拨号_无联系人': (MobileBy.IOS_PREDICATE, 'name=="无该联系人"'),
+        # '拨叫号码': (MobileBy.ID, 'com.cmic.college:id/etInputNum'),
         # '拨号界面_挂断': (MobileBy.ID, 'com.android.incallui:id/endButton'),
-        # '拨号_返回': (MobileBy.XPATH,
-        #           '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.view.ViewGroup/android.widget.ImageButton'),
+        'keyboard_1': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_1@2x.png"'),
+        'keyboard_2': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_2@2x.png"'),
+        'keyboard_3': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_3@2x.png"'),
+        'keyboard_4': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_4@2x.png"'),
+        'keyboard_5': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_5@2x.png"'),
+        'keyboard_6': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_6@2x.png"'),
+        'keyboard_7': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_7@2x.png"'),
+        'keyboard_8': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_8@2x.png"'),
+        'keyboard_0': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_0@2x.png"'),
+
         # # 福利电话
         # '页面规则': (MobileBy.ID, 'com.cmic.college:id/action_rule'),
         # '电话_搜索栏': (MobileBy.ID, 'com.cmic.college:id/action_search'),
@@ -195,7 +196,7 @@ class CallPage(FooterPage):
         # '详情_通话记录': (MobileBy.ID, 'com.cmic.college:id/tvCallRecordsType'),
         # '详情_通话时间': (MobileBy.ID, 'com.cmic.college:id/tvCallTime'),
         '详情_邀请使用': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
-        '详情_发起多方视频': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="多方视频"]'),
+        '详情_发起多方视频': (MobileBy.ACCESSIBILITY_ID, 'chat ic video@2x'),
 
         # 邀请使用
         # '邀请_微信好友': (MobileBy.ID, 'com.cmic.college:id/tv_wechat'),
@@ -639,7 +640,7 @@ class CallPage(FooterPage):
 
     @TestLogger.log("点击收起键盘")
     def click_hide_keyboard(self):
-        self.click_element(self.__class__.__locators['收起键盘'])
+        self.click_element(self.__class__.__locators['拨号_收起键盘'])
 
     @TestLogger.log("视频通话结束弹出框")
     def click_conversation_popup(self):
@@ -650,6 +651,17 @@ class CallPage(FooterPage):
         # iphone 7: xp=(appium x)/375, yp=(appium y)/667
         x_percentage = 49
         y_percentage = 86.6
+        self.click_coordinate(x_percentage, y_percentage)
+
+    @TestLogger.log("多方视频通话结束弹出框")
+    def click_more_phone_popup(self):
+        """
+        视频通话结束弹出框
+        :return:
+        """
+        # iphone 7: xp=(appium x)/375, yp=(appium y)/667
+        x_percentage = 51.2
+        y_percentage = 89.9
         self.click_coordinate(x_percentage, y_percentage)
 
     @TestLogger.log("对方没有使用密友圈取消按钮")

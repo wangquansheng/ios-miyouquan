@@ -1,7 +1,5 @@
 from selenium.common.exceptions import TimeoutException
 from library.core.TestCase import TestCase
-from library.core.TestLogger import TestLogger
-from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages.guide import GuidePage
@@ -300,25 +298,33 @@ class CallPageTest(TestCase):
         call.wait_for_page_load()
         # 判断如果键盘是拉起的，则不需要再次拉起
         if call.is_on_this_page():
-            time.sleep(2)
+            time.sleep(1)
             call.click_show_keyboard()
-        time.sleep(1)
         # 向左滑动
+        time.sleep(1)
         x_source = 50 / 375 * 100
         y_source = 80 / 667 * 100
         x_target = 50 / 375 * 100
         y_target = 30 / 667 * 100
         call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
         # 判断滑动后是否还在此页面
-        self.assertEqual(call.is_exist_call_key(), True)
+        time.sleep(3)
+        self.assertEqual(call.is_element_already_exist('拨号键盘'), True)
+        # 判断如果键盘是拉起的，则不需要再次拉起
+        time.sleep(1)
+        if call.is_on_this_page():
+            time.sleep(1)
+            call.click_show_keyboard()
         # 向右滑动
+        time.sleep(1)
         x_source = 90 / 375 * 100
         y_source = 50 / 667 * 100
         x_target = 20 / 375 * 100
         y_target = 50 / 667 * 100
         call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
         # 判断滑动后是否还在此页面
-        self.assertEqual(call.is_exist_call_key(), True)
+        time.sleep(2)
+        self.assertEqual(call.is_element_already_exist('拨号键盘'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_0007(self):
@@ -1669,79 +1675,306 @@ class CallPageTest(TestCase):
     #         call.set_network_status(6)
     #         print('已设置被叫手机网络为开启')
 
-    # @tags('ALL', 'CMCC', 'call')
-    # def test_call_000156(self):
-    #     """
-    #         1、正常登录密友圈
-    #         2、使用飞信电话给非联系人/不限时长成员/家庭网成员等关系的陌生号码拨打电话
-    #         3、查看通话记录
-    #         4、生成一条呼出的优惠电话记录，记录中昵称位置显示该陌生电话的全号，
-    #         5、类型显示为：飞信电话，并显示该陌生号码的归属地和运营商
-    #     """
-    #     call = CallPage()
-    #     call.wait_for_page_load()
-    #     call.click_delete_all_key()
-    #     time.sleep(0.5)
-    #     # 呼出一个多方视频通话
-    #     call.test_call_more_video_condition()
-    #     # call.multiplayer_vedio_call()
-    #     call.wait_for_page_call_load()
-    #     time.sleep(1)
-    #     if call.is_element_already_exist('多方视频'):
-    #         call.click_tag_detail_first_element('多方视频')
-    #         time.sleep(0.5)
-    #         call.click_locator_key('详情_发起多方视频')
-    #         time.sleep(10)
-    #         if call.is_element_already_exist('挂断_多方通话'):
-    #             call.click_locator_key('挂断_多方通话')
-    #         if call.is_element_already_exist('挂断_多方通话_确定'):
-    #             call.click_locator_key('挂断_多方通话_确定')
-    #
-    # @tags('ALL', 'CMCC', 'call')
-    # def test_call_000158(self):
-    #     """展开拨号盘，不可以左右滑动切换tab，上方内容显示通话模块通话记录内容"""
-    #     time.sleep(2)
-    #     call = CallPage()
-    #     call.wait_for_page_load()
-    #     if call.is_on_this_page():
-    #         call.click_show_keyboard()
-    #     time.sleep(1)
-    #     # 向左滑动
-    #     call.page_left()
-    #     # 判断滑动后是否还在此页面
-    #     self.assertEqual(call.is_exist_call_key(), True)
-    #     # 向右滑动
-    #     call.page_right()
-    #     # 判断滑动后是否还在此页面
-    #     self.assertEqual(call.is_exist_call_key(), True)
-    #
-    # @tags('ALL', 'CMCC', 'call')
-    # def test_call_000159(self):
-    #     """
-    #     点击拨号盘上面的默认通话记录
-    #     1、正常网络状态下，登录密友圈；
-    #     2、当前页面在通话页面
-    #     3、拨号盘已打开
-    #     4、通话模块存在通话记录
-    #     5、点击该（除详情记录图标）通话记录任意区域
-    #     6、点击右侧详情记录图标
-    #     7、呼叫该记录的通话
-    #     8、跳转该记录的通话详情页面"
-    #     :return:
-    #     """
-    #     call = CallPage()
-    #     call.wait_for_page_load()
-    #     call.clear_all_record()
-    #     time.sleep(0.5)
-    #     # 呼出一个点对点视频通话
-    #     call.make_sure_p2p_video_no_college()
-    #     if call.is_element_already_exist_c('无密友圈_提示文本'):
-    #         call.click_locator_key_c('无密友圈_取消')
-    #         time.sleep(3)
-    #         if call.is_text_present_c('视频通话'):
-    #             call.click_text('视频通话')
-    #             if call.is_element_already_exist_c('无密友圈_提示文本'):
-    #                 call.click_locator_key_c('无密友圈_取消')
-    #                 time.sleep(3)
-    #     call.click_tag_detail_first_element('视频通话')
-    #     self.assertEqual(call.is_text_present_c('通话记录 (视频通话)'), True)
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000156(self):
+        """
+            1、正常登录密友圈
+            2、使用飞信电话给非联系人/不限时长成员/家庭网成员等关系的陌生号码拨打电话
+            3、查看通话记录
+            4、生成一条呼出的优惠电话记录，记录中昵称位置显示该陌生电话的全号，
+            5、类型显示为：飞信电话，并显示该陌生号码的归属地和运营商
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        call.click_delete_all_key()
+        time.sleep(0.5)
+        # 呼出一个多方视频通话
+        call.test_call_more_video_condition()
+        call.wait_for_page_call_load()
+        time.sleep(1)
+        if call.is_element_already_exist('[多方视频]'):
+            call.click_tag_detail_first_element('[多方视频]')
+            time.sleep(0.5)
+            call.click_locator_key('详情_发起多方视频')
+            time.sleep(10)
+            # 挂断_多方通话
+            call.click_more_phone_popup()
+            if call.is_element_already_exist('挂断_多方通话_确定'):
+                call.click_locator_key('挂断_多方通话_确定')
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000158(self):
+        """展开拨号盘，不可以左右滑动切换tab，上方内容显示通话模块通话记录内容"""
+        time.sleep(2)
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘是拉起的，则不需要再次拉起
+        if call.is_on_this_page():
+            time.sleep(2)
+            call.click_show_keyboard()
+        time.sleep(1)
+        # 向左滑动
+        x_source = 50 / 375 * 100
+        y_source = 80 / 667 * 100
+        x_target = 50 / 375 * 100
+        y_target = 30 / 667 * 100
+        call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+        # 判断滑动后是否还在此页面
+        self.assertEqual(call.is_exist_call_key(), True)
+        # 向右滑动
+        x_source = 90 / 375 * 100
+        y_source = 50 / 667 * 100
+        x_target = 20 / 375 * 100
+        y_target = 50 / 667 * 100
+        call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+        # 判断滑动后是否还在此页面
+        self.assertEqual(call.is_exist_call_key(), True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000159(self):
+        """
+        点击拨号盘上面的默认通话记录
+        1、正常网络状态下，登录密友圈；
+        2、当前页面在通话页面
+        3、拨号盘已打开
+        4、通话模块存在通话记录
+        5、点击该（除详情记录图标）通话记录任意区域
+        6、点击右侧详情记录图标
+        7、呼叫该记录的通话
+        8、跳转该记录的通话详情页面"
+        :return:
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        call.click_delete_all_key()
+        time.sleep(0.5)
+        # 呼出一个点对点视频通话
+        call.test_call_video_condition()
+        call.click_locator_key("拨号键盘");
+        call.click_tag_detail_first_element('[视频通话]')
+        self.assertEqual(call.is_text_present('通话记录(视频通话)'), True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000159(self):
+        """
+        点击拨号盘上面的默认通话记录
+        1、正常网络状态下，登录密友圈；
+        2、当前页面在通话页面
+        3、拨号盘已打开
+        4、通话模块存在通话记录
+        5、点击该（除详情记录图标）通话记录任意区域
+        6、点击右侧详情记录图标
+        7、呼叫该记录的通话
+        8、跳转该记录的通话详情页面"
+        :return:
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        call.click_delete_all_key()
+        time.sleep(0.5)
+        # 呼出一个点对点视频通话
+        call.test_call_video_condition()
+        call.click_locator_key("拨号键盘")
+        call.click_tag_detail_first_element('[视频通话]')
+        self.assertEqual(call.is_text_present('通话记录(视频通话)'), True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000160(self):
+        """
+        在拨号盘以外的区域，进行上下滑动
+        [预期结果]
+        拨号盘收起；显示通话页面
+        :return:
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        time.sleep(0.5)
+        if not call.is_on_this_page():
+            call.click_locator_key("拨号键盘")
+        # 向上滑动
+        time.sleep(1)
+        x_source = 28 / 375 * 100
+        y_source = 140 / 667 * 100
+        x_target = 28 / 375 * 100
+        y_target = 100 / 667 * 100
+        call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+        # 判断滑动后是否还在此页面
+        time.sleep(1)
+        self.assertEqual(call.is_element_already_exist('拨号键盘'), True)
+        # 向下滑动
+        if not call.is_on_this_page():
+            call.click_locator_key("拨号键盘")
+        time.sleep(1)
+        x_source = 28 / 375 * 100
+        y_source = 100 / 667 * 100
+        x_target = 28 / 375 * 100
+        y_target = 140 / 667 * 100
+        call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+        # 判断滑动后是否还在此页面
+        time.sleep(1)
+        self.assertEqual(call.is_element_already_exist('拨号键盘'), True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000161(self):
+        """
+        在拨号盘以外的区域，进行上下滑动
+        [预期结果]
+        保持拨号盘半收起状态；
+        拨号盘搜索逻辑按号码，
+        首字母，全拼模糊匹配，
+        搜索的数据源包括：搜索的数据源包括：（本地通讯录+联系人+家庭网+未知电话）
+        :return:
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        time.sleep(0.5)
+        if call.is_on_this_page():
+            call.click_show_keyboard()
+        time.sleep(1)
+        # 输入文字自动搜索
+        call.click_keyboard_call('keyboard_1')
+        time.sleep(1)
+        # 向上滑动
+        x_source = 28 / 375 * 100
+        y_source = 140 / 667 * 100
+        x_target = 28 / 375 * 100
+        y_target = 100 / 667 * 100
+        call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+        is_keyboard_0 = call.is_element_already_exist("keyboard_0")
+        is_exists = call.is_element_already_exist("呼叫")
+        self.assertEqual((not is_keyboard_0) and is_exists, True)
+        # 向下滑动
+        time.sleep(1)
+        call.click_locator_key("拨号_返回")
+        time.sleep(1)
+        call.click_keyboard_call('keyboard_1')
+        time.sleep(1)
+        x_source = 28 / 375 * 100
+        y_source = 100 / 667 * 100
+        x_target = 28 / 375 * 100
+        y_target = 140 / 667 * 100
+        call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+        is_keyboard_0 = call.is_element_already_exist("keyboard_0")
+        is_exists = call.is_element_already_exist("呼叫")
+        self.assertEqual((not is_keyboard_0) and is_exists, True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000162(self):
+        """
+        1、显示拨号盘半收起; 2、点击拨号盘按钮; 3、清空输入框内容
+        [预期结果]
+        1、输入框存在输入内容，底部从左往右依次为展开拨号盘按钮、呼叫按钮、清除按钮
+        2、拨号盘全部展开
+        3、拨号盘全盘展开
+        :return:
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        time.sleep(0.5)
+        if call.is_on_this_page():
+            call.click_show_keyboard()
+        time.sleep(1)
+        # 输入文字自动搜索
+        call.click_keyboard_call('keyboard_1')
+        time.sleep(1)
+        # 向上滑动
+        x_source = 28 / 375 * 100
+        y_source = 140 / 667 * 100
+        x_target = 28 / 375 * 100
+        y_target = 100 / 667 * 100
+        call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+        # 判断键盘
+        time.sleep(2)
+        self.assertEqual(call.is_element_already_exist("拨号_半_收起键盘"), True)
+        self.assertEqual(call.is_element_already_exist("拨号界面_呼叫"), True)
+        self.assertEqual(call.is_element_already_exist("拨号_返回"), True)
+        # 拨号盘全盘展开
+        time.sleep(2)
+        call.click_keyboard_call('拨号_返回')
+        self.assertEqual(call.is_element_already_exist("拨号_收起键盘"), True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000163(self):
+        """
+        1、显示拨号盘半收起; 2、点击拨号盘按钮; 3、清空输入框内容
+        [预期结果]
+        1、输入框存在输入内容，底部从左往右依次为展开拨号盘按钮、呼叫按钮、清除按钮
+        2、拨号盘全部展开
+        3、拨号盘全盘展开
+        :return:
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        time.sleep(0.5)
+        if call.is_on_this_page():
+            call.click_show_keyboard()
+        time.sleep(1)
+        # 输入文字自动搜索
+        call.click_keyboard_call('keyboard_5')
+        time.sleep(1)
+        call.click_keyboard_call('keyboard_3')
+        time.sleep(1)
+        call.click_keyboard_call('keyboard_6')
+        # 判断键盘
+        time.sleep(2)
+        self.assertEqual(call.is_element_already_exist("拨号_收起键盘"), True)
+        self.assertEqual(call.is_element_already_exist("拨号界面_呼叫"), True)
+        self.assertEqual(call.is_element_already_exist("拨号_返回"), True)
+        # 无联系人
+        time.sleep(2)
+        self.assertEqual(call.is_element_already_exist("拨号_无联系人"), True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000164(self):
+        """
+        在拨号盘以外的区域，进行上下滑动
+        [预期结果]
+        拨号盘任保持半收起状态；
+        :return:
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        time.sleep(0.5)
+        if call.is_on_this_page():
+            call.click_show_keyboard()
+        time.sleep(1)
+        # 输入文字自动搜索
+        call.click_keyboard_call('keyboard_1')
+        time.sleep(1)
+        # 向上滑动
+        x_source = 28 / 375 * 100
+        y_source = 140 / 667 * 100
+        x_target = 28 / 375 * 100
+        y_target = 100 / 667 * 100
+        call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+        # 判断键盘,半收起状态
+        time.sleep(2)
+        self.assertEqual(call.is_element_already_exist("拨号_半_收起键盘"), True)
+        self.assertEqual(call.is_element_already_exist("拨号界面_呼叫"), True)
+        self.assertEqual(call.is_element_already_exist("拨号_返回"), True)
+        # 向上滑动
+        x_source = 28 / 375 * 100
+        y_source = 140 / 667 * 100
+        x_target = 28 / 375 * 100
+        y_target = 100 / 667 * 100
+        call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+        # 判断键盘,半收起状态
+        time.sleep(2)
+        self.assertEqual(call.is_element_already_exist("拨号_半_收起键盘"), True)
+        self.assertEqual(call.is_element_already_exist("拨号界面_呼叫"), True)
+        self.assertEqual(call.is_element_already_exist("拨号_返回"), True)
+        # 向下滑动
+        time.sleep(1)
+        x_source = 28 / 375 * 100
+        y_source = 100 / 667 * 100
+        x_target = 28 / 375 * 100
+        y_target = 140 / 667 * 100
+        call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+        # 判断键盘,半收起状态
+        time.sleep(2)
+        self.assertEqual(call.is_element_already_exist("拨号_半_收起键盘"), True)
+        self.assertEqual(call.is_element_already_exist("拨号界面_呼叫"), True)
+        self.assertEqual(call.is_element_already_exist("拨号_返回"), True)
+
+
+
