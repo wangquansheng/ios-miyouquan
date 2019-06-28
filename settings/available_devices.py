@@ -646,7 +646,7 @@ DEVICES_CONFIG_CYH = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '19876463626'
+                'CARD_NUMBER': '14775970982'
             },
         ]
     },

@@ -1,19 +1,20 @@
+import time
+import warnings
 from selenium.common.exceptions import TimeoutException
-from library.core.TestCase import TestCase
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
-from library.core.utils.testcasefilter import tags
 from pages.guide import GuidePage
 from pages.login.OneKeyLogin import OneKeyLoginPage
 from pages.call.Call import CallPage
-import time
-import warnings
-
+from library.core.TestCase import TestCase
+from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
+from library.core.utils.testcasefilter import tags
+from library.core.common.simcardtype import CardType
 
 
 REQUIRED_MOBILES = {
     'Android-移动-N': 'M960BDQN229CH',
     'Android-移动': 'M960BDQN229CH_NOVA',
     'IOS-移动': 'iphone',
+    'IOS-移动-N': 'iphone_n',
     'Android-电信': 'single_telecom',
     'Android-联通': 'single_union',
     'Android-移动-联通': 'mobile_and_union',
@@ -610,7 +611,7 @@ class CallPageTest(TestCase):
         else:
             self.assertEqual("测试等待时间异常。", True)
 
-    @tags('ALL', 'CMCC', 'call')
+    @tags('ALL', 'CMCC_double', 'call')
     def test_call_00020(self):
         """ iphone7
             1、联网正常已登录
@@ -619,29 +620,46 @@ class CallPageTest(TestCase):
             点击视频通话---点击取消---进入拨打视频通话界面，并弹出提示窗，“通话结束”---返回通话记录详情页
         """
         call = CallPage()
-        call.wait_for_page_load()
-        # 判断是否有通话记录
-        call.test_call_video_condition()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
+        try:
+            call.wait_for_page_load()
+            # 判断如果键盘已拉起，则收起键盘
+            if call.is_exist_call_key():
+                call.click_hide_keyboard()
+                time.sleep(1)
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-N')
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            call.set_network_status(0)
+            # 切换主叫手机
+            Preconditions.select_mobile('IOS-移动')
+            # 拨打视频电话
+            call.pick_up_p2p_video(cards)
+            time.sleep(3)
+            call.click_locator_key('视频界面_挂断')
+            # 切换主叫手机
+            Preconditions.select_mobile('Android-移动')
+            time.sleep(2)
+            call.click_tag_detail_first_element('视频通话')
             time.sleep(1)
-        call.make_sure_have_p2p_vedio_record()
-        call.click_tag_detail_first_element('[视频通话]')
-        time.sleep(1)
-        self.assertEqual(call.on_this_page_call_detail(), True)
-        # 1. 点击视频通话按钮
-        call.click_locator_key('详情_视频按钮')
-        # time.sleep(1)
-        # if call.on_this_page_flow():
-        #     call.set_not_reminders()
-        #     time.sleep(1)
-        #     call.click_locator_key('流量_继续拨打')
-        time.sleep(5)
-        # 单击通话结束按钮
-        call.click_conversation_popup()
-        time.sleep(5)
-        self.assertEqual(call.on_this_page_call_detail(), True)
+            self.assertEqual(call.on_this_page_call_detail(), True)
+            # 1. 点击视频通话按钮
+            call.click_locator_key('详情_视频')
+            time.sleep(1)
+            if call.on_this_page_flow():
+                call.set_not_reminders()
+                time.sleep(1)
+                call.click_locator_key('流量_继续拨打')
+            time.sleep(3)
+            call.click_locator_key('视频界面_挂断')
+            self.assertEqual(call.is_toast_exist("通话结束"), True)
+            time.sleep(3)
+            self.assertEqual(call.on_this_page_call_detail(), True)
+        finally:
+            # 切换被叫手机
+            Preconditions.select_mobile('Android-移动-N')
+            call.set_network_status(0)
+
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00023(self):
