@@ -280,7 +280,7 @@ class CallPageTest(TestCase):
     def test_call_0005(self):
         """通话界面-点击视频通话"""
         call = CallPage()
-        call.click_add()
+        call.click_locator_key('+')
         time.sleep(2)
         call.is_element_present('视频通话')
         call.is_element_present('多方电话')
@@ -336,7 +336,7 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         # 点击加号
-        call.click_add()
+        call.click_locator_key('+')
         time.sleep(2)
         # 判断是否有视频通话与多方电话
         self.assertEqual(call.is_element_present('视频通话'), True)
@@ -353,7 +353,7 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         # 点击加号
-        call.click_add()
+        call.click_locator_key('+')
         time.sleep(2)
         call.click_locator_key('视频通话')
         time.sleep(2)
@@ -370,7 +370,7 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         # 点击加号
-        call.click_add()
+        call.click_locator_key('+')
         time.sleep(2)
         call.click_locator_key('多方电话')
         time.sleep(2)
@@ -2106,48 +2106,6 @@ class CallPageTest(TestCase):
         self.assertEqual(input_text_source == input_text, True)
 
     @tags('ALL', 'CMCC', 'call')
-    def test_call_000173(self):
-        """
-            1、正常网络状态下，登录密友圈；
-            2、当前页面在通话页面
-            3、拨号盘已打开
-            4、登录为广东或四川号码
-            5、该联系人在不限时长页面显示开通成功
-        [预期结果]
-           1、匹配显示联系人号码成员右边显示不限时长字体的下拉框
-        :return:
-        """
-        call = CallPage()
-        call.wait_for_page_load()
-        time.sleep(0.5)
-        if call.is_on_this_page():
-            call.click_show_keyboard()
-        # 输入文字
-        input_len = 15
-        time.sleep(1)
-        call.click_keyboard_call('keyboard_1')
-        time.sleep(1)
-        call.click_keyboard_call('keyboard_2')
-        time.sleep(1)
-        call.click_keyboard_call('keyboard_3')
-        time.sleep(1)
-        call.click_keyboard_call('keyboard_4')
-        time.sleep(1)
-        call.click_keyboard_call('keyboard_5')
-        time.sleep(1)
-        call.click_keyboard_call('keyboard_6')
-        time.sleep(1)
-        call.click_keyboard_call('keyboard_7')
-        time.sleep(1)
-        call.click_keyboard_call('keyboard_8')
-        time.sleep(1)
-        call.click_keyboard_call('keyboard_9')
-        # 点击清除键一下
-        time.sleep(1)
-        input_text = call.get_element_text('拨号_文本框')
-        self.assertEqual(input_len == len(input_text), True)
-
-    @tags('ALL', 'CMCC', 'call')
     def test_call_000178(self):
         """
            输入1234567891234567
@@ -2216,11 +2174,134 @@ class CallPageTest(TestCase):
         time.sleep(1)
         call.click_keyboard_call('keyboard_1')
         # 选择第一个
-        call.get_tag_phone_first_element('拨号_搜索_列表联系人')
+        call.click_search_phone_first_element('拨号_搜索_列表联系人')
         # 点击清除键一下
         if call.is_element_already_exist('飞信电话_我知道了'):
             call.click_locator_key('飞信电话_我知道了')
         time.sleep(1)
         call.click_more_phone_popup()
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000181(self):
+        """
+            1、点击（除详情记录图标）该号码栏任意区域
+            2、点击右侧详情记录图标
+        [预期结果]
+            1、直接呼叫
+            2、跳转至联系人或家庭网详情页面
+        :return:
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        time.sleep(0.5)
+        if call.is_on_this_page():
+            call.click_show_keyboard()
+        # 输入文字
+        time.sleep(1)
+        call.click_keyboard_call('keyboard_2')
+        # 选择第一个
+        call.click_search_phone_first_element('拨号_搜索_列表联系人')
+        # 点击清除键一下
+        if call.is_element_already_exist('飞信电话_我知道了'):
+            call.click_locator_key('飞信电话_我知道了')
+        time.sleep(1)
+        call.click_more_phone_popup()
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000184(self):
+        """
+            1、在【通话&消息】模块主界面，点击右上角“+”——视频通话；
+            2、进入任一群聊会话窗口，点击右上角“视频通话”icon
+        [预期结果]
+            打开多方视频-联系人选择器页面（该页面逻辑与现网保持一致）
+        :return:
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        time.sleep(0.5)
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 点击右上角“+”
+        time.sleep(1)
+        call.click_locator_key('+')
+        # 视频通话
+        time.sleep(10)
+        call.click_call('视频通话')
+        # 页面检查
+        time.sleep(1)
+        self.assertEqual(call.is_element_already_exist('详情_名称'), True)
+        self.assertEqual(call.is_element_already_exist('视频呼叫_确定'), True)
+        self.assertEqual(call.is_element_already_exist('视频呼叫_联系人列表'), True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000185(self):
+        """
+            选择1名成员，点击“呼叫”按钮
+        [预期结果]
+            发起单对单视频通话，逻辑与现网保持一致一致
+        :return:
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.click_locator_key('+')
+        time.sleep(1)
+        call.click_locator_key('视频通话')
+        time.sleep(2)
+        call.select_contact_n(1)
+        time.sleep(2)
+        call.click_locator_key('视频呼叫_确定')
+        time.sleep(5)
+        call.click_conversation_popup()
+        time.sleep(2)
+        if call.is_element_present("无密友圈_确定"):
+            call.click_cancel_popup()
+            time.sleep(1)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000187(self):
+        """
+            1、选择2名以上联系人，点击“呼叫”按钮；
+        [预期结果]
+            进入视频通话窗口，所有成员以小格子画面显示，被叫方显示对方设置头像/默认头像，
+            头像上浮层显示呼叫中标识“转圈”，
+            窗口下方有“免提、静音、关闭摄像头、转换摄像头、挂断”按钮；
+        :return:
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        call.click_locator_key('+')
+        time.sleep(1)
+        call.click_locator_key('视频通话')
+        time.sleep(2)
+        call.select_contact_n(3)
+        time.sleep(2)
+        call.click_locator_key('视频呼叫_确定')
+        # 免提、静音、关闭摄像头、翻转摄像头
+        time.sleep(2)
+        call.is_element_already_exist('呼叫_视频_免提')
+        time.sleep(2)
+        call.is_element_already_exist('呼叫_视频_静音')
+        time.sleep(2)
+        call.is_element_already_exist('呼叫_视频_关闭摄像头')
+        time.sleep(2)
+        call.is_element_already_exist('呼叫_视频_翻转摄像头')
+        # 关闭
+        time.sleep(5)
+        call.click_conversation_popup()
+        time.sleep(2)
+        if call.is_element_present("无密友圈_确定"):
+            call.click_cancel_popup()
+            time.sleep(1)
+
 
 

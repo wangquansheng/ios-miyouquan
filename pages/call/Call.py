@@ -76,6 +76,10 @@ class CallPage(FooterPage):
         # '视频界面_转为语音': (MobileBy.ID, 'com.cmic.college:id/video_iv_change_to_voice'),
         # '视频界面_挂断': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
         # '视频界面_切换摄像头': (MobileBy.ID, 'com.cmic.college:id/video_iv_switch_camera'),
+        '呼叫_视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
+        '呼叫_视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
+        '呼叫_视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
+        '呼叫_视频_翻转摄像头': (MobileBy.IOS_PREDICATE, 'name=="翻转摄像头"'),
 
         # 语音通话界面
         # '语音界面_时长': (MobileBy.ID, 'com.cmic.college:id/chrState'),
@@ -124,6 +128,7 @@ class CallPage(FooterPage):
                                    '/../preceding-sibling::*[3]/XCUIElementTypeTextField'),
         '拨号_请输入正确号码': (MobileBy.IOS_PREDICATE, 'name=="请输入正确号码"'),
         '拨号_搜索_列表联系人': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
+        '拨号_搜索1_联系人_不限时长': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
 
         # 福利电话
         # '页面规则': (MobileBy.ID, 'com.cmic.college:id/action_rule'),
@@ -132,6 +137,10 @@ class CallPage(FooterPage):
         # '搜索_电话显示': (MobileBy.ID, 'com.cmic.college:id/tvPhoneNum'),
         # '搜索_电话昵称': (MobileBy.ID, 'com.cmic.college:id/tvName'),
         # '免费时长': (MobileBy.ID, 'com.cmic.college:id/tv_leftDuration'),
+
+        # 攻略
+        '攻略_通话_id': (MobileBy.ACCESSIBILITY_ID, 'my_banner_gonglue'),
+        '攻略_通话_close': (MobileBy.ACCESSIBILITY_ID, 'my cancel copy'),
 
         # 关闭广告页面
         # '广告_关闭': (MobileBy.ID, 'com.cmic.college:id/ivClose'),
@@ -360,6 +369,18 @@ class CallPage(FooterPage):
         """输入文本"""
         return self.input_text(self.__locators[locator], text)
 
+    @TestLogger.log("通话界面-呼叫-搜索联系人")
+    def click_search_phone_first_element(self, text):
+        if not self.is_element_already_exist(text):
+            return False
+        # 获取通话列表所有数据
+        time.sleep(2)
+        elements_list = self.get_elements(self.__locators[text])
+        time.sleep(2)
+        elements_list[0].click()
+        time.sleep(2)
+        return True
+
     @TestLogger.log("检查列表中元素是否有目标值")
     def get_tag_list_text_exists(self, text, target):
         if not self.is_element_already_exist(text):
@@ -372,18 +393,6 @@ class CallPage(FooterPage):
                 if value.strip().find(value_c) > -1:
                     return True
         return False
-
-    @TestLogger.log("通话界面-呼叫-搜索联系人")
-    def get_tag_phone_first_element(self, text):
-        if not self.is_element_already_exist(text):
-            return False
-        # 获取通话列表所有数据
-        time.sleep(2)
-        elements_list = self.get_elements(self.__locators[text])
-        time.sleep(2)
-        elements_list[0].click()
-        time.sleep(2)
-        return True
 
     @TestLogger.log("点击包含文本的第一个详细信息(i)元素")
     def click_tag_detail_first_element(self, text):
@@ -584,10 +593,6 @@ class CallPage(FooterPage):
     @TestLogger.log("点击打开键盘")
     def click_show_keyboard(self):
         self.click_element(self.__class__.__locators['拨号键盘'])
-
-    @TestLogger.log("点击+")
-    def click_add(self):
-        self.click_element(self.__class__.__locators['+'])
 
     @TestLogger.log()
     def close_ad(self):
@@ -795,7 +800,7 @@ class CallPage(FooterPage):
         # 初始化数据
         time.sleep(2)
         if not self.is_text_present("[视频通话]"):
-            self.click_add()
+            self.click_locator_key('+')
             time.sleep(1)
             self.click_call('视频通话')
             self.select_contact_n(1)
@@ -817,7 +822,7 @@ class CallPage(FooterPage):
         # 初始化数据
         time.sleep(2)
         if not self.is_text_present("[多方视频]"):
-            self.click_add()
+            self.click_locator_key('+')
             time.sleep(2)
             self.click_call('视频通话')
             self.select_contact_n(2)
@@ -897,6 +902,11 @@ class CallPage(FooterPage):
         """长按"""
         self.swipe_by_direction(self.__class__.__locators[text], 'press', 5)
 
+    #
+    # @TestLogger.log("点击+")
+    # def click_add(self):
+    #     self.click_element(self.__class__.__locators['+'])
+    #
     # @TestLogger.log("保存备注")
     # def click_save_nickname(self, ):
     #     return self.click_element(self.__locators['备注_保存'])
