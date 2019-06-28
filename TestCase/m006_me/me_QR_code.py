@@ -1,17 +1,7 @@
-import unittest
-import uuid
 import time
-import preconditions
 from library.core.TestCase import TestCase
-from library.core.common.simcardtype import CardType
-from library.core.utils import email_helper
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
-from library.core.utils.testcasefilter import tags
 from pages import *
-from pages.components import ContactsSelector
-from pages.components.PickGroup import PickGroupPage
-from pages.components.SearchGroup import SearchGroupPage
-from pages.me.NameCard import NameCardPage
 from preconditions.BasePreconditions import LoginPreconditions
 import warnings
 
@@ -132,9 +122,9 @@ class MyQRcodePageTest(TestCase):
 
     def test_me_zhangshuli_060(self):
         """我的二维码分享-非手机号码的数字搜索"""
-        me=MePage()
+        me = MePage()
         me.click_qr_code_icon()
-        #进入我的二维码界面
+        # 进入我的二维码界面
         qr_code = MyQRCodePage()
         qr_code.click_forward_qr_code()
         time.sleep(2)
@@ -151,7 +141,7 @@ class MyQRcodePageTest(TestCase):
         select.check_if_element_exist(text='搜索团队联系人入口')
         select.check_if_element_exist(text='搜索结果列表1')
         self.assertTrue(select.is_keyboard_shown())
-        #无搜索结果时
+        # 无搜索结果时
         select.click_x_icon()
         select.input_search_keyword('张无忌')
         select.check_if_element_exist(text='搜索团队联系人入口')
@@ -162,7 +152,7 @@ class MyQRcodePageTest(TestCase):
         """我的二维码分享-无本地结果且二次查询无结果"""
         me=MePage()
         me.click_qr_code_icon()
-        #进入我的二维码界面
+        # 进入我的二维码界面
         qr_code = MyQRCodePage()
         qr_code.click_forward_qr_code()
         time.sleep(2)
@@ -181,25 +171,25 @@ class MyQRcodePageTest(TestCase):
         """我的二维码分享-搜索未保存在本地的手机号码"""
         me=MePage()
         me.click_qr_code_icon()
-        #进入我的二维码界面
+        # 进入我的二维码界面
         qr_code = MyQRCodePage()
         qr_code.click_forward_qr_code()
         time.sleep(2)
         select=SelectContactsPage()
         time.sleep(2)
         select.page_contain_element(locator='最近聊天')
-        #顶部搜索框搜索
+        # 顶部搜索框搜索
         select.click_search_contact()
         select.input_search_keyword('19674361585')
         select.check_if_element_exist(text='网络搜索结果')
-        #点击取消发送
+        # 点击取消发送
         select.click_element_by_id(text='网络搜索结果')
         time.sleep(1)
         select.click_cancel_send()
         time.sleep(2)
         select.check_if_element_not_exist(text='确定发送')
         select.page_contain_element(locator='搜索团队联系人入口')
-        #点击确定发送
+        # 点击确定发送
         time.sleep(2)
         select.click_element_by_id(text='网络搜索结果')
         select.click_sure_send()
@@ -212,7 +202,7 @@ class MyQRcodePageTest(TestCase):
         """我的二维码分享-搜索未保存在本地的手机号码"""
         me=MePage()
         me.click_qr_code_icon()
-        #进入我的二维码界面
+        # 进入我的二维码界面
         qr_code = MyQRCodePage()
         qr_code.click_forward_qr_code()
         time.sleep(2)
@@ -222,7 +212,7 @@ class MyQRcodePageTest(TestCase):
         select.click_search_contact()
         select.input_search_keyword('19674361585')
         select.check_if_element_exist(text='网络搜索结果')
-        #点击取消发送
+        # 点击取消发送
         time.sleep(1)
         select.page_down()
         select.click_element_by_id(text='网络搜索结果')
@@ -230,7 +220,7 @@ class MyQRcodePageTest(TestCase):
         time.sleep(2)
         select.check_if_element_not_exist(text='确定发送')
         select.page_contain_element(locator='搜索团队联系人入口')
-        #点击确定发送
+        # 点击确定发送
         select.click_element_by_id(text='网络搜索结果')
         select.click_sure_send()
         time.sleep(1)
@@ -241,7 +231,7 @@ class MyQRcodePageTest(TestCase):
         """我的二维码分享-手机联系人搜索结果页面顶部搜索"""
         me=MePage()
         me.click_qr_code_icon()
-        #进入我的二维码界面
+        # 进入我的二维码界面
         qr_code = MyQRCodePage()
         qr_code.click_forward_qr_code()
         time.sleep(2)
@@ -254,7 +244,7 @@ class MyQRcodePageTest(TestCase):
         select.check_if_element_exist(text='清空搜索文本')
         select.check_if_element_exist(text='搜索团队联系人入口')
         select.check_if_element_exist(text='搜索结果列表1')
-        #无搜索结果时
+        # 无搜索结果时
         select.click_x_icon()
         select.input_search_keyword('张无忌')
         select.check_if_element_exist(text='搜索团队联系人入口')
@@ -265,18 +255,18 @@ class MyQRcodePageTest(TestCase):
         """我的二维码分享-搜索字母特殊字符关数字，手机号等关键字有群聊结果"""
         me=MePage()
         me.click_qr_code_icon()
-        #进入我的二维码界面
+        # 进入我的二维码界面
         qr_code = MyQRCodePage()
         qr_code.click_forward_qr_code()
         time.sleep(2)
         select=SelectContactsPage()
         time.sleep(2)
         select.page_contain_element(locator='最近聊天')
-        #顶部搜索框搜索
+        # 顶部搜索框搜索
         select.click_search_contact()
         select.input_search_keyword('给个红包')
         select.page_down()
-        #搜索结果多余3条
+        # 搜索结果多余3条
         select.check_if_element_exist(text='清空搜索文本')
         select.check_if_element_exist(text='搜索团队联系人入口')
         select.page_should_contain_text('群聊')

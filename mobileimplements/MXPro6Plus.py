@@ -1,6 +1,5 @@
 import functools
 from appium.webdriver.common.mobileby import MobileBy
-from selenium.webdriver.support.wait import WebDriverWait
 
 from library.core.common.simcardtype import CardType
 from library.core.mobile.mobiledriver import MobileDriver
