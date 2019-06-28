@@ -1,7 +1,10 @@
 from appium.webdriver.common.mobileby import MobileBy
+
 from library.core.TestLogger import TestLogger
 from library.core.utils.applicationcache import current_mobile
+
 from pages.components.Footer import FooterPage
+
 import traceback
 import time
 
@@ -59,7 +62,15 @@ class CallPage(FooterPage):
         '视频通话_字母': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeOther'),
         '视频呼叫_字母第一个': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="C"]'),
         '视频呼叫_字母C': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="C"]'),
-        # '视频通话_搜索': (MobileBy.ID, 'com.cmic.college:id/editText_keyword'),
+        '视频通话_搜索_文本框': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
+                                        '/../XCUIElementTypeTextField'),
+        '视频呼叫_电话号码': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
+                                      '/../../../XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'
+                                      '/XCUIElementTypeImage[2]'),
+        # //XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]/
+        # chat_p4_selected @ 2x.png
+        # /chat_p4_selected@2x.png
+
         # '视频通话_接听': (MobileBy.ID, 'com.cmic.college:id/ivVideoAnswer'),
         # '视频通话_挂断': (MobileBy.ID, 'com.cmic.college:id/ivCancel'),
         # '电话号码': (MobileBy.ID, 'com.cmic.college:id/contact_number'),
@@ -735,15 +746,19 @@ class CallPage(FooterPage):
     def pick_up_p2p_video(self, cards):
         self.click_locator_key('+')
         self.click_locator_key('视频通话')
-        # self.click_locator_key('视频通话_搜索')
-        self.input_text(self.__locators['视频通话_搜索'], cards)
-        self.get_elements(self.__locators['电话号码'])[0].click()
-        self.click_locator_key('呼叫')
+        self.input_text(self.__locators['视频通话_搜索_文本框'], cards)
+        self.get_elements(self.__locators['视频呼叫_电话号码'])[0].click()
+        self.click_locator_key('视频呼叫_确定')
         time.sleep(0.5)
-        if self.on_this_page_common('流量_继续拨打'):
-            self.click_locator_key('流量_继续拨打')
-        if self.on_this_page_common('无密友圈_提示文本'):
+        # if self.on_this_page_common('流量_继续拨打'):
+        #     self.click_locator_key('流量_继续拨打')
+        if self.on_this_page_common('无密友圈_确定'):
             self.click_locator_key('无密友圈_取消')
+
+    @TestLogger.log("长按操作")
+    def long_press_number(self, text):
+        """长按"""
+        self.swipe_by_direction(self.__class__.__locators[text], 'press', 5)
 
     @TestLogger.log('拨打并挂断一个点对点视频通话')
     def pick_up_video_call(self):
@@ -897,10 +912,6 @@ class CallPage(FooterPage):
         self.click_conversation_popup()
         time.sleep(2)
 
-    @TestLogger.log("长按操作")
-    def long_press_number(self, text):
-        """长按"""
-        self.swipe_by_direction(self.__class__.__locators[text], 'press', 5)
 
     #
     # @TestLogger.log("点击+")

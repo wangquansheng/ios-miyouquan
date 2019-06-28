@@ -613,9 +613,9 @@ DEVICES_CONFIG_CYH = {
         "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "ios",
-            "platformVersion": "11.0.3",
-            "deviceName": "iPhone 7",
-            "udid": "d20ea7886c5fcea7f6494de6b878f94bb1cf3727",
+            "platformVersion": "12.1.2",
+            "deviceName": "iPhone 8",
+            "udid": "4eca812fe46b9296e7e8c626ed38b806a883a2a0",
             "automationName": "XCUITest",
             "app": "com.cmic.college",
             "xcodeOrgId": "42J4UB47JC",
@@ -625,16 +625,16 @@ DEVICES_CONFIG_CYH = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '14775970982'
+                'CARD_NUMBER': '15814481872'
             },
         ]
     },
-    'iphone_n': {
+    'iphone_d': {
         "MODEL": SupportedModel.iPhone_XR,
-        "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
+        "SERVER_URL": 'http://127.0.0.1:4724/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "ios",
-            "platformVersion": "11.0.3",
+            "platformVersion": "12.0.1",
             "deviceName": "iPhone 7",
             "udid": "d20ea7886c5fcea7f6494de6b878f94bb1cf3727",
             "automationName": "XCUITest",
