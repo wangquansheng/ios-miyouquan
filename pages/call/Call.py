@@ -67,12 +67,12 @@ class CallPage(FooterPage):
         '视频呼叫_电话号码': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
                                       '/../../../XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'
                                       '/XCUIElementTypeImage[2]'),
-        # //XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]/
-        # chat_p4_selected @ 2x.png
-        # /chat_p4_selected@2x.png
 
-        # '视频通话_接听': (MobileBy.ID, 'com.cmic.college:id/ivVideoAnswer'),
-        # '视频通话_挂断': (MobileBy.ID, 'com.cmic.college:id/ivCancel'),
+        # 视频接听
+        '视频接听_接听': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
+        '视频接听_挂断': (MobileBy.IOS_PREDICATE, 'name=="拒绝"'),
+        '视频接听_提醒我': (MobileBy.IOS_PREDICATE, 'name=="提醒我"'),
+        '视频接听_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
         # '电话号码': (MobileBy.ID, 'com.cmic.college:id/contact_number'),
 
         # 视频通话接通界面
@@ -379,6 +379,13 @@ class CallPage(FooterPage):
     def input_locator_text(self, locator, text):
         """输入文本"""
         return self.input_text(self.__locators[locator], text)
+
+    @TestLogger.log('根据元素模拟三指点击屏幕')
+    def tap_screen_three_point(self, locator='视频界面_时长'):
+        """根据元素模拟三指点击屏幕"""
+        if not self.is_element_already_exist(locator):
+            self.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            time.sleep(1)
 
     @TestLogger.log("通话界面-呼叫-搜索联系人")
     def click_search_phone_first_element(self, text):
@@ -760,10 +767,6 @@ class CallPage(FooterPage):
         """长按"""
         self.swipe_by_direction(self.__class__.__locators[text], 'press', 5)
 
-    @TestLogger.log('拨打并挂断一个点对点视频通话')
-    def pick_up_video_call(self):
-        self.click_locator_key('视频通话_接听')
-
     @TestLogger.log('判断元素是否存在')
     def is_element_already_exist(self, locator):
         """判断元素是否存在"""
@@ -913,6 +916,10 @@ class CallPage(FooterPage):
         time.sleep(2)
 
 
+    #
+    # @TestLogger.log('拨打并挂断一个点对点视频通话')
+    # def pick_up_video_call(self):
+    #     self.click_locator_key('视频通话_接听')
     #
     # @TestLogger.log("点击+")
     # def click_add(self):

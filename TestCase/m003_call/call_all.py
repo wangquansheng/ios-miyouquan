@@ -1,6 +1,7 @@
 import time
 import warnings
 import datetime
+import traceback
 
 from selenium.common.exceptions import TimeoutException
 
@@ -1192,38 +1193,69 @@ class CallPageTest(TestCase):
         time.sleep(1)
         self.assertEqual(call.select_contact_n(9), True)
 
-    # @tags('ALL', 'CMCC_double', 'call')
-    # def test_call_00051(self):
-    #     """
-    #         弹出“通话结束”提示框，页面回到呼叫前的页面中
-    #     """
-    #     call = CallPage()
-    #     call.wait_for_page_load()
-    #     # 判断如果键盘已拉起，则收起键盘
-    #     if call.is_exist_call_key():
-    #         call.click_hide_keyboard()
-    #         time.sleep(1)
-    #     # 初始化被叫手机
-    #     Preconditions.initialize_class('IOS-移动-移动')
-    #     # 获取手机号码
-    #     cards = call.get_cards(CardType.CHINA_MOBILE)
-    #     # 切换主叫手机
-    #     Preconditions.select_mobile('IOS-移动')
-    #     # 拨打视频电话
-    #     call.pick_up_p2p_video(cards)
-    #     # 等待返回结果
-    #     self.assertEqual(self.to_pick_phone_video(), True)
-    #     # 切换回主叫手机
-    #     Preconditions.select_mobile('IOS-移动')
-    #     # 挂断电话
-    #     call.tap_screen_three_point('视频界面_时长')
-    #     time.sleep(3)
-    #     call.click_conversation_popup()
-    #     if call.on_this_page_common('无密友圈_确定'):
-    #         call.click_locator_key('无密友圈_取消')
-    #     # 判断是否有‘通话结束’字样
-    #     self.assertEqual(call.is_toast_exist('通话结束'), True)
-    #
+    @TestLogger.log('切换手机，接听视频电话')
+    def to_pick_phone_video(self):
+        call = CallPage()
+        # 切换被叫手机
+        Preconditions.select_mobile('IOS-移动-移动')
+        count = 20
+        try:
+            while count > 0:
+                # 如果在视频通话界面，接听视频
+                if call.is_element_already_exist('视频接听_接听'):
+                    print('接听视频-->', datetime.datetime.now().date().strftime('%Y-%m-%d'),
+                          datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
+                    time.sleep(1)
+                    call.click_locator_key('视频接听_接听')
+                    return True
+                else:
+                    count -= 1
+                    # 1s检测一次，20s没有接听，则失败
+                    print(count, '切换手机，接听电话 --->', datetime.datetime.now().date().strftime('%Y-%m-%d'),
+                          datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
+                    time.sleep(0.5)
+                    continue
+            else:
+                return False
+        except Exception as e:
+            traceback.print_exc()
+            print(e, datetime.datetime.now().date().strftime('%Y-%m-%d'),
+                  datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
+            return False
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00051(self):
+        """
+            弹出“通话结束”提示框，页面回到呼叫前的页面中
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        # 判断如果键盘已拉起，则收起键盘
+        if call.is_exist_call_key():
+            call.click_hide_keyboard()
+            time.sleep(1)
+        # 初始化被叫手机
+        Preconditions.initialize_class('IOS-移动-移动')
+        # 获取手机号码
+        cards = call.get_cards(CardType.CHINA_MOBILE)
+        # 切换主叫手机
+        time.sleep(2)
+        Preconditions.select_mobile('IOS-移动')
+        # 拨打视频电话
+        call.pick_up_p2p_video(cards)
+        # 等待返回结果
+        self.assertEqual(self.to_pick_phone_video(), True)
+        # 切换回主叫手机
+        Preconditions.select_mobile('IOS-移动')
+        # # 挂断电话
+        # call.tap_screen_three_point('视频界面_时长')
+        time.sleep(3)
+        call.click_conversation_popup()
+        if call.on_this_page_common('无密友圈_确定'):
+            call.click_locator_key('无密友圈_取消')
+        # # 判断是否有‘通话结束’字样
+        self.assertEqual(call.is_element_already_exist('视频接听_通话结束'), True)
+
     # @TestLogger.log('切换手机，接听视频电话')
     # def to_pick_phone_video(self):
     #     call = CallPage()
@@ -1252,7 +1284,7 @@ class CallPageTest(TestCase):
     #         traceback.print_exc()
     #         print(e, datetime.datetime.now().date().strftime('%Y-%m-%d'),
     #               datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
-
+    #
     # @TestLogger.log('切换手机，接听电话')
     # def to_pick_phone_00051(self):
     #     call = CallPage()
