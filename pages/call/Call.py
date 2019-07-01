@@ -754,7 +754,9 @@ class CallPage(FooterPage):
         self.click_locator_key('+')
         self.click_locator_key('视频通话')
         self.input_text(self.__locators['视频通话_搜索_文本框'], cards)
+        time.sleep(1)
         self.get_elements(self.__locators['视频呼叫_电话号码'])[0].click()
+        time.sleep(1)
         self.click_locator_key('视频呼叫_确定')
         time.sleep(0.5)
         # if self.on_this_page_common('流量_继续拨打'):

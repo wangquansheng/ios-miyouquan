@@ -1244,7 +1244,10 @@ class CallPageTest(TestCase):
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
-        self.assertEqual(self.to_pick_phone_video(), True)
+        result = self.to_pick_phone_video()
+        Preconditions.disconnect_mobile('IOS-移动-移动')
+        self.assertEqual(result, True)
+        time.sleep(2)
         # 切换回主叫手机
         Preconditions.select_mobile('IOS-移动')
         # # 挂断电话
