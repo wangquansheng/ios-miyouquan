@@ -27,6 +27,9 @@ class CallPage(FooterPage):
         '来电详情': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic@2x'),
         '+': (MobileBy.ACCESSIBILITY_ID, 'add normal@2x'),
 
+        # 广告
+        '广告_通话_关闭': (MobileBy.ACCESSIBILITY_ID, 'my home cancel@2x'),
+
         # 通话：通话界面
         '通话_通话': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="通话"]'),
         '视频通话': (MobileBy.IOS_PREDICATE, 'name=="视频通话"'),
@@ -282,7 +285,23 @@ class CallPage(FooterPage):
             timeout,
             auto_accept_alerts
         )
+
+        try:
+            # 判断如果键盘已拉起，则收起键盘
+            if self.is_exist_call_key():
+                self.click_hide_keyboard()
+                time.sleep(1)
+        except:
+            print("判断如果键盘已拉起，则收起键盘")
         return self
+
+    @TestLogger.log("通话首页弹框关闭广告弹框")
+    def close_click_home_advertisement(self):
+        """通话首页弹框关闭广告弹框"""
+        time.sleep(1)
+        if self.is_element_already_exist('广告_通话_关闭'):
+            self.click_locator_key('广告_通话_关闭')
+            time.sleep(1)
 
     @TestLogger.log()
     def click_always_allow(self):

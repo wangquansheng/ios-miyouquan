@@ -613,12 +613,12 @@ DEVICES_CONFIG_CYH = {
         "SERVER_URL": 'http://127.0.0.1:4723/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "ios",
-            "platformVersion": "12.1.2",
+            "platformVersion": "11.0.1",
             "deviceName": "iPhone 8",
             "udid": "4eca812fe46b9296e7e8c626ed38b806a883a2a0",
             "automationName": "XCUITest",
             "app": "com.cmic.college",
-            "xcodeOrgId": "42J4UB47JC",
+            "xcodeOrgId": "92GST8LVB9",
             "newCommandTimeout": 60,
             "xcodeSigningId": "iPhone Developer"
         },
@@ -631,15 +631,15 @@ DEVICES_CONFIG_CYH = {
     },
     'iphone_d': {
         "MODEL": SupportedModel.iPhone_XR,
-        "SERVER_URL": 'http://127.0.0.1:4724/wd/hub',
+        "SERVER_URL": 'http://127.0.0.1:4725/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "ios",
             "platformVersion": "12.0.1",
-            "deviceName": "iPhone 7",
+            "deviceName": "iPhone7st",
             "udid": "d20ea7886c5fcea7f6494de6b878f94bb1cf3727",
             "automationName": "XCUITest",
             "app": "com.cmic.college",
-            "xcodeOrgId": "42J4UB47JC",
+            "xcodeOrgId": "92GST8LVB9",
             "newCommandTimeout": 60,
             "xcodeSigningId": "iPhone Developer"
         },

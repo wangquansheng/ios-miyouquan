@@ -218,6 +218,8 @@ class CallPageTest(TestCase):
         """通话界面显示"""
         time.sleep(2)
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.page_contain_element('通话文案')
         call.page_contain_element('拨号键盘')
         if call.is_element_present('来电名称'):
@@ -230,6 +232,8 @@ class CallPageTest(TestCase):
         """通话界面显示"""
         time.sleep(2)
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.page_contain_element('通话文案')
         call.page_contain_element('拨号键盘')
         if call.is_element_present('来电名称'):
@@ -242,6 +246,8 @@ class CallPageTest(TestCase):
         """通话界面-拨号键盘显示"""
         time.sleep(2)
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.page_contain_element('拨号键盘')
         if call.is_element_present('来电名称'):
             call.page_contain_element('来电名称')
@@ -267,6 +273,8 @@ class CallPageTest(TestCase):
         """通话界面-拨号盘收起"""
         time.sleep(2)
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.page_contain_element('拨号键盘')
         if call.is_element_present('来电名称'):
             call.page_contain_element('来电名称')
@@ -285,6 +293,8 @@ class CallPageTest(TestCase):
     def test_call_0005(self):
         """通话界面-点击视频通话"""
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.click_locator_key('+')
         time.sleep(2)
         call.is_element_present('视频通话')
@@ -300,11 +310,9 @@ class CallPageTest(TestCase):
         """展开拨号盘，不可以左右滑动切换tab，上方内容显示通话模块通话记录内容"""
         time.sleep(2)
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘是拉起的，则不需要再次拉起
-        if call.is_on_this_page():
-            time.sleep(1)
-            call.click_show_keyboard()
         # 向左滑动
         time.sleep(1)
         x_source = 50 / 375 * 100
@@ -336,6 +344,8 @@ class CallPageTest(TestCase):
         """跳出下拉框，可选择视频通话与多方电话"""
         time.sleep(2)
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
@@ -352,11 +362,9 @@ class CallPageTest(TestCase):
         """打开视频通话界面-联系人选择器页面（该页面逻辑与现网保持一致）"""
         time.sleep(2)
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 点击加号
         call.click_locator_key('+')
         time.sleep(2)
@@ -369,11 +377,9 @@ class CallPageTest(TestCase):
         """打开多方电话-联系人选择器页面（该页面逻辑与现网保持一致）"""
         time.sleep(2)
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 点击加号
         call.click_locator_key('+')
         time.sleep(2)
@@ -390,6 +396,8 @@ class CallPageTest(TestCase):
         """
         time.sleep(2)
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_video_condition()
@@ -417,6 +425,8 @@ class CallPageTest(TestCase):
         """
         time.sleep(2)
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_more_video_condition()
@@ -440,6 +450,8 @@ class CallPageTest(TestCase):
         """
         time.sleep(2)
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_more_phone_condition()
@@ -461,6 +473,8 @@ class CallPageTest(TestCase):
             验证通话记录详情页-编辑备注名---正确输入并点击保存（中文、英文、特殊符号）---保存成功
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_more_phone_condition()
@@ -492,6 +506,8 @@ class CallPageTest(TestCase):
             超长的字符不显示
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_more_phone_condition()
@@ -519,6 +535,8 @@ class CallPageTest(TestCase):
         """保存后用户名称用回服务器返回的名称"""
         call = CallPage()
         call.wait_for_page_load()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         # 判断是否有通话记录
         call.test_call_more_phone_condition()
         # 判断如果键盘已拉起，则收起键盘
@@ -539,6 +557,8 @@ class CallPageTest(TestCase):
             验证通话记录详情页-编辑备注名---输入sql语句并点击保存---保存成功
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_video_condition()
@@ -561,6 +581,8 @@ class CallPageTest(TestCase):
             验证通话记录详情页-编辑备注名---输入html标签并点击保存---保存成功
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_video_condition()
@@ -586,6 +608,8 @@ class CallPageTest(TestCase):
             1、点击视频通话---1、进入拨打视频通话界面，并弹出提示窗，“对方未接听，请稍候再尝试”
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_video_condition()
@@ -624,6 +648,8 @@ class CallPageTest(TestCase):
             点击视频通话---点击取消---进入拨打视频通话界面，并弹出提示窗，“通话结束”---返回通话记录详情页
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         try:
             call.wait_for_page_load()
             # 判断如果键盘已拉起，则收起键盘
@@ -677,6 +703,8 @@ class CallPageTest(TestCase):
             点击视频通话---点击取消---"1、进入拨打视频电话界面，并弹出提示窗--下方是“取消” 和“确定”按钮--返回通话记录详情页"
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_video_condition()
@@ -718,6 +746,8 @@ class CallPageTest(TestCase):
 
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_video_condition()
@@ -752,6 +782,8 @@ class CallPageTest(TestCase):
             点击视频通话---点击取消---"1、进入拨打视频电话界面，并弹出提示窗--下方是“取消” 和“确定”按钮--返回通话记录详情页"
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_video_condition()
@@ -787,12 +819,14 @@ class CallPageTest(TestCase):
             点击视频通话---点击取消---"1、进入拨打视频电话界面，并弹出提示窗--下方是“取消” 和“确定”按钮--返回通话记录详情页"
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
+        call.make_sure_have_p2p_vedio_record()
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
             time.sleep(1)
-        call.make_sure_have_p2p_vedio_record()
         call.click_tag_detail_first_element('[视频通话]')
         time.sleep(2)
         self.assertEqual(call.on_this_page_call_detail(), True)
@@ -839,6 +873,8 @@ class CallPageTest(TestCase):
             2、查看用户名
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_more_phone_condition()
@@ -873,6 +909,8 @@ class CallPageTest(TestCase):
             5 跳转至系统短信页面，附带发送号码与发送内容
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_more_phone_no_condition()
@@ -899,6 +937,8 @@ class CallPageTest(TestCase):
             6、弹出删除该通话记录和清除全部通话记录选择框
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_more_phone_condition()
@@ -924,11 +964,9 @@ class CallPageTest(TestCase):
             8、该条记录删除成功"
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 点对点通话
         if not call.make_sure_have_p2p_voicecall_record():
             # 判断是否有通话记录,没有创建
@@ -975,11 +1013,9 @@ class CallPageTest(TestCase):
             8、所有通话记录删除成功
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 通话记录删除
         self.assertEqual(call.click_delete_all_key(), True)
         time.sleep(1)
@@ -994,11 +1030,9 @@ class CallPageTest(TestCase):
             5、左上方有通话标题，右上方为"+"图标，下方有指引攻略，页面空白中间区域中有“点击左下角拨号盘icon，打电话不花钱”字样
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 通话记录删除
         call.click_delete_all_key()
         # 判断是否有通话标签、‘+’、打电话不花钱
@@ -1017,11 +1051,9 @@ class CallPageTest(TestCase):
             页面空白中间区域中有“点击左下角拨号盘icon，打电话不花钱”字样
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 通话记录删除
         call.click_delete_all_key()
         # 判断是否有通话标签、‘+’、打电话不花钱
@@ -1040,11 +1072,9 @@ class CallPageTest(TestCase):
             页面空白中间区域中有“点击左下角拨号盘icon，打电话不花钱”字样
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 通话记录删除
         call.click_delete_all_key()
         # 判断是否有通话标签、‘+’、打电话不花钱
@@ -1061,11 +1091,9 @@ class CallPageTest(TestCase):
             未知号码页面，右边为字母快速定位。
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         call.click_locator_key('+')
         time.sleep(1)
         call.click_locator_key('视频通话')
@@ -1088,11 +1116,9 @@ class CallPageTest(TestCase):
             未知号码页面，右边为字母快速定位。
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         call.click_locator_key('+')
         time.sleep(0.5)
         call.click_locator_key('视频通话')
@@ -1111,11 +1137,9 @@ class CallPageTest(TestCase):
             点击选择1个家庭网成员，1个家庭网成员的头像变化为勾选的图标，右上方呼叫字体变为蓝色显示“呼叫（1/8）”。
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         call.click_locator_key('+')
         time.sleep(1)
         call.click_locator_key('视频通话')
@@ -1134,11 +1158,9 @@ class CallPageTest(TestCase):
             点击选择2个家庭网成员，2个家庭网成员的头像变化为勾选的图标，右上方呼叫字体变为蓝色显示“呼叫（2/8）”。
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         call.click_locator_key('+')
         time.sleep(0.5)
         call.click_locator_key('视频通话')
@@ -1158,11 +1180,9 @@ class CallPageTest(TestCase):
             点击选择3个家庭网成员，3个家庭网成员的头像变化为勾选的图标，右上方呼叫字体变为蓝色显示“呼叫（3/8）”。
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         call.click_locator_key('+')
         time.sleep(0.5)
         call.click_locator_key('视频通话')
@@ -1180,11 +1200,9 @@ class CallPageTest(TestCase):
             点击选择8个家庭网成员，8个家庭网成员的头像变化为勾选的图标，右上方呼叫字体变为蓝色显示“呼叫（8/8）”。
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         call.click_locator_key('+')
         time.sleep(0.5)
         call.click_locator_key('视频通话')
@@ -1229,11 +1247,9 @@ class CallPageTest(TestCase):
             弹出“通话结束”提示框，页面回到呼叫前的页面中
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 初始化被叫手机
         Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
@@ -1241,6 +1257,8 @@ class CallPageTest(TestCase):
         # 切换主叫手机
         time.sleep(2)
         Preconditions.select_mobile('IOS-移动')
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -1250,8 +1268,6 @@ class CallPageTest(TestCase):
         time.sleep(2)
         # 切换回主叫手机
         Preconditions.select_mobile('IOS-移动')
-        # # 挂断电话
-        # call.tap_screen_three_point('视频界面_时长')
         time.sleep(3)
         call.click_conversation_popup()
         if call.on_this_page_common('无密友圈_确定'):
@@ -1324,10 +1340,6 @@ class CallPageTest(TestCase):
     #     """
     #     call = CallPage()
     #     call.wait_for_page_load()
-    #     # 判断如果键盘已拉起，则收起键盘
-    #     if call.is_exist_call_key():
-    #         call.click_hide_keyboard()
-    #         time.sleep(1)
     #     # 初始化被叫手机
     #     Preconditions.initialize_class('Android-移动-N')
     #     # 获取手机号码
@@ -1435,10 +1447,6 @@ class CallPageTest(TestCase):
     #     """
     #     call = CallPage()
     #     call.wait_for_page_load()
-    #     # 判断如果键盘已拉起，则收起键盘
-    #     if call.is_exist_call_key():
-    #         call.click_hide_keyboard()
-    #         time.sleep(1)
     #     # 初始化被叫手机
     #     Preconditions.initialize_class('Android-移动-N')
     #     # 获取手机号码
@@ -1518,10 +1526,6 @@ class CallPageTest(TestCase):
     #     """
     #     call = CallPage()
     #     call.wait_for_page_load()
-    #     # 判断如果键盘已拉起，则收起键盘
-    #     if call.is_exist_call_key():
-    #         call.click_hide_keyboard()
-    #         time.sleep(1)
     #     # 初始化被叫手机
     #     Preconditions.initialize_class('Android-移动-N')
     #     # 获取手机号码
@@ -1596,10 +1600,6 @@ class CallPageTest(TestCase):
     #     """
     #     call = CallPage()
     #     call.wait_for_page_load()
-    #     # 判断如果键盘已拉起，则收起键盘
-    #     if call.is_exist_call_key():
-    #         call.click_hide_keyboard()
-    #         time.sleep(1)
     #     try:
     #         # 初始化被叫手机
     #         Preconditions.initialize_class('Android-移动-N')
@@ -1696,10 +1696,6 @@ class CallPageTest(TestCase):
     #     """
     #     call = CallPage()
     #     call.wait_for_page_load()
-    #     # 判断如果键盘已拉起，则收起键盘
-    #     if call.is_exist_call_key():
-    #         call.click_hide_keyboard()
-    #         time.sleep(1)
     #     try:
     #         # 初始化被叫手机
     #         Preconditions.initialize_class('Android-移动-N')
@@ -1741,10 +1737,6 @@ class CallPageTest(TestCase):
     #     """
     #     call = CallPage()
     #     call.wait_for_page_load()
-    #     # 判断如果键盘已拉起，则收起键盘
-    #     if call.is_exist_call_key():
-    #         call.click_hide_keyboard()
-    #         time.sleep(1)
     #     try:
     #         # 切换主叫手机
     #         Preconditions.initialize_class('Android-移动-N')
@@ -1773,6 +1765,8 @@ class CallPageTest(TestCase):
             5、类型显示为：飞信电话，并显示该陌生号码的归属地和运营商
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         call.click_delete_all_key()
         time.sleep(0.5)
@@ -1795,6 +1789,8 @@ class CallPageTest(TestCase):
         """展开拨号盘，不可以左右滑动切换tab，上方内容显示通话模块通话记录内容"""
         time.sleep(2)
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断如果键盘是拉起的，则不需要再次拉起
         if call.is_on_this_page():
@@ -1833,6 +1829,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         call.click_delete_all_key()
         time.sleep(0.5)
@@ -1851,6 +1849,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if not call.is_on_this_page():
@@ -1890,6 +1890,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -1933,6 +1935,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -1963,6 +1967,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -1992,6 +1998,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -2043,6 +2051,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -2074,6 +2084,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -2099,6 +2111,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -2118,6 +2132,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -2139,6 +2155,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -2161,6 +2179,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -2202,6 +2222,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -2254,6 +2276,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -2280,6 +2304,8 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
         time.sleep(0.5)
         if call.is_on_this_page():
@@ -2305,12 +2331,9 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        time.sleep(0.5)
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 点击右上角“+”
         time.sleep(1)
         call.click_locator_key('+')
@@ -2332,11 +2355,9 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         call.click_locator_key('+')
         time.sleep(1)
         call.click_locator_key('视频通话')
@@ -2362,11 +2383,9 @@ class CallPageTest(TestCase):
         :return:
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         call.click_locator_key('+')
         time.sleep(1)
         call.click_locator_key('视频通话')
