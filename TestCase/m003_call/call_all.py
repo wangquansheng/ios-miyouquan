@@ -1254,16 +1254,13 @@ class CallPageTest(TestCase):
         Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
-        # 切换主叫手机
+        # 切换主叫手机，打电话
         time.sleep(2)
         Preconditions.select_mobile('IOS-移动')
-        # 关闭广告弹框
-        call.close_click_home_advertisement()
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
         result = self.to_pick_phone_video()
-        Preconditions.disconnect_mobile('IOS-移动-移动')
         self.assertEqual(result, True)
         time.sleep(2)
         # 切换回主叫手机
@@ -1275,58 +1272,29 @@ class CallPageTest(TestCase):
         # # 判断是否有‘通话结束’字样
         self.assertEqual(call.is_element_already_exist('视频接听_通话结束'), True)
 
-    # @TestLogger.log('切换手机，接听视频电话')
-    # def to_pick_phone_video(self):
-    #     call = CallPage()
-    #     # 切换被叫手机
-    #     Preconditions.select_mobile('IOS-移动-移动')
-    #     count = 20
-    #     try:
-    #         while count > 0:
-    #             # 如果在视频通话界面，接听视频
-    #             if call.is_text_present('邀请你进行视频通话', default_timeout=0.5):
-    #                 print('接听视频-->', datetime.datetime.now().date().strftime('%Y-%m-%d'),
-    #                       datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
-    #                 time.sleep(1)
-    #                 call.pick_up_video_call()
-    #                 return True
-    #             else:
-    #                 count -= 1
-    #                 # 1s检测一次，20s没有接听，则失败
-    #                 print(count, '切换手机，接听电话 --->', datetime.datetime.now().date().strftime('%Y-%m-%d'),
-    #                       datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
-    #                 time.sleep(0.5)
-    #                 continue
-    #         else:
-    #             return False
-    #     except Exception as e:
-    #         traceback.print_exc()
-    #         print(e, datetime.datetime.now().date().strftime('%Y-%m-%d'),
-    #               datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
-    #
-    # @TestLogger.log('切换手机，接听电话')
-    # def to_pick_phone_00051(self):
-    #     call = CallPage()
-    #     # 切换到被叫手机
-    #     Preconditions.select_mobile('Android-移动-N')
-    #     count = 40
-    #     try:
-    #         while count > 0:
-    #             if call.is_text_present('进行视频通话'):
-    #                 # 接听视频
-    #                 call.pick_up_video_call()
-    #                 time.sleep(2)
-    #                 return True
-    #             else:
-    #                 count -= 1
-    #                 time.sleep(1)
-    #                 print(count, '切换手机，接听电话')
-    #                 continue
-    #         else:
-    #             return False
-    #     except:
-    #         return False
-    #
+    @TestLogger.log('切换手机，接听电话')
+    def to_pick_phone_00051(self):
+        call = CallPage()
+        # 切换到被叫手机
+        Preconditions.select_mobile('Android-移动-移动')
+        count = 40
+        try:
+            while count > 0:
+                if call.is_text_present('进行视频通话'):
+                    # 接听视频
+                    call.click_locator_key('视频通话_接听')
+                    time.sleep(2)
+                    return True
+                else:
+                    count -= 1
+                    time.sleep(1)
+                    print(count, '切换手机，接听电话')
+                    continue
+            else:
+                return False
+        except:
+            return False
+
     # @tags('ALL', 'CMCC_double', 'call')
     # def test_call_00052(self):
     #     """
