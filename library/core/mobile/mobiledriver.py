@@ -160,6 +160,8 @@ class MobileDriver(ABC):
         #         raise RuntimeError('无法连接到 appium server: {}'.format(self._remote_url))
         # else:
         #     pass
+
+
         try:
             self.driver.quit()
         except:
@@ -168,6 +170,12 @@ class MobileDriver(ABC):
             self._driver = webdriver.Remote(self._remote_url, self._desired_caps, self._browser_profile,
                                                     self._proxy,
                                                     self._keep_alive)
+
+        # if self.driver is None:
+        #     self._driver = webdriver.Remote(self._remote_url, self._desired_caps, self._browser_profile,
+        #                                     self._proxy,
+        #                                     self._keep_alive)
+
         if platform_name == "android":
             app_version_info = self.get_app_version_info()
             real_model = self.get_mobile_model_info()
