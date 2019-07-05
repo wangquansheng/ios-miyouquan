@@ -731,16 +731,16 @@ class CallPage(FooterPage):
             return True
         return False
 
-    @TestLogger.log('设置不再提醒为选中')
-    def set_not_reminders(self):
-        """设置不再提醒为选中"""
-        el = self.get_elements(self.__locators['流量_不再提醒'])[0].get_attribute('checked')
-        if 'false' == el:
-            self.click_element(self.__locators['流量_不再提醒'])
-            el = self.get_elements(self.__locators['流量_不再提醒'])[0].get_attribute('checked')
-            if 'true' == el:
-                return True
-        return False
+    # @TestLogger.log('设置不再提醒为选中')
+    # def set_not_reminders(self):
+    #     """设置不再提醒为选中"""
+    #     el = self.get_elements(self.__locators['流量_不再提醒'])[0].get_attribute('checked')
+    #     if 'false' == el:
+    #         self.click_element(self.__locators['流量_不再提醒'])
+    #         el = self.get_elements(self.__locators['流量_不再提醒'])[0].get_attribute('checked')
+    #         if 'true' == el:
+    #             return True
+    #     return False
 
     @TestLogger.log('是否有某个标签')
     def on_this_page_common(self, locator):
@@ -808,6 +808,17 @@ class CallPage(FooterPage):
     def get_cards(self, card_type):
         """返回指定类型卡手机号列表"""
         return current_mobile().get_cards(card_type)
+
+    @TestLogger.log('视频通话界面用户名称')
+    def get_video_text(self, text):
+        try:
+            elements = self.get_elements((MobileBy.IOS_PREDICATE, 'name=="%s"' % text))
+            if len(elements) > 0:
+                return True
+            else:
+                return False
+        except:
+            return False
 
     @TestLogger.log('拨打一个点对点视频通话')
     def pick_up_p2p_video(self, cards):

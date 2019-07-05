@@ -639,61 +639,6 @@ class CallPageTest(TestCase):
         else:
             self.assertEqual("测试等待时间异常。", True)
 
-    @tags('ALL', 'CMCC_double', 'call')
-    def test_call_00020(self):
-        """
-            1、联网正常已登录
-            2、对方离线
-            3、当前页通话记录详情
-            点击视频通话---点击取消---进入拨打视频通话界面，并弹出提示窗，“通话结束”---返回通话记录详情页
-        """
-        call = CallPage()
-        # 关闭广告弹框
-        call.close_click_home_advertisement()
-        try:
-            call.wait_for_page_load()
-            # 判断如果键盘已拉起，则收起键盘
-            if call.is_exist_call_key():
-                call.click_hide_keyboard()
-                time.sleep(1)
-            # 被叫手机初始化
-            Preconditions.initialize_class('IOS-移动-移动')
-            # 被叫手机号码
-            cards = call.get_cards(CardType.CHINA_MOBILE)
-            # 切换主叫手机
-            time.sleep(0.5)
-            Preconditions.select_mobile('IOS-移动')
-            # 主叫拨打视频电话, 添加通话记录
-            call.pick_up_p2p_video(cards)
-            time.sleep(3)
-            call.click_close_video_popup()
-            if call.on_this_page_common('无密友圈_确定'):
-                call.click_locator_key('无密友圈_取消')
-            # 点击第一条，跳转到详情页面
-            time.sleep(2)
-            call.click_tag_detail_first_element('[视频通话]')
-            time.sleep(1)
-            self.assertEqual(call.on_this_page_call_detail(), True)
-            # 1. 点击视频通话按钮
-            call.click_locator_key('详情_视频按钮')
-            time.sleep(1)
-            # if call.on_this_page_flow():
-            #     call.set_not_reminders()
-            #     time.sleep(1)
-            #     call.click_locator_key('流量_继续拨打')
-            time.sleep(3)
-            call.click_close_video_popup()
-            if call.on_this_page_common('无密友圈_确定'):
-                call.click_locator_key('无密友圈_取消')
-            time.sleep(3)
-            self.assertEqual(call.on_this_page_call_detail(), True)
-        finally:
-            # 切换被叫手机
-            Preconditions.select_mobile('IOS-移动-移动')
-            time.sleep(2)
-            Preconditions.disconnect_mobile('IOS-移动-移动')
-            # call.set_network_status(0)
-
     @tags('ALL', 'CMCC', 'call')
     def test_call_00023(self):
         """
@@ -809,63 +754,6 @@ class CallPageTest(TestCase):
         time.sleep(3)
         self.assertEqual(call.on_this_page_call_detail(), True)
 
-    # ？？？
-    @tags('ALL', 'CMCC', 'call')
-    def test_call_00027(self):
-        """
-            1、联网正常已登录
-            2、对方未注册
-            3、当前页通话记录详情
-            点击视频通话---点击取消---"1、进入拨打视频电话界面，并弹出提示窗--下方是“取消” 和“确定”按钮--返回通话记录详情页"
-        """
-        call = CallPage()
-        # 关闭广告弹框
-        call.close_click_home_advertisement()
-        call.wait_for_page_load()
-        call.make_sure_have_p2p_vedio_record()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
-        call.click_tag_detail_first_element('[视频通话]')
-        time.sleep(2)
-        self.assertEqual(call.on_this_page_call_detail(), True)
-        # 1. 点击视频通话按钮
-        call.click_locator_key('详情_视频按钮')
-        time.sleep(1)
-        if call.on_this_page_flow():
-            call.set_not_reminders()
-            time.sleep(1)
-            call.click_locator_key('回呼_我知道了')
-        time.sleep(1)
-        # TODO 限时回呼电话
-
-    # @tags('ALL', 'CMCC', 'call')
-    # def test_call_00030(self):
-    #     """
-    #         验证通话记录详情页-编辑备注名---正确输入并点击保存（中文、英文、特殊符号）---保存成功
-    #     """
-    #     call = CallPage()
-    #     call.wait_for_page_load()
-    #     # 判断如果键盘已拉起，则收起键盘
-    #     if call.is_exist_call_key():
-    #         call.click_hide_keyboard()
-    #         time.sleep(1)
-    #     call.make_sure_have_p2p_voicecall_record()
-    #     call.click_tag_detail_first_element('飞信电话')
-    #     time.sleep(1)
-    #     if not call.on_this_page_call_detail():
-    #         raise RuntimeError('通话记录---详情：打开失败')
-    #     # 1. 修改为中文
-    #     name = '修改后的备注'
-    #     if not self.check_modify_nickname(name):
-    #         raise RuntimeError('修改备注出错')
-    #     call.click_locator_key('详情_返回')
-    #     call.wait_for_page_call_load()
-    #     self.assertEquals(call.check_text_exist(name), True)
-
-    # ？？？
-
     @tags('ALL', 'CMCC', 'call')
     def test_call_00031(self):
         """
@@ -891,13 +779,13 @@ class CallPageTest(TestCase):
         self.assertEqual(call.check_modify_nickname(name), True)
         call.click_locator_key('详情_视频按钮')
         time.sleep(2)
-        comment = call.is_text_present(name)
+        comment = call.get_video_text(name)
         time.sleep(2)
         call.click_cancel_popup()
-        if self.is_element_present("无密友圈_取消"):
-            self.click_cancel_popup()
+        if call.is_element_already_exist('无密友圈_取消'):
+            call.click_cancel_popup()
             time.sleep(1)
-        self.assertEqual(name == comment, True)
+        self.assertEqual(comment, True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00032(self):
@@ -1777,7 +1665,7 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         # 呼出一个点对点视频通话
         call.test_call_video_condition()
-        call.click_locator_key("拨号键盘");
+        call.click_locator_key("拨号键盘")
         call.click_tag_detail_first_element('[视频通话]')
         self.assertEqual(call.is_text_present('通话记录(视频通话)'), True)
 
@@ -2556,5 +2444,4 @@ class CallPageTest(TestCase):
         time.sleep(2)
         self.assertEqual(call.is_element_already_exist('空白文案'), True)
         time.sleep(1)
-
 
