@@ -220,10 +220,10 @@ class CallPageTest(TestCase):
         call = CallPage()
         # 关闭广告弹框
         call.close_click_home_advertisement()
-        call.page_contain_element('通话文案')
+        call.page_contain_element('通话_文案_HEAD')
         call.page_contain_element('拨号键盘')
-        if call.is_element_present('来电名称'):
-            call.page_contain_element('来电名称')
+        if call.is_element_present('通话_来电名称'):
+            call.page_contain_element('通话_来电名称')
         else:
             call.page_should_contain_text('打电话不花钱')
 
@@ -234,10 +234,10 @@ class CallPageTest(TestCase):
         call = CallPage()
         # 关闭广告弹框
         call.close_click_home_advertisement()
-        call.page_contain_element('通话文案')
+        call.page_contain_element('通话_文案_HEAD')
         call.page_contain_element('拨号键盘')
-        if call.is_element_present('来电名称'):
-            call.page_contain_element('来电名称')
+        if call.is_element_present('通话_来电名称'):
+            call.page_contain_element('通话_来电名称')
         else:
             call.page_should_contain_text('打电话不花钱')
 
@@ -249,8 +249,8 @@ class CallPageTest(TestCase):
         # 关闭广告弹框
         call.close_click_home_advertisement()
         call.page_contain_element('拨号键盘')
-        if call.is_element_present('来电名称'):
-            call.page_contain_element('来电名称')
+        if call.is_element_present('通话_来电名称'):
+            call.page_contain_element('通话_来电名称')
         else:
             call.page_should_contain_text('打电话不花钱')
         # 点击键盘
@@ -276,8 +276,8 @@ class CallPageTest(TestCase):
         # 关闭广告弹框
         call.close_click_home_advertisement()
         call.page_contain_element('拨号键盘')
-        if call.is_element_present('来电名称'):
-            call.page_contain_element('来电名称')
+        if call.is_element_present('通话_来电名称'):
+            call.page_contain_element('通话_来电名称')
         else:
             call.page_should_contain_text('打电话不花钱')
         # 点击键盘
@@ -673,7 +673,7 @@ class CallPageTest(TestCase):
         call.click_close_video_popup()
         # 无密友圈, 点击取消按钮
         if call.is_element_present("无密友圈_取消"):
-            call.click_cancel_popup()
+            call.click_locator_key('无密友圈_取消')
         time.sleep(3)
         self.assertEqual(call.on_this_page_call_detail(), True)
 
@@ -713,8 +713,8 @@ class CallPageTest(TestCase):
         #     call.click_locator_key('流量_继续拨打')
         # 对方没有使用密友圈。
         time.sleep(5)
-        if call.is_element_present("无密友圈_确定"):
-            call.click_ok_popup()
+        if call.is_element_present('无密友圈_确定'):
+            call.click_locator_key('无密友圈_确定')
         else:
             raise RuntimeError("页面元素验证异常")
 
@@ -750,7 +750,7 @@ class CallPageTest(TestCase):
         # 对方没有使用密友圈。
         time.sleep(5)
         if call.is_element_present("无密友圈_取消"):
-            call.click_cancel_popup()
+            call.click_locator_key('无密友圈_取消')
         time.sleep(3)
         self.assertEqual(call.on_this_page_call_detail(), True)
 
@@ -781,9 +781,8 @@ class CallPageTest(TestCase):
         time.sleep(2)
         comment = call.get_video_text(name)
         time.sleep(2)
-        call.click_cancel_popup()
         if call.is_element_already_exist('无密友圈_取消'):
-            call.click_cancel_popup()
+            call.click_locator_key('无密友圈_取消')
             time.sleep(1)
         self.assertEqual(comment, True)
 
@@ -924,7 +923,7 @@ class CallPageTest(TestCase):
         # 通话记录删除
         call.click_delete_all_key()
         # 判断是否有通话标签、‘+’、打电话不花钱
-        self.assertEqual(call.on_this_page_common('通话_通话'), True)
+        self.assertEqual(call.on_this_page_common('通话_通话_TAB'), True)
         self.assertEqual(call.on_this_page_common('+'), True)
         self.assertEqual(call.is_text_present('打电话不花钱'), True)
 
@@ -993,7 +992,7 @@ class CallPageTest(TestCase):
         time.sleep(1)
         self.assertEqual(call.on_this_page_common('视频呼叫_联系人列表'), True)
         time.sleep(1)
-        self.assertEqual(call.on_this_page_common('视频通话_字母'), True)
+        self.assertEqual(call.on_this_page_common('视频呼叫_字母'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00041(self):
@@ -1099,491 +1098,6 @@ class CallPageTest(TestCase):
         time.sleep(1)
         self.assertEqual(call.select_contact_n(9), True)
 
-    @tags('ALL', 'CMCC_double', 'call')
-    def test_call_00051(self):
-        """
-            弹出“通话结束”提示框，页面回到呼叫前的页面中
-        """
-        call = CallPage()
-        # 关闭广告弹框
-        call.close_click_home_advertisement()
-        # 通话页面
-        call.wait_for_page_load()
-        # 初始化被叫手机
-        Preconditions.initialize_class('IOS-移动-移动')
-        # 获取手机号码
-        cards = call.get_cards(CardType.CHINA_MOBILE)
-        # 切换主叫手机，打电话
-        time.sleep(2)
-        Preconditions.select_mobile('IOS-移动')
-        # 拨打视频电话
-        call.pick_up_p2p_video(cards)
-        # 等待返回结果
-        result = self.to_pick_phone_video()
-        self.assertEqual(result, True)
-        # 切换回主叫手机
-        time.sleep(2)
-        Preconditions.select_mobile('IOS-移动')
-        # 关闭聊天
-        time.sleep(2)
-        call.click_screen_center()
-        # 判断是否有‘通话结束’字样
-        self.assertEqual(call.is_element_already_exist('视频_切到语音通话'), True)
-        # 结束
-        call.click_screen_center()
-        call.click_close_video_popup()
-
-    @TestLogger.log('切换手机，接听视频电话')
-    def to_pick_phone_video(self):
-        call = CallPage()
-        # 切换被叫手机
-        Preconditions.select_mobile('IOS-移动-移动')
-        time.sleep(1)
-        call.click_screen_center()
-        call.click_close_two_device_popup()
-        count = 20
-        try:
-            while count > 0:
-                call.click_screen_center()
-                # 如果在视频通话界面，接听视频
-                if call.is_element_already_exist('视频_切到语音通话'):
-                    print('接听视频-->', datetime.datetime.now().date().strftime('%Y-%m-%d'),
-                          datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
-                    return True
-                else:
-                    count -= 1
-                    # 1s检测一次，20s没有接听，则失败
-                    print(count, '切换手机，接听电话 --->', datetime.datetime.now().date().strftime('%Y-%m-%d'),
-                          datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
-                    time.sleep(0.5)
-                    continue
-            else:
-                return False
-        except Exception as e:
-            traceback.print_exc()
-            print(e, datetime.datetime.now().date().strftime('%Y-%m-%d'),
-                  datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
-            return False
-
-    # @tags('ALL', 'CMCC_double', 'call')
-    # def test_call_00052(self):
-    #     """
-    #         1、被叫方接到申请后点击“接听”
-    #         2、点击“切换语音通话”按钮
-    #         3、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），大屏为被叫方界面（默认前摄像头）。
-    #         界面右上角为“静音”和“免提”功能，静音默认未选中，免提默认选中。提供“切到语音通话”和“切换摄像头”的功能。
-    #         4、跳转至语音通话页面，页面布局上方中间为被叫方头像，头像下方为被叫人名称、号码、时间显示，下方左边为静音按钮、
-    #         中间为切到视频通话按钮、右边为免提按钮，再下方为挂断按钮，背景为灰黑色。
-    #     """
-    #     call = CallPage()
-    #     # 关闭广告弹框
-    #     call.close_click_home_advertisement()
-    #     call.wait_for_page_load()
-    #     # 初始化被叫手机
-    #     Preconditions.initialize_class('IOS-移动-移动')
-    #     # 获取手机号码
-    #     cards = call.get_cards(CardType.CHINA_MOBILE)
-    #     # 切换主叫手机
-    #     Preconditions.select_mobile('IOS-移动')
-    #     # 拨打视频电话
-    #     call.pick_up_p2p_video(cards)
-    #     # 等待返回结果
-    #     self.assertEqual(self.to_pick_phone_00052(), True)
-    #
-    # @TestLogger.log('切换手机，接听电话')
-    # def to_pick_phone_00052(self):
-    #     call = CallPage()
-    #     # 切换手机
-    #     Preconditions.select_mobile('IOS-移动-移动')
-    #     time.sleep(1)
-    #     call.click_screen_center()
-    #     call.click_close_two_device_popup()
-    #     count = 40
-    #     try:
-    #         while count > 0:
-    #             call.click_screen_center()
-    #             # 如果在视频通话界面，接听视频
-    #             if call.is_element_already_exist('视频_切到语音通话'):
-    #                 print('接听视频')
-    #                 # 检测页面元素
-    #                 if self.check_video_call_00052():
-    #                     return True
-    #                 else:
-    #                     return False
-    #             else:
-    #                 count -= 1
-    #                 # 1s检测一次，40s没有接听，则失败
-    #                 time.sleep(1)
-    #                 print(count, '切换手机，接听电话')
-    #                 continue
-    #         else:
-    #             return False
-    #     except:
-    #         return False
-    #
-    # @TestLogger.log()
-    # def check_video_call_00052(self):
-    #     """
-    #     1、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），
-    #         大屏为被叫方界面（默认前摄像头）。
-    #         界面右上角为“静音”和“免提”功能，静音默认未选中，
-    #         免提默认选中。提供“切到语音通话”和“切换摄像头”的功能。
-    #     2、跳转至语音通话页面，页面布局上方中间为被叫方头像，头像下方为被叫人名称、号码、时间显示，下方左边为静音按钮、
-    #         中间为切到视频通话按钮、右边为免提按钮，再下方为挂断按钮，背景为灰黑色。
-    #     :return: True
-    #     """
-    #     call = CallPage()
-    #     try:
-    #         # 视频界面 静音
-    #         time.sleep(1)
-    #         call.click_screen_center()
-    #         self.assertEqual(call.is_element_already_exist('视频界面_静音'), True)
-    #         # 视频界面 免提
-    #         time.sleep(1)
-    #         call.click_screen_center()
-    #         self.assertEqual(call.is_element_already_exist('视频界面_免提'), True)
-    #         # 视频界面 转为语音
-    #         time.sleep(1)
-    #         call.click_screen_center()
-    #         self.assertEqual(call.is_element_already_exist('视频界面_转为语音'), True)
-    #         # 视频界面 切换摄像头
-    #         time.sleep(1)
-    #         call.click_screen_center()
-    #         self.assertEqual(call.is_element_already_exist('视频界面_切换摄像头'), True)
-    #         #
-    #         # self.assertEqual(call.is_element_already_exist('视频界面_头像'), True)
-    #         # self.assertEqual(call.is_element_already_exist('视频界面_备注'), True)
-    #         # self.assertEqual(call.is_element_already_exist('视频界面_号码'), True)
-    #         # self.assertEqual(call.is_element_already_exist('语音界面_时长'), True)
-    #         # self.assertEqual(call.is_element_already_exist('语音界面_静音'), True)
-    #         # self.assertEqual(call.is_element_already_exist('语音界面_转为视频'), True)
-    #         # self.assertEqual(call.is_element_already_exist('语音界面_免提'), True)
-    #         # self.assertEqual(call.is_element_already_exist('语音界面_挂断'), True)
-    #         # 视频界面 关闭
-    #         call.click_screen_center()
-    #         call.click_close_video_popup()
-    #         return True
-    #     except:
-    #         return False
-
-    # @tags('ALL', 'CMCC_double', 'call')
-    # def test_call_00053(self):
-    #     """
-    #         1、被叫方接到申请后点击“接听”
-    #         2、点击“切换语音通话”按钮
-    #         3、被叫方接到申请后点击“接听”
-    #         4、点击静音按钮
-    #     """
-    #     call = CallPage()
-    #     call.wait_for_page_load()
-    #     # 初始化被叫手机
-    #     Preconditions.initialize_class('Android-移动-N')
-    #     # 获取手机号码
-    #     cards = call.get_cards(CardType.CHINA_MOBILE)
-    #     # 切换主叫手机
-    #     Preconditions.select_mobile('Android-移动')
-    #     # 拨打视频电话
-    #     call.pick_up_p2p_video(cards)
-    #     # 等待返回结果
-    #     if not self.to_pick_phone_00053():
-    #         raise RuntimeError('视频通话出错')
-    #
-    # @TestLogger.log('切换手机，接听电话')
-    # def to_pick_phone_00053(self):
-    #     call = CallPage()
-    #     # 切换手机
-    #     Preconditions.select_mobile('Android-移动-N')
-    #     count = 40
-    #     try:
-    #         while count > 0:
-    #             # 如果在视频通话界面，接听视频
-    #             if call.is_text_present('进行视频通话'):
-    #                 print('接听视频')
-    #                 call.pick_up_video_call()
-    #                 time.sleep(2)
-    #                 # 检测页面元素
-    #                 if self.check_video_call_00053():
-    #                     print('静音成功')
-    #                     return True
-    #                 else:
-    #                     print('静音失败')
-    #                     return False
-    #             else:
-    #                 count -= 1
-    #                 # 1s检测一次，40s没有接听，则失败
-    #                 time.sleep(1)
-    #                 print(count, '切换手机，接听电话')
-    #                 continue
-    #         else:
-    #             return False
-    #     except:
-    #         return False
-    #
-    # @TestLogger.log()
-    # def check_video_call_00053(self):
-    #     """
-    #     1、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），
-    #         大屏为被叫方界面（默认前摄像头）。
-    #         界面右上角为“静音”和“免提”功能，静音默认未选中，
-    #         免提默认选中。提供“切到语音通话”和“切换摄像头”的功能。
-    #     2、跳转至语音通话页面，页面布局上方中间为被叫方头像，头像下方为被叫人名称、号码、时间显示，下方左边为静音按钮、
-    #         中间为切到视频通话按钮、右边为免提按钮，再下方为挂断按钮，背景为灰黑色。
-    #     :return: True
-    #     """
-    #     call = CallPage()
-    #     try:
-    #         call.click_locator_key('视频界面_免提')
-    #         call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
-    #         time.sleep(1)
-    #         if not call.is_element_already_exist('视频界面_时长'):
-    #             call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
-    #         call.click_locator_key('视频界面_静音')
-    #         if 'true' != call.get_one_element('视频界面_静音').get_attribute('selected'):
-    #             raise RuntimeError('静音出错')
-    #         call.click_locator_key('视频界面_挂断')
-    #         return True
-    #     except:
-    #         return False
-    #
-    # @tags('ALL', 'CMCC_double', 'call')
-    # def test_call_00054(self):
-    #     """
-    #         1、被叫方接到申请后点击“接听”
-    #         2、点击“切换语音通话”按钮
-    #         3、被叫方接到申请后点击“接听”
-    #         4、点击免提按钮
-    #     """
-    #     call = CallPage()
-    #     call.wait_for_page_load()
-    #     # 初始化被叫手机
-    #     Preconditions.initialize_class('Android-移动-N')
-    #     # 获取手机号码
-    #     cards = call.get_cards(CardType.CHINA_MOBILE)
-    #     # 切换主叫手机
-    #     Preconditions.select_mobile('Android-移动')
-    #     # 拨打视频电话
-    #     call.pick_up_p2p_video(cards)
-    #     # 等待返回结果
-    #     if not self.to_pick_phone_00054():
-    #         raise RuntimeError('视频通话出错')
-    #
-    # @TestLogger.log('切换手机，接听电话')
-    # def to_pick_phone_00054(self):
-    #     call = CallPage()
-    #     # 切换手机
-    #     Preconditions.select_mobile('Android-移动-N')
-    #     count = 40
-    #     try:
-    #         while count > 0:
-    #             # 如果在视频通话界面，接听视频
-    #             if call.is_text_present('进行视频通话'):
-    #                 print('接听视频')
-    #                 call.pick_up_video_call()
-    #                 time.sleep(2)
-    #                 # 检测页面元素
-    #                 if self.check_video_call_00054():
-    #                     print('静音成功')
-    #                     return True
-    #                 else:
-    #                     print('静音失败')
-    #                     return False
-    #             else:
-    #                 count -= 1
-    #                 # 1s检测一次，40s没有接听，则失败
-    #                 time.sleep(1)
-    #                 print(count, '切换手机，接听电话')
-    #                 continue
-    #         else:
-    #             return False
-    #     except:
-    #         return False
-    #
-    # @TestLogger.log()
-    # def check_video_call_00054(self):
-    #     """
-    #     1、被叫方接到申请后点击“接听”
-    #     2、点击免提按钮"
-    #     3、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），大屏为被叫方界面（默认前摄像头）。界面右上角为“静音”和“免提”功能，静音默认未选中，免提默认选中。
-    #     提供“切到语音通话”和“切换摄像头”的功能。
-    #     4、免提按钮亮起（对方说话声音变大）。"
-    #     """
-    #     call = CallPage()
-    #     try:
-    #         if not call.is_element_already_exist('视频界面_时长'):
-    #             call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
-    #         call.click_locator_key('视频界面_免提')
-    #         if 'false' != call.get_one_element('视频界面_免提').get_attribute('selected'):
-    #             raise RuntimeError('关闭免提出错')
-    #         call.click_locator_key('视频界面_挂断')
-    #         return True
-    #     except:
-    #         return False
-    #
-    # @tags('ALL', 'CMCC_double', 'call')
-    # def test_call_00056(self):
-    #     """
-    #         1、被叫方接到申请后点击“接听”
-    #         2、点击“切换语音通话”按钮
-    #         3、被叫方接到申请后点击“接听”
-    #         4、点击挂断按钮
-    #     """
-    #     call = CallPage()
-    #     call.wait_for_page_load()
-    #     try:
-    #         # 初始化被叫手机
-    #         Preconditions.initialize_class('Android-移动-N')
-    #         # 获取手机号码
-    #         cards = call.get_cards(CardType.CHINA_MOBILE)
-    #         # 切换主叫手机
-    #         Preconditions.select_mobile('Android-移动')
-    #         # 拨打视频电话
-    #         call.pick_up_p2p_video(cards)
-    #         # 等待返回结果
-    #         if not self.to_pick_phone_00056():
-    #             raise RuntimeError('视频通话出错')
-    #         # 切换回主叫手机
-    #         Preconditions.select_mobile('Android-移动')
-    #         time.sleep(12)
-    #         if not call.is_element_already_exist('视频界面_时长'):
-    #             call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
-    #             time.sleep(0.5)
-    #         call.click_locator_key('视频界面_挂断')
-    #         print('视频界面_挂断')
-    #         if not call.is_toast_exist('通话结束'):
-    #             raise RuntimeError('没有出现‘通话结束’提示')
-    #         else:
-    #             print('山检测到‘通话结束’提示')
-    #             time.sleep(3)
-    #         if not call.is_on_this_page():
-    #             raise RuntimeError('没有回到‘通话’页面')
-    #         else:
-    #             print('回到‘通话’界面')
-    #         time.sleep(2)
-    #     except:
-    #         print('测试出错')
-    #         if call.is_element_already_exist('视频界面_挂断'):
-    #             call.click_locator_key('视频界面_挂断')
-    #
-    # @TestLogger.log('切换手机，接听电话')
-    # def to_pick_phone_00056(self):
-    #     call = CallPage()
-    #     # 切换手机
-    #     Preconditions.select_mobile('Android-移动-N')
-    #     count = 40
-    #     try:
-    #         while count > 0:
-    #             # 如果在视频通话界面，接听视频
-    #             if call.is_text_present('进行视频通话'):
-    #                 print('接听视频')
-    #                 call.pick_up_video_call()
-    #                 time.sleep(2)
-    #                 # 检测页面元素
-    #                 if self.check_video_call_00056():
-    #                     print('静音成功')
-    #                     return True
-    #                 else:
-    #                     print('静音失败')
-    #                     return False
-    #             else:
-    #                 count -= 1
-    #                 # 1s检测一次，40s没有接听，则失败
-    #                 time.sleep(1)
-    #                 print(count, '切换手机，接听电话')
-    #                 continue
-    #         else:
-    #             return False
-    #     except:
-    #         return False
-    #
-    # @TestLogger.log()
-    # def check_video_call_00056(self):
-    #     """
-    #     1、被叫方接到申请后点击“接听”
-    #     2、点击挂断按钮"
-    #     3、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），大屏为被叫方界面（默认前摄像头）。界面右上角为“静音”和“免提”功能，静音默认未选中，免提默认选中。
-    #     提供“切到语音通话”和“切换摄像头”的功能。
-    #     4、弹出“通话结束”提示框，回到呼叫前页面中
-    #     """
-    #     call = CallPage()
-    #     try:
-    #         if not call.is_element_already_exist('视频界面_时长'):
-    #             call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
-    #         call.click_locator_key('视频界面_免提')
-    #         if 'false' != call.get_one_element('视频界面_免提').get_attribute('selected'):
-    #             raise RuntimeError('关闭免提出错')
-    #         return True
-    #     except:
-    #         return False
-    #
-    # @tags('ALL', 'CMCC_double', 'call')
-    # def test_call_00058(self):
-    #     """
-    #         1、被叫方接到申请后点击“接听”
-    #         2、点击“切换语音通话”按钮
-    #         3、被叫方接到申请后点击“接听”
-    #         4、点击挂断按钮
-    #     """
-    #     call = CallPage()
-    #     call.wait_for_page_load()
-    #     try:
-    #         # 初始化被叫手机
-    #         Preconditions.initialize_class('Android-移动-N')
-    #         # 获取手机号码
-    #         cards = call.get_cards(CardType.CHINA_MOBILE)
-    #         # 切换主叫手机
-    #         Preconditions.select_mobile('Android-移动')
-    #         # 拨打视频电话
-    #         call.pick_up_p2p_video(cards)
-    #         # 等待返回结果
-    #         if not self.to_pick_phone_00058():
-    #             raise RuntimeError('视频通话出错')
-    #     except:
-    #         print('测试出错')
-    #         raise
-    #
-    # @TestLogger.log('切换手机，接听电话')
-    # def to_pick_phone_00058(self):
-    #     call = CallPage()
-    #     # 切换手机
-    #     try:
-    #         Preconditions.select_mobile('Android-移动-N')
-    #         self.assertEqual(call.is_element_already_exist('视频界面_头像'), True)
-    #         self.assertEqual(call.is_element_already_exist('视频界面_备注'), True)
-    #         self.assertEqual(call.is_element_already_exist('视频界面_号码'), True)
-    #         self.assertEqual(call.is_text_present('进行视频通话'), True)
-    #         self.assertEqual(call.is_element_already_exist('视频通话_挂断'), True)
-    #         self.assertEqual(call.is_element_already_exist('视频通话_接听'), True)
-    #         return True
-    #     except:
-    #         return False
-    #
-    # @tags('ALL', 'CMCC_double', 'call')
-    # def test_call_00059(self):
-    #     """
-    #         视频通话页面（被叫方不在线）
-    #         1、被叫方接到申请后长时间未点击“接听”或“挂断”（根据SDK反馈的结果）
-    #         2、显示“用户暂时无法接通”，回到呼叫前的页面中
-    #     """
-    #     call = CallPage()
-    #     call.wait_for_page_load()
-    #     try:
-    #         # 切换主叫手机
-    #         Preconditions.initialize_class('Android-移动-N')
-    #         # 获取手机号码
-    #         cards = call.get_cards(CardType.CHINA_MOBILE)
-    #         call.set_network_status(0)
-    #         # 切换主叫手机
-    #         Preconditions.select_mobile('Android-移动')
-    #         # 拨打视频电话
-    #         call.pick_up_p2p_video(cards)
-    #         time.sleep(20)
-    #         if not call.is_toast_exist('对方未接听', timeout=20):
-    #             raise
-    #     finally:
-    #         Preconditions.select_mobile('Android-移动-N')
-    #         call.set_network_status(6)
-    #         print('已设置被叫手机网络为开启')
-
     @tags('ALL', 'CMCC', 'call')
     def test_call_000156(self):
         """
@@ -1610,8 +1124,8 @@ class CallPageTest(TestCase):
             time.sleep(10)
             # 挂断_多方通话
             call.click_close_more_video_popup()
-            if call.is_element_already_exist('挂断_多方通话_确定'):
-                call.click_locator_key('挂断_多方通话_确定')
+            if call.is_element_already_exist('多方通话_弹框_确定'):
+                call.click_locator_key('多方通话_弹框_确定')
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000158(self):
@@ -1736,7 +1250,7 @@ class CallPageTest(TestCase):
         y_target = 100 / 667 * 100
         call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
         is_keyboard_0 = call.is_element_already_exist("keyboard_0")
-        is_exists = call.is_element_already_exist("呼叫")
+        is_exists = call.is_element_already_exist('拨号_呼叫')
         self.assertEqual((not is_keyboard_0) and is_exists, True)
         # 向下滑动
         time.sleep(1)
@@ -1750,7 +1264,7 @@ class CallPageTest(TestCase):
         y_target = 140 / 667 * 100
         call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
         is_keyboard_0 = call.is_element_already_exist("keyboard_0")
-        is_exists = call.is_element_already_exist("呼叫")
+        is_exists = call.is_element_already_exist('拨号_呼叫')
         self.assertEqual((not is_keyboard_0) and is_exists, True)
 
     @tags('ALL', 'CMCC', 'call')
@@ -1780,7 +1294,7 @@ class CallPageTest(TestCase):
         # 判断键盘
         time.sleep(2)
         self.assertEqual(call.is_element_already_exist('拨号_半_收起键盘'), True)
-        self.assertEqual(call.is_element_already_exist('拨号界面_呼叫'), True)
+        self.assertEqual(call.is_element_already_exist('拨号_呼叫'), True)
         self.assertEqual(call.is_element_already_exist('拨号_删除'), True)
         # 拨号盘全盘展开
         time.sleep(2)
@@ -1812,7 +1326,7 @@ class CallPageTest(TestCase):
         # 判断键盘
         time.sleep(2)
         self.assertEqual(call.is_element_already_exist('拨号_收起键盘'), True)
-        self.assertEqual(call.is_element_already_exist('拨号界面_呼叫'), True)
+        self.assertEqual(call.is_element_already_exist('拨号_呼叫'), True)
         self.assertEqual(call.is_element_already_exist('拨号_删除'), True)
         # 无联系人
         time.sleep(2)
@@ -1843,7 +1357,7 @@ class CallPageTest(TestCase):
         # 判断键盘,半收起状态
         time.sleep(2)
         self.assertEqual(call.is_element_already_exist('拨号_半_收起键盘'), True)
-        self.assertEqual(call.is_element_already_exist('拨号界面_呼叫'), True)
+        self.assertEqual(call.is_element_already_exist('拨号_呼叫'), True)
         self.assertEqual(call.is_element_already_exist('拨号_删除'), True)
         # 向上滑动
         x_source = 28 / 375 * 100
@@ -1854,7 +1368,7 @@ class CallPageTest(TestCase):
         # 判断键盘,半收起状态
         time.sleep(2)
         self.assertEqual(call.is_element_already_exist('拨号_半_收起键盘'), True)
-        self.assertEqual(call.is_element_already_exist('拨号界面_呼叫'), True)
+        self.assertEqual(call.is_element_already_exist('拨号_呼叫'), True)
         self.assertEqual(call.is_element_already_exist('拨号_删除'), True)
         # 向下滑动
         time.sleep(1)
@@ -1866,7 +1380,7 @@ class CallPageTest(TestCase):
         # 判断键盘,半收起状态
         time.sleep(2)
         self.assertEqual(call.is_element_already_exist('拨号_半_收起键盘'), True)
-        self.assertEqual(call.is_element_already_exist('拨号界面_呼叫'), True)
+        self.assertEqual(call.is_element_already_exist('拨号_呼叫'), True)
         self.assertEqual(call.is_element_already_exist('拨号_删除'), True)
 
     @tags('ALL', 'CMCC', 'call')
@@ -1948,7 +1462,7 @@ class CallPageTest(TestCase):
             call.click_show_keyboard()
         # 拨号界面_呼叫
         time.sleep(1)
-        call.click_locator_key('拨号界面_呼叫')
+        call.click_locator_key('拨号_呼叫')
         # 拨号盘半挂起
         call.is_element_already_exist('拨号_请输入正确号码')
 
@@ -1973,7 +1487,7 @@ class CallPageTest(TestCase):
         call.click_keyboard_call('keyboard_2')
         # 模糊搜索数字右下角字母匹配
         time.sleep(1)
-        self.assertEqual(call.get_tag_list_text_exists('通话_搜索列表_联系人名称', text_list), True)
+        self.assertEqual(call.get_tag_list_text_exists('通话_搜索_联系人名称', text_list), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000170(self):
@@ -2198,7 +1712,7 @@ class CallPageTest(TestCase):
         call.click_close_video_popup()
         time.sleep(2)
         if call.is_element_present("无密友圈_确定"):
-            call.click_cancel_popup()
+            call.click_locator_key('无密友圈_取消')
             time.sleep(1)
 
     @tags('ALL', 'CMCC', 'call')
@@ -2236,7 +1750,7 @@ class CallPageTest(TestCase):
         call.click_close_video_popup()
         time.sleep(2)
         if call.is_element_present("无密友圈_确定"):
-            call.click_cancel_popup()
+            call.click_locator_key('无密友圈_取消')
             time.sleep(1)
 
     @tags('ALL', 'CMCC', 'call')
@@ -2256,7 +1770,7 @@ class CallPageTest(TestCase):
         time.sleep(1)
         call.click_locator_key('多方通话_取消')
         time.sleep(1)
-        self.assertEqual(call.is_element_already_exist('通话_通话'), True)
+        self.assertEqual(call.is_element_already_exist('通话_通话_TAB'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000215(self):
@@ -2328,7 +1842,7 @@ class CallPageTest(TestCase):
         if not call.is_element_already_exist('[视频通话]'):
             call.test_call_video_condition()
         time.sleep(3)
-        self.assertEqual(call.is_element_already_exist('通话_通话'), True)
+        self.assertEqual(call.is_element_already_exist('通话_通话_TAB'), True)
         # 确保有飞信电话
         time.sleep(1)
         if not call.is_element_already_exist('[飞信电话]'):
@@ -2336,13 +1850,13 @@ class CallPageTest(TestCase):
             if call.is_element_already_exist('无密友圈_确定'):
                 call.click_locator_key('无密友圈_取消')
         time.sleep(3)
-        self.assertEqual(call.is_element_already_exist('通话_通话'), True)
+        self.assertEqual(call.is_element_already_exist('通话_通话_TAB'), True)
         # 确保有多方视频通话记录
         time.sleep(1)
         if not call.is_element_already_exist('[多方视频]'):
             call.test_call_more_video_condition()
         time.sleep(3)
-        self.assertEqual(call.is_element_already_exist('通话_通话'), True)
+        self.assertEqual(call.is_element_already_exist('通话_通话_TAB'), True)
         # 确保有多方电话
         time.sleep(2)
         call.test_call_more_phone_condition()
@@ -2373,7 +1887,7 @@ class CallPageTest(TestCase):
         call.wait_for_page_call_load()
         time.sleep(2)
         self.assertEqual(call.is_element_already_exist('[飞信电话]'), True)
-        self.assertEqual(call.is_element_already_exist('通话记录_归属地'), True)
+        self.assertEqual(call.is_element_already_exist('通话_归属地'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000296(self):

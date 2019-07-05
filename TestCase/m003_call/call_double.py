@@ -213,6 +213,38 @@ class CallPageTest(TestCase):
     def default_tearDown(self):
         Preconditions.disconnect_mobile('IOS-移动')
 
+    @TestLogger.log('切换手机，接听视频电话')
+    def to_pick_phone_video(self):
+        call = CallPage()
+        # 切换被叫手机
+        Preconditions.select_mobile('IOS-移动-移动')
+        time.sleep(1)
+        call.click_screen_center()
+        call.click_close_two_device_popup()
+        count = 20
+        try:
+            while count > 0:
+                # 如果在视频通话界面，接听视频
+                call.click_screen_center()
+                if call.is_element_already_exist('视频_切到语音通话'):
+                    print('接听视频-->', datetime.datetime.now().date().strftime('%Y-%m-%d'),
+                          datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
+                    return True
+                else:
+                    count -= 1
+                    # 1s检测一次，20s没有接听，则失败
+                    print(count, '切换手机，接听电话 --->', datetime.datetime.now().date().strftime('%Y-%m-%d'),
+                          datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
+                    time.sleep(0.5)
+                    continue
+            else:
+                return False
+        except Exception as e:
+            traceback.print_exc()
+            print(e, datetime.datetime.now().date().strftime('%Y-%m-%d'),
+                  datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
+            return False
+
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00020(self):
         """
@@ -278,16 +310,12 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -307,18 +335,19 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         try:
-            call.click_locator_key('视频界面_免提')
-            call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            call.click_screen_center()
+            call.click_locator_key('视频_免提')
             time.sleep(1)
-            call.tap_screen_three_point('视频界面_时长')
-            call.click_locator_key('视频界面_静音')
-            self.assertEqual('true' == call.get_one_element('视频界面_静音').get_attribute('selected'), True)
+            call.click_screen_center()
+            call.tap_screen_three_point('视频_时长')
+            call.click_locator_key('视频_静音')
+            call.click_screen_center()
+            self.assertEqual(call.is_element_already_exist('视频_静音'), True)
             return True
         except Exception:
             traceback.print_exc()
             return False
         finally:
-            call.tap_screen_three_point('视频界面_时长')
             call.click_locator_key('视频界面_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
@@ -331,16 +360,12 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -385,11 +410,11 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -408,7 +433,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         try:
             # 主叫
-            Preconditions.select_mobile('Android-移动')
+            Preconditions.select_mobile('IOS-移动')
             call.tap_screen_three_point('视频界面_时长')
             call.click_locator_key('视频界面_切换摄像头')
             time.sleep(2)
@@ -428,57 +453,89 @@ class CallPageTest(TestCase):
             弹出“通话结束”提示框，页面回到呼叫前的页面中
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
+        # 通话页面
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
-        # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        # 切换主叫手机，打电话
+        time.sleep(2)
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
-        self.assertEqual(self.to_pick_phone_video(), True)
+        result = self.to_pick_phone_video()
+        self.assertEqual(result, True)
         # 切换回主叫手机
-        Preconditions.select_mobile('Android-移动')
-        # 挂断电话
-        call.tap_screen_three_point('视频界面_时长')
-        call.click_locator_key('视频界面_挂断')
+        time.sleep(2)
+        Preconditions.select_mobile('IOS-移动')
+        # 关闭聊天
+        time.sleep(2)
+        call.click_screen_center()
         # 判断是否有‘通话结束’字样
-        self.assertEqual(call.is_toast_exist('通话结束'), True)
+        self.assertEqual(call.is_element_already_exist('视频_切到语音通话'), True)
+        # 结束
+        call.click_screen_center()
+        call.click_close_video_popup()
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00052(self):
         """
             1、被叫方接到申请后点击“接听”
             2、点击“切换语音通话”按钮
-
             3、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），大屏为被叫方界面（默认前摄像头）。
             界面右上角为“静音”和“免提”功能，静音默认未选中，免提默认选中。提供“切到语音通话”和“切换摄像头”的功能。
             4、跳转至语音通话页面，页面布局上方中间为被叫方头像，头像下方为被叫人名称、号码、时间显示，下方左边为静音按钮、
             中间为切到视频通话按钮、右边为免提按钮，再下方为挂断按钮，背景为灰黑色。
         """
         call = CallPage()
+        # 关闭广告弹框
+        call.close_click_home_advertisement()
         call.wait_for_page_load()
-        # 判断如果键盘已拉起，则收起键盘
-        if call.is_exist_call_key():
-            call.click_hide_keyboard()
-            time.sleep(1)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
-        self.assertEqual(self.to_pick_phone_video(), True)
-        self.assertEqual(self.check_video_call_00052(), True)
+        self.assertEqual(self.to_pick_phone_00052(), True)
+
+    @TestLogger.log('切换手机，接听电话')
+    def to_pick_phone_00052(self):
+        call = CallPage()
+        # 切换手机
+        Preconditions.select_mobile('IOS-移动-移动')
+        time.sleep(1)
+        call.click_screen_center()
+        call.click_close_two_device_popup()
+        count = 40
+        try:
+            while count > 0:
+                call.click_screen_center()
+                # 如果在视频通话界面，接听视频
+                if call.is_element_already_exist('视频_切到语音通话'):
+                    print('接听视频')
+                    # 检测页面元素
+                    if self.check_video_call_00052():
+                        return True
+                    else:
+                        return False
+                else:
+                    count -= 1
+                    # 1s检测一次，40s没有接听，则失败
+                    time.sleep(1)
+                    print(count, '切换手机，接听电话')
+                    continue
+            else:
+                return False
+        except:
+            return False
 
     @TestLogger.log()
     def check_video_call_00052(self):
@@ -493,43 +550,117 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         try:
-            call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+            # 视频界面 静音
             time.sleep(1)
-            call.tap_screen_three_point('视频界面_时长')
+            call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频界面_静音'), True)
-            # time.sleep(12)
-            call.tap_screen_three_point('视频界面_时长')
-            self.assertEqual('false' == call.get_one_element('视频界面_静音').get_attribute('selected'), True)
-            # time.sleep(12)
-            call.tap_screen_three_point('视频界面_时长')
-            self.assertEqual(call.is_element_already_exist('视频界面_免提'), True)
-            # time.sleep(12)
-            call.tap_screen_three_point('视频界面_时长')
-            self.assertEqual('true' == call.get_one_element('视频界面_免提').get_attribute('selected'), True)
-            # time.sleep(12)
-            call.tap_screen_three_point('视频界面_时长')
-            self.assertEqual(call.is_element_already_exist('视频界面_转为语音'), True)
-            # time.sleep(12)
-            call.tap_screen_three_point('视频界面_时长')
-            self.assertEqual(call.is_element_already_exist('视频界面_切换摄像头'), True)
-            time.sleep(12)
-            call.tap_screen_three_point('视频界面_时长')
-            call.click_locator_key('视频界面_转为语音')
+            # 视频界面 免提
             time.sleep(1)
-            self.assertEqual(call.is_element_already_exist('视频界面_头像'), True)
-            self.assertEqual(call.is_element_already_exist('视频界面_备注'), True)
-            self.assertEqual(call.is_element_already_exist('视频界面_号码'), True)
-            self.assertEqual(call.is_element_already_exist('语音界面_时长'), True)
-            self.assertEqual(call.is_element_already_exist('语音界面_静音'), True)
-            self.assertEqual(call.is_element_already_exist('语音界面_转为视频'), True)
-            self.assertEqual(call.is_element_already_exist('语音界面_免提'), True)
-            self.assertEqual(call.is_element_already_exist('语音界面_挂断'), True)
+            call.click_screen_center()
+            self.assertEqual(call.is_element_already_exist('视频界面_免提'), True)
+            # 视频界面 转为语音
+            time.sleep(1)
+            call.click_screen_center()
+            self.assertEqual(call.is_element_already_exist('视频界面_转为语音'), True)
+            # 视频界面 切换摄像头
+            time.sleep(1)
+            call.click_screen_center()
+            self.assertEqual(call.is_element_already_exist('视频界面_切换摄像头'), True)
+            #
+            # self.assertEqual(call.is_element_already_exist('视频界面_头像'), True)
+            # self.assertEqual(call.is_element_already_exist('视频界面_备注'), True)
+            # self.assertEqual(call.is_element_already_exist('视频界面_号码'), True)
+            # self.assertEqual(call.is_element_already_exist('语音界面_时长'), True)
+            # self.assertEqual(call.is_element_already_exist('语音界面_静音'), True)
+            # self.assertEqual(call.is_element_already_exist('语音界面_转为视频'), True)
+            # self.assertEqual(call.is_element_already_exist('语音界面_免提'), True)
+            # self.assertEqual(call.is_element_already_exist('语音界面_挂断'), True)
+            # 视频界面 关闭
+            call.click_screen_center()
+            call.click_close_video_popup()
             return True
-        except Exception:
-            traceback.print_exc()
+        except:
             return False
-        finally:
-            call.click_locator_key('语音界面_挂断')
+
+    # @tags('ALL', 'CMCC_double', 'call')
+    # def test_call_00052(self):
+    #     """
+    #         1、被叫方接到申请后点击“接听”
+    #         2、点击“切换语音通话”按钮
+    #
+    #         3、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），大屏为被叫方界面（默认前摄像头）。
+    #         界面右上角为“静音”和“免提”功能，静音默认未选中，免提默认选中。提供“切到语音通话”和“切换摄像头”的功能。
+    #         4、跳转至语音通话页面，页面布局上方中间为被叫方头像，头像下方为被叫人名称、号码、时间显示，下方左边为静音按钮、
+    #         中间为切到视频通话按钮、右边为免提按钮，再下方为挂断按钮，背景为灰黑色。
+    #     """
+    #     call = CallPage()
+    #     call.wait_for_page_load()
+    #     # 判断如果键盘已拉起，则收起键盘
+    #     if call.is_exist_call_key():
+    #         call.click_hide_keyboard()
+    #         time.sleep(1)
+    #     # 初始化被叫手机
+    #     Preconditions.initialize_class('IOS-移动-移动')
+    #     # 获取手机号码
+    #     cards = call.get_cards(CardType.CHINA_MOBILE)
+    #     # 切换主叫手机
+    #     Preconditions.select_mobile('IOS-移动')
+    #     # 拨打视频电话
+    #     call.pick_up_p2p_video(cards)
+    #     # 等待返回结果
+    #     self.assertEqual(self.to_pick_phone_video(), True)
+    #     self.assertEqual(self.check_video_call_00052(), True)
+    #
+    # @TestLogger.log()
+    # def check_video_call_00052(self):
+    #     """
+    #     1、显示视频通话接通界面，小屏为主叫方界面（默认为前摄像头），
+    #         大屏为被叫方界面（默认前摄像头）。
+    #         界面右上角为“静音”和“免提”功能，静音默认未选中，
+    #         免提默认选中。提供“切到语音通话”和“切换摄像头”的功能。
+    #     2、跳转至语音通话页面，页面布局上方中间为被叫方头像，头像下方为被叫人名称、号码、时间显示，下方左边为静音按钮、
+    #         中间为切到视频通话按钮、右边为免提按钮，再下方为挂断按钮，背景为灰黑色。
+    #     :return: True
+    #     """
+    #     call = CallPage()
+    #     try:
+    #         call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
+    #         time.sleep(1)
+    #         call.tap_screen_three_point('视频界面_时长')
+    #         self.assertEqual(call.is_element_already_exist('视频界面_静音'), True)
+    #         # time.sleep(12)
+    #         call.tap_screen_three_point('视频界面_时长')
+    #         self.assertEqual('false' == call.get_one_element('视频界面_静音').get_attribute('selected'), True)
+    #         # time.sleep(12)
+    #         call.tap_screen_three_point('视频界面_时长')
+    #         self.assertEqual(call.is_element_already_exist('视频界面_免提'), True)
+    #         # time.sleep(12)
+    #         call.tap_screen_three_point('视频界面_时长')
+    #         self.assertEqual('true' == call.get_one_element('视频界面_免提').get_attribute('selected'), True)
+    #         # time.sleep(12)
+    #         call.tap_screen_three_point('视频界面_时长')
+    #         self.assertEqual(call.is_element_already_exist('视频界面_转为语音'), True)
+    #         # time.sleep(12)
+    #         call.tap_screen_three_point('视频界面_时长')
+    #         self.assertEqual(call.is_element_already_exist('视频界面_切换摄像头'), True)
+    #         time.sleep(12)
+    #         call.tap_screen_three_point('视频界面_时长')
+    #         call.click_locator_key('视频界面_转为语音')
+    #         time.sleep(1)
+    #         self.assertEqual(call.is_element_already_exist('视频界面_头像'), True)
+    #         self.assertEqual(call.is_element_already_exist('视频界面_备注'), True)
+    #         self.assertEqual(call.is_element_already_exist('视频界面_号码'), True)
+    #         self.assertEqual(call.is_element_already_exist('语音界面_时长'), True)
+    #         self.assertEqual(call.is_element_already_exist('语音界面_静音'), True)
+    #         self.assertEqual(call.is_element_already_exist('语音界面_转为视频'), True)
+    #         self.assertEqual(call.is_element_already_exist('语音界面_免提'), True)
+    #         self.assertEqual(call.is_element_already_exist('语音界面_挂断'), True)
+    #         return True
+    #     except Exception:
+    #         traceback.print_exc()
+    #         return False
+    #     finally:
+    #         call.click_locator_key('语音界面_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00053(self):
@@ -546,11 +677,11 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -599,11 +730,11 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -648,11 +779,11 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -671,7 +802,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         try:
             # 主叫
-            Preconditions.select_mobile('Android-移动')
+            Preconditions.select_mobile('IOS-移动')
             call.tap_screen_three_point('视频界面_时长')
             call.click_locator_key('视频界面_切换摄像头')
             time.sleep(2)
@@ -701,18 +832,18 @@ class CallPageTest(TestCase):
             time.sleep(1)
         try:
             # 初始化被叫手机
-            Preconditions.initialize_class('Android-移动-N')
+            Preconditions.initialize_class('IOS-移动-移动')
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 切换主叫手机
-            Preconditions.select_mobile('Android-移动')
+            Preconditions.select_mobile('IOS-移动')
             # 拨打视频电话
             call.pick_up_p2p_video(cards)
             # 等待返回结果
             self.assertEqual(self.to_pick_phone_video(), True)
             self.assertEqual(self.check_video_call_00056(), True)
             # 切换回主叫手机
-            Preconditions.select_mobile('Android-移动')
+            Preconditions.select_mobile('IOS-移动')
             time.sleep(12)
             call.tap_screen_three_point('视频界面_时长')
             call.click_locator_key('视频界面_挂断')
@@ -765,11 +896,11 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -823,11 +954,11 @@ class CallPageTest(TestCase):
             time.sleep(1)
         try:
             # 初始化被叫手机
-            Preconditions.initialize_class('Android-移动-N')
+            Preconditions.initialize_class('IOS-移动-移动')
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 切换主叫手机
-            Preconditions.select_mobile('Android-移动')
+            Preconditions.select_mobile('IOS-移动')
             # 拨打视频电话
             call.pick_up_p2p_video(cards)
             # 等待返回结果
@@ -842,7 +973,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         # 切换手机
         try:
-            Preconditions.select_mobile('Android-移动-N')
+            Preconditions.select_mobile('IOS-移动-移动')
             self.assertEqual(call.is_element_already_exist('视频界面_头像'), True)
             self.assertEqual(call.is_element_already_exist('视频界面_备注'), True)
             self.assertEqual(call.is_element_already_exist('视频界面_号码'), True)
@@ -869,18 +1000,18 @@ class CallPageTest(TestCase):
             time.sleep(1)
         try:
             # 切换主叫手机
-            Preconditions.initialize_class('Android-移动-N')
+            Preconditions.initialize_class('IOS-移动-移动')
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             call.set_network_status(0)
             # 切换主叫手机
-            Preconditions.select_mobile('Android-移动')
+            Preconditions.select_mobile('IOS-移动')
             # 拨打视频电话
             call.pick_up_p2p_video(cards)
             time.sleep(20)
             self.assertEqual(call.is_toast_exist('对方未接听', timeout=20), True)
         finally:
-            Preconditions.select_mobile('Android-移动-N')
+            Preconditions.select_mobile('IOS-移动-移动')
             call.set_network_status(6)
             print('已设置被叫手机网络为开启')
 
@@ -899,11 +1030,11 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -953,11 +1084,11 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -997,11 +1128,11 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -1039,11 +1170,11 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -1055,7 +1186,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         try:
             # 切回到主叫手机
-            Preconditions.select_mobile('Android-移动')
+            Preconditions.select_mobile('IOS-移动')
             call.tap_screen_three_point('视频界面_时长')
             call.click_locator_key('视频界面_挂断')
             self.assertEqual(call.is_toast_exist('通话结束'), True)
@@ -1075,11 +1206,11 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -1095,7 +1226,7 @@ class CallPageTest(TestCase):
             time.sleep(5)
             call.click_locator_key('语音界面_转为视频')
             # 切回到主叫手机
-            Preconditions.select_mobile('Android-移动')
+            Preconditions.select_mobile('IOS-移动')
             if call.is_text_present('邀请你进行视频通话', default_timeout=0.5):
                 call.click_locator_key('切视频_接受')
                 print('切为视频--接受')
@@ -1120,11 +1251,11 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -1140,7 +1271,7 @@ class CallPageTest(TestCase):
             time.sleep(1)
             call.click_locator_key('语音界面_转为视频')
             # 切回到主叫手机
-            Preconditions.select_mobile('Android-移动')
+            Preconditions.select_mobile('IOS-移动')
             if call.is_text_present('邀请你进行视频通话', default_timeout=0.5):
                 call.click_locator_key('切视频_取消')
                 print('切视频_取消')
@@ -1165,11 +1296,11 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -1210,11 +1341,11 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
+        Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 等待返回结果
@@ -1237,7 +1368,7 @@ class CallPageTest(TestCase):
         global flag
         count = 60
         call = CallPage()
-        Preconditions.select_mobile('Android-移动-N')
+        Preconditions.select_mobile('IOS-移动-移动')
         print('已切换：', current_mobile())
         time.sleep(5)
         while count > 0 or flag:
@@ -1293,7 +1424,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1338,7 +1469,7 @@ class CallPageTest(TestCase):
             # call.tap_screen_three_point('视频界面_时长')
             # call.click_locator_key('视频界面_转为语音')
             # # 被叫
-            # Preconditions.select_mobile('Android-移动-N')
+            # Preconditions.select_mobile('IOS-移动-移动')
             # self.assertEqual(call.is_toast_exist('对方切为语音通话，请使用听筒接听'), True)
             return True
         except Exception:
@@ -1360,7 +1491,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1413,7 +1544,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1466,7 +1597,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1518,7 +1649,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1530,7 +1661,7 @@ class CallPageTest(TestCase):
         self.assertEqual(self.check_video_call_00074(), True)
         time.sleep(3)
         # # 初始化被叫手机
-        # Preconditions.initialize_class('Android-移动-N')
+        # Preconditions.initialize_class('IOS-移动-移动')
         # 切换到主叫手机
         Preconditions.select_mobile('Android-移动')
         # 拨打视频电话
@@ -1587,7 +1718,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1640,7 +1771,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         call.make_sure_have_p2p_vedio_record()
         call.click_tag_detail_first_element('视频通话')
         time.sleep(1)
@@ -1684,7 +1815,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1730,7 +1861,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1738,7 +1869,7 @@ class CallPageTest(TestCase):
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 切换到被叫手机
-        Preconditions.select_mobile('Android-移动-N')
+        Preconditions.select_mobile('IOS-移动-移动')
         call.click_locator_key('视频通话_挂断')
         Preconditions.select_mobile('Android-移动')
         self.assertEqual(call.is_toast_exist('对方拒绝了你的通话邀请'), True)
@@ -1754,7 +1885,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1799,7 +1930,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1846,7 +1977,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1895,7 +2026,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1944,7 +2075,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -1994,7 +2125,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2044,7 +2175,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2089,7 +2220,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2135,7 +2266,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2188,7 +2319,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2239,7 +2370,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2297,7 +2428,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2324,7 +2455,7 @@ class CallPageTest(TestCase):
             call.click_locator_key_c('视频界面_涂鸦')
             time.sleep(2)
             # 切换到被叫手机
-            Preconditions.select_mobile('Android-移动-N')
+            Preconditions.select_mobile('IOS-移动-移动')
             call.click_locator_key_c('涂鸦_返回')
             time.sleep(2)
             Preconditions.select_mobile('Android-移动')
@@ -2357,7 +2488,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2400,7 +2531,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2460,7 +2591,7 @@ class CallPageTest(TestCase):
     #     call = CallPage()
     #     call.wait_for_page_load()
     #     # 初始化被叫手机
-    #     Preconditions.initialize_class('Android-移动-N')
+    #     Preconditions.initialize_class('IOS-移动-移动')
     #     # 获取手机号码
     #     cards = call.get_cards_c(CardType.CHINA_MOBILE)
     #     # 切换主叫手机
@@ -2520,7 +2651,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2568,7 +2699,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2655,7 +2786,7 @@ class CallPageTest(TestCase):
         call.clear_all_record()
         time.sleep(0.5)
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         call.clear_all_record()
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
@@ -2683,7 +2814,7 @@ class CallPageTest(TestCase):
         # 拨打视频电话
         call.pick_up_p2p_video(cards)
         # 切换到被叫手机
-        Preconditions.select_mobile('Android-移动-N')
+        Preconditions.select_mobile('IOS-移动-移动')
         call.click_locator_key_c('视频通话_挂断')
         time.sleep(3)
         if call.is_element_already_exist_c('视频通话'):
@@ -2716,7 +2847,7 @@ class CallPageTest(TestCase):
         try:
             call.wait_for_page_load()
             # 初始化被叫手机
-            Preconditions.initialize_class('Android-移动-N')
+            Preconditions.initialize_class('IOS-移动-移动')
             # 获取手机号码
             cards = call.get_cards_c(CardType.CHINA_MOBILE)
             # 切换主叫手机
@@ -2725,7 +2856,7 @@ class CallPageTest(TestCase):
             call.click_show_keyboard()
             time.sleep(0.5)
             call.input_text_c('键盘输入框', cards)
-            call.click_locator_key('拨号界面_呼叫')
+            call.click_locator_key('拨号_呼叫')
             if call.is_element_already_exist_c('回呼_提示文本'):
                 call.set_checkbox_checked_c('回呼_不再提醒')
                 call.click_locator_key_c('回呼_我知道了')
@@ -2753,7 +2884,7 @@ class CallPageTest(TestCase):
         call.wait_for_page_load()
         time1 = Preconditions.get_remaining_call_time()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2785,7 +2916,7 @@ class CallPageTest(TestCase):
     #     call = CallPage()
     #     call.wait_for_page_load()
     #     # 初始化被叫手机
-    #     Preconditions.initialize_class('Android-移动-N')
+    #     Preconditions.initialize_class('IOS-移动-移动')
     #     # 获取手机号码
     #     cards = call.get_cards_c(CardType.CHINA_MOBILE)
     #     # 切换主叫手机
@@ -2815,7 +2946,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2839,7 +2970,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2866,7 +2997,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2891,7 +3022,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2915,8 +3046,8 @@ class CallPageTest(TestCase):
         time.sleep(1)
         if call.is_element_already_exist_c('挂断_多方通话'):
             call.is_element_already_exist_c('挂断_多方通话')
-            if call.is_element_already_exist_c('挂断_多方通话_确定'):
-                call.is_element_already_exist_c('挂断_多方通话_确定')
+            if call.is_element_already_exist_c('多方通话_弹框_确定'):
+                call.is_element_already_exist_c('多方通话_弹框_确定')
 
     @TestLogger.log('校验结果')
     def check_result_000187(self, call):
@@ -2947,7 +3078,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -2980,7 +3111,7 @@ class CallPageTest(TestCase):
             call.click_locator_key_c('多方视频_免提')
             call.click_locator_key_c('多方视频_收起')
             # 切换被叫手机
-            Preconditions.select_mobile('Android-移动-N')
+            Preconditions.select_mobile('IOS-移动-移动')
             self.assertEqual(call.is_element_already_exist_c('多方视频_收起'), True)
             # 切换主叫手机
             Preconditions.select_mobile('Android-移动')
@@ -3006,7 +3137,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -3059,7 +3190,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -3112,7 +3243,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -3168,7 +3299,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -3251,7 +3382,7 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         call.clear_all_record()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         call.clear_all_record()
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
@@ -3277,7 +3408,7 @@ class CallPageTest(TestCase):
         # 拨打视频电话
         call.pick_up_multi_video(cards)
         # 切换到被叫手机
-        Preconditions.select_mobile('Android-移动-N')
+        Preconditions.select_mobile('IOS-移动-移动')
         call.click_locator_key_c('视频通话_挂断')
         time.sleep(3)
         print('--->检查点4<====================')
@@ -3309,7 +3440,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         call.wait_for_page_load()
         # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
+        Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
         cards = call.get_cards_c(CardType.CHINA_MOBILE)
         # 切换主叫手机
@@ -3317,7 +3448,7 @@ class CallPageTest(TestCase):
         # 拨打视频电话 # 请先接听来电，随后将自动呼叫对方
         call.click_show_keyboard()
         call.input_text_c('键盘输入框', cards)
-        call.click_locator_key_c('拨号界面_呼叫')
+        call.click_locator_key_c('拨号_呼叫')
         flag = False
         try:
             for i in range(10):
