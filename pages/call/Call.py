@@ -132,7 +132,7 @@ class CallPage(FooterPage):
         '视频_时长': (MobileBy.XPATH,
                   '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText'),
         '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
-        '视频_主_单人挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
+        '视频_主单_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
         '视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
         '视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
         '视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
@@ -583,12 +583,12 @@ class CallPage(FooterPage):
         视频通话结束弹出框
         :return:
         """
-        self.click_locator_key('视频_主_单人挂断')
+        self.click_locator_key('视频_主单_挂断')
 
-    @TestLogger.log("多方视频，多方电话通话结束弹出框")
+    @TestLogger.log("多方视频，多方电话通话挂断")
     def click_close_more_video_popup(self):
         """
-        多方视频，多方电话通话结束弹出框
+        多方视频，多方电话通话挂断
         :return:
         """
         # iphone 7: xp=(appium x)/375, yp=(appium y)/667
