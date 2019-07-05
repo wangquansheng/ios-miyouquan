@@ -1738,13 +1738,13 @@ class CallPageTest(TestCase):
         call.click_locator_key('视频呼叫_确定')
         # 免提、静音、关闭摄像头、翻转摄像头
         time.sleep(2)
-        call.is_element_already_exist('呼叫_视频_免提')
+        call.is_element_already_exist('视频_免提')
         time.sleep(2)
-        call.is_element_already_exist('呼叫_视频_静音')
+        call.is_element_already_exist('视频_静音')
         time.sleep(2)
-        call.is_element_already_exist('呼叫_视频_关闭摄像头')
+        call.is_element_already_exist('视频_关闭摄像头')
         time.sleep(2)
-        call.is_element_already_exist('呼叫_视频_翻转摄像头')
+        call.is_element_already_exist('视频_翻转摄像头')
         # 关闭
         time.sleep(5)
         call.click_close_video_popup()

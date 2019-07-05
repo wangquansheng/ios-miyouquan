@@ -1147,9 +1147,9 @@ class CallPageTest(TestCase):
             call.click_locator_key('视频界面_转为语音')
             time.sleep(1)
             call.click_locator_key('语音界面_转为视频')
-            self.assertEqual(call.is_element_already_exist('切视频_头像'), True)
-            self.assertEqual(call.is_element_already_exist('切视频_备注'), True)
-            self.assertEqual(call.is_element_already_exist('切视频_号码'), True)
+            self.assertEqual(call.is_element_already_exist('视频_头像'), True)
+            self.assertEqual(call.is_element_already_exist('视频_备注'), True)
+            self.assertEqual(call.is_element_already_exist('视频_号码'), True)
             self.assertEqual(call.is_text_present('正在等待对方接受邀请'), True)
             time.sleep(15)
             return True

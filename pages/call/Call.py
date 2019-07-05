@@ -123,26 +123,22 @@ class CallPage(FooterPage):
         '视频呼叫_最多只能选择8个人': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
 
         # 视频接听
-        '视频接听_接听': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
-        '视频接听_挂断': (MobileBy.IOS_PREDICATE, 'name=="拒绝"'),
-        '视频接听_提醒我': (MobileBy.IOS_PREDICATE, 'name=="提醒我"'),
-        '视频接听_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
-
-        # 视频通话界面
-        '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
-        '视频_切到语音通话':  (MobileBy.IOS_PREDICATE, 'name=="切到语音通话"'),
-        '视频_切换摄像头':  (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
-        '视频_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
-        '视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
-        '视频_静音': (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
+        # '视频接听_接听': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
+        # '视频接听_挂断': (MobileBy.IOS_PREDICATE, 'name=="拒绝"'),
+        # '视频接听_提醒我': (MobileBy.IOS_PREDICATE, 'name=="提醒我"'),
+        # '视频接听_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
         '视频_画笔': (MobileBy.ACCESSIBILITY_ID, 'doodle off@2x'),
         '视频_头像': (MobileBy.ID, 'com.cmic.college:id/ivUser'),
         '视频_时长': (MobileBy.XPATH,
                   '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText'),
-        '呼叫_视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
-        '呼叫_视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
-        '呼叫_视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
-        '呼叫_视频_翻转摄像头': (MobileBy.IOS_PREDICATE, 'name=="翻转摄像头"'),
+        '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
+        '视频_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
+        '视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
+        '视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
+        '视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
+        '视频_翻转摄像头': (MobileBy.IOS_PREDICATE, 'name=="翻转摄像头"'),
+        '视频_切到语音通话': (MobileBy.IOS_PREDICATE, 'name=="切到语音通话"'),
+        '视频_切换摄像头': (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
         '呼叫_视频_接听': (MobileBy.IOS_PREDICATE, 'name=="接听"'),
         '呼叫_视频_拒接': (MobileBy.IOS_PREDICATE, 'name=="拒接"'),
 
@@ -588,10 +584,9 @@ class CallPage(FooterPage):
         :return:
         """
         # iphone 7: xp=(appium x)/375, yp=(appium y)/667
-        # x_percentage = 49
-        # y_percentage = 86.6
-        # self.click_coordinate(x_percentage, y_percentage)
-        self.click_locator_key('视频_挂断')
+        x_percentage = 49
+        y_percentage = 86.6
+        self.click_coordinate(x_percentage, y_percentage)
 
     @TestLogger.log("多方视频通话结束弹出框")
     def click_close_more_video_popup(self):
