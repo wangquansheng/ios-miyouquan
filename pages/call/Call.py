@@ -132,15 +132,15 @@ class CallPage(FooterPage):
         '视频_时长': (MobileBy.XPATH,
                   '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText'),
         '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
-        '视频_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
+        '视频_主_单人挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
         '视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
         '视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
         '视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
         '视频_翻转摄像头': (MobileBy.IOS_PREDICATE, 'name=="翻转摄像头"'),
         '视频_切到语音通话': (MobileBy.IOS_PREDICATE, 'name=="切到语音通话"'),
         '视频_切换摄像头': (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
-        '呼叫_视频_接听': (MobileBy.IOS_PREDICATE, 'name=="接听"'),
-        '呼叫_视频_拒接': (MobileBy.IOS_PREDICATE, 'name=="拒接"'),
+        '视频_被_接听': (MobileBy.IOS_PREDICATE, 'name=="接听"'),
+        '视频_被_拒接': (MobileBy.IOS_PREDICATE, 'name=="拒接"'),
 
         # 弹出框
         '无密友圈_提示文本': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="无密友圈"]'),
@@ -583,15 +583,12 @@ class CallPage(FooterPage):
         视频通话结束弹出框
         :return:
         """
-        # iphone 7: xp=(appium x)/375, yp=(appium y)/667
-        x_percentage = 49
-        y_percentage = 86.6
-        self.click_coordinate(x_percentage, y_percentage)
+        self.click_locator_key('视频_主_单人挂断')
 
-    @TestLogger.log("多方视频通话结束弹出框")
+    @TestLogger.log("多方视频，多方电话通话结束弹出框")
     def click_close_more_video_popup(self):
         """
-        多方视频通话结束弹出框
+        多方视频，多方电话通话结束弹出框
         :return:
         """
         # iphone 7: xp=(appium x)/375, yp=(appium y)/667
@@ -660,17 +657,6 @@ class CallPage(FooterPage):
         if len(el) > 0:
             return True
         return False
-
-    # @TestLogger.log('设置不再提醒为选中')
-    # def set_not_reminders(self):
-    #     """设置不再提醒为选中"""
-    #     el = self.get_elements(self.__locators['流量_不再提醒'])[0].get_attribute('checked')
-    #     if 'false' == el:
-    #         self.click_element(self.__locators['流量_不再提醒'])
-    #         el = self.get_elements(self.__locators['流量_不再提醒'])[0].get_attribute('checked')
-    #         if 'true' == el:
-    #             return True
-    #     return False
 
     @TestLogger.log('是否有某个标签')
     def on_this_page_common(self, locator):
@@ -850,7 +836,7 @@ class CallPage(FooterPage):
             time.sleep(2)
             self.click_locator_key('视频呼叫_确定')
             time.sleep(3)
-            self.click_close_video_popup()
+            self.click_close_more_video_popup()
             time.sleep(2)
             if self.is_element_present("无密友圈_取消"):
                 self.click_locator_key('无密友圈_取消')
@@ -880,7 +866,7 @@ class CallPage(FooterPage):
         time.sleep(5)
         self.click_locator_key('飞信电话_我知道了')
         time.sleep(5)
-        self.click_close_video_popup()
+        self.click_close_more_video_popup()
         time.sleep(2)
 
     @TestLogger.log('添加飞信电话记录，没有注册')
@@ -893,7 +879,7 @@ class CallPage(FooterPage):
         self.test_call_phone_no_reg()
         time.sleep(2)
         # 关闭
-        self.click_close_video_popup()
+        self.click_close_more_video_popup()
         time.sleep(2)
 
     @TestLogger.log('添加飞信电话记录，没有注册')
@@ -947,7 +933,7 @@ class CallPage(FooterPage):
             time.sleep(2)
             self.click_locator_key('飞信电话_我知道了')
             time.sleep(3)
-            self.click_close_video_popup()
+            self.click_close_more_video_popup()
             time.sleep(3)
             if self.is_element_already_exist('多方通话_是否确定结束多方电话'):
                 self.click_locator_key('多方通话_弹框_确定')

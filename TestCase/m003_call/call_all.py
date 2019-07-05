@@ -1746,8 +1746,8 @@ class CallPageTest(TestCase):
         time.sleep(2)
         call.is_element_already_exist('视频_翻转摄像头')
         # 关闭
-        time.sleep(5)
-        call.click_close_video_popup()
+        time.sleep(3)
+        call.click_close_more_video_popup()
         time.sleep(2)
         if call.is_element_present("无密友圈_确定"):
             call.click_locator_key('无密友圈_取消')
@@ -1916,7 +1916,7 @@ class CallPageTest(TestCase):
             pass
         finally:
             time.sleep(2)
-            call.click_close_video_popup()
+            call.click_close_more_video_popup()
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000300(self):
