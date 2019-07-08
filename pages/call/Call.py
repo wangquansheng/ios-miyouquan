@@ -123,10 +123,6 @@ class CallPage(FooterPage):
         '视频呼叫_最多只能选择8个人': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
 
         # 视频接听
-        # '视频接听_接听': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
-        # '视频接听_挂断': (MobileBy.IOS_PREDICATE, 'name=="拒绝"'),
-        # '视频接听_提醒我': (MobileBy.IOS_PREDICATE, 'name=="提醒我"'),
-        # '视频接听_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
         '视频_画笔': (MobileBy.ACCESSIBILITY_ID, 'doodle off@2x'),
         '视频_头像': (MobileBy.ID, 'com.cmic.college:id/ivUser'),
         '视频_时长': (MobileBy.XPATH,
@@ -185,11 +181,6 @@ class CallPage(FooterPage):
         # '搜索_电话显示': (MobileBy.ID, 'com.cmic.college:id/tvPhoneNum'),
         # '搜索_电话昵称': (MobileBy.ID, 'com.cmic.college:id/tvName'),
         # '免费时长': (MobileBy.ID, 'com.cmic.college:id/tv_leftDuration'),
-
-        # 关闭广告页面
-        # '广告_关闭': (MobileBy.ID, 'com.cmic.college:id/ivClose'),
-        # '广告_内容': (MobileBy.ID, 'com.cmic.college:id/ivContent'),
-        # '广告_立即参与': (MobileBy.ID, 'com.cmic.college:id/ivEnter'),
 
         # 邀请使用
         # '邀请_微信好友': (MobileBy.ID, 'com.cmic.college:id/tv_wechat'),
