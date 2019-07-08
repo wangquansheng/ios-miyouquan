@@ -135,7 +135,7 @@ class CallPage(FooterPage):
         '多方通话_弹框_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
 
         # 视频接听
-        '视频_头像': (MobileBy.ID, 'com.cmic.college:id/ivUser'),
+        '视频_头像': (MobileBy.ID, ''),
         '视频_时长': (MobileBy.XPATH,
                   '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText'),
         '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
@@ -147,24 +147,44 @@ class CallPage(FooterPage):
         '视频_切换摄像头': (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
         '视频_被_接听': (MobileBy.IOS_PREDICATE, 'name=="接听"'),
         '视频_被_拒接': (MobileBy.IOS_PREDICATE, 'name=="拒接"'),
+        '视频_切换弹框_接受': (MobileBy.IOS_PREDICATE, ''),
+        '视频_切换弹框_取消': (MobileBy.IOS_PREDICATE, ''),
+        '视频界面_主元素': (MobileBy.ACCESSIBILITY_ID, ''),
+
+        # 视频接听
+        '语音_头像': (MobileBy.ID, ''),
+        '语音_时长': (MobileBy.ID, ''),
+        '语音_静音': (MobileBy.ID, ''),
+        '语音_转为视频': (MobileBy.ID, ''),
+        '语音_免提': (MobileBy.ID, ''),
+        '语音_挂断': (MobileBy.ID, ''),
 
         # 多方视频接听
         '多方视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
         '多方视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
         '多方视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
         '多方视频_翻转摄像头': (MobileBy.IOS_PREDICATE, 'name=="翻转摄像头"'),
+        '多方视频_点击返回通话': (MobileBy.IOS_PREDICATE, 'name=="点击返回通话"'),
+        '多方视频_返回': (MobileBy.IOS_PREDICATE, ''),
 
         # 视频涂鸦
         '涂鸦_返回': (MobileBy.ACCESSIBILITY_ID, 'doodle on@2x'),
         '涂鸦_圆点': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="doodle line@2x"]/preceding-sibling::*[1]'),
         '涂鸦_线条': (MobileBy.ACCESSIBILITY_ID, 'doodle line@2x'),
         '涂鸦_表情': (MobileBy.ACCESSIBILITY_ID, 'doodle sticker@2x'),
-        '涂鸦_橡皮擦': (MobileBy.ACCESSIBILITY_ID, 'doodle eraser@2x'),
+        '涂鸦_橡皮': (MobileBy.ACCESSIBILITY_ID, 'doodle eraser@2x'),
         '涂鸦_删除': (MobileBy.ACCESSIBILITY_ID, 'doodle clear@2x'),
         '涂鸦_分享': (MobileBy.ACCESSIBILITY_ID, 'doodle share@2x'),
         '涂鸦_您要清除所有涂鸦': (MobileBy.IOS_PREDICATE, '您要清除所有涂鸦吗？'),
         '涂鸦_删除_确定': (MobileBy.IOS_PREDICATE, '确定'),
         '涂鸦_删除_取消': (MobileBy.IOS_PREDICATE, '取消'),
+        '涂鸦_画布': (MobileBy.ACCESSIBILITY_ID, ''),
+        '涂鸦_橙色': (MobileBy.ACCESSIBILITY_ID, ''),
+        '涂鸦_表情1': (MobileBy.ACCESSIBILITY_ID, ''),
+        '涂鸦_表情移动框': (MobileBy.ACCESSIBILITY_ID, ''),
+        '涂鸦_滑块': (MobileBy.ACCESSIBILITY_ID, ''),
+        '涂鸦_分享到微信': (MobileBy.ACCESSIBILITY_ID, ''),
+
 
         # 弹出框
         '无密友圈_提示文本': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="无密友圈"]'),

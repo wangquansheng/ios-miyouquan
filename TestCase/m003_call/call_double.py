@@ -561,18 +561,24 @@ class CallPageTest(TestCase):
             # 视频界面 转为语音
             time.sleep(1)
             call.click_screen_center()
-            self.assertEqual(call.is_element_already_exist('视频_转为语音'), True)
+            self.assertEqual(call.is_element_already_exist('视频_切到语音通话'), True)
             # 视频界面 切换摄像头
             time.sleep(1)
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), True)
-
-            #
-            # self.assertEqual(call.is_element_already_exist('语音界面_时长'), True)
-            # self.assertEqual(call.is_element_already_exist('语音界面_静音'), True)
-            # self.assertEqual(call.is_element_already_exist('语音界面_转为视频'), True)
-            # self.assertEqual(call.is_element_already_exist('语音界面_免提'), True)
-            # self.assertEqual(call.is_element_already_exist('语音界面_挂断'), True)
+            # 语音
+            call.click_locator_key('视频_切到语音通话')
+            time.sleep(2)
+            call.click_screen_center()
+            self.assertEqual(call.is_element_already_exist('语音_时长'), True)
+            call.click_screen_center()
+            self.assertEqual(call.is_element_already_exist('语音_静音'), True)
+            call.click_screen_center()
+            self.assertEqual(call.is_element_already_exist('语音_转为视频'), True)
+            call.click_screen_center()
+            self.assertEqual(call.is_element_already_exist('语音_免提'), True)
+            call.click_screen_center()
+            self.assertEqual(call.is_element_already_exist('语音_挂断'), True)
             # 视频界面 关闭
             call.click_screen_center()
             call.click_close_video_popup()
@@ -580,7 +586,7 @@ class CallPageTest(TestCase):
         except:
             return False
         finally:
-            call.click_locator_key('语音界面_挂断')
+            call.click_locator_key('语音_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00053(self):
@@ -846,7 +852,7 @@ class CallPageTest(TestCase):
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_免提'), True)
             call.click_screen_center()
-            self.assertEqual(call.is_element_already_exist('视频_转为语音'), True)
+            self.assertEqual(call.is_element_already_exist('视频_切到语音通话'), True)
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), True)
             # call.click_locator_key('视频界面_小屏')
@@ -857,7 +863,7 @@ class CallPageTest(TestCase):
             return False
         finally:
             call.click_screen_center()
-            call.click_locator_key('视频界面_挂断')
+            call.click_locator_key('视频_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00058(self):
@@ -965,12 +971,9 @@ class CallPageTest(TestCase):
         try:
             call.click_screen_center()
             call.click_locator_key('视频_免提')
-            # call.tap_coordinate([(100, 100), (100, 110), (100, 120)])
             time.sleep(1)
             call.click_screen_center()
             call.click_locator_key('视频_静音')
-            # if 'true' != call.get_one_element('视频_静音').get_attribute('selected'):
-            #     raise RuntimeError('静音出错')
             return True
         except Exception:
             traceback.print_exc()
@@ -1014,8 +1017,6 @@ class CallPageTest(TestCase):
         try:
             call.click_screen_center()
             call.click_locator_key('视频_免提')
-            # if 'false' != call.get_one_element('视频界面_免提').get_attribute('selected'):
-            #     raise RuntimeError('关闭免提出错')
             return True
         except Exception:
             traceback.print_exc()
@@ -1050,7 +1051,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         try:
             call.click_screen_center()
-            call.click_locator_key('视频_转为语音')
+            call.click_locator_key('视频_切到语音通话')
             time.sleep(1)
             call.click_screen_center()
             call.click_locator_key('语音_转为视频')
@@ -1132,13 +1133,13 @@ class CallPageTest(TestCase):
         call = CallPage()
         try:
             call.click_screen_center()
-            call.click_locator_key('视频_转为语音')
+            call.click_locator_key('视频_切到语音通话')
             time.sleep(5)
             call.click_locator_key('语音_转为视频')
             # 切回到主叫手机
             Preconditions.select_mobile('IOS-移动')
             if call.is_text_present('邀请你进行视频通话'):
-                call.click_locator_key('切视频_接受')
+                call.click_locator_key('视频_切换弹框_接受')
                 print('切为视频--接受')
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_时长'), True)
@@ -1177,22 +1178,22 @@ class CallPageTest(TestCase):
         call = CallPage()
         try:
             call.click_screen_center()
-            call.click_locator_key('视频_转为语音')
+            call.click_locator_key('视频_切到语音通话')
             time.sleep(1)
             call.click_locator_key('语音_转为视频')
             # 切回到主叫手机
             Preconditions.select_mobile('IOS-移动')
             if call.is_text_present('邀请你进行视频通话'):
-                call.click_locator_key('切视频_取消')
+                call.click_locator_key('视频_切换弹框_取消')
                 print('切视频_取消')
-            self.assertEqual(call.is_element_already_exist('语音界面_转为视频'), True)
+            self.assertEqual(call.is_element_already_exist('语音_转为视频'), True)
             return True
         except Exception:
             traceback.print_exc()
             return False
         finally:
             call.click_screen_center()
-            call.click_locator_key('语音界面_挂断')
+            call.click_locator_key('语音_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00068(self):
@@ -1361,15 +1362,15 @@ class CallPageTest(TestCase):
         try:
             time.sleep(3)
             call.click_screen_center()
-            self.assertEqual('false' == call.get_one_element('视频_静音').get_attribute('selected'), True)
+            self.assertEqual(call.is_element_already_exist('视频_静音'), True)
             call.click_screen_center()
-            self.assertEqual('true' == call.get_one_element('视频_免提').get_attribute('selected'), True)
+            self.assertEqual(call.is_element_already_exist('视频_免提'), True)
             call.click_screen_center()
-            self.assertEqual('false' == call.get_one_element('视频_转为语音').get_attribute('selected'), True)
+            self.assertEqual(call.is_element_already_exist('视频_切到语音通话'), True)
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), True)
             call.click_screen_center()
-            call.click_locator_key('视频_转为语音')
+            call.click_locator_key('视频_切到语音通话')
             self.assertEqual(call.is_toast_exist('已切为语音通话，请使用听筒接听'), True)
             return True
         except Exception:
@@ -1419,7 +1420,7 @@ class CallPageTest(TestCase):
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_免提'), True)
             call.click_screen_center()
-            self.assertEqual(call.is_element_already_exist('视频_转为语音'), True)
+            self.assertEqual(call.is_element_already_exist('视频_切到语音通话'), True)
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), True)
             call.click_screen_center()
@@ -1472,7 +1473,7 @@ class CallPageTest(TestCase):
             call.click_screen_center()
             self.assertEqual(call.get_one_element('视频_免提'), True)
             call.click_screen_center()
-            self.assertEqual(call.get_one_element('视频_转为语音'), True)
+            self.assertEqual(call.get_one_element('视频_切到语音通话'), True)
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), True)
             call.click_screen_center()
@@ -1525,7 +1526,7 @@ class CallPageTest(TestCase):
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_免提'), True)
             call.click_screen_center()
-            self.assertEqual(call.is_element_already_exist('视频_转为语音'), True)
+            self.assertEqual(call.is_element_already_exist('视频_切到语音通话'), True)
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), True)
             call.click_screen_center()
@@ -1597,7 +1598,7 @@ class CallPageTest(TestCase):
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_免提'), True)
             call.click_screen_center()
-            self.assertEqual(call.is_element_already_exist('视频_转为语音'), True)
+            self.assertEqual(call.is_element_already_exist('视频_切到语音通话'), True)
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), True)
             call.click_screen_center()
@@ -1649,7 +1650,7 @@ class CallPageTest(TestCase):
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_免提'), True)
             call.click_screen_center()
-            self.assertEqual(call.is_element_already_exist('视频_转为语音'), True)
+            self.assertEqual(call.is_element_already_exist('视频_切到语音通话'), True)
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), True)
             call.click_locator_key('视频界面_小屏')
@@ -1803,14 +1804,14 @@ class CallPageTest(TestCase):
         call = CallPage()
         try:
             call.click_screen_center()
-            call.click_locator_key('视频_转为语音')
+            call.click_locator_key('视频_切到语音通话')
             time.sleep(5)
             call.click_screen_center()
             call.click_locator_key('语音_转为视频')
             # 切回到主叫手机
             Preconditions.select_mobile('IOS-移动')
             if call.is_text_present('邀请你进行视频通话'):
-                call.click_locator_key('切视频_接受')
+                call.click_locator_key('视频_切换弹框_接受')
                 print('切为视频--接受')
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_时长'), True)
@@ -1854,8 +1855,8 @@ class CallPageTest(TestCase):
             call.click_screen_center()
             call.click_locator_key('视频_免提')
             call.click_locator_key('视频_涂鸦')
-            self.assertEqual(call.is_element_already_exist('涂鸦_颜色'), True)
-            self.assertEqual(call.is_element_already_exist('涂鸦_曲线'), True)
+            self.assertEqual(call.is_element_already_exist('涂鸦_圆点'), True)
+            self.assertEqual(call.is_element_already_exist('涂鸦_线条'), True)
             self.assertEqual(call.is_element_already_exist('涂鸦_橡皮'), True)
             self.assertEqual(call.is_element_already_exist('涂鸦_删除'), True)
             self.assertEqual(call.is_element_already_exist('涂鸦_表情'), True)
@@ -1904,7 +1905,7 @@ class CallPageTest(TestCase):
             call.click_locator_key('视频_免提')
             call.click_locator_key('视频_涂鸦')
             time.sleep(1)
-            call.click_locator_key('涂鸦_颜色')
+            call.click_locator_key('涂鸦_圆点')
             time.sleep(0.5)
             call.click_locator_key('涂鸦_橙色')
             time.sleep(0.5)
@@ -2004,11 +2005,11 @@ class CallPageTest(TestCase):
             call.click_locator_key('视频界面_免提')
             call.click_locator_key('视频界面_涂鸦')
             time.sleep(1)
-            call.click_locator_key('涂鸦_曲线')
+            call.click_locator_key('涂鸦_线条')
             time.sleep(0.5)
             call.swipe_direction('涂鸦_滑块', 'right')
             time.sleep(0.5)
-            call.click_locator_key('涂鸦_曲线')
+            call.click_locator_key('涂鸦_线条')
             time.sleep(0.5)
             call.press_move_to_down('涂鸦_画布')
             time.sleep(5)
@@ -2054,11 +2055,11 @@ class CallPageTest(TestCase):
             call.click_locator_key('界面_免提')
             call.click_locator_key('界面_涂鸦')
             time.sleep(1)
-            call.click_locator_key('涂鸦_曲线')
+            call.click_locator_key('涂鸦_线条')
             time.sleep(0.5)
             call.swipe_direction('涂鸦_滑块', 'left')
             time.sleep(0.5)
-            call.click_locator_key('涂鸦_曲线')
+            call.click_locator_key('涂鸦_线条')
             time.sleep(0.5)
             call.press_move_to_down('涂鸦_画布')
             time.sleep(5)
@@ -2195,7 +2196,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         try:
             call.click_screen_center()
-            call.click_locator_key('视频界面_免提')
+            call.click_locator_key('视频_免提')
             # 切换到主叫手机
             Preconditions.select_mobile('IOS-移动')
             call.click_screen_center()
@@ -2400,7 +2401,7 @@ class CallPageTest(TestCase):
         # 初始化被叫手机
         Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
-        cards = call.get_cards_c(CardType.CHINA_MOBILE)
+        cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
         Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
@@ -2443,7 +2444,7 @@ class CallPageTest(TestCase):
         # 初始化被叫手机
         Preconditions.initialize_class('IOS-移动-移动')
         # 获取手机号码
-        cards = call.get_cards_c(CardType.CHINA_MOBILE)
+        cards = call.get_cards(CardType.CHINA_MOBILE)
         # 切换主叫手机
         Preconditions.select_mobile('IOS-移动')
         # 拨打视频电话
@@ -2466,7 +2467,7 @@ class CallPageTest(TestCase):
                 time.sleep(1)
                 self.assertEqual(call.is_element_already_exist('视频_免提'), False)
                 self.assertEqual(call.is_element_already_exist('视频_静音'), False)
-                self.assertEqual(call.is_element_already_exist('视频_转为语音 '), False)
+                self.assertEqual(call.is_element_already_exist('视频_切到语音通话 '), False)
                 self.assertEqual(call.is_element_already_exist('视频_涂鸦'), False)
                 self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), False)
                 self.assertEqual(call.is_element_already_exist('视频_挂断'), False)
@@ -2475,7 +2476,7 @@ class CallPageTest(TestCase):
                 call.tap_screen_center_c('视频界面_主元素')
                 self.assertEqual(call.is_element_already_exist('视频_免提'), True)
                 self.assertEqual(call.is_element_already_exist('视频_静音'), True)
-                self.assertEqual(call.is_element_already_exist('视频_转为语音 '), True)
+                self.assertEqual(call.is_element_already_exist('视频_切到语音通话 '), True)
                 self.assertEqual(call.is_element_already_exist('视频_涂鸦'), True)
                 self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), True)
                 self.assertEqual(call.is_element_already_exist('视频_挂断'), True)
@@ -2581,12 +2582,12 @@ class CallPageTest(TestCase):
         call = CallPage()
         try:
             call.click_screen_center()
-            call.click_locator_key('视频界面_免提')
+            call.click_locator_key('视频_免提')
             time.sleep(5)
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_免提'), False)
             self.assertEqual(call.is_element_already_exist('视频_静音'), False)
-            self.assertEqual(call.is_element_already_exist('视频_转为语音 '), False)
+            self.assertEqual(call.is_element_already_exist('视频_切到语音通话 '), False)
             self.assertEqual(call.is_element_already_exist('视频_涂鸦'), False)
             self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), False)
             self.assertEqual(call.is_element_already_exist('视频_挂断'), False)
@@ -2638,7 +2639,7 @@ class CallPageTest(TestCase):
             time.sleep(10)
             self.assertEqual(call.is_element_already_exist('视频_免提'), False)
             self.assertEqual(call.is_element_already_exist('视频_静音'), False)
-            self.assertEqual(call.is_element_already_exist('视频_转为语音 '), False)
+            self.assertEqual(call.is_element_already_exist('视频_切到语音通话'), False)
             self.assertEqual(call.is_element_already_exist('视频_涂鸦'), False)
             self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), False)
             self.assertEqual(call.is_element_already_exist('视频_挂断'), False)
@@ -2691,7 +2692,7 @@ class CallPageTest(TestCase):
         call.multiplayer_vedio_call()
         call.wait_for_page_call_load()
         time.sleep(1)
-        if call.is_element_already_exist('多方视频'):
+        if call.is_element_already_exist('[多方视频]'):
             call.click_tag_detail_first_element('多方视频')
             time.sleep(0.5)
             self.assertEqual('呼出' == call.get_elements_list('详情_通话类型')[0].text, True)
@@ -2713,7 +2714,7 @@ class CallPageTest(TestCase):
         call.click_locator_key('视频_免提')
         time.sleep(2)
         call.click_screen_center()
-        call.click_locator_key('视频界面_挂断')
+        call.click_locator_key('视频_挂断')
         time.sleep(3)
         if call.is_element_already_exist('视频通话'):
             call.click_tag_detail_first_element('视频通话')
@@ -2771,8 +2772,8 @@ class CallPageTest(TestCase):
             call.input_text('键盘输入框', cards)
             call.click_locator_key('拨号_呼叫')
             if call.is_element_already_exist('回呼_提示文本'):
-                call.set_checkbox_checked_c('回呼_不再提醒')
-                call.click_locator_key_c('回呼_我知道了')
+                call.set_checkbox_checked('回呼_不再提醒')
+                call.click_locator_key('回呼_我知道了')
             time.sleep(10)
             self.assertEqual(call.is_text_present('飞信电话') and call.is_text_present('12560'), True)
             call.hang_up_the_call()
@@ -2969,7 +2970,7 @@ class CallPageTest(TestCase):
         """校验结果"""
         return call.is_element_already_exist_c('多方视频_头像', default_timeout=0.5) \
                and call.is_element_already_exist_c('多方视频_呼叫中', default_timeout=0.5) \
-               and call.is_element_already_exist_c('多方视频_转换摄像头', default_timeout=0.5) \
+               and call.is_element_already_exist_c('多方视频_翻转摄像头', default_timeout=0.5) \
                and call.is_element_already_exist_c('多方视频_关闭摄像头', default_timeout=0.5) \
                and call.is_element_already_exist_c('多方视频_免提', default_timeout=0.5) \
                and call.is_element_already_exist_c('多方视频_静音', default_timeout=0.5) \
@@ -3241,14 +3242,14 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         try:
-            self.assertEqual('false' == call.get_select_value_c('多方视频_转换摄像头'), True)
+            self.assertEqual('false' == call.get_select_value('多方视频_翻转摄像头'), True)
             time.sleep(0.5)
-            call.click_locator_key('多方视频_转换摄像头')
+            call.click_locator_key('多方视频_翻转摄像头')
             time.sleep(1)
-            self.assertEqual('false' == call.get_select_value_c('多方视频_转换摄像头'), True)
+            self.assertEqual('false' == call.get_select_value('多方视频_翻转摄像头'), True)
             call.click_locator_key('多方视频_关闭摄像头')
             time.sleep(1)
-            call.click_locator_key('多方视频_转换摄像头')
+            call.click_locator_key('多方视频_翻转摄像头')
             self.assertEqual(call.is_toast_exist('请打开摄像头后尝试'), True)
             return True
         except Exception:
@@ -3312,11 +3313,11 @@ class CallPageTest(TestCase):
         call.pick_up_p2p_video(cards)
         # 等待返回结果
         self.assertEqual(self.to_pick_phone_video(), True)
-        call.click_locator_key('视频界面_免提')
+        call.click_locator_key('视频_免提')
         time.sleep(2)
-        call.tap_screen_three_point_element('视频界面_时长')
+        call.tap_screen_three_point_element('视频_时长')
         time.sleep(0.5)
-        call.click_locator_key('视频界面_挂断')
+        call.click_locator_key('视频_挂断')
         time.sleep(3)
         print('--->检查点3<====================')
         self.assertEqual(call.is_text_present('视频通话'), True)
@@ -3329,7 +3330,7 @@ class CallPageTest(TestCase):
         call.pick_up_multi_video(cards)
         # 切换到被叫手机
         Preconditions.select_mobile('IOS-移动-移动')
-        call.click_locator_key('视频通话_挂断')
+        call.click_locator_key('视频_挂断')
         time.sleep(3)
         print('--->检查点4<====================')
         self.assertEqual(call.is_text_present('多方视频'), False)
