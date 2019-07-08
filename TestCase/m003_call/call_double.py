@@ -2,6 +2,7 @@ import time
 import warnings
 import datetime
 import traceback
+import threading
 
 from selenium.common.exceptions import TimeoutException
 
@@ -219,8 +220,9 @@ class CallPageTest(TestCase):
         # 切换被叫手机
         Preconditions.select_mobile('IOS-移动-移动')
         time.sleep(1)
-        call.click_screen_center()
-        call.click_close_two_device_popup()
+        # call.click_screen_center()
+        # call.click_close_two_device_popup()
+        call.click_locator_key('视频_被_接听')
         count = 20
         try:
             while count > 0:
@@ -339,8 +341,8 @@ class CallPageTest(TestCase):
             call.click_locator_key('视频_免提')
             time.sleep(1)
             call.click_screen_center()
-            call.tap_screen_three_point('视频_时长')
             call.click_locator_key('视频_静音')
+            time.sleep(1)
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_静音'), True)
             return True
@@ -348,7 +350,8 @@ class CallPageTest(TestCase):
             traceback.print_exc()
             return False
         finally:
-            call.click_locator_key('视频界面_挂断')
+            call.click_screen_center()
+            call.click_locator_key('视频_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00049(self):
@@ -383,17 +386,16 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         try:
-            call.tap_screen_three_point('视频界面_时长')
-            call.click_locator_key('视频界面_免提')
-            self.assertEqual('false' == call.get_one_element('视频界面_免提').get_attribute('selected'), True)
-
+            call.click_screen_center()
+            call.click_locator_key('视频_免提')
+            self.assertEqual(call.is_element_already_exist('视频_免提'), True)
             return True
         except Exception:
             traceback.print_exc()
             return False
         finally:
-            call.tap_screen_three_point('视频界面_时长')
-            call.click_locator_key('视频界面_挂断')
+            call.click_screen_center()
+            call.click_locator_key('视频_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00050(self):
@@ -434,18 +436,16 @@ class CallPageTest(TestCase):
         try:
             # 主叫
             Preconditions.select_mobile('IOS-移动')
-            call.tap_screen_three_point('视频界面_时长')
-            call.click_locator_key('视频界面_切换摄像头')
+            call.click_screen_center()
+            call.click_locator_key('视频_切换摄像头')
             time.sleep(2)
-            # call.tap_screen_three_point('视频界面_时长')
-            # call.click_locator_key('视频界面_挂断')
             return True
         except Exception:
             traceback.print_exc()
             return False
         finally:
-            call.tap_screen_three_point('视频界面_时长')
-            call.click_locator_key('视频界面_挂断')
+            call.click_screen_center()
+            call.click_locator_key('视频_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00051(self):
@@ -3061,33 +3061,33 @@ class CallPageTest(TestCase):
                and call.is_element_already_exist_c('多方视频_挂断', default_timeout=0.5)
 
     # @tags('ALL', 'CMCC_double', 'call')
-    @unittest.skip('浮窗抓取不到')
-    def test_call_000198(self):
-        """
-            收起和展开视频通话
-            1、网络正常，已登录密友圈，权限已开启；
-            2、多方视频已接通；
-            1、A点击左上角的【收起】按钮；
-            2、查看B的视频窗口；
-            3、A单击通话浮层；
-            1、视频窗口缩小以浮层的方式悬浮在页面的右上角，可按住移动浮层位置；
-            窗口收起后，默认停留在发起视频通话页面，切换到任一页面，浮层位置保持不变；
-            2、收起视频通话不影响其他视频成员端的视频窗口展示；
-            3、A用户返回视频通话窗口；
-        """
-        call = CallPage()
-        call.wait_for_page_load()
-        # 初始化被叫手机
-        Preconditions.initialize_class('IOS-移动-移动')
-        # 获取手机号码
-        cards = call.get_cards_c(CardType.CHINA_MOBILE)
-        # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
-        # 拨打多人视频 指定一个号码
-        call.pick_up_multi_video(cards)
-        # 等待结果
-        self.assertEqual(self.to_pick_phone_video(), True)
-        self.assertEqual(self.check_result_000198(), True)
+    # @unittest.skip('浮窗抓取不到')
+    # def test_call_000198(self):
+    #     """
+    #         收起和展开视频通话
+    #         1、网络正常，已登录密友圈，权限已开启；
+    #         2、多方视频已接通；
+    #         1、A点击左上角的【收起】按钮；
+    #         2、查看B的视频窗口；
+    #         3、A单击通话浮层；
+    #         1、视频窗口缩小以浮层的方式悬浮在页面的右上角，可按住移动浮层位置；
+    #         窗口收起后，默认停留在发起视频通话页面，切换到任一页面，浮层位置保持不变；
+    #         2、收起视频通话不影响其他视频成员端的视频窗口展示；
+    #         3、A用户返回视频通话窗口；
+    #     """
+    #     call = CallPage()
+    #     call.wait_for_page_load()
+    #     # 初始化被叫手机
+    #     Preconditions.initialize_class('IOS-移动-移动')
+    #     # 获取手机号码
+    #     cards = call.get_cards_c(CardType.CHINA_MOBILE)
+    #     # 切换主叫手机
+    #     Preconditions.select_mobile('Android-移动')
+    #     # 拨打多人视频 指定一个号码
+    #     call.pick_up_multi_video(cards)
+    #     # 等待结果
+    #     self.assertEqual(self.to_pick_phone_video(), True)
+    #     self.assertEqual(self.check_result_000198(), True)
 
     @TestLogger.log('验证结果')
     def check_result_000198(self):
