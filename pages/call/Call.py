@@ -122,31 +122,6 @@ class CallPage(FooterPage):
                          '/XCUIElementTypeCell/XCUIElementTypeImage[2]'),
         '视频呼叫_最多只能选择8个人': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
 
-        # 视频接听
-        '视频_画笔': (MobileBy.ACCESSIBILITY_ID, 'doodle off@2x'),
-        '视频_头像': (MobileBy.ID, 'com.cmic.college:id/ivUser'),
-        '视频_时长': (MobileBy.XPATH,
-                  '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText'),
-        '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
-        '视频_主单_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
-        '视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
-        '视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
-        '视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
-        '视频_翻转摄像头': (MobileBy.IOS_PREDICATE, 'name=="翻转摄像头"'),
-        '视频_切到语音通话': (MobileBy.IOS_PREDICATE, 'name=="切到语音通话"'),
-        '视频_切换摄像头': (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
-        '视频_被_接听': (MobileBy.IOS_PREDICATE, 'name=="接听"'),
-        '视频_被_拒接': (MobileBy.IOS_PREDICATE, 'name=="拒接"'),
-
-        # 弹出框
-        '无密友圈_提示文本': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="无密友圈"]'),
-        '无密友圈_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
-        '无密友圈_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
-
-        # 飞信电话
-        '飞信电话_邀请_短信': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
-        '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
-
         # 多方通话
         '多方通话_确定': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar/XCUIElementTypeButton[2]'),
         '多方通话_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
@@ -158,6 +133,47 @@ class CallPage(FooterPage):
         '多方通话_是否确定结束多方电话': (MobileBy.IOS_PREDICATE, "name=='是否确定结束多方电话？'"),
         '多方通话_弹框_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
         '多方通话_弹框_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
+
+        # 视频接听
+        '视频_头像': (MobileBy.ID, 'com.cmic.college:id/ivUser'),
+        '视频_时长': (MobileBy.XPATH,
+                  '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText'),
+        '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
+        '视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
+        '视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
+        '视频_画笔': (MobileBy.ACCESSIBILITY_ID, 'doodle off@2x'),
+        '视频_切到语音通话': (MobileBy.IOS_PREDICATE, 'name=="切到语音通话"'),
+        '视频_主单_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
+        '视频_切换摄像头': (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
+        '视频_被_接听': (MobileBy.IOS_PREDICATE, 'name=="接听"'),
+        '视频_被_拒接': (MobileBy.IOS_PREDICATE, 'name=="拒接"'),
+
+        # 多方视频接听
+        '多方视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
+        '多方视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
+        '多方视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
+        '多方视频_翻转摄像头': (MobileBy.IOS_PREDICATE, 'name=="翻转摄像头"'),
+
+        # 视频涂鸦
+        '涂鸦_返回': (MobileBy.ACCESSIBILITY_ID, 'doodle on@2x'),
+        '涂鸦_圆点': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="doodle line@2x"]/preceding-sibling::*[1]'),
+        '涂鸦_线条': (MobileBy.ACCESSIBILITY_ID, 'doodle line@2x'),
+        '涂鸦_表情': (MobileBy.ACCESSIBILITY_ID, 'doodle sticker@2x'),
+        '涂鸦_橡皮擦': (MobileBy.ACCESSIBILITY_ID, 'doodle eraser@2x'),
+        '涂鸦_删除': (MobileBy.ACCESSIBILITY_ID, 'doodle clear@2x'),
+        '涂鸦_分享': (MobileBy.ACCESSIBILITY_ID, 'doodle share@2x'),
+        '涂鸦_您要清除所有涂鸦': (MobileBy.IOS_PREDICATE, '您要清除所有涂鸦吗？'),
+        '涂鸦_删除_确定': (MobileBy.IOS_PREDICATE, '确定'),
+        '涂鸦_删除_取消': (MobileBy.IOS_PREDICATE, '取消'),
+
+        # 弹出框
+        '无密友圈_提示文本': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="无密友圈"]'),
+        '无密友圈_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
+        '无密友圈_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
+
+        # 飞信电话
+        '飞信电话_邀请_短信': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
+        '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
 
         # 流量优惠提示框
         # '流量_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
