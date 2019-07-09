@@ -670,7 +670,7 @@ class CallPageTest(TestCase):
         #     call.click_locator_key('流量_继续拨打')
         # 点击结束通话
         time.sleep(1)
-        call.click_close_video_popup()
+        call.click_video_hangup()
         # 无密友圈, 点击取消按钮
         if call.is_element_present("无密友圈_取消"):
             call.click_locator_key('无密友圈_取消')
@@ -1709,7 +1709,7 @@ class CallPageTest(TestCase):
         time.sleep(2)
         call.click_locator_key('视频呼叫_确定')
         time.sleep(5)
-        call.click_close_video_popup()
+        call.click_video_hangup()
         time.sleep(2)
         if call.is_element_present("无密友圈_确定"):
             call.click_locator_key('无密友圈_取消')
@@ -1941,7 +1941,7 @@ class CallPageTest(TestCase):
             self.assertEqual(call.is_text_present('飞信电话'), True)
         finally:
             time.sleep(2)
-            call.click_close_video_popup()
+            call.click_video_hangup()
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000306(self):

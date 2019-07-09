@@ -221,7 +221,7 @@ class CallPageTest(TestCase):
         Preconditions.select_mobile('IOS-移动-移动')
         time.sleep(1)
         # call.click_screen_center()
-        # call.click_close_two_device_popup()
+        # call.click_video_answer()
         call.click_locator_key('视频接听_被_接听')
         count = 20
         try:
@@ -270,7 +270,7 @@ class CallPageTest(TestCase):
             # 主叫拨打视频电话, 添加通话记录
             call.pick_up_p2p_video(cards)
             time.sleep(3)
-            call.click_close_video_popup()
+            call.click_video_hangup()
             if call.on_this_page_common('无密友圈_确定'):
                 call.click_locator_key('无密友圈_取消')
             # 点击第一条，跳转到详情页面
@@ -286,7 +286,7 @@ class CallPageTest(TestCase):
             #     time.sleep(1)
             #     call.click_locator_key('流量_继续拨打')
             time.sleep(3)
-            call.click_close_video_popup()
+            call.click_video_hangup()
             if call.on_this_page_common('无密友圈_确定'):
                 call.click_locator_key('无密友圈_取消')
             time.sleep(3)
@@ -475,7 +475,7 @@ class CallPageTest(TestCase):
         self.assertEqual(call.is_element_already_exist('视频_切到语音通话'), True)
         # 结束
         call.click_screen_center()
-        call.click_close_video_popup()
+        call.click_video_hangup()
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00052(self):
@@ -509,7 +509,7 @@ class CallPageTest(TestCase):
         Preconditions.select_mobile('IOS-移动-移动')
         time.sleep(1)
         call.click_screen_center()
-        call.click_close_two_device_popup()
+        call.click_video_answer()
         count = 40
         try:
             while count > 0:
@@ -577,7 +577,7 @@ class CallPageTest(TestCase):
             self.assertEqual(call.is_element_already_exist('语音_挂断'), True)
             # 视频界面 关闭
             call.click_screen_center()
-            call.click_close_video_popup()
+            call.click_video_hangup()
             return True
         except:
             return False

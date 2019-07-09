@@ -185,8 +185,8 @@ class CallPage(FooterPage):
         '涂鸦_删除': (MobileBy.ACCESSIBILITY_ID, 'doodle clear@2x'),
         '涂鸦_分享': (MobileBy.ACCESSIBILITY_ID, 'doodle share@2x'),
         '涂鸦_您要清除所有涂鸦': (MobileBy.IOS_PREDICATE, '您要清除所有涂鸦吗？'),
-        '涂鸦_删除_确定': (MobileBy.IOS_PREDICATE, '确定'),
-        '涂鸦_删除_取消': (MobileBy.IOS_PREDICATE, '取消'),
+        '涂鸦_删除_确定': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
+        '涂鸦_删除_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
         '涂鸦_画布': (MobileBy.ACCESSIBILITY_ID, ''),
         '涂鸦_橙色': (MobileBy.ACCESSIBILITY_ID, ''),
         '涂鸦_表情1': (MobileBy.ACCESSIBILITY_ID, ''),
@@ -236,32 +236,9 @@ class CallPage(FooterPage):
         # '现在去开启': (MobileBy.ID, 'android:id/button1'),
 
         # 暂停使用，待删除
-        # '拨叫号码': (MobileBy.ID, 'com.cmic.college:id/etInputNum'),
-        # '拨号界面_挂断': (MobileBy.ID, 'com.android.incallui:id/endButton'),
-        # '通话记录_确定': (MobileBy.ID, 'com.cmic.college:id/btnConfirm'),
-        # '通话记录_取消': (MobileBy.ID, 'com.cmic.college:id/btnCancel'),
-        # '通话记录_删除一条': (
-        #     MobileBy.XPATH,
-        #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="删除该通话记录"]'),
-        # '通话记录_删除全部': (
-        #     MobileBy.XPATH,
-        #     '//android.widget.TextView[@resource-id="com.cmic.college:id/tvContent" and @text="清除全部通话记录"]'),
-        # '删除_一条通话记录': (MobileBy.XPATH,
-        #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout
-        #               /android.widget.FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView
-        #               /android.widget.LinearLayout[1]'),
-        # '删除_全部通话记录': (MobileBy.XPATH,
-        #               '/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout
-        #               /android.widget.FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView
-        #               /android.widget.LinearLayout[2]'),
-        # '通话_发起视频通话': (MobileBy.XPATH, '//android.widget.TextView[@text="发起视频通话"]'),
-        # # '详情_信息按钮': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
-        # '挂断': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
-        # '挂断_多方通话': (MobileBy.ID, 'com.cmic.college:id/end_video_call_btn'),
         # 'tip1': (MobileBy.ID, 'com.cmic.college:id/ivFreeCall'),
         # 'tip2': (MobileBy.ID, 'com.cmic.college:id/ivKeyboard'),
         # 'tip3': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
-        # '视频': (MobileBy.ID, 'com.cmic.college:id/ivMultipartyCall'),
         # '详情_更多': (MobileBy.ID, 'com.cmic.college:id/iv_more'),
         # '详情_红点': (MobileBy.ID, 'com.cmic.college:id/view_red_dot'),
         # """
@@ -583,29 +560,30 @@ class CallPage(FooterPage):
         y_percentage = (667 / 2) / 667 * 100
         self.click_coordinate(x_percentage, y_percentage)
 
-    @TestLogger.log("多机-视频通话接听")
-    def click_close_two_device_popup(self):
-        """
-        多机-视频通话接听
-        :return:
-        """
-        # iphone 7: xp=(appium x)/375, yp=(appium y)/667
-        x_percentage = 276 / 375 * 100
-        y_percentage = 578 / 667 * 100
-        self.click_coordinate(x_percentage, y_percentage)
-
     @TestLogger.log("视频通话结束弹出框")
-    def click_close_video_popup(self):
+    def click_video_hangup(self):
         """
         视频通话结束弹出框
         :return:
         """
         self.click_locator_key('视频_主单_挂断')
 
-    @TestLogger.log("多方视频，多方电话通话挂断")
+    @TestLogger.log("视频通话接听")
+    def click_video_answer(self):
+        """
+        视频通话接听
+        :return:
+        """
+        # # iphone 7: xp=(appium x)/375, yp=(appium y)/667
+        # x_percentage = 276 / 375 * 100
+        # y_percentage = 578 / 667 * 100
+        # self.click_coordinate(x_percentage, y_percentage)
+        self.click_locator_key('视频接听_被_接听')
+
+    @TestLogger.log("多方视频，多方电话通话主叫挂断")
     def click_close_more_video_popup(self):
         """
-        多方视频，多方电话通话挂断
+        多方视频，多方电话通话主叫挂断
         :return:
         """
         # iphone 7: xp=(appium x)/375, yp=(appium y)/667
@@ -831,7 +809,7 @@ class CallPage(FooterPage):
             time.sleep(2)
             self.click_locator_key('视频呼叫_确定')
             time.sleep(3)
-            self.click_close_video_popup()
+            self.click_video_hangup()
             time.sleep(2)
             if self.is_element_present("无密友圈_取消"):
                 self.click_locator_key('无密友圈_取消')
