@@ -222,7 +222,7 @@ class CallPageTest(TestCase):
         time.sleep(1)
         # call.click_screen_center()
         # call.click_close_two_device_popup()
-        call.click_locator_key('视频_被_接听')
+        call.click_locator_key('视频接听_被_接听')
         count = 20
         try:
             while count > 0:
@@ -260,10 +260,6 @@ class CallPageTest(TestCase):
         call.close_click_home_advertisement()
         try:
             call.wait_for_page_load()
-            # 判断如果键盘已拉起，则收起键盘
-            if call.is_exist_call_key():
-                call.click_hide_keyboard()
-                time.sleep(1)
             # 被叫手机初始化
             Preconditions.initialize_class('IOS-移动-移动')
             # 被叫手机号码
@@ -586,6 +582,7 @@ class CallPageTest(TestCase):
         except:
             return False
         finally:
+            call.click_screen_center()
             call.click_locator_key('语音_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
@@ -1139,7 +1136,7 @@ class CallPageTest(TestCase):
             # 切回到主叫手机
             Preconditions.select_mobile('IOS-移动')
             if call.is_text_present('邀请你进行视频通话'):
-                call.click_locator_key('视频_切换弹框_接受')
+                call.click_locator_key('视频接听_切换弹框_接受')
                 print('切为视频--接受')
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_时长'), True)
@@ -1184,7 +1181,7 @@ class CallPageTest(TestCase):
             # 切回到主叫手机
             Preconditions.select_mobile('IOS-移动')
             if call.is_text_present('邀请你进行视频通话'):
-                call.click_locator_key('视频_切换弹框_取消')
+                call.click_locator_key('视频接听_切换弹框_取消')
                 print('切视频_取消')
             self.assertEqual(call.is_element_already_exist('语音_转为视频'), True)
             return True
@@ -1811,7 +1808,7 @@ class CallPageTest(TestCase):
             # 切回到主叫手机
             Preconditions.select_mobile('IOS-移动')
             if call.is_text_present('邀请你进行视频通话'):
-                call.click_locator_key('视频_切换弹框_接受')
+                call.click_locator_key('视频接听_切换弹框_接受')
                 print('切为视频--接受')
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_时长'), True)

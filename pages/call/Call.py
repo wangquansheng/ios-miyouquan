@@ -18,8 +18,8 @@ class CallPage(FooterPage):
         # 权限框
         '禁止': (MobileBy.IOS_PREDICATE, 'name=="禁止"'),
         '始终允许': (MobileBy.IOS_PREDICATE, 'name=="始终允许"'),
-        # '遮罩1': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
-        # '遮罩2': (MobileBy.ID, 'com.cmic.college:id/header'),
+        # '遮罩1': (MobileBy.ID, ''),
+        # '遮罩2': (MobileBy.ID, ''),
 
         # 广告
         '广告_通话_关闭': (MobileBy.ACCESSIBILITY_ID, 'my home cancel@2x'),
@@ -122,7 +122,7 @@ class CallPage(FooterPage):
                          '/XCUIElementTypeCell/XCUIElementTypeImage[2]'),
         '视频呼叫_最多只能选择8个人': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
 
-        # 多方通话
+        # 多方通话呼叫
         '多方通话_确定': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar/XCUIElementTypeButton[2]'),
         '多方通话_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
         '多方通话_搜索_文本框': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
@@ -130,12 +130,34 @@ class CallPage(FooterPage):
         '多方通话_电话号码': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
                                       '/../../../XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'
                                       '/XCUIElementTypeImage[2]'),
+
+        # 多方通话接听操作页面
         '多方通话_是否确定结束多方电话': (MobileBy.IOS_PREDICATE, "name=='是否确定结束多方电话？'"),
         '多方通话_弹框_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
         '多方通话_弹框_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
 
-        # 视频接听
-        '视频_头像': (MobileBy.ID, ''),
+        # 多方视频接听操作页面
+        '多方视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
+        '多方视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
+        '多方视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
+        '多方视频_翻转摄像头': (MobileBy.IOS_PREDICATE, 'name=="翻转摄像头"'),
+        '多方视频_返回通话': (MobileBy.IOS_PREDICATE, 'name=="点击返回通话"'),
+        '多方视频_被_邀请你进行多方视频': (MobileBy.IOS_PREDICATE, 'name=="邀请你进行多方视频"'),
+        '多方视频_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
+
+        # 接听操作页面
+        '视频接听_被_头像': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[3]'),
+        '视频接听_被_电话号码': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[2]'),
+        '视频接听_被_地域': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[1]'),
+        '视频接听_被_邀请你进行网络视频通话': (MobileBy.IOS_PREDICATE, 'name=="邀请你进行网络视频通话"'),
+        '视频接听_被_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
+        '视频接听_被_接听': (MobileBy.IOS_PREDICATE, 'name=="接听"'),
+        '视频接听_被_拒接': (MobileBy.IOS_PREDICATE, 'name=="拒接"'),
+        '视频接听_切换弹框_接受': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
+        '视频接听_切换弹框_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
+
+        # 视频已接听
+        '视频_头像': (MobileBy.ACCESSIBILITY_ID, ''),
         '视频_时长': (MobileBy.XPATH,
                   '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText'),
         '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
@@ -145,27 +167,14 @@ class CallPage(FooterPage):
         '视频_切到语音通话': (MobileBy.IOS_PREDICATE, 'name=="切到语音通话"'),
         '视频_主单_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
         '视频_切换摄像头': (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
-        '视频_被_接听': (MobileBy.IOS_PREDICATE, 'name=="接听"'),
-        '视频_被_拒接': (MobileBy.IOS_PREDICATE, 'name=="拒接"'),
-        '视频_切换弹框_接受': (MobileBy.IOS_PREDICATE, ''),
-        '视频_切换弹框_取消': (MobileBy.IOS_PREDICATE, ''),
-        '视频界面_主元素': (MobileBy.ACCESSIBILITY_ID, ''),
 
-        # 视频接听
-        '语音_头像': (MobileBy.ID, ''),
-        '语音_时长': (MobileBy.ID, ''),
-        '语音_静音': (MobileBy.ID, ''),
-        '语音_转为视频': (MobileBy.ID, ''),
-        '语音_免提': (MobileBy.ID, ''),
-        '语音_挂断': (MobileBy.ID, ''),
-
-        # 多方视频接听
-        '多方视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
-        '多方视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
-        '多方视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
-        '多方视频_翻转摄像头': (MobileBy.IOS_PREDICATE, 'name=="翻转摄像头"'),
-        '多方视频_点击返回通话': (MobileBy.IOS_PREDICATE, 'name=="点击返回通话"'),
-        '多方视频_返回': (MobileBy.IOS_PREDICATE, ''),
+        # 语音已接听
+        '语音_头像': (MobileBy.XPATH, ''),
+        '语音_时长': (MobileBy.XPATH, ''),
+        '语音_静音': (MobileBy.IOS_PREDICATE, ''),
+        '语音_转为视频': (MobileBy.IOS_PREDICATE, ''),
+        '语音_免提': (MobileBy.IOS_PREDICATE, ''),
+        '语音_挂断': (MobileBy.IOS_PREDICATE, ''),
 
         # 视频涂鸦
         '涂鸦_返回': (MobileBy.ACCESSIBILITY_ID, 'doodle on@2x'),
@@ -184,7 +193,6 @@ class CallPage(FooterPage):
         '涂鸦_表情移动框': (MobileBy.ACCESSIBILITY_ID, ''),
         '涂鸦_滑块': (MobileBy.ACCESSIBILITY_ID, ''),
         '涂鸦_分享到微信': (MobileBy.ACCESSIBILITY_ID, ''),
-
 
         # 弹出框
         '无密友圈_提示文本': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="无密友圈"]'),
@@ -247,24 +255,6 @@ class CallPage(FooterPage):
         #               /android.widget.FrameLayout/android.widget.LinearLayout/android.support.v7.widget.RecyclerView
         #               /android.widget.LinearLayout[2]'),
         # '通话_发起视频通话': (MobileBy.XPATH, '//android.widget.TextView[@text="发起视频通话"]'),
-        # '视频通话_第一个联系人': (MobileBy.XPATH,
-        #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
-        #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
-        #                 'LinearLayout[1]/android.widget.RelativeLayout'),
-        # '视频通话_第二个联系人': (MobileBy.XPATH,
-        #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
-        #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
-        #                 'LinearLayout[2]/android.widget.RelativeLayout'),
-        # '视频通话_第三个联系人': (MobileBy.XPATH,
-        #                 '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #                 'FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.'
-        #                 'LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.'
-        #                 'LinearLayout/android.widget.RelativeLayout/android.widget.ListView/android.widget.'
-        #                 'LinearLayout[3]/android.widget.RelativeLayout'),
         # # '详情_信息按钮': (MobileBy.ID, 'com.cmic.college:id/tvSendMessage'),
         # '挂断': (MobileBy.ID, 'com.cmic.college:id/video_iv_term'),
         # '挂断_多方通话': (MobileBy.ID, 'com.cmic.college:id/end_video_call_btn'),
