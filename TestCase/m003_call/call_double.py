@@ -222,7 +222,7 @@ class CallPageTest(TestCase):
         time.sleep(1)
         # call.click_screen_center()
         # call.click_video_answer()
-        call.click_locator_key('视频接听_被_接听')
+        call.click_locator_key('视频接听_接听')
         count = 20
         try:
             while count > 0:
@@ -570,7 +570,7 @@ class CallPageTest(TestCase):
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('语音_静音'), True)
             call.click_screen_center()
-            self.assertEqual(call.is_element_already_exist('语音_转为视频'), True)
+            self.assertEqual(call.is_element_already_exist('语音_切到视频通话'), True)
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('语音_免提'), True)
             call.click_screen_center()
@@ -636,8 +636,6 @@ class CallPageTest(TestCase):
             return False
         finally:
             call.click_screen_center()
-            call.click_locator_key('视频_时长')
-            call.click_screen_center()
             call.click_locator_key('视频_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
@@ -685,8 +683,6 @@ class CallPageTest(TestCase):
             traceback.print_exc()
             return False
         finally:
-            call.click_screen_center()
-            call.click_locator_key('视频_时长')
             call.click_screen_center()
             call.click_locator_key('视频_挂断')
 
@@ -740,8 +736,6 @@ class CallPageTest(TestCase):
             return False
         finally:
             call.click_screen_center()
-            call.click_locator_key('视频_时长')
-            call.click_screen_center()
             call.click_locator_key('视频_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
@@ -779,13 +773,9 @@ class CallPageTest(TestCase):
         except Exception:
             traceback.print_exc()
             print('测试出错')
-            call.click_screen_center()
-            if call.is_element_already_exist('视频_挂断'):
-                call.click_locator_key('视频_挂断')
         finally:
             call.click_screen_center()
-            if call.is_element_already_exist('视频_挂断'):
-                call.click_locator_key('视频_挂断')
+            call.click_locator_key('视频_挂断')
 
     @TestLogger.log()
     def check_video_call_00056(self):
@@ -927,8 +917,8 @@ class CallPageTest(TestCase):
             time.sleep(20)
             self.assertEqual(call.is_toast_exist('对方未接听', timeout=20), True)
         finally:
-            Preconditions.select_mobile('IOS-移动-移动')
-            call.set_network_status(6)
+            # Preconditions.select_mobile('IOS-移动-移动')
+            # call.set_network_status(6)
             print('已设置被叫手机网络为开启')
 
     @tags('ALL', 'CMCC_double', 'call')
@@ -1051,7 +1041,7 @@ class CallPageTest(TestCase):
             call.click_locator_key('视频_切到语音通话')
             time.sleep(1)
             call.click_screen_center()
-            call.click_locator_key('语音_转为视频')
+            call.click_locator_key('语音_切到视频通话')
             time.sleep(1)
             call.click_screen_center()
             self.assertEqual(call.is_element_already_exist('视频_头像'), True)
@@ -1132,7 +1122,7 @@ class CallPageTest(TestCase):
             call.click_screen_center()
             call.click_locator_key('视频_切到语音通话')
             time.sleep(5)
-            call.click_locator_key('语音_转为视频')
+            call.click_locator_key('语音_切到视频通话')
             # 切回到主叫手机
             Preconditions.select_mobile('IOS-移动')
             if call.is_text_present('邀请你进行视频通话'):
@@ -1177,13 +1167,13 @@ class CallPageTest(TestCase):
             call.click_screen_center()
             call.click_locator_key('视频_切到语音通话')
             time.sleep(1)
-            call.click_locator_key('语音_转为视频')
+            call.click_locator_key('语音_切到视频通话')
             # 切回到主叫手机
             Preconditions.select_mobile('IOS-移动')
             if call.is_text_present('邀请你进行视频通话'):
                 call.click_locator_key('视频接听_切换弹框_取消')
                 print('切视频_取消')
-            self.assertEqual(call.is_element_already_exist('语音_转为视频'), True)
+            self.assertEqual(call.is_element_already_exist('语音_切到视频通话'), True)
             return True
         except Exception:
             traceback.print_exc()
@@ -1804,7 +1794,7 @@ class CallPageTest(TestCase):
             call.click_locator_key('视频_切到语音通话')
             time.sleep(5)
             call.click_screen_center()
-            call.click_locator_key('语音_转为视频')
+            call.click_locator_key('语音_切到视频通话')
             # 切回到主叫手机
             Preconditions.select_mobile('IOS-移动')
             if call.is_text_present('邀请你进行视频通话'):

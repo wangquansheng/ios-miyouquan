@@ -106,7 +106,7 @@ class CallPage(FooterPage):
         '备注_清除': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="清除文本"]'),
         '备注_文本': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
 
-        # 视频呼叫
+        # 视频联系人选择
         '视频呼叫_通话选择': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="视频通话"]'),
         '视频呼叫_确定': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar/XCUIElementTypeButton[2]'),
         '视频呼叫_取消': (MobileBy.ACCESSIBILITY_ID, '取消'),
@@ -122,42 +122,26 @@ class CallPage(FooterPage):
                          '/XCUIElementTypeCell/XCUIElementTypeImage[2]'),
         '视频呼叫_最多只能选择8个人': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
 
-        # 多方通话呼叫
-        '多方通话_确定': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar/XCUIElementTypeButton[2]'),
-        '多方通话_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
-        '多方通话_搜索_文本框': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
-                                        '/../XCUIElementTypeTextField'),
-        '多方通话_电话号码': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
-                                      '/../../../XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'
-                                      '/XCUIElementTypeImage[2]'),
+        # 视频主叫
+        '视频主叫_头像': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="网络视频通话呼叫中..."]/preceding-sibling::*[3]'),
+        '视频主叫_名称': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="网络视频通话呼叫中..."]/preceding-sibling::*[2]'),
+        '视频主叫_电话': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="网络视频通话呼叫中..."]/preceding-sibling::*[1]'),
+        '视频主叫_网络视频通话呼叫中': (MobileBy.IOS_PREDICATE, 'name=="网络视频通话呼叫中..."'),
+        '视频主叫_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
 
-        # 多方通话接听操作页面
-        '多方通话_是否确定结束多方电话': (MobileBy.IOS_PREDICATE, "name=='是否确定结束多方电话？'"),
-        '多方通话_弹框_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
-        '多方通话_弹框_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
-
-        # 多方视频接听操作页面
-        '多方视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
-        '多方视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
-        '多方视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
-        '多方视频_翻转摄像头': (MobileBy.IOS_PREDICATE, 'name=="翻转摄像头"'),
-        '多方视频_返回通话': (MobileBy.IOS_PREDICATE, 'name=="点击返回通话"'),
-        '多方视频_被_邀请你进行多方视频': (MobileBy.IOS_PREDICATE, 'name=="邀请你进行多方视频"'),
-        '多方视频_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
-
-        # 接听操作页面
-        '视频接听_被_头像': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[3]'),
-        '视频接听_被_电话号码': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[2]'),
-        '视频接听_被_地域': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[1]'),
-        '视频接听_被_邀请你进行网络视频通话': (MobileBy.IOS_PREDICATE, 'name=="邀请你进行网络视频通话"'),
-        '视频接听_被_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
-        '视频接听_被_接听': (MobileBy.IOS_PREDICATE, 'name=="接听"'),
-        '视频接听_被_拒接': (MobileBy.IOS_PREDICATE, 'name=="拒接"'),
+        # 视频被叫
+        '视频接听_头像': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[3]'),
+        '视频接听_电话号码': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[2]'),
+        '视频接听_地域': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[1]'),
+        '视频接听_邀请你进行网络视频通话': (MobileBy.IOS_PREDICATE, 'name=="邀请你进行网络视频通话"'),
+        '视频接听_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
+        '视频接听_接听': (MobileBy.IOS_PREDICATE, 'name=="接听"'),
+        '视频接听_拒接': (MobileBy.IOS_PREDICATE, 'name=="拒接"'),
         '视频接听_切换弹框_接受': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
         '视频接听_切换弹框_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
 
-        # 视频已接听
-        '视频_头像': (MobileBy.ACCESSIBILITY_ID, ''),
+        # 视频通话界面
+        '视频_头像': (MobileBy.ACCESSIBILITY_ID, ''),  # ？？？
         '视频_时长': (MobileBy.XPATH,
                   '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText'),
         '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
@@ -165,16 +149,22 @@ class CallPage(FooterPage):
         '视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
         '视频_画笔': (MobileBy.ACCESSIBILITY_ID, 'doodle off@2x'),
         '视频_切到语音通话': (MobileBy.IOS_PREDICATE, 'name=="切到语音通话"'),
-        '视频_主单_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
+        '视频_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
         '视频_切换摄像头': (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
 
-        # 语音已接听
-        '语音_头像': (MobileBy.XPATH, ''),
-        '语音_时长': (MobileBy.XPATH, ''),
-        '语音_静音': (MobileBy.IOS_PREDICATE, ''),
-        '语音_转为视频': (MobileBy.IOS_PREDICATE, ''),
-        '语音_免提': (MobileBy.IOS_PREDICATE, ''),
-        '语音_挂断': (MobileBy.IOS_PREDICATE, ''),
+        # 视频-语音界面
+        '语音_名称': (MobileBy.XPATH,
+                  '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText[1]'),
+        '语音_头像': (MobileBy.XPATH,
+                  '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeImage'),
+        '语音_电话': (MobileBy.XPATH,
+                  '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText[2]'),
+        '语音_时长': (MobileBy.XPATH,
+                  '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText[3]'),
+        '语音_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
+        '语音_切到视频通话': (MobileBy.IOS_PREDICATE, 'name=="切到视频通话"'),
+        '语音_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
+        '语音_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
 
         # 视频涂鸦
         '涂鸦_返回': (MobileBy.ACCESSIBILITY_ID, 'doodle on@2x'),
@@ -187,12 +177,41 @@ class CallPage(FooterPage):
         '涂鸦_您要清除所有涂鸦': (MobileBy.IOS_PREDICATE, '您要清除所有涂鸦吗？'),
         '涂鸦_删除_确定': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
         '涂鸦_删除_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
-        '涂鸦_画布': (MobileBy.ACCESSIBILITY_ID, ''),
-        '涂鸦_橙色': (MobileBy.ACCESSIBILITY_ID, ''),
-        '涂鸦_表情1': (MobileBy.ACCESSIBILITY_ID, ''),
-        '涂鸦_表情移动框': (MobileBy.ACCESSIBILITY_ID, ''),
-        '涂鸦_滑块': (MobileBy.ACCESSIBILITY_ID, ''),
-        '涂鸦_分享到微信': (MobileBy.ACCESSIBILITY_ID, ''),
+        '涂鸦_橙色': (MobileBy.XPATH,
+                  '//XCUIElementTypeButton[@name="doodle share@2x"]/../following-sibling::*[1]/XCUIElementTypeOther[2]'),
+        '涂鸦_线条_滑动': (MobileBy.XPATH,
+                     '//XCUIElementTypeButton[@name="doodle share@2x"]/../following-sibling::*[1]/XCUIElementTypeSlider'),
+        '涂鸦_橡皮_滑动': (MobileBy.XPATH,
+                     '//XCUIElementTypeButton[@name="doodle share@2x"]/../following-sibling::*[1]/XCUIElementTypeSlider'),
+        # '涂鸦_画布': (MobileBy.ACCESSIBILITY_ID, ''),  # 没有
+        # '涂鸦_表情1': (MobileBy.ACCESSIBILITY_ID, ''),      # 没有
+        # '涂鸦_表情移动框': (MobileBy.ACCESSIBILITY_ID, ''),  # 没有
+        # '涂鸦_滑块': (MobileBy.ACCESSIBILITY_ID, ''),       # 没有
+        # '涂鸦_分享到微信': (MobileBy.ACCESSIBILITY_ID, ''),  # ？？？
+
+        # 多方通话联系人选择
+        '多方通话_确定': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar/XCUIElementTypeButton[2]'),
+        '多方通话_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
+        '多方通话_搜索_文本框': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
+                                        '/../XCUIElementTypeTextField'),
+        '多方通话_电话号码': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
+                                      '/../../../XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'
+                                      '/XCUIElementTypeImage[2]'),
+        # 多方通话主叫
+
+        # 多方通话被叫
+        '多方通话_是否确定结束多方电话': (MobileBy.IOS_PREDICATE, "name=='是否确定结束多方电话？'"),
+        '多方通话_弹框_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
+        '多方通话_弹框_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
+
+        # 多方视频主叫
+        '多方视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
+        '多方视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
+        '多方视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
+        '多方视频_翻转摄像头': (MobileBy.IOS_PREDICATE, 'name=="翻转摄像头"'),
+        '多方视频_返回通话': (MobileBy.IOS_PREDICATE, 'name=="点击返回通话"'),
+        '多方视频_被_邀请你进行多方视频': (MobileBy.IOS_PREDICATE, 'name=="邀请你进行多方视频"'),
+        '多方视频_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
 
         # 弹出框
         '无密友圈_提示文本': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="无密友圈"]'),
@@ -566,7 +585,7 @@ class CallPage(FooterPage):
         视频通话结束弹出框
         :return:
         """
-        self.click_locator_key('视频_主单_挂断')
+        self.click_locator_key('视频主叫_挂断')
 
     @TestLogger.log("视频通话接听")
     def click_video_answer(self):
@@ -578,7 +597,7 @@ class CallPage(FooterPage):
         # x_percentage = 276 / 375 * 100
         # y_percentage = 578 / 667 * 100
         # self.click_coordinate(x_percentage, y_percentage)
-        self.click_locator_key('视频接听_被_接听')
+        self.click_locator_key('视频接听_接听')
 
     @TestLogger.log("多方视频，多方电话通话主叫挂断")
     def click_close_more_video_popup(self):
