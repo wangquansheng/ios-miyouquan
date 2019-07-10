@@ -76,7 +76,7 @@ def take_logout_operation_if_already_login():
     message_page.wait_for_page_load()
     message_page.open_me_page()
 
-    me = MePage()
+    me = MinePage()
     me.scroll_to_bottom()
     me.scroll_to_bottom()
     me.scroll_to_bottom()

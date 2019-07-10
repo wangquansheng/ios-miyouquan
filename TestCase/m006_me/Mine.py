@@ -11,7 +11,6 @@ import time
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
-    # 'Android-移动': 'single_mobile',
     'IOS-移动': 'iphone',
     'IOS-移动-移动': 'iphone_d',
 }
@@ -72,7 +71,7 @@ class Preconditions(LoginPreconditions):
         message_page.wait_for_page_load()
         message_page.open_me_page()
 
-        me = MePage()
+        me = MinePage()
         me.scroll_to_bottom()
         me.scroll_to_bottom()
         me.scroll_to_bottom()
