@@ -14,7 +14,11 @@ class MinePage(FooterPage):
         '二维码入口': (MobileBy.ACCESSIBILITY_ID, 'cc me qrcode normal'),
         '我的名称': (MobileBy.ACCESSIBILITY_ID, 'Label'),
         '查看并编辑个人资料': (MobileBy.ACCESSIBILITY_ID, '查看并编辑个人资料'),
-        '个人头像': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeImage'),
+        '个人头像': (MobileBy.ACCESSIBILITY_ID,
+                 '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther'
+                 '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
+                 '/XCUIElementTypeOther/XCUIElementTypeOther'
+                 '/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeImage'),
         '和飞信电话可用时长': (MobileBy.ACCESSIBILITY_ID, 'banner_bg_card.png'),
         '每天领积分': (MobileBy.ACCESSIBILITY_ID, 'banner_bg_card2.png'),
         '福利': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="福利"])[2]'),
@@ -104,22 +108,6 @@ class MinePage(FooterPage):
         """点击查看并编辑资料按钮"""
         self.click_element(self.__locators['查看并编辑个人资料'])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @TestLogger.log('点击个人名片头像')
     def click_head(self):
         self.click_element(self.__locators['个人头像'])
@@ -139,8 +127,6 @@ class MinePage(FooterPage):
                 message
             )
         return self
-
-
 
     @TestLogger.log('点击移动营业厅')
     def click_mobile_hall_butten(self):

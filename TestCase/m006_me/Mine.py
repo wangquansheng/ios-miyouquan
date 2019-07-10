@@ -34,7 +34,6 @@ class Preconditions(LoginPreconditions):
         client.disconnect_mobile()
         return client
 
-
     @staticmethod
     def create_contacts(name, number):
         """
@@ -109,6 +108,7 @@ class Preconditions(LoginPreconditions):
         if not app_id:
             app_id = current_mobile().driver.desired_capabilities['appPackage']
         current_mobile().driver.activate_app(app_id)
+
 
 
 class Meprofile(TestCase):

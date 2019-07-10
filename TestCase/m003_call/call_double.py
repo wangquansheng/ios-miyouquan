@@ -36,16 +36,112 @@ class Preconditions(object):
     分解前置条件
     """
 
-    @staticmethod
-    def select_single_cmcc_android_4g_client():
-        """
-        启动
-        1、4G，安卓客户端
-        2、移动卡
-        :return:
-        """
-        client = switch_to_mobile(REQUIRED_MOBILES['测试机'])
-        client.connect_mobile()
+    # @staticmethod
+    # def select_assisted_mobile2():
+    #     """切换到单卡、异网卡Android手机 并启动应用"""
+    #     switch_to_mobile(REQUIRED_MOBILES['辅助机2'])
+    #     current_mobile().connect_mobile()
+    #
+    # @staticmethod
+    # def select_single_cmcc_android_4g_client():
+    #     """
+    #     启动
+    #     1、4G，安卓客户端
+    #     2、移动卡
+    #     :return:
+    #     """
+    #     client = switch_to_mobile(REQUIRED_MOBILES['测试机'])
+    #     client.connect_mobile()
+    #
+    # @staticmethod
+    # def make_already_in_one_key_login_page():
+    #     """
+    #     1、已经进入一键登录页
+    #     :return:
+    #     """
+    #     # 如果当前页面已经是一键登录页，不做任何操作
+    #     one_key = OneKeyLoginPage()
+    #     if one_key.is_on_this_page():
+    #         return
+    #     # 如果当前页不是引导页第一页，重新启动app
+    #     guide_page = GuidePage()
+    #     if not guide_page.is_on_the_first_guide_page():
+    #         current_mobile().launch_app()
+    #         guide_page.wait_for_page_load(20)
+    #
+    #     # 跳过引导页
+    #     guide_page.wait_for_page_load(30)
+    #     guide_page.swipe_to_the_second_banner()
+    #     guide_page.swipe_to_the_third_banner()
+    #     guide_page.click_start_the_experience()
+    #     guide_page.click_start_the_one_key()
+    #     time.sleep(2)
+    #     guide_page.click_always_allow()
+    #     one_key.wait_for_page_load(30)
+    #
+    # @staticmethod
+    # def login_by_one_key_login():
+    #     """
+    #     从一键登录页面登录
+    #     :return:
+    #     """
+    #     # 等待号码加载完成后，点击一键登录
+    #     one_key = OneKeyLoginPage()
+    #     one_key.wait_for_page_load()
+    #     # one_key.wait_for_tell_number_load(60)
+    #     one_key.click_one_key_login()
+    #     time.sleep(2)
+    #     if one_key.is_text_present('用户协议和隐私保护'):
+    #         one_key.click_agree_user_aggrement()
+    #         time.sleep(1)
+    #         one_key.click_agree_login_by_number()
+    #
+    #     # 等待通话页面加载
+    #     call_page = CallPage()
+    #     call_page.wait_for_page_call_load()
+    #     call_page.click_always_allow()
+    #     time.sleep(2)
+    #     call_page.remove_mask()
+    #
+    # @staticmethod
+    # def app_start_for_the_first_time():
+    #     """首次启动APP（使用重置APP代替）"""
+    #     current_mobile().reset_app()
+    #
+    # @staticmethod
+    # def terminate_app():
+    #     """
+    #     强制关闭app,退出后台
+    #     :return:
+    #     """
+    #     app_id = current_driver().capabilities['appPackage']
+    #     current_mobile().terminate_app(app_id)
+    #
+    # @staticmethod
+    # def background_app(seconds):
+    #     """后台运行"""
+    #     current_mobile().background_app(seconds)
+    #
+    # @staticmethod
+    # def reset_and_relaunch_app():
+    #     """首次启动APP（使用重置APP代替）"""
+    #     app_package = 'com.cmic.college'
+    #     current_driver().activate_app(app_package)
+    #     current_mobile().reset_app()
+    #
+    # @staticmethod
+    # def get_current_activity_name():
+    #     import os, sys
+    #     global findExec
+    #     findExec = 'findstr' if sys.platform == 'win32' else 'grep'
+    #     device_name = current_driver().capabilities['deviceName']
+    #     cmd = 'adb -s %s shell dumpsys window | %s mCurrentFocus' % (device_name, findExec)
+    #     res = os.popen(cmd)
+    #     time.sleep(2)
+    #     # 截取出activity名称 == ''为第三方软件
+    #     current_activity = res.read().split('u0 ')[-1].split('/')[0]
+    #     res.close()
+    #     return current_activity
 
     @staticmethod
     def select_mobile(category):
@@ -53,88 +149,6 @@ class Preconditions(object):
         client = switch_to_mobile(REQUIRED_MOBILES[category])
         client.connect_mobile()
         return client
-
-    @staticmethod
-    def select_assisted_mobile2():
-        """切换到单卡、异网卡Android手机 并启动应用"""
-        switch_to_mobile(REQUIRED_MOBILES['辅助机2'])
-        current_mobile().connect_mobile()
-
-    @staticmethod
-    def make_already_in_one_key_login_page():
-        """
-        1、已经进入一键登录页
-        :return:
-        """
-        # 如果当前页面已经是一键登录页，不做任何操作
-        one_key = OneKeyLoginPage()
-        if one_key.is_on_this_page():
-            return
-        # 如果当前页不是引导页第一页，重新启动app
-        guide_page = GuidePage()
-        if not guide_page.is_on_the_first_guide_page():
-            current_mobile().launch_app()
-            guide_page.wait_for_page_load(20)
-
-        # 跳过引导页
-        guide_page.wait_for_page_load(30)
-        guide_page.swipe_to_the_second_banner()
-        guide_page.swipe_to_the_third_banner()
-        guide_page.click_start_the_experience()
-        guide_page.click_start_the_one_key()
-        time.sleep(2)
-        guide_page.click_always_allow()
-        one_key.wait_for_page_load(30)
-
-    @staticmethod
-    def login_by_one_key_login():
-        """
-        从一键登录页面登录
-        :return:
-        """
-        # 等待号码加载完成后，点击一键登录
-        one_key = OneKeyLoginPage()
-        one_key.wait_for_page_load()
-        # one_key.wait_for_tell_number_load(60)
-        one_key.click_one_key_login()
-        time.sleep(2)
-        if one_key.is_text_present('用户协议和隐私保护'):
-            one_key.click_agree_user_aggrement()
-            time.sleep(1)
-            one_key.click_agree_login_by_number()
-
-        # 等待通话页面加载
-        call_page = CallPage()
-        call_page.wait_for_page_call_load()
-        call_page.click_always_allow()
-        time.sleep(2)
-        call_page.remove_mask()
-
-    @staticmethod
-    def app_start_for_the_first_time():
-        """首次启动APP（使用重置APP代替）"""
-        current_mobile().reset_app()
-
-    @staticmethod
-    def terminate_app():
-        """
-        强制关闭app,退出后台
-        :return:
-        """
-        app_id = current_driver().capabilities['appPackage']
-        current_mobile().terminate_app(app_id)
-
-    @staticmethod
-    def background_app(seconds):
-        """后台运行"""
-        current_mobile().background_app(seconds)
-
-    @staticmethod
-    def reset_and_relaunch_app():
-        """首次启动APP（使用重置APP代替）"""
-        app_package = 'com.cmic.college'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
 
     @staticmethod
     def make_already_in_call_page():
@@ -147,47 +161,33 @@ class Preconditions(object):
         call_page = CallPage()
         if call_page.is_on_this_page():
             return
-        # 如果当前页面已经是一键登录页，进行一键登录页面
-        one_key = OneKeyLoginPage()
-        if one_key.is_on_this_page():
-            Preconditions.login_by_one_key_login()
-        # 如果当前页不是引导页第一页，重新启动app
-        else:
-            try:
-                current_mobile().terminate_app('com.cmic.college', timeout=2000)
-            except:
-                pass
-            current_mobile().launch_app()
-            try:
-                call_page.wait_until(
-                    condition=lambda d: call_page.is_on_this_page(),
-                    timeout=3
-                )
-                return
-            except TimeoutException:
-                pass
-            Preconditions.reset_and_relaunch_app()
-            Preconditions.make_already_in_one_key_login_page()
-            Preconditions.login_by_one_key_login()
+        # # 如果当前页面已经是一键登录页，进行一键登录页面
+        # one_key = OneKeyLoginPage()
+        # if one_key.is_on_this_page():
+        #     Preconditions.login_by_one_key_login()
+        # # 如果当前页不是引导页第一页，重新启动app
+        # else:
+        #     try:
+        #         current_mobile().terminate_app('com.cmic.college', timeout=2000)
+        #     except:
+        #         pass
+        #     current_mobile().launch_app()
+        #     try:
+        #         call_page.wait_until(
+        #             condition=lambda d: call_page.is_on_this_page(),
+        #             timeout=3
+        #         )
+        #         return
+        #     except TimeoutException:
+        #         pass
+        #     Preconditions.reset_and_relaunch_app()
+        #     Preconditions.make_already_in_one_key_login_page()
+        #     Preconditions.login_by_one_key_login()
 
     @staticmethod
     def make_sure_in_after_login_callpage():
         Preconditions.make_already_in_call_page()
         current_mobile().wait_until_not(condition=lambda d: current_mobile().is_text_present('正在登录...'), timeout=20)
-
-    @staticmethod
-    def get_current_activity_name():
-        import os, sys
-        global findExec
-        findExec = 'findstr' if sys.platform == 'win32' else 'grep'
-        device_name = current_driver().capabilities['deviceName']
-        cmd = 'adb -s %s shell dumpsys window | %s mCurrentFocus' % (device_name, findExec)
-        res = os.popen(cmd)
-        time.sleep(2)
-        # 截取出activity名称 == ''为第三方软件
-        current_activity = res.read().split('u0 ')[-1].split('/')[0]
-        res.close()
-        return current_activity
 
     @staticmethod
     def initialize_class(moudel):
