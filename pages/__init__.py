@@ -11,7 +11,7 @@ __all__ = [
     'AgreementPage',
     'OneKeyLoginPage',
     'SmsLoginPage',
-    'MePage',
+    'MinePage',
     'MeCollectionPage',
     'MeSetCallPage',
     'MeSetContactsManagerPage',
@@ -131,7 +131,7 @@ from .login import AgreementPage
 from .login import OneKeyLoginPage
 from .login import SmsLoginPage
 from .me import MeCollectionPage
-from .me import MePage
+from .me import MinePage
 from .me import MeSetCallPage
 from .me import MeSetContactsManagerPage
 from .me import MeSetDialPage

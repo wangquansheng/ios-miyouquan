@@ -5,12 +5,12 @@ from library.core.TestLogger import TestLogger
 from pages.components.Footer import FooterPage
 
 
-class MePage(FooterPage):
+class MinePage(FooterPage):
     """ 我 页面"""
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
     __locators = {
-        '页头-我':(MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="我"]'),
+        '页头-我': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="我"]'),
         '二维码入口': (MobileBy.ACCESSIBILITY_ID, 'cc me qrcode normal'),
         '我的名称': (MobileBy.ACCESSIBILITY_ID, 'Label'),
         '查看并编辑个人资料': (MobileBy.ACCESSIBILITY_ID, '查看并编辑个人资料'),

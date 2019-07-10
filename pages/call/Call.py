@@ -288,12 +288,12 @@ class CallPage(FooterPage):
             self.click_locator_key('广告_通话_关闭')
             time.sleep(1)
 
-    @TestLogger.log()
-    def click_always_allow(self):
-        """权限框-点击始终允许"""
-        while self.is_text_present('始终允许'):
-            self.click_text('始终允许')
-            time.sleep(2)
+    # @TestLogger.log()
+    # def click_always_allow(self):
+    #     """权限框-点击始终允许"""
+    #     while self.is_text_present('始终允许'):
+    #         self.click_text('始终允许')
+    #         time.sleep(2)
 
     @TestLogger.log()
     def remove_mask(self):

@@ -1,33 +1,38 @@
 import re
+import time
 
 from appium.webdriver.common.mobileby import MobileBy
 
-from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 
+from pages.components.Footer import FooterPage
 
-class OneKeyLoginPage(BasePage):
+
+# noinspection PyBroadException
+class OneKeyLoginPage(FooterPage):
     """一键登录页"""
 
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.OneKeyLoginActivity'
 
     __locators = {
-        "电话号码": (MobileBy.ID, 'com.cmic.college:id/tv_content'),
-        "一键登录": (MobileBy.ID, 'com.cmic.college:id/one_key_login'),
-        "切换另一号码登录": (MobileBy.ID, "com.chinasofti.rcs:id/change_to_smslogin"),
-        "已阅读并同意复选框": (MobileBy.ID, "	com.cmic.college:id/agreement_checkbox"),
-        "客户端头像": (MobileBy.ID, "com.cmic.college:id/profile_photo_one_login"),
-        "软件许可及服务协议": (MobileBy.ID, "com.cmic.college:id/agreement_text"),
-        '提示内容': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_content'),
+        "一键登录": (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="本机号码一键登录"])[1]'),
 
-        "用户协议与隐私保护": (MobileBy.ID, "com.cmic.college:id/tvTitle"),
-        "同意": (MobileBy.ID, "com.cmic.college:id/btnConfirm"),
-        "不同意": (MobileBy.ID, "com.cmic.college:id/btnCancel"),
+        # 通话界面
+        '拨号键盘': (MobileBy.ACCESSIBILITY_ID, 'my dialing nor@2x'),
 
-        "使用号码登录": (MobileBy.ID, "com.cmic.college:id/tvTitle"),
-        "确定": (MobileBy.ID, "com.cmic.college:id/btnConfirm"),
+        # 一键登录
+        "一键登录_问题_确认": (MobileBy.IOS_PREDICATE, 'name="确定"'),
+        "一键登录_问题_取消": (MobileBy.IOS_PREDICATE, 'name="取消"'),
 
+        # 广告
+        '广告_通话_关闭': (MobileBy.ACCESSIBILITY_ID, 'my home cancel@2x'),
 
+        # 已登录
+        '通话_文案_HEAD': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="通话"]'),
+        '我_Tab': (MobileBy.IOS_PREDICATE, 'name="我"'),
+        '我_设置_详情': (MobileBy.IOS_PREDICATE, 'name="设置"'),
+        '我_退出登录': (MobileBy.IOS_PREDICATE, 'name="退出登录"'),
+        '我_退出登录_确认': (MobileBy.XPATH, '(//*[@name="退出登录"])[2]'),
     }
 
     @TestLogger.log()
@@ -39,52 +44,10 @@ class OneKeyLoginPage(BasePage):
         return False
 
     @TestLogger.log()
-    def assert_phone_number_equals_to(self, phone_number):
-        """等待手机号读取成功"""
-        self.element_text_should_be(self.__locators["电话号码"], phone_number)
-        return self
-
-    @TestLogger.log()
     def click_one_key_login(self):
         """点击一键登录"""
         self.click_element(self.__locators["一键登录"])
-
-    @TestLogger.log()
-    def click_agree_user_aggrement(self):
-        """点击同意用户协议"""
-        self.click_element(self.__locators["同意"])
-
-    @TestLogger.log()
-    def click_agree_login_by_number(self):
-        """点击同意号码登录"""
-        self.click_element(self.__locators["确定"])
-
-
-    @TestLogger.log()
-    def click_sure_login(self):
-        """是否弹出 确定登录"""
-        try:
-            self.wait_until(
-                timeout=10,
-                auto_accept_permission_alert=True,
-                condition=lambda d: self.is_text_present("确定")
-            )
-            self.click_text("确定")
-        except:
-            raise AssertionError("没有加载出来“确定”登录弹框")
-
-    @TestLogger.log()
-    def click_start_experience(self):
-        """是否弹出 确定登录"""
-        try:
-            self.wait_until(
-                timeout=3,
-                auto_accept_permission_alert=True,
-                condition=lambda d: self._is_element_present(self.__class__.__locators["确定"])
-            )
-            self.click_text("确定")
-        except:
-            raise AssertionError("没有加载出来“确定”登录弹框")
+        time.sleep(6)
 
     @TestLogger.log()
     def click_read_agreement_detail(self):
@@ -92,28 +55,20 @@ class OneKeyLoginPage(BasePage):
         self.click_element(self.__locators['查看详情'])
 
     @TestLogger.log()
-    def choose_another_way_to_login(self):
-        """选择验证码登录"""
-        self.click_element(self.__locators["切换另一号码登录"])
-
-    @TestLogger.log()
-    def check_the_agreement(self):
-        """勾选我已阅读XXX协议复选框"""
-        self.select_checkbox(self.__locators["已阅读并同意复选框"])
-        self.checkbox_should_be_selected(self.__locators["已阅读并同意复选框"])
-        return self
-
-    @TestLogger.log()
-    def uncheck_the_agreement(self):
-        """去勾选我已阅读XXX协议复选框"""
-        self.unselect_checkbox(self.__locators["已阅读并同意复选框"])
-        self.checkbox_should_not_be_selected(self.__locators["已阅读并同意复选框"])
-        return self
-
-    @TestLogger.log()
     def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
         """等待一键登录页面加载"""
         try:
+            el = self.get_elements(self.__locators['通话_文案_HEAD'])
+            if len(el) > 0:
+                self.click_locator_key('我_Tab')
+                time.sleep(1)
+                self.click_locator_key('我_设置_详情')
+                time.sleep(1)
+                self.click_locator_key('我_退出登录')
+                time.sleep(1)
+                self.click_locator_key('我_退出登录_确认')
+                time.sleep(5)
+            # 当前页面"一键登录"
             self.wait_until(
                 timeout=timeout,
                 auto_accept_permission_alert=auto_accept_alerts,
@@ -138,57 +93,26 @@ class OneKeyLoginPage(BasePage):
             del card_type
             return number
 
-    @TestLogger.log()
-    def wait_for_tell_number_load(self, timeout=60, auto_accept_alerts=True):
-        """等待一键登录页面的‘将以本机号码登录’变成 手机号码 """
+    @TestLogger.log("点击locators对应的元素")
+    def click_locator_key(self, locator):
+        self.click_element(self.__locators[locator])
+
+    @TestLogger.log("通话首页弹框关闭广告弹框")
+    def close_click_home_advertisement(self):
+        """通话首页弹框关闭广告弹框"""
+        time.sleep(1)
+        if self.is_element_already_exist('广告_通话_关闭'):
+            self.click_locator_key('广告_通话_关闭')
+            time.sleep(1)
+
+    @TestLogger.log('判断元素是否存在')
+    def is_element_already_exist(self, locator):
+        """判断元素是否存在"""
         try:
-            self.wait_until(
-                timeout=timeout,
-                auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self._is_element_text_match(self.__locators["电话号码"], r"\d+", regex=True)
-            )
-        except:
-            message = "电话号码在{}s内，没有加载成功".format(timeout)
-            print('Warn: ' + message)
-        return self
-
-    @TestLogger.log()
-    def click_client_logo_pic(self):
-        """点击客户端头像"""
-        self.click_element(self.__locators["客户端头像"])
-
-    @TestLogger.log()
-    def click_license_agreement(self):
-        """点击软件许可及服务协议"""
-        self.click_element(self.__locators["软件许可及服务协议"])
-
-    @TestLogger.log()
-    def wait_one_key_or_sms_login_page_load(self, timeout=20):
-        def determine_login_page(d):
-            if self.get_elements(self.__locators['一键登录']):
-                return 'one_key'
-            elif self.get_elements((MobileBy.ID, 'com.chinasofti.rcs:id/edt_phone_number')):
-                return 'sms'
+            elements = self.get_elements(self.__locators[locator])
+            if len(elements) > 0:
+                return True
             else:
                 return False
-
-        try:
-            page_name = self.wait_until(
-                condition=determine_login_page,
-                timeout=timeout
-            )
-            return page_name
         except:
-            message = "页面在{}s内，没有加载成功".format(timeout)
-            raise AssertionError(
-                message
-            )
-
-    @TestLogger.log()
-    def page_should_contain_client_logo_pic(self):
-        """登录页客户端头像检查"""
-        self.page_should_contain_element(self.__locators["客户端头像"])
-
-    @TestLogger.log('关闭应用')
-    def kill_flyme_app(self):
-        self.execute_shell_command('adb shell am force-stop com.chinasofti.rcs')
+            return False

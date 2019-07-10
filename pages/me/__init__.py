@@ -1,5 +1,5 @@
 __all__ = [
-    'MePage',
+    'MinePage',
     'MeSetCallPage',
     'MeSetContactsManagerPage',
     'MeSetDialPage',
@@ -16,7 +16,7 @@ __all__ = [
 ]
 
 from .MeCollection import MeCollectionPage
-from .Me import MePage
+from .MinePage import MinePage
 from .MeSetCall import MeSetCallPage
 from .MeSetContactsManager import MeSetContactsManagerPage
 from .MeSetDial import MeSetDialPage
