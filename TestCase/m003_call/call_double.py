@@ -884,12 +884,12 @@ class CallPageTest(TestCase):
         # 切换手机
         try:
             Preconditions.select_mobile('IOS-移动-移动')
-            self.assertEqual(call.is_element_already_exist('视频_头像'), True)
-            self.assertEqual(call.is_element_already_exist('视频_备注'), True)
-            self.assertEqual(call.is_element_already_exist('视频_号码'), True)
+            self.assertEqual(call.is_element_already_exist('视频接听_头像'), True)
+            self.assertEqual(call.is_element_already_exist('视频接听_备注'), True)
+            self.assertEqual(call.is_element_already_exist('视频接听_号码'), True)
             self.assertEqual(call.is_text_present('进行视频通话'), True)
-            self.assertEqual(call.is_element_already_exist('视频_挂断'), True)
-            self.assertEqual(call.is_element_already_exist('视频_接听'), True)
+            self.assertEqual(call.is_element_already_exist('视频接听_拒接'), True)
+            self.assertEqual(call.is_element_already_exist('视频接听_接听'), True)
             return True
         except Exception:
             traceback.print_exc()

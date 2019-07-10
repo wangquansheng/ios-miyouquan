@@ -197,14 +197,14 @@ class CallPage(FooterPage):
         '多方通话_电话号码': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
                                       '/../../../XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'
                                       '/XCUIElementTypeImage[2]'),
-        # 多方通话主叫
+        # 多方通话主叫？？？
 
-        # 多方通话被叫
+        # 多方通话被叫？？？
         '多方通话_是否确定结束多方电话': (MobileBy.IOS_PREDICATE, "name=='是否确定结束多方电话？'"),
         '多方通话_弹框_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
         '多方通话_弹框_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
 
-        # 多方视频主叫
+        # 多方视频主叫？？？
         '多方视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
         '多方视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
         '多方视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
