@@ -28,8 +28,6 @@ class MessagePage(FooterPage):
         "返回": (MobileBy.ACCESSIBILITY_ID, 'back'),
         "": (MobileBy.ACCESSIBILITY_ID, ''),
 
-
-
         # 底部标签栏
         '通话': (MobileBy.ACCESSIBILITY_ID, 'cc_call_unselected'),
         '工作台': (MobileBy.ACCESSIBILITY_ID, 'cc_workbench_normal'),
@@ -180,7 +178,6 @@ class MessagePage(FooterPage):
     @TestLogger.log()
     def is_on_this_page(self):
         """当前页面是否在消息页"""
-
         try:
             self.wait_until(
                 timeout=15,

@@ -10,95 +10,174 @@ class MinePage(FooterPage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
     __locators = {
-        '页头-我': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="我"]'),
-        '二维码入口': (MobileBy.ACCESSIBILITY_ID, 'cc me qrcode normal'),
-        '我的名称': (MobileBy.ACCESSIBILITY_ID, 'Label'),
-        '查看并编辑个人资料': (MobileBy.ACCESSIBILITY_ID, '查看并编辑个人资料'),
-        '个人头像': (MobileBy.ACCESSIBILITY_ID,
-                 '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther'
-                 '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
-                 '/XCUIElementTypeOther/XCUIElementTypeOther'
-                 '/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeImage'),
-        '和飞信电话可用时长': (MobileBy.ACCESSIBILITY_ID, 'banner_bg_card.png'),
-        '每天领积分': (MobileBy.ACCESSIBILITY_ID, 'banner_bg_card2.png'),
-        '福利': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="福利"])[2]'),
-        '热点资讯': (MobileBy.ACCESSIBILITY_ID, '热点资讯'),
-        '移动营业厅': (MobileBy.ACCESSIBILITY_ID, '移动营业厅'),
-        '和包支付': (MobileBy.ACCESSIBILITY_ID, '和包支付'),
-        '收藏': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="收藏"])[1]'),
-        '设置': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeStaticText[@name="设置"]'),
-        #底部标签栏
-        '消息': (MobileBy.ACCESSIBILITY_ID, 'com.chinasofti.rcs:id/tvMessage'),
-        '通话': (MobileBy.ACCESSIBILITY_ID, '通话'),
-        '工作台': (MobileBy.ACCESSIBILITY_ID, '工作台'),
-        '通讯录': (MobileBy.ACCESSIBILITY_ID, '联系'),
-        '我': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="我"]'),
-        # 编辑资料页面
-        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
-        '编辑': (MobileBy.ACCESSIBILITY_ID, '编辑'),
-        '分享名片': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeStaticText[@name="分享名片"]'),
-        '保存': (MobileBy.ACCESSIBILITY_ID, '保存'),
-        '拍照': (MobileBy.ACCESSIBILITY_ID, 'cc me photography normal'),
-        '编辑姓名': (MobileBy.XPATH, '(//XCUIElementTypeTextView[@name="2b610f78-8d44-11e9-95e5-309c23f30f2e"])[1]'),
-        '电话': (MobileBy.ACCESSIBILITY_ID, '19849476421'),
+        '页头-我': (MobileBy.IOS_PREDICATE, 'name="我"'),
+        '我_头像': (MobileBy.XPATH,
+                 '//XCUIElementTypeStaticText[@name="请完善您的资料"]/preceding-sibling::*[1]/XCUIElementTypeImage'),
+        '我_请完善您的资料': (MobileBy.IOS_PREDICATE, 'name="请完善您的资料"'),
+        '我_请完善您的资料_图片': (MobileBy.ACCESSIBILITY_ID, 'my bianji icon'),
+        '我_已认证': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my bianji icon"]/following-sibling::*[1]'),
+        '我_电话号码': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my bianji icon"]/following-sibling::*[2]'),
+        '我_时长_飞信电话剩余时长': (MobileBy.IOS_PREDICATE, 'name="飞信电话剩余时长"'),
+        '我_时长_时间': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="请完善您的资料"]/preceding-sibling::*[2]'),
+        '我_时长_分钟': (MobileBy.IOS_PREDICATE, 'name="分钟"'),
+        '我_积分': (MobileBy.IOS_PREDICATE, 'name="积分"'),
+        '我_积分_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="积分"]/following-sibling::*[2]'),
+        '我_每日资讯': (MobileBy.IOS_PREDICATE, 'name="每日资讯"'),
+        '我_每日资讯_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="每日资讯"]/following-sibling::*[1]'),
+        '我_活动中心': (MobileBy.IOS_PREDICATE, 'name="活动中心"'),
+        '我_活动中心_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="活动中心"]/following-sibling::*[1]'),
+        '我_卡劵': (MobileBy.IOS_PREDICATE, 'name="卡劵"'),
+        '我_卡劵_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="卡劵"]/following-sibling::*[1]'),
+        '我_邀请有奖': (MobileBy.IOS_PREDICATE, 'name="邀请有奖"'),
+        '我_邀请有奖_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请有奖"]/following-sibling::*[1]'),
+        '我_帮助与反馈': (MobileBy.IOS_PREDICATE, 'name="帮助与反馈"'),
+        '我_帮助与反馈_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="帮助与反馈"]/following-sibling::*[1]'),
+        '我_设置': (MobileBy.IOS_PREDICATE, 'name="设置"'),
+        '我_设置_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="设置"]/following-sibling::*[1]'),
 
+        # 资料
+        '我_资料_编辑资料': (MobileBy.IOS_PREDICATE, 'name="编辑资料"'),
+        '我_资料_取消': (MobileBy.IOS_PREDICATE, 'name="取消"'),
+        '我_资料_保存': (MobileBy.IOS_PREDICATE, 'name="保存"'),
+        '我_资料_图像': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_profile_editor_camera@2x.png"'),
+        '我_个人图像_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '我_资料_电话号码': (MobileBy.IOS_PREDICATE, 'name="电话号码"'),
+        '我_资料_电话号码文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="电话号码"]/following-sibling::*[1]'),
+        '我_资料_昵称': (MobileBy.IOS_PREDICATE, 'name="昵称"'),
+        '我_资料_昵称文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="昵称"]/following-sibling::*[2]'),
+        '我_资料_性别': (MobileBy.IOS_PREDICATE, 'name="性别"'),
+        '我_资料_性别文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="性别"]/following-sibling::*[1]'),
+        '我_资料_性别详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="性别"]/following-sibling::*[2]'),
+        '我_资料_年龄': (MobileBy.IOS_PREDICATE, 'name="年龄"'),
+        '我_资料_年龄文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="年龄"]/following-sibling::*[1]'),
+        '我_资料_年龄详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="年龄"]/following-sibling::*[2]'),
+        '我_资料_我的标签': (MobileBy.IOS_PREDICATE, 'name="我的标签"'),
+        '我_资料_我的标签文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="我的标签"]/following-sibling::*[1]'),
+        '我_资料_我的标签详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="我的标签"]/following-sibling::*[2]'),
+        '我_资料_职业': (MobileBy.IOS_PREDICATE, 'name="职业"'),
+        '我_资料_职业其他': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="职业"]/following-sibling::*[1]'),
+        '我_资料_职业文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="职业"]/following-sibling::*[2]'),
+        '我_资料_职业详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="职业"]/following-sibling::*[3]'),
 
+        # 资料标签
+        '我_资料标签_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '我_资料标签_保存': (MobileBy.IOS_PREDICATE, 'name="保存"'),
+        '我_资料标签_添加弹框': (MobileBy.ACCESSIBILITY_ID, 'my biaoqian button n'),
+        '我_资料标签_添加文本框': (MobileBy.IOS_PREDICATE, 'name="添加标签"'),
+        '我_资料标签_添加保存': (MobileBy.IOS_PREDICATE, 'name="确定"'),
+        '我_资料标签_添加取消': (MobileBy.IOS_PREDICATE, 'name="取消"'),
+        '我_资料标签_1': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my biaoqian button n"]/following-sibling::*[1]'),
+        '我_资料标签_2': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my biaoqian button n"]/following-sibling::*[2]'),
 
+        # 资料标签
+        '我_资料职业_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '我_资料职业_列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'),
+        '我_资料职业_1': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+        '我_资料职业_2': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[2]'),
 
-        '页脚-我': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tvMe" and @selected="true"]'),
-        'com.chinasofti.rcs:id/rl_person': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_person'),
-        'com.chinasofti.rcs:id/fl_name': (MobileBy.ID, 'com.chinasofti.rcs:id/fl_name'),
-        '请完善名片': (MobileBy.ID, 'com.chinasofti.rcs:id/card_name_hint'),
-        '电话号码': (MobileBy.ID, 'com.chinasofti.rcs:id/card_photo_num'),
-        'com.chinasofti.rcs:id/profile_photo_out': (MobileBy.ID, 'com.chinasofti.rcs:id/profile_photo_out'),
-        'com.chinasofti.rcs:id/layout_for_mall': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_for_mall'),
-        'com.chinasofti.rcs:id/internet_mutil_call_layout_id': (
-            MobileBy.ID, 'com.chinasofti.rcs:id/internet_mutil_call_layout_id'),
-        '多方电话': (MobileBy.ID, 'com.chinasofti.rcs:id/mutil_call_name_text'),
-        '300': (MobileBy.ID, 'com.chinasofti.rcs:id/mutil_call_number_text'),
-        '分钟': (MobileBy.ID, 'com.chinasofti.rcs:id/mutil_call_unit'),
-        'com.chinasofti.rcs:id/user_money': (MobileBy.ID, 'com.chinasofti.rcs:id/user_money'),
-        '账户余额': (MobileBy.ID, 'com.chinasofti.rcs:id/money_name_text'),
-        '12.20': (MobileBy.ID, 'com.chinasofti.rcs:id/money_number_text'),
-        '元': (MobileBy.ID, 'com.chinasofti.rcs:id/money_unit'),
-        'com.chinasofti.rcs:id/layout_flow': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_flow'),
-        '可用流量': (MobileBy.ID, 'com.chinasofti.rcs:id/liuliang_name_text'),
-        '40.98': (MobileBy.ID, 'com.chinasofti.rcs:id/liuliang_number_text'),
-        'G': (MobileBy.ID, 'com.chinasofti.rcs:id/liuliang_unit'),
-        'com.chinasofti.rcs:id/redpager': (MobileBy.ID, 'com.chinasofti.rcs:id/redpager'),
-        '钱包': (MobileBy.ID, 'com.chinasofti.rcs:id/repager_text'),
-        'com.chinasofti.rcs:id/welfare': (MobileBy.ID, 'com.chinasofti.rcs:id/welfare'),
-
-        '多重好礼等你来领': (MobileBy.ID, 'com.chinasofti.rcs:id/wfCopywriting'),
-        'com.chinasofti.rcs:id/wfSpace': (MobileBy.ID, 'com.chinasofti.rcs:id/wfSpace'),
-        'com.chinasofti.rcs:id/welfareArrow': (MobileBy.ID, 'com.chinasofti.rcs:id/welfareArrow'),
-        'com.chinasofti.rcs:id/collect': (MobileBy.ID, 'com.chinasofti.rcs:id/collect'),
-
-        'com.chinasofti.rcs:id/about_app': (MobileBy.ID, 'com.chinasofti.rcs:id/about_app'),
-        '关于和飞信': (MobileBy.ID, 'com.chinasofti.rcs:id/about_app_text'),
-        'com.chinasofti.rcs:id/about_right_arrow': (MobileBy.ID, 'com.chinasofti.rcs:id/about_right_arrow'),
-        'com.chinasofti.rcs:id/share_app': (MobileBy.ID, 'com.chinasofti.rcs:id/share_app'),
-        'com.chinasofti.rcs:id/viewLine': (MobileBy.ID, 'com.chinasofti.rcs:id/viewLine'),
-        'com.chinasofti.rcs:id/view_bg_home_tab': (MobileBy.ID, 'com.chinasofti.rcs:id/view_bg_home_tab'),
-        'android:id/statusBarBackground': (MobileBy.ID, 'android:id/statusBarBackground'),
-        'android:id/navigationBarBackground': (MobileBy.ID, 'android:id/navigationBarBackground'),
-        '推荐好友，赚现金红包': (MobileBy.ID, 'com.chinasofti.rcs:id/wfCopywriting'),
-        '分享客户端': (MobileBy.ID, 'com.chinasofti.rcs:id/share_app_text'),
-        'com.chinasofti.rcs:id/feedback': (MobileBy.ID, 'com.chinasofti.rcs:id/feedback'),
-        '帮助与反馈': (MobileBy.ID, 'com.chinasofti.rcs:id/feedback_text'),
-        'com.chinasofti.rcs:id/setting': (MobileBy.ID, 'com.chinasofti.rcs:id/setting'),
-        '姓名': (MobileBy.ID, 'com.chinasofti.rcs:id/card_name'),
-        "联系人管理":("com.chinasofti.rcs:id/manage_contact_text")
+        # '我_请完善您的资料_图片': (MobileBy.ACCESSIBILITY_ID, 'my bianji icon'),
+        # '我_请完善您的资料_图片': (MobileBy.ACCESSIBILITY_ID, 'my bianji icon'),
+        # '二维码入口': (MobileBy.ACCESSIBILITY_ID, 'cc me qrcode normal'),
+        # '我的名称': (MobileBy.ACCESSIBILITY_ID, 'Label'),
+        # '查看并编辑个人资料': (MobileBy.ACCESSIBILITY_ID, '查看并编辑个人资料'),
+        # '个人头像': (MobileBy.ACCESSIBILITY_ID,
+        #          '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther'
+        #          '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
+        #          '/XCUIElementTypeOther/XCUIElementTypeOther'
+        #          '/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeImage'),
+        # '和飞信电话可用时长': (MobileBy.ACCESSIBILITY_ID, 'banner_bg_card.png'),
+        # '每天领积分': (MobileBy.ACCESSIBILITY_ID, 'banner_bg_card2.png'),
+        # '福利': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="福利"])[2]'),
+        # '热点资讯': (MobileBy.ACCESSIBILITY_ID, '热点资讯'),
+        # '移动营业厅': (MobileBy.ACCESSIBILITY_ID, '移动营业厅'),
+        # '和包支付': (MobileBy.ACCESSIBILITY_ID, '和包支付'),
+        # '收藏': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="收藏"])[1]'),
+        # '设置': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeStaticText[@name="设置"]'),
+        # #底部标签栏
+        # '消息': (MobileBy.ACCESSIBILITY_ID, 'com.chinasofti.rcs:id/tvMessage'),
+        # '通话': (MobileBy.ACCESSIBILITY_ID, '通话'),
+        # '工作台': (MobileBy.ACCESSIBILITY_ID, '工作台'),
+        # '通讯录': (MobileBy.ACCESSIBILITY_ID, '联系'),
+        # '我': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="我"]'),
+        # # 编辑资料页面
+        # '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        # '编辑': (MobileBy.ACCESSIBILITY_ID, '编辑'),
+        # '分享名片': (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeStaticText[@name="分享名片"]'),
+        # '保存': (MobileBy.ACCESSIBILITY_ID, '保存'),
+        # '拍照': (MobileBy.ACCESSIBILITY_ID, 'cc me photography normal'),
+        # '编辑姓名': (MobileBy.XPATH, '(//XCUIElementTypeTextView[@name="2b610f78-8d44-11e9-95e5-309c23f30f2e"])[1]'),
+        # '电话': (MobileBy.ACCESSIBILITY_ID, '19849476421'),
+        #
+        # '页脚-我': (MobileBy.XPATH, '//*[@resource-id="com.chinasofti.rcs:id/tvMe" and @selected="true"]'),
+        # 'com.chinasofti.rcs:id/rl_person': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_person'),
+        # 'com.chinasofti.rcs:id/fl_name': (MobileBy.ID, 'com.chinasofti.rcs:id/fl_name'),
+        # '请完善名片': (MobileBy.ID, 'com.chinasofti.rcs:id/card_name_hint'),
+        # '电话号码': (MobileBy.ID, 'com.chinasofti.rcs:id/card_photo_num'),
+        # 'com.chinasofti.rcs:id/profile_photo_out': (MobileBy.ID, 'com.chinasofti.rcs:id/profile_photo_out'),
+        # 'com.chinasofti.rcs:id/layout_for_mall': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_for_mall'),
+        # 'com.chinasofti.rcs:id/internet_mutil_call_layout_id': (
+        #     MobileBy.ID, 'com.chinasofti.rcs:id/internet_mutil_call_layout_id'),
+        # '多方电话': (MobileBy.ID, 'com.chinasofti.rcs:id/mutil_call_name_text'),
+        # '300': (MobileBy.ID, 'com.chinasofti.rcs:id/mutil_call_number_text'),
+        # '分钟': (MobileBy.ID, 'com.chinasofti.rcs:id/mutil_call_unit'),
+        # 'com.chinasofti.rcs:id/user_money': (MobileBy.ID, 'com.chinasofti.rcs:id/user_money'),
+        # '账户余额': (MobileBy.ID, 'com.chinasofti.rcs:id/money_name_text'),
+        # '12.20': (MobileBy.ID, 'com.chinasofti.rcs:id/money_number_text'),
+        # '元': (MobileBy.ID, 'com.chinasofti.rcs:id/money_unit'),
+        # 'com.chinasofti.rcs:id/layout_flow': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_flow'),
+        # '可用流量': (MobileBy.ID, 'com.chinasofti.rcs:id/liuliang_name_text'),
+        # '40.98': (MobileBy.ID, 'com.chinasofti.rcs:id/liuliang_number_text'),
+        # 'G': (MobileBy.ID, 'com.chinasofti.rcs:id/liuliang_unit'),
+        # 'com.chinasofti.rcs:id/redpager': (MobileBy.ID, 'com.chinasofti.rcs:id/redpager'),
+        # '钱包': (MobileBy.ID, 'com.chinasofti.rcs:id/repager_text'),
+        # 'com.chinasofti.rcs:id/welfare': (MobileBy.ID, 'com.chinasofti.rcs:id/welfare'),
+        #
+        # '多重好礼等你来领': (MobileBy.ID, 'com.chinasofti.rcs:id/wfCopywriting'),
+        # 'com.chinasofti.rcs:id/wfSpace': (MobileBy.ID, 'com.chinasofti.rcs:id/wfSpace'),
+        # 'com.chinasofti.rcs:id/welfareArrow': (MobileBy.ID, 'com.chinasofti.rcs:id/welfareArrow'),
+        # 'com.chinasofti.rcs:id/collect': (MobileBy.ID, 'com.chinasofti.rcs:id/collect'),
+        #
+        # 'com.chinasofti.rcs:id/about_app': (MobileBy.ID, 'com.chinasofti.rcs:id/about_app'),
+        # '关于和飞信': (MobileBy.ID, 'com.chinasofti.rcs:id/about_app_text'),
+        # 'com.chinasofti.rcs:id/about_right_arrow': (MobileBy.ID, 'com.chinasofti.rcs:id/about_right_arrow'),
+        # 'com.chinasofti.rcs:id/share_app': (MobileBy.ID, 'com.chinasofti.rcs:id/share_app'),
+        # 'com.chinasofti.rcs:id/viewLine': (MobileBy.ID, 'com.chinasofti.rcs:id/viewLine'),
+        # 'com.chinasofti.rcs:id/view_bg_home_tab': (MobileBy.ID, 'com.chinasofti.rcs:id/view_bg_home_tab'),
+        # 'android:id/statusBarBackground': (MobileBy.ID, 'android:id/statusBarBackground'),
+        # 'android:id/navigationBarBackground': (MobileBy.ID, 'android:id/navigationBarBackground'),
+        # '推荐好友，赚现金红包': (MobileBy.ID, 'com.chinasofti.rcs:id/wfCopywriting'),
+        # '分享客户端': (MobileBy.ID, 'com.chinasofti.rcs:id/share_app_text'),
+        # 'com.chinasofti.rcs:id/feedback': (MobileBy.ID, 'com.chinasofti.rcs:id/feedback'),
+        # '帮助与反馈': (MobileBy.ID, 'com.chinasofti.rcs:id/feedback_text'),
+        # 'com.chinasofti.rcs:id/setting': (MobileBy.ID, 'com.chinasofti.rcs:id/setting'),
+        # '姓名': (MobileBy.ID, 'com.chinasofti.rcs:id/card_name'),
+        # "联系人管理":("com.chinasofti.rcs:id/manage_contact_text")
     }
 
-    @TestLogger.log('点击二维码图标')
-    def click_qr_code_icon(self):
-        self.click_element(self.__locators['二维码入口'])
+    # @TestLogger.log('点击二维码图标')
+    # def click_qr_code_icon(self):
+    #     self.click_element(self.__locators['二维码入口'])
+
+    @TestLogger.log('判断元素是否存在')
+    def is_element_already_exist(self, locator):
+        """判断元素是否存在"""
+        try:
+            elements = self.get_elements(self.__locators[locator])
+            if len(elements) > 0:
+                return True
+            else:
+                return False
+        except:
+            return False
+
+    @TestLogger.log("点击locators对应的元素")
+    def click_locator_key(self, locator):
+        self.click_element(self.__locators[locator])
 
     @TestLogger.log()
     def is_on_this_page(self):
         """当前页面是否在我的页面"""
-        el = self.get_elements(self.__locators['查看并编辑个人资料'])
+        el = self.get_elements(self.__locators['我_请完善您的资料'])
         if len(el) > 0:
             return True
         return False
@@ -308,3 +387,4 @@ class MinePage(FooterPage):
                     return True
                 if self._is_on_the_end_of_menu_view():
                     return False
+

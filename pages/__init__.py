@@ -7,8 +7,6 @@ __all__ = [
     'GroupListSearchPage',
     'GuidePage',
     'PermissionListPage',
-    'AgreementDetailPage',
-    'AgreementPage',
     'OneKeyLoginPage',
     'SmsLoginPage',
     'MinePage',
@@ -76,13 +74,6 @@ __all__ = [
     'WorkbenchPage',
     'CreateTeamPage',
     'CallPage',
-    'CalllogBannerPage',
-    'CallTypeSelectPage',
-    'ContactSecltorPage',
-    'GrantPemissionsPage',
-    'CallContactDetailPage',
-    'NewOrEditContactPage',
-    'MultiPartyVideoPage',
 ]
 
 from .ChatFile import ChatFilePage
@@ -160,10 +151,3 @@ from .search import SearchPage
 from .workbench import WorkbenchPage
 from .workbench.create_team import CreateTeamPage
 from .call import CallPage
-from .call import CalllogBannerPage
-from .call import CallTypeSelectPage
-from .call import ContactSecltorPage
-from .call import GrantPemissionsPage
-from .call import CallContactDetailPage
-from .call import NewOrEditContactPage
-from .call import MultiPartyVideoPage

@@ -2,17 +2,16 @@ from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
+
 class FooterPage(BasePage):
     """主页页脚标签栏(消息页面)"""
+
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
     __locators = {
-        '消息': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="消息"]'),
-        '通话': (MobileBy.ACCESSIBILITY_ID, 'cc_call_unselected'),
-        '工作台': (MobileBy.ACCESSIBILITY_ID, 'cc_workbench_normal'),
-        '通讯录': (MobileBy.ACCESSIBILITY_ID, 'cc_contects_unselected'),
-        '我': (MobileBy.ACCESSIBILITY_ID, 'cc_me_unselected'),
-
+        '通话': (MobileBy.IOS_PREDICATE, 'name="通话"'),
+        '通讯录': (MobileBy.IOS_PREDICATE, 'name="通讯录"'),
+        '我': (MobileBy.IOS_PREDICATE, 'name="我"'),
     }
 
     @TestLogger.log()
@@ -21,60 +20,23 @@ class FooterPage(BasePage):
         self.click_element(self.__locators['我'])
 
     @TestLogger.log()
-    def open_message_page(self):
-        """切换到标签页：消息"""
-        self.click_element(self.__class__.__locators['消息'])
-
-    @TestLogger.log()
     def open_call_page(self):
         """切换到标签页：通话"""
         self.click_element(self.__locators['通话'])
 
     @TestLogger.log()
-    def open_workbench_page(self):
-        """切换到标签页：工作台"""
-        self.click_element(self.__locators['工作台'])
-
-    @TestLogger.log()
     def open_contacts_page(self):
         """切换到标签页：通讯录"""
         from pages.contacts.Contacts import ContactsPage
-
         self.click_element(self.__locators['通讯录'])
         if ContactsPage().is_text_present('需要使用通讯录权限'):
             ContactsPage().click_always_allowed()
         # ContactsPage().click_sim_contact()
 
-
-
-    @TestLogger.log()
-    def message_icon_is_enabled(self):
-        """消息图标是否可点击"""
-        return self._is_enabled(self.__class__.__locators["消息"])
-
-    @TestLogger.log()
-    def message_icon_is_selected(self):
-        """消息图标是否被选中"""
-        result = self.get_element_attribute(self.__class__.__locators["消息"], "selected")
-        if result.lower() == "true":
-            return True
-        return False
-
-    @TestLogger.log()
-    def message_icon_is_visiable(self):
-        """通话图标是否可看"""
-        return self._is_visible(self.__class__.__locators["消息"])
-
-
     @TestLogger.log()
     def call_icon_is_enabled(self):
         """通话图标是否可点击"""
         return self._is_enabled(self.__class__.__locators["通话"])
-
-    @TestLogger.log()
-    def workbench_icon_is_enabled(self):
-        """工作台图标是否可点击"""
-        return self._is_enabled(self.__class__.__locators["工作台"])
 
     @TestLogger.log()
     def contacts_icon_is_enabled(self):
@@ -87,19 +49,9 @@ class FooterPage(BasePage):
         return self._is_enabled(self.__class__.__locators["我"])
 
     @TestLogger.log()
-    def is_exist_message_icon(self):
-        """是否存在消息图标"""
-        return self._is_element_present(self.__class__.__locators["消息"])
-
-    @TestLogger.log()
     def is_exist_call_icon(self):
         """是否存在通话图标"""
         return self._is_element_present(self.__class__.__locators["通话"])
-
-    @TestLogger.log()
-    def is_exist_workbench_icon(self):
-        """是否存在工作台图标"""
-        return self._is_element_present(self.__class__.__locators["工作台"])
 
     @TestLogger.log()
     def is_exist_contacts_icon(self):
@@ -110,3 +62,4 @@ class FooterPage(BasePage):
     def is_exist_me_icon(self):
         """是否存在我图标"""
         return self._is_element_present(self.__class__.__locators["我"])
+

@@ -34,89 +34,88 @@ class Preconditions(LoginPreconditions):
         client.disconnect_mobile()
         return client
 
-    @staticmethod
-    def create_contacts(name, number):
-        """
-        导入联系人数据
-        :param name:
-        :param number:
-        :return:
-        """
-        contacts_page = ContactsPage()
-        detail_page = ContactDetailsPage()
-        try:
-            contacts_page.wait_for_page_load()
-            contacts_page.open_contacts_page()
-        except:
-            Preconditions.make_already_in_message_page(reset=False)
-            contacts_page.open_contacts_page()
-        # 创建联系人
-        contacts_page.click_search_box()
-        contact_search = ContactListSearchPage()
-        contact_search.wait_for_page_load()
-        contact_search.input_search_keyword(name)
-        contact_search.click_back()
-        contacts_page.click_add()
-        create_page = CreateContactPage()
-        create_page.hide_keyboard_if_display()
-        create_page.create_contact(name, number)
-        detail_page.wait_for_page_load()
-        detail_page.click_back_icon()
-
-    @staticmethod
-    def take_logout_operation_if_already_login():
-        """已登录状态，执行登出操作"""
-        message_page = MessagePage()
-        message_page.wait_for_page_load()
-        message_page.open_me_page()
-
-        me = MinePage()
-        me.scroll_to_bottom()
-        me.scroll_to_bottom()
-        me.scroll_to_bottom()
-        me.click_setting_menu()
-
-        setting = SettingPage()
-        setting.scroll_to_bottom()
-        setting.click_logout()
-        setting.click_ok_of_alert()
-
-    @staticmethod
-    def reset_and_relaunch_app():
-        """首次启动APP（使用重置APP代替）"""
-        app_package = 'com.chinasofti.rcs'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
-
-    @staticmethod
-    def terminate_app():
-        """
-        强制关闭app,退出后台
-        :return:
-        """
-        app_id = current_driver().desired_capability['appPackage']
-        current_mobile().termiate_app(app_id)
-
-    @staticmethod
-    def background_app():
-        """后台运行"""
-        current_mobile().press_home_key()
-
-    @staticmethod
-    def activate_app(app_id=None):
-        """激活APP"""
-        if not app_id:
-            app_id = current_mobile().driver.desired_capabilities['appPackage']
-        current_mobile().driver.activate_app(app_id)
-
-
+    # @staticmethod
+    # def create_contacts(name, number):
+    #     """
+    #     导入联系人数据
+    #     :param name:
+    #     :param number:
+    #     :return:
+    #     """
+    #     contacts_page = ContactsPage()
+    #     detail_page = ContactDetailsPage()
+    #     try:
+    #         contacts_page.wait_for_page_load()
+    #         contacts_page.open_contacts_page()
+    #     except:
+    #         Preconditions.make_already_in_message_page(reset=False)
+    #         contacts_page.open_contacts_page()
+    #     # 创建联系人
+    #     contacts_page.click_search_box()
+    #     contact_search = ContactListSearchPage()
+    #     contact_search.wait_for_page_load()
+    #     contact_search.input_search_keyword(name)
+    #     contact_search.click_back()
+    #     contacts_page.click_add()
+    #     create_page = CreateContactPage()
+    #     create_page.hide_keyboard_if_display()
+    #     create_page.create_contact(name, number)
+    #     detail_page.wait_for_page_load()
+    #     detail_page.click_back_icon()
+    #
+    # @staticmethod
+    # def take_logout_operation_if_already_login():
+    #     """已登录状态，执行登出操作"""
+    #     message_page = MessagePage()
+    #     message_page.wait_for_page_load()
+    #     message_page.open_me_page()
+    #
+    #     me = MinePage()
+    #     me.scroll_to_bottom()
+    #     me.scroll_to_bottom()
+    #     me.scroll_to_bottom()
+    #     me.click_setting_menu()
+    #
+    #     setting = SettingPage()
+    #     setting.scroll_to_bottom()
+    #     setting.click_logout()
+    #     setting.click_ok_of_alert()
+    #
+    # @staticmethod
+    # def reset_and_relaunch_app():
+    #     """首次启动APP（使用重置APP代替）"""
+    #     app_package = 'com.chinasofti.rcs'
+    #     current_driver().activate_app(app_package)
+    #     current_mobile().reset_app()
+    #
+    # @staticmethod
+    # def terminate_app():
+    #     """
+    #     强制关闭app,退出后台
+    #     :return:
+    #     """
+    #     app_id = current_driver().desired_capability['appPackage']
+    #     current_mobile().termiate_app(app_id)
+    #
+    # @staticmethod
+    # def background_app():
+    #     """后台运行"""
+    #     current_mobile().press_home_key()
+    #
+    # @staticmethod
+    # def activate_app(app_id=None):
+    #     """激活APP"""
+    #     if not app_id:
+    #         app_id = current_mobile().driver.desired_capabilities['appPackage']
+    #     current_mobile().driver.activate_app(app_id)
 
 class Meprofile(TestCase):
     """我页面-个人资料"""
 
     def default_setUp(self):
         warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.make_already_in_message_page()
+        Preconditions.select_mobile('IOS-移动')
+        # Preconditions.make_already_in_message_page()
         MessagePage().open_me_page()
         time.sleep(2)
 
@@ -129,36 +128,34 @@ class Meprofile(TestCase):
         me_page = MinePage()
         time.sleep(1)
         self.assertEqual(me_page.is_on_this_page(), True)
-        me_page.click_personal_photo()
-        meEdit_page = MeEditProfilePage()
+        me_page.click_locator_key('我_请完善您的资料')
         time.sleep(2)
-        self.assertEqual(meEdit_page.is_text_exist("昵称"), True)
-        self.assertEqual(meEdit_page.is_text_exist("性别"), True)
-        self.assertEqual(meEdit_page.is_text_exist("年龄"), True)
-        self.assertEqual(meEdit_page.is_text_exist("我的标签"), True)
-        self.assertEqual(meEdit_page.is_text_exist("职业"), True)
-        meEdit_page.click_profile_photo()
-        meEdit_page.click_photo_back()
+        self.assertEqual(me_page.is_text_exist("我_资料_昵称"), True)
+        self.assertEqual(me_page.is_text_exist("我_资料_性别"), True)
+        self.assertEqual(me_page.is_text_exist("我_资料_年龄"), True)
+        self.assertEqual(me_page.is_text_exist("我_资料_我的标签"), True)
+        self.assertEqual(me_page.is_text_exist("我_资料_职业"), True)
+        me_page.click_locator_key('我_资料_图像')
+        me_page.click_locator_key('我_个人图像_返回')
         time.sleep(2)
-        self.assertEqual(meEdit_page.element_is_clickable("电话"), False)
-        self.assertEqual(meEdit_page.element_is_clickable("昵称"), True)
-        self.assertEqual(meEdit_page.element_is_clickable("性别"), True)
-        self.assertEqual(meEdit_page.element_is_clickable("年龄"), True)
-        self.assertEqual(meEdit_page.element_is_clickable("我的标签"), True)
-        self.assertEqual(meEdit_page.element_is_clickable("职业"), True)
+        self.assertEqual(me_page.is_element_already_exist('我_资料_电话号码文本'), False)
+        self.assertEqual(me_page.is_element_already_exist("我_资料_昵称文本"), True)
+        self.assertEqual(me_page.is_element_already_exist("我_资料_性别文本"), True)
+        self.assertEqual(me_page.is_element_already_exist("我_资料_性别文本"), True)
+        self.assertEqual(me_page.is_element_already_exist("我_资料_我的标签文本"), True)
+        self.assertEqual(me_page.is_element_already_exist("我_资料_职业文本"), True)
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0002(self):
         """编辑资料页面里面点击头像"""
         me_page = MinePage()
         self.assertEqual(me_page.is_on_this_page(), True)
-        me_page.click_personal_photo()
-        meEdit_page = MeEditProfilePage()
-        meEdit_page.click_profile_photo()
-        meEdit_page.click_photo_more()
+        me_page.click_locator_key('我_请完善您的资料')
+        me_page.click_locator_key('我_资料_图像')
+        me_page.click_locator_key('我_个人图像_返回')
         time.sleep(2)
-        meEdit_page.element_is_clickable('从手机相册选择')
-        meEdit_page.element_is_clickable('保存到手机')
+        me_page.element_is_clickable('从手机相册选择')
+        me_page.element_is_clickable('保存到手机')
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0003(self):
