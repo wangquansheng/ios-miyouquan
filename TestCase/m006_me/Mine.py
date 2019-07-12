@@ -170,7 +170,6 @@ class Meprofile(TestCase):
         time.sleep(1)
         nickname = me_page.get_text('我_资料_昵称文本')
         if nickname is not None and '' != nickname:
-            """清空之后位置发生变化"""
             me_page.clear_nickname_text('我_资料_昵称文本')
             me_page.input_profile_name('我_资料_昵称文本', 'select from')
         else:
@@ -189,10 +188,12 @@ class Meprofile(TestCase):
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(1)
-        # me_page.click_locator_key('我_资料_昵称文本')
-        # if me_page.is_element_already_exist('我_资料_文本删除'):
-        #     me_page.click_locator_key('我_资料_文本删除')
-        me_page.input_profile_name('我_资料_昵称文本', r"<>'\"&\n\r")
+        nickname = me_page.get_text('我_资料_昵称文本')
+        if nickname is not None and '' != nickname:
+            me_page.clear_nickname_text('我_资料_昵称文本')
+            me_page.input_profile_name('我_资料_昵称文本', r"<>'\"&\n\r")
+        else:
+            me_page.input_profile_name('我_资料_昵称文本', r"<>'\"&\n\r")
         self.assertEqual(me_page.is_toast_exist('不能包含特殊字符和表情'), True)
 
     @tags('ALL', 'CMCC', 'me')
@@ -202,11 +203,12 @@ class Meprofile(TestCase):
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(1)
-        # me_page.click_locator_key('我_资料_昵称文本')
-        # if me_page.is_element_already_exist('我_资料_文本删除'):
-        #     me_page.click_locator_key('我_资料_文本删除')
-        #     time.sleep(1)
-        me_page.input_profile_name('我_资料_昵称文本', '4135435')
+        nickname = me_page.get_text('我_资料_昵称文本')
+        if nickname is not None and '' != nickname:
+            me_page.clear_nickname_text('我_资料_昵称文本')
+            me_page.input_profile_name('我_资料_昵称文本', '4135435')
+        else:
+            me_page.input_profile_name('我_资料_昵称文本', '4135435')
         me_page.click_locator_key('我_资料_保存')
         self.assertTrue(me_page.check_text_exist('上传成功'))
 

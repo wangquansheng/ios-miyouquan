@@ -73,6 +73,9 @@ class MinePage(FooterPage):
         '我_资料_职业文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="职业"]/following-sibling::*[2]'),
         '我_资料_职业详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="职业"]/following-sibling::*[3]'),
 
+        # 文本清除
+        '我_备注_清除': (MobileBy.IOS_PREDICATE, 'name="清除文本"'),
+
         # 下拉框
         '我_下拉框_完成': (MobileBy.IOS_PREDICATE, 'name="完成"'),
         '我_下拉框_男': (MobileBy.IOS_PREDICATE, 'name="男"'),
@@ -174,34 +177,17 @@ class MinePage(FooterPage):
     }
 
     @TestLogger.log("清空昵称内容")
-    def clear_nickname_text(self, locator, default_timeout=5):
+    def clear_nickname_text(self, locator):
         """清空昵称内容"""
         try:
-            element = self.wait_until(
-                condition=lambda d: self.get_element(self.__locators[locator]),
-                timeout=default_timeout
-            )
-            element.clear()
-            # element.
-            # return True
+            self.click_locator_key(locator)
+            time.sleep(2)
+            self.click_locator_key('我_备注_清除')
+            time.sleep(1)
+            return True
         except:
             traceback.print_exc()
-            # return False
-        # print(self.is_element_already_exist('我_资料_保存'))
-        # element2 = self.get_element(self.__locators['我_资料_保存'])
-        # 保存清空文本字段
-        time.sleep(3)
-        x_percentage = 137 / 375 * 100
-        y_percentage = 137 / 667 * 100
-        xt_percentage = 18 / 375 * 100
-        yt_percentage = 18 / 667 * 100
-        self.swipe_by_percent_on_screen(x_percentage, y_percentage, xt_percentage, yt_percentage)
-        # time.sleep(5)
-        # self.click_locator_key('我_资料_保存')
-        # time.sleep(3)
-        # self.click_locator_key('我_请完善您的资料_图片')
-        # time.sleep(1)
-        # return True
+            return False
 
     @TestLogger.log('获取元素文本内容')
     def get_text(self, locator):
