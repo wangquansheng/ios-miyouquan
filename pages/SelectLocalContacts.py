@@ -266,7 +266,7 @@ class SelectLocalContactsPage(BasePage):
             for el in els:
                 contacts_name.append(el.text)
         else:
-            raise AssertionError("No m005_contacts, please add m005_contacts in address book.")
+            raise AssertionError("No m004_contacts, please add m004_contacts in address book.")
         flag = True
         current = 0
         while flag:
