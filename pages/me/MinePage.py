@@ -78,15 +78,13 @@ class MinePage(FooterPage):
 
         # 下拉框
         '我_下拉框_完成': (MobileBy.IOS_PREDICATE, 'name="完成"'),
-        '我_下拉框_男': (MobileBy.IOS_PREDICATE, 'name="男"'),
-        '我_下拉框_90后': (MobileBy.IOS_PREDICATE, 'name="男"'),
 
         # 资料标签
         '我_资料标签_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
         '我_资料标签_保存': (MobileBy.IOS_PREDICATE, 'name="保存"'),
         '我_资料标签_添加弹框': (MobileBy.ACCESSIBILITY_ID, 'my biaoqian button n'),
         '我_资料标签_添加文本框': (MobileBy.IOS_PREDICATE, 'name="添加标签"'),
-        '我_资料标签_添加保存': (MobileBy.IOS_PREDICATE, 'name="确定"'),
+        '我_资料标签_添加确定': (MobileBy.IOS_PREDICATE, 'name="确定"'),
         '我_资料标签_添加取消': (MobileBy.IOS_PREDICATE, 'name="取消"'),
         '我_资料标签_1': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my biaoqian button n"]/following-sibling::*[1]'),
         '我_资料标签_2': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my biaoqian button n"]/following-sibling::*[2]'),
@@ -175,6 +173,25 @@ class MinePage(FooterPage):
         # '姓名': (MobileBy.ID, 'com.chinasofti.rcs:id/card_name'),
         # "联系人管理":("com.chinasofti.rcs:id/manage_contact_text")
     }
+
+    @TestLogger.log("输入随机昵称")
+    def input_random_nickname(self):
+        """输入随机昵称"""
+        uid = str(uuid.uuid4())
+        nickname_uid = ''.join(uid.split('-'))
+        name = nickname_uid[:15]
+        self.clear_nickname_text('我_资料_昵称文本')
+        time.sleep(0.5)
+        self.input_profile_name('我_资料_昵称文本', name)
+        time.sleep(1)
+        # 滑动隐藏
+        if self.is_element_already_exist('我_资料_电话号码'):
+            x_source = 30 / 375 * 100
+            y_source = 180 / 667 * 100
+            x_target = 30 / 375 * 100
+            y_target = 90 / 667 * 100
+            self.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+            time.sleep(1)
 
     @TestLogger.log("清空昵称内容")
     def clear_nickname_text(self, locator):
@@ -319,21 +336,6 @@ class MinePage(FooterPage):
                 message
             )
         return self
-
-    @TestLogger.log("输入随机昵称")
-    def input_random_name(self):
-        """当前页面元素是否存在"""
-        uid = str(uuid.uuid4())
-        suid = ''.join(uid.split('-'))
-        name = suid[:15]
-        self.input_text('昵称', name)
-
-    # @TestLogger.log("下一页")
-    # def page_down(self):
-    #     self.wait_until(
-    #         condition=lambda d: self.get_element(self.__locators['菜单区域'])
-    #     )
-    #     self.swipe_by_direction(self.__locators['菜单区域'], 'up')
 
     @TestLogger.log("下一页")
     def page_up(self):

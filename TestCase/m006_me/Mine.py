@@ -109,6 +109,7 @@ class Preconditions(LoginPreconditions):
     #         app_id = current_mobile().driver.desired_capabilities['appPackage']
     #     current_mobile().driver.activate_app(app_id)
 
+
 class Meprofile(TestCase):
     """我页面-个人资料"""
 
@@ -178,7 +179,7 @@ class Meprofile(TestCase):
         me_page.click_locator_key('我_资料_保存')
         for i in range(3):
             if me_page.is_toast_exist('上传成功', timeout=0.3) \
-                    or me_page.is_toast_exist('正在上传...   s', timeout=0.3):
+                    or me_page.is_toast_exist('正在上传...', timeout=0.3):
                 break
 
     @tags('ALL', 'CMCC', 'me')
@@ -210,7 +211,10 @@ class Meprofile(TestCase):
         else:
             me_page.input_profile_name('我_资料_昵称文本', '4135435')
         me_page.click_locator_key('我_资料_保存')
-        self.assertTrue(me_page.check_text_exist('上传成功'))
+        for i in range(3):
+            if me_page.is_toast_exist('上传成功', timeout=0.3) \
+                    or me_page.is_toast_exist('正在上传...', timeout=0.3):
+                break
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0006(self):
@@ -219,11 +223,23 @@ class Meprofile(TestCase):
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(0.5)
-        me_page.input_random_name()
+        me_page.input_random_nickname()
         me_page.click_locator_key('我_资料_性别详情')
-        me_page.click_locator_key('我_下拉框_男')
+        # 向上滑动
+        time.sleep(0.5)
+        x_source = 300 / 375 * 100
+        y_source = 500 / 667 * 100
+        x_target = 300 / 375 * 100
+        y_target = 560 / 667 * 100
+        me_page.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+        time.sleep(0.5)
         me_page.click_locator_key('我_下拉框_完成')
-        self.assertTrue(me_page.is_toast_exist('我_资料_保存'), True)
+        # 提交
+        me_page.click_locator_key('我_资料_保存')
+        for i in range(3):
+            if me_page.is_toast_exist('上传成功', timeout=0.3) \
+                    or me_page.is_toast_exist('正在上传...', timeout=0.3):
+                break
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0007(self):
@@ -231,12 +247,25 @@ class Meprofile(TestCase):
         me_page = MinePage()
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
+        # 修改昵称
         time.sleep(0.5)
-        me_page.input_random_name()
+        me_page.input_random_nickname()
         me_page.click_locator_key('我_资料_年龄详情')
-        me_page.click_locator_key('我_下拉框_90后')
+        # 向上滑动
+        time.sleep(0.5)
+        x_source = 300 / 375 * 100
+        y_source = 560 / 667 * 100
+        x_target = 300 / 375 * 100
+        y_target = 500 / 667 * 100
+        me_page.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
+        time.sleep(0.5)
         me_page.click_locator_key('我_下拉框_完成')
-        self.assertTrue(me_page.check_text_exist('我_资料_保存'))
+        # 提交
+        me_page.click_locator_key('我_资料_保存')
+        for i in range(3):
+            if me_page.is_toast_exist('上传成功', timeout=0.3) \
+                    or me_page.is_toast_exist('正在上传...', timeout=0.3):
+                break
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0008(self):
@@ -247,25 +276,31 @@ class Meprofile(TestCase):
         time.sleep(0.5)
         me_page.click_locator_key('我_资料_我的标签详情')
         time.sleep(2)
-        me_page.click_locator_key('我_资料标签_添加弹框')
-        me_page.click_locator_key('我_资料标签_添加取消')
         for i in range(6):
-            me_page.click_tag_index('标签', i)
+            me_page.click_locator_key('我_资料标签_添加弹框')
+            time.sleep(1)
+            me_page.input_profile_name('我_资料标签_添加文本框', "标签%s" % i)
+            time.sleep(0.5)
+            me_page.click_locator_key('我_资料标签_添加确定')
+            time.sleep(0.5)
         self.assertTrue(me_page.check_text_exist('最多选择5个标签来形容自己'))
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0009(self):
         """编辑职业选项选择职业"""
-        me_edit_page = MeEditProfilePage()
-        MinePage().click_personal_photo()
+        me_page = MinePage()
+        self.assertEqual(me_page.is_on_this_page(), True)
+        me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(0.5)
-        me_edit_page.input_random_name()
-        me_edit_page.click_locator_key('职业')
-        me_edit_page.click_locator_key('职业_计算机')
-        me_edit_page.click_locator_key('保存')
+        me_page.click_locator_key('我_资料_我的标签详情')
+        time.sleep(0.5)
+        me_page.input_random_nickname()
+        me_page.click_locator_key('职业')
+        me_page.click_locator_key('职业_计算机')
+        me_page.click_locator_key('保存')
         for i in range(3):
-            if me_edit_page.is_toast_exist('保存成功', timeout=0.3) \
-                    or me_edit_page.is_toast_exist('您的资料未变化', timeout=0.3):
+            if me_page.is_toast_exist('保存成功', timeout=0.3) \
+                    or me_page.is_toast_exist('您的资料未变化', timeout=0.3):
                 break
 
     # @unittest.skip('app改版没有二维码')
@@ -309,7 +344,7 @@ class Meprofile(TestCase):
     def test_me_0013(self):
         """验证活动中心页面正常打开"""
         me_page = MinePage()
-        me_page.click_locator_key_c('活动中心')
+        me_page.click_locator_key('活动中心')
         self.assertTrue(me_page.check_wait_text_exits('活动中心', timeout=3 * 60))
         me_page.click_locator_key_c('我_二级页面_相同返回')
 
