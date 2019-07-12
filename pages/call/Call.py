@@ -254,13 +254,6 @@ class CallPage(FooterPage):
         # '暂不开启': (MobileBy.ID, 'android:id/button2'),
         # '现在去开启': (MobileBy.ID, 'android:id/button1'),
 
-        # 暂停使用，待删除
-        # 'tip1': (MobileBy.ID, 'com.cmic.college:id/ivFreeCall'),
-        # 'tip2': (MobileBy.ID, 'com.cmic.college:id/ivKeyboard'),
-        # 'tip3': (MobileBy.ID, 'com.cmic.college:id/tvContact'),
-        # '详情_更多': (MobileBy.ID, 'com.cmic.college:id/iv_more'),
-        # '详情_红点': (MobileBy.ID, 'com.cmic.college:id/view_red_dot'),
-        # """
     }
 
     def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
@@ -287,13 +280,6 @@ class CallPage(FooterPage):
         if self.is_element_already_exist('广告_通话_关闭'):
             self.click_locator_key('广告_通话_关闭')
             time.sleep(1)
-
-    # @TestLogger.log()
-    # def click_always_allow(self):
-    #     """权限框-点击始终允许"""
-    #     while self.is_text_present('始终允许'):
-    #         self.click_text('始终允许')
-    #         time.sleep(2)
 
     @TestLogger.log()
     def remove_mask(self):

@@ -115,7 +115,6 @@ class Meprofile(TestCase):
     def default_setUp(self):
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('IOS-移动')
-        # Preconditions.make_already_in_message_page()
         MessagePage().open_me_page()
         time.sleep(2)
 
@@ -128,17 +127,19 @@ class Meprofile(TestCase):
         me_page = MinePage()
         time.sleep(1)
         self.assertEqual(me_page.is_on_this_page(), True)
-        me_page.click_locator_key('我_请完善您的资料')
+        me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(2)
-        self.assertEqual(me_page.is_text_exist("我_资料_昵称"), True)
-        self.assertEqual(me_page.is_text_exist("我_资料_性别"), True)
-        self.assertEqual(me_page.is_text_exist("我_资料_年龄"), True)
-        self.assertEqual(me_page.is_text_exist("我_资料_我的标签"), True)
-        self.assertEqual(me_page.is_text_exist("我_资料_职业"), True)
+        self.assertEqual(me_page.is_element_already_exist("我_资料_昵称"), True)
+        self.assertEqual(me_page.is_element_already_exist("我_资料_性别"), True)
+        self.assertEqual(me_page.is_element_already_exist("我_资料_年龄"), True)
+        self.assertEqual(me_page.is_element_already_exist("我_资料_我的标签"), True)
+        self.assertEqual(me_page.is_element_already_exist("我_资料_职业"), True)
         me_page.click_locator_key('我_资料_图像')
+        time.sleep(0.5)
         me_page.click_locator_key('我_个人图像_返回')
+        # 显示并且可以编辑
         time.sleep(2)
-        self.assertEqual(me_page.is_element_already_exist('我_资料_电话号码文本'), False)
+        self.assertEqual(me_page.is_element_already_exist('我_资料_电话号码文本'), True)
         self.assertEqual(me_page.is_element_already_exist("我_资料_昵称文本"), True)
         self.assertEqual(me_page.is_element_already_exist("我_资料_性别文本"), True)
         self.assertEqual(me_page.is_element_already_exist("我_资料_性别文本"), True)
@@ -150,27 +151,35 @@ class Meprofile(TestCase):
         """编辑资料页面里面点击头像"""
         me_page = MinePage()
         self.assertEqual(me_page.is_on_this_page(), True)
-        me_page.click_locator_key('我_请完善您的资料')
+        me_page.click_locator_key('我_请完善您的资料_图片')
+        time.sleep(1)
         me_page.click_locator_key('我_资料_图像')
-        me_page.click_locator_key('我_个人图像_返回')
-        time.sleep(2)
-        me_page.element_is_clickable('从手机相册选择')
-        me_page.element_is_clickable('保存到手机')
+        time.sleep(1)
+        me_page.click_locator_key('我_个人图像_详情')
+        time.sleep(1)
+        me_page.is_element_already_exist('从手机相册选择')
+        me_page.is_element_already_exist('保存到手机')
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0003(self):
         """编辑资料页面昵称里面输入sql语句"""
         me_page = MinePage()
-        time.sleep(2)
         self.assertEqual(me_page.is_on_this_page(), True)
-        me_page.click_personal_photo()
-        meEdit_page = MeEditProfilePage()
-        meEdit_page.input_profile_name('昵称', 'selectfrom')
         time.sleep(1)
-        meEdit_page.click_save()
+        me_page.click_locator_key('我_请完善您的资料_图片')
+        time.sleep(1)
+        nickname = me_page.get_text('我_资料_昵称文本')
+        if nickname is not None and '' != nickname:
+            """清空之后位置发生变化"""
+            me_page.clear_nickname_text('我_资料_昵称文本')
+            me_page.input_profile_name('我_资料_昵称文本', 'select from')
+        else:
+            me_page.input_profile_name('我_资料_昵称文本', 'select from')
+        time.sleep(1)
+        me_page.click_locator_key('我_资料_保存')
         for i in range(3):
-            if meEdit_page.is_toast_exist('保存成功', timeout=0.3) \
-                    or meEdit_page.is_toast_exist('您的资料未变化', timeout=0.3):
+            if me_page.is_toast_exist('上传成功', timeout=0.3) \
+                    or me_page.is_toast_exist('正在上传...   s', timeout=0.3):
                 break
 
     @tags('ALL', 'CMCC', 'me')
@@ -178,59 +187,69 @@ class Meprofile(TestCase):
         """编辑资料页面昵称里面输入字符串"""
         me_page = MinePage()
         self.assertEqual(me_page.is_on_this_page(), True)
-        me_page.click_personal_photo()
-        meEdit_page = MeEditProfilePage()
-        meEdit_page.input_profile_name('昵称', r"<>'\"&\n\r")
-        self.assertEqual(meEdit_page.is_toast_exist('不能包含特殊字符和表情'), True)
+        me_page.click_locator_key('我_请完善您的资料_图片')
+        time.sleep(1)
+        # me_page.click_locator_key('我_资料_昵称文本')
+        # if me_page.is_element_already_exist('我_资料_文本删除'):
+        #     me_page.click_locator_key('我_资料_文本删除')
+        me_page.input_profile_name('我_资料_昵称文本', r"<>'\"&\n\r")
+        self.assertEqual(me_page.is_toast_exist('不能包含特殊字符和表情'), True)
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0005(self):
         """编辑资料页面昵称里面输入数字"""
         me_page = MinePage()
         self.assertEqual(me_page.is_on_this_page(), True)
-        me_page.click_personal_photo()
-        meEdit_page = MeEditProfilePage()
-        meEdit_page.input_profile_name('昵称', '4135435')
-        meEdit_page.click_save()
-        self.assertTrue(meEdit_page.check_text_exist('保存成功'))
+        me_page.click_locator_key('我_请完善您的资料_图片')
+        time.sleep(1)
+        # me_page.click_locator_key('我_资料_昵称文本')
+        # if me_page.is_element_already_exist('我_资料_文本删除'):
+        #     me_page.click_locator_key('我_资料_文本删除')
+        #     time.sleep(1)
+        me_page.input_profile_name('我_资料_昵称文本', '4135435')
+        me_page.click_locator_key('我_资料_保存')
+        self.assertTrue(me_page.check_text_exist('上传成功'))
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0006(self):
         """点击性别选项选择性别"""
-        me_edit_page = MeEditProfilePage()
-        MinePage().click_personal_photo()
+        me_page = MinePage()
+        self.assertEqual(me_page.is_on_this_page(), True)
+        me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(0.5)
-        me_edit_page.input_random_name()
-        me_edit_page.click_locator_key('性别')
-        me_edit_page.click_locator_key('性别_男')
-        me_edit_page.click_locator_key('保存')
-        self.assertTrue(me_edit_page.is_toast_exist('保存成功'), True)
+        me_page.input_random_name()
+        me_page.click_locator_key('我_资料_性别详情')
+        me_page.click_locator_key('我_下拉框_男')
+        me_page.click_locator_key('我_下拉框_完成')
+        self.assertTrue(me_page.is_toast_exist('我_资料_保存'), True)
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0007(self):
         """编辑年龄选项选择年龄"""
-        me_edit_page = MeEditProfilePage()
-        MinePage().click_personal_photo()
+        me_page = MinePage()
+        self.assertEqual(me_page.is_on_this_page(), True)
+        me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(0.5)
-        me_edit_page.input_random_name()
-        me_edit_page.click_locator_key('年龄')
-        me_edit_page.click_locator_key('年龄_90后')
-        me_edit_page.click_locator_key('保存')
-        self.assertTrue(me_edit_page.check_text_exist('保存成功'))
+        me_page.input_random_name()
+        me_page.click_locator_key('我_资料_年龄详情')
+        me_page.click_locator_key('我_下拉框_90后')
+        me_page.click_locator_key('我_下拉框_完成')
+        self.assertTrue(me_page.check_text_exist('我_资料_保存'))
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0008(self):
         """编辑标签选项选择标签"""
-        me_edit_page = MeEditProfilePage()
-        MinePage().click_personal_photo()
+        me_page = MinePage()
+        self.assertEqual(me_page.is_on_this_page(), True)
+        me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(0.5)
-        me_edit_page.click_locator_key('我的标签')
+        me_page.click_locator_key('我_资料_我的标签详情')
         time.sleep(2)
-        me_edit_page.click_locator_key('添加个性标签')
-        me_edit_page.click_locator_key('标签取消')
+        me_page.click_locator_key('我_资料标签_添加弹框')
+        me_page.click_locator_key('我_资料标签_添加取消')
         for i in range(6):
-            me_edit_page.click_tag_index('标签', i)
-        self.assertTrue(me_edit_page.check_text_exist('最多选择5个标签来形容自己'))
+            me_page.click_tag_index('标签', i)
+        self.assertTrue(me_page.check_text_exist('最多选择5个标签来形容自己'))
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0009(self):

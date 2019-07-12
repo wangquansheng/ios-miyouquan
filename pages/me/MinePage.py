@@ -4,16 +4,20 @@ from selenium.common.exceptions import NoSuchElementException
 from library.core.TestLogger import TestLogger
 from pages.components.Footer import FooterPage
 
+import time
+import traceback
+import uuid
+
 
 class MinePage(FooterPage):
     """ 我 页面"""
-    ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
+    ACTIVITY = 'com.cmicc.module_aboutme.ui.activity.UserProfileShowActivity'
 
     __locators = {
         '页头-我': (MobileBy.IOS_PREDICATE, 'name="我"'),
         '我_头像': (MobileBy.XPATH,
                  '//XCUIElementTypeStaticText[@name="请完善您的资料"]/preceding-sibling::*[1]/XCUIElementTypeImage'),
-        '我_请完善您的资料': (MobileBy.IOS_PREDICATE, 'name="请完善您的资料"'),
+        '我_名称': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my bianji icon"]/preceding-sibling::*[1]'),
         '我_请完善您的资料_图片': (MobileBy.ACCESSIBILITY_ID, 'my bianji icon'),
         '我_已认证': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my bianji icon"]/following-sibling::*[1]'),
         '我_电话号码': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my bianji icon"]/following-sibling::*[2]'),
@@ -40,24 +44,39 @@ class MinePage(FooterPage):
         '我_资料_取消': (MobileBy.IOS_PREDICATE, 'name="取消"'),
         '我_资料_保存': (MobileBy.IOS_PREDICATE, 'name="保存"'),
         '我_资料_图像': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_profile_editor_camera@2x.png"'),
+
         '我_个人图像_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '我_个人图像_详情': (MobileBy.ACCESSIBILITY_ID, 'icon more@2x'),
+        '我_个人图像_从手机相册选择': (MobileBy.IOS_PREDICATE, 'name="从手机相册选择"'),
+        '我_个人图像_保存到手机': (MobileBy.IOS_PREDICATE, 'name="保存到手机"'),
+
         '我_资料_电话号码': (MobileBy.IOS_PREDICATE, 'name="电话号码"'),
         '我_资料_电话号码文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="电话号码"]/following-sibling::*[1]'),
-        '我_资料_昵称': (MobileBy.IOS_PREDICATE, 'name="昵称"'),
+
+        '我_资料_昵称': (MobileBy.XPATH, '//*[@name="昵称"]'),
         '我_资料_昵称文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="昵称"]/following-sibling::*[2]'),
+
         '我_资料_性别': (MobileBy.IOS_PREDICATE, 'name="性别"'),
         '我_资料_性别文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="性别"]/following-sibling::*[1]'),
         '我_资料_性别详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="性别"]/following-sibling::*[2]'),
+
         '我_资料_年龄': (MobileBy.IOS_PREDICATE, 'name="年龄"'),
         '我_资料_年龄文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="年龄"]/following-sibling::*[1]'),
         '我_资料_年龄详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="年龄"]/following-sibling::*[2]'),
+
         '我_资料_我的标签': (MobileBy.IOS_PREDICATE, 'name="我的标签"'),
         '我_资料_我的标签文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="我的标签"]/following-sibling::*[1]'),
         '我_资料_我的标签详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="我的标签"]/following-sibling::*[2]'),
+
         '我_资料_职业': (MobileBy.IOS_PREDICATE, 'name="职业"'),
         '我_资料_职业其他': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="职业"]/following-sibling::*[1]'),
         '我_资料_职业文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="职业"]/following-sibling::*[2]'),
         '我_资料_职业详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="职业"]/following-sibling::*[3]'),
+
+        # 下拉框
+        '我_下拉框_完成': (MobileBy.IOS_PREDICATE, 'name="完成"'),
+        '我_下拉框_男': (MobileBy.IOS_PREDICATE, 'name="男"'),
+        '我_下拉框_90后': (MobileBy.IOS_PREDICATE, 'name="男"'),
 
         # 资料标签
         '我_资料标签_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
@@ -154,9 +173,47 @@ class MinePage(FooterPage):
         # "联系人管理":("com.chinasofti.rcs:id/manage_contact_text")
     }
 
-    # @TestLogger.log('点击二维码图标')
-    # def click_qr_code_icon(self):
-    #     self.click_element(self.__locators['二维码入口'])
+    @TestLogger.log("清空昵称内容")
+    def clear_nickname_text(self, locator, default_timeout=5):
+        """清空昵称内容"""
+        try:
+            element = self.wait_until(
+                condition=lambda d: self.get_element(self.__locators[locator]),
+                timeout=default_timeout
+            )
+            element.clear()
+            # element.
+            # return True
+        except:
+            traceback.print_exc()
+            # return False
+        # print(self.is_element_already_exist('我_资料_保存'))
+        # element2 = self.get_element(self.__locators['我_资料_保存'])
+        # 保存清空文本字段
+        time.sleep(3)
+        x_percentage = 137 / 375 * 100
+        y_percentage = 137 / 667 * 100
+        xt_percentage = 18 / 375 * 100
+        yt_percentage = 18 / 667 * 100
+        self.swipe_by_percent_on_screen(x_percentage, y_percentage, xt_percentage, yt_percentage)
+        # time.sleep(5)
+        # self.click_locator_key('我_资料_保存')
+        # time.sleep(3)
+        # self.click_locator_key('我_请完善您的资料_图片')
+        # time.sleep(1)
+        # return True
+
+    @TestLogger.log('获取元素文本内容')
+    def get_text(self, locator):
+        return self.mobile.get_text(self.__locators[locator])
+
+    @TestLogger.log("校验text提示内容")
+    def check_text_exist(self, text):
+        return self.is_toast_exist(text)
+
+    @TestLogger.log('输入昵称文本内容')
+    def input_profile_name(self, locator, text):
+        self.input_text(self.__locators[locator], text)
 
     @TestLogger.log('判断元素是否存在')
     def is_element_already_exist(self, locator):
@@ -177,7 +234,7 @@ class MinePage(FooterPage):
     @TestLogger.log()
     def is_on_this_page(self):
         """当前页面是否在我的页面"""
-        el = self.get_elements(self.__locators['我_请完善您的资料'])
+        el = self.get_elements(self.__locators['我_请完善您的资料_图片'])
         if len(el) > 0:
             return True
         return False
@@ -277,12 +334,20 @@ class MinePage(FooterPage):
             )
         return self
 
-    @TestLogger.log("下一页")
-    def page_down(self):
-        self.wait_until(
-            condition=lambda d: self.get_element(self.__locators['菜单区域'])
-        )
-        self.swipe_by_direction(self.__locators['菜单区域'], 'up')
+    @TestLogger.log("输入随机昵称")
+    def input_random_name(self):
+        """当前页面元素是否存在"""
+        uid = str(uuid.uuid4())
+        suid = ''.join(uid.split('-'))
+        name = suid[:15]
+        self.input_text('昵称', name)
+
+    # @TestLogger.log("下一页")
+    # def page_down(self):
+    #     self.wait_until(
+    #         condition=lambda d: self.get_element(self.__locators['菜单区域'])
+    #     )
+    #     self.swipe_by_direction(self.__locators['菜单区域'], 'up')
 
     @TestLogger.log("下一页")
     def page_up(self):
@@ -330,7 +395,6 @@ class MinePage(FooterPage):
         """点击收藏按钮"""
         self.click_element(self.__locators['收藏'])
 
-
     @TestLogger.log()
     def is_element_exist(self, text):
         """当前页面是否包含此元素"""
@@ -340,7 +404,6 @@ class MinePage(FooterPage):
     def is_text_exist(self, text):
         """当前页面是否包含此元素"""
         return self.is_text_present(text)
-
 
     @TestLogger.log()
     def wait_for_me_page_load(self, timeout=20, auto_accept_alerts=True):
@@ -388,3 +451,6 @@ class MinePage(FooterPage):
                 if self._is_on_the_end_of_menu_view():
                     return False
 
+    # @TestLogger.log('点击二维码图标')
+    # def click_qr_code_icon(self):
+    #     self.click_element(self.__locators['二维码入口'])
