@@ -10,24 +10,7 @@ __all__ = [
     'OneKeyLoginPage',
     'SmsLoginPage',
     'MinePage',
-    'MeCollectionPage',
-    'MeSetCallPage',
-    'MeSetContactsManagerPage',
-    'MeSetDialPage',
-    'MeSetDialWayPage',
-    'MeSetFontSizePage',
-    'MeSetFuHaoPage',
-    'MeSetImprovePlanPage',
-    'MeSetMultiLanguagePage',
-    'MessageNoticeSettingPage',
-    'SettingPage',
-    'MeSetUpPage',
     'SmsSettingPage',
-    'ChatWindowPage',
-    'EmailAssistantPage',
-    'EmailDetailPage',
-    'EmailListPage',
-    'MessagePage',
     'GroupChatSetPage',
     'GroupChatSetManagerPage',
     'GroupChatSetModifyMyCardPage',
@@ -56,11 +39,6 @@ __all__ = [
     "ScanPage",
     "Scan1Page",
     "SelectContactPage",
-    'GlobalSearchContactPage',
-    'GlobalSearchGroupPage',
-    'GlobalSearchMessagePage',
-    'MessageSearchPage',
-    'SearchPage',
     'GroupChatSetFindChatContentPage',
     'LabelGroupingPage',
     'LableGroupDetailPage',
@@ -71,8 +49,6 @@ __all__ = [
     'FindChatRecordPage',
     'SingleChatSetPage',
     'PicVideoPage',
-    'WorkbenchPage',
-    'CreateTeamPage',
     'CallPage',
 ]
 
@@ -119,35 +95,11 @@ from .guide import GuidePage
 from .guide import PermissionListPage
 from .login import OneKeyLoginPage
 from .login import SmsLoginPage
-from .me import MeCollectionPage
 from .me import MinePage
-from .me import MeSetCallPage
-from .me import MeSetContactsManagerPage
-from .me import MeSetDialPage
-from .me import MeSetDialWayPage
-from .me import MeSetFontSizePage
-from .me import MeSetFuHaoPage
-from .me import MeSetImprovePlanPage
-from .me import MeSetMultiLanguagePage
-from .me import MeSetUpPage
-from .me import MessageNoticeSettingPage
-from .me import SettingPage
 from .me import SmsSettingPage
-from .message import ChatWindowPage
-from .message import EmailAssistantPage
-from .message import EmailDetailPage
-from .message import EmailListPage
-from .message import MessagePage
 from .others import BuildGroupChatPage
 from .others import MyQRCodePage
 from .others import Scan1Page
 from .others import ScanPage
 from .others import SelectContactPage
-from .search import GlobalSearchContactPage
-from .search import GlobalSearchGroupPage
-from .search import GlobalSearchMessagePage
-from .search import MessageSearchPage
-from .search import SearchPage
-from .workbench import WorkbenchPage
-from .workbench.create_team import CreateTeamPage
 from .call import CallPage

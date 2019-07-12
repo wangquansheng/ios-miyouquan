@@ -4,14 +4,10 @@ import datetime
 import traceback
 import threading
 
-from selenium.common.exceptions import TimeoutException
-
-from pages.guide import GuidePage
-from pages.login.OneKeyLogin import OneKeyLoginPage
 from pages.call.Call import CallPage
 
 from library.core.TestCase import TestCase
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
+from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from library.core.common.simcardtype import CardType
 from library.core.TestLogger import TestLogger

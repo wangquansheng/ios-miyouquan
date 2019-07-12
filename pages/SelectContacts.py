@@ -4,7 +4,6 @@ import copy
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 import time
-from pages.message.Message import MessagePage
 from pages.GroupChat import GroupChatPage
 
 class SelectContactsPage(BasePage):
