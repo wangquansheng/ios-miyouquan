@@ -1,3 +1,4 @@
+from pages.components import FooterPage
 from preconditions.BasePreconditions import LoginPreconditions
 
 from library.core.TestCase import TestCase
@@ -116,7 +117,7 @@ class Meprofile(TestCase):
     def default_setUp(self):
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('IOS-移动')
-        MessagePage().open_me_page()
+        FooterPage().open_me_page()
         time.sleep(2)
 
     def default_tearDown(self):
