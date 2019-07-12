@@ -277,13 +277,13 @@ class Meprofile(TestCase):
         me_page.click_locator_key('我_资料_我的标签详情')
         time.sleep(2)
         for i in range(6):
-            me_page.click_locator_key('我_资料标签_添加弹框')
-            time.sleep(1)
-            me_page.input_profile_name('我_资料标签_添加文本框', "标签%s" % i)
-            time.sleep(0.5)
-            me_page.click_locator_key('我_资料标签_添加确定')
-            time.sleep(0.5)
-        self.assertTrue(me_page.check_text_exist('最多选择5个标签来形容自己'))
+            me_page.click_locator_key('我_资料标签_%s' % (i+1))
+            time.sleep(2)
+            if i >= 5:
+                break
+        # 检查选择标签
+        time.sleep(2)
+        self.assertTrue(me_page.is_element_already_exist('我_资料标签_最多选择5个标签'))
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0009(self):
@@ -292,15 +292,16 @@ class Meprofile(TestCase):
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(0.5)
-        me_page.click_locator_key('我_资料_我的标签详情')
-        time.sleep(0.5)
         me_page.input_random_nickname()
-        me_page.click_locator_key('职业')
-        me_page.click_locator_key('职业_计算机')
-        me_page.click_locator_key('保存')
+        me_page.click_locator_key('我_资料_职业详情')
+        time.sleep(1)
+        me_page.click_locator_key('我_资料职业_2')
+        time.sleep(2)
+        # 提交
+        me_page.click_locator_key('我_资料_保存')
         for i in range(3):
-            if me_page.is_toast_exist('保存成功', timeout=0.3) \
-                    or me_page.is_toast_exist('您的资料未变化', timeout=0.3):
+            if me_page.is_toast_exist('上传成功', timeout=0.3) \
+                    or me_page.is_toast_exist('正在上传...', timeout=0.3):
                 break
 
     # @unittest.skip('app改版没有二维码')
@@ -314,7 +315,7 @@ class Meprofile(TestCase):
     #     self.assertTrue(me_page.is_text_exist('密友圈扫描二维码，添加我为密友'))
     #     self.assertTrue(me_page.check_qr_code_exist())
     #     self.assertTrue(me_page.check_element_name_photo_exist())
-
+    #
     # @unittest.skip('app改版没有二维码')
     # def test_me_0011(self):
     #     """个人二维码点击更多"""
@@ -326,7 +327,7 @@ class Meprofile(TestCase):
     #     self.assertTrue(me_page.element_is_enable('分享二维码'))
     #     self.assertEqual(me_page.get_element_text('保存二维码'), '保存二维码图片')
     #     self.assertTrue(me_page.element_is_enable('保存二维码'))
-
+    #
     # @unittest.skip('app改版没有二维码')
     # def test_me_0012(self):
     #     """个人二维码点击更多"""
@@ -344,65 +345,78 @@ class Meprofile(TestCase):
     def test_me_0013(self):
         """验证活动中心页面正常打开"""
         me_page = MinePage()
-        me_page.click_locator_key('活动中心')
-        self.assertTrue(me_page.check_wait_text_exits('活动中心', timeout=3 * 60))
-        me_page.click_locator_key_c('我_二级页面_相同返回')
+        time.sleep(1)
+        me_page.click_locator_key('我_活动中心_详情')
+        # 加载页面
+        me_page.wait_for_element_load('我_活动中心_活动中心')
+        self.assertTrue(me_page.is_element_already_exist('我_活动中心_活动中心'))
+        time.sleep(1)
+        me_page.click_locator_key('我_二级页面_相同返回')
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0014(self):
         """验证卡券页面正常打开"""
         me_page = MinePage()
-        me_page.click_locator_key_c('卡券')
-        self.assertTrue(me_page.check_wait_text_exits('我的卡券'))
-        me_page.click_locator_key_c('我_二级页面_相同返回')
+        time.sleep(1)
+        self.assertEqual(me_page.is_on_this_page(), True)
+        # 加载页面, 使用name查找不到
+        time.sleep(1)
+        me_page.click_locator_key('我_卡劵_详情')
+        time.sleep(3)
+        me_page.wait_for_element_load('我_卡劵_卡劵')
+        self.assertTrue(me_page.is_element_already_exist('我_卡劵_卡劵'))
+        time.sleep(1)
+        me_page.click_locator_key('我_二级页面_相同返回')
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0015(self):
         """验证积分页面正常打开"""
         me_page = MinePage()
-        count = 3
-        flag = False
-        while count > 0:
-            times = 1 * 60
-            me_page.click_locator_key_c('积分')
-            while times > 0:
-                if me_page.is_text_present_c('已连续签到', default_timeout=0.5):
-                    me_page.click_text('我知道了')
-                if me_page.is_text_present_c('我的积分', default_timeout=0.5):
-                    flag = True
-                    break
-                times -= 1
-            else:
-                me_page.click_locator_key_c('我_二级页面_相同返回')
-            if flag:
-                break
-            count -= 1
-        self.assertTrue(me_page.check_wait_text_exits('我的积分'))
-        me_page.click_locator_key_c('我_二级页面_相同返回')
+        time.sleep(1)
+        self.assertEqual(me_page.is_on_this_page(), True)
+        time.sleep(1)
+        me_page.click_locator_key('我_积分_详情')
+        time.sleep(3)
+        me_page.wait_for_element_load('我_积分_积分')
+        if me_page.is_text_present('已连续签到'):
+            me_page.click_text('我知道了')
+        # 积分
+        self.assertTrue(me_page.is_element_already_exist('我_积分_积分'))
+        me_page.click_locator_key('我_二级页面_相同返回')
 
-    @tags('ALL', 'CMCC', 'me')
-    def test_me_0016(self):
-        """验证网上营业厅正常打开"""
-        me_page = MinePage()
-        me_page.click_locator_key_c('网上营业厅')
-        self.assertTrue(me_page.check_wait_text_exits('网上营业厅'))
-        me_page.click_locator_key_c('我_二级页面_相同返回')
+    # @tags('ALL', 'CMCC', 'me')
+    # def test_me_0016(self):
+    #     """验证网上营业厅正常打开"""
+    #     me_page = MinePage()
+    #     me_page.click_locator_key('网上营业厅')
+    #     self.assertTrue(me_page.check_wait_text_exits('网上营业厅'))
+    #     me_page.click_locator_key_c('我_二级页面_相同返回')
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0017(self):
         """验证邀请有礼正常打开"""
         me_page = MinePage()
-        me_page.click_locator_key_c('邀请有礼')
-        self.assertTrue(me_page.check_wait_text_exits('邀请有奖'))
-        me_page.click_locator_key_c('我_二级页面_相同返回')
+        time.sleep(1)
+        self.assertEqual(me_page.is_on_this_page(), True)
+        time.sleep(1)
+        me_page.click_locator_key('我_邀请有奖_详情')
+        time.sleep(5)
+        me_page.wait_for_element_load('我_邀请有奖_邀请有奖')
+        self.assertTrue(me_page.is_element_already_exist('我_邀请有奖_邀请有奖'))
+        me_page.click_locator_key('我_二级页面_相同返回')
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0018(self):
         """验证帮助与反馈正常打开"""
         me_page = MinePage()
-        me_page.click_locator_key_c('帮助与反馈')
-        self.assertTrue(me_page.check_wait_text_exits('帮助与反馈'))
-        me_page.click_locator_key_c('我_二级页面_相同返回')
+        time.sleep(1)
+        self.assertEqual(me_page.is_on_this_page(), True)
+        time.sleep(1)
+        me_page.click_locator_key('我_帮助与反馈_详情')
+        time.sleep(5)
+        me_page.wait_for_element_load('我_帮助与反馈_帮助与反馈')
+        self.assertTrue(me_page.is_element_already_exist('我_帮助与反馈_帮助与反馈'))
+        me_page.click_locator_key('我_二级页面_相同返回')
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0019(self):
@@ -412,13 +426,16 @@ class Meprofile(TestCase):
         """
         me_page = MinePage()
         time.sleep(1)
-        for i in range(3):
-            if me_page.is_element_already_exist_c('设置'):
-                me_page.click_locator_key_c('设置')
-                break
-            else:
-                me_page.page_up()
-        time.sleep(1)
-        me_page.click_locator_key_c('退出当前账号')
-        time.sleep(3)
-        self.assertTrue(me_page.check_wait_text_exits('一键登录'))
+        self.assertEqual(me_page.is_on_this_page(), True)
+        if me_page.is_element_already_exist('我_设置_详情'):
+            me_page.click_locator_key('我_设置_详情')
+        time.sleep(2)
+        me_page.click_locator_key('我_设置_退出登录')
+        time.sleep(2)
+        me_page.click_locator_key('我_退出登录_确认')
+        time.sleep(5)
+        self.assertTrue(me_page.check_wait_text_exits('本机号码一键登录'))
+        time.sleep(2)
+        me_page.click_locator_key('一键登录')
+        print('重新登录')
+
