@@ -81,64 +81,64 @@ class LoginPreconditions(object):
         #     # 同意协议
         #     agreement = AgreementDetailPage()
         #     agreement.click_agree_button()
-        # 等待消息页
-        message_page = MessagePage()
-        message_page.wait_login_success(60)
+        # # 等待消息页
+        # message_page = MessagePage()
+        # message_page.wait_login_success(60)
 
-    @staticmethod
-    def make_already_in_message_page(reset=False):
-        """确保应用在消息页面"""
-        LoginPreconditions.select_mobile('IOS-移动', reset)
-        # current_mobile().hide_keyboard_if_display()
-        time.sleep(1)
-        # 如果在消息页，不做任何操作
-        mess = MessagePage()
-        if mess.is_on_this_page():
-            return
-        # 进入一键登录页
-        else:
-            try:
-                current_mobile().launch_app()
-                mess.wait_for_page_load()
-            except:
-                # 进入一键登录页
-                LoginPreconditions.make_already_in_one_key_login_page()
-                #  从一键登录页面登录
-                LoginPreconditions.login_by_one_key_login()
-
-    @staticmethod
-    def enter_private_chat_page(reset=False):
-        """进入单聊会话页面"""
-        # 登录进入消息页面
-        LoginPreconditions.make_already_in_message_page(reset)
-        mess = MessagePage()
-        # 点击‘通讯录’
-        mess.open_contacts_page()
-        contacts = ContactsPage()
-        time.sleep(4)
-        names = contacts.get_contacts_name()
-        if '本机' in names:
-            names.remove('本机')
-        chat = SingleChatPage()
-        cdp = ContactDetailsPage()
-        # 不存在联系则创建联系人
-        if not names:
-            contacts.click_add()
-            ccp = CreateContactPage()
-            ccp.wait_for_page_load()
-            name = "atest" + str(random.randint(100, 999))
-            number = "147752" + str(time.time())[-5:]
-            ccp.create_contact(name, number)
-        # else:
-        #     contacts.select_people_by_name(names[0])
-        cdp.wait_for_page_load()
-        # 点击消息进入单聊会话页面
-        cdp.click_message_icon()
-        # 如果弹框用户须知则点击处理
-        flag = chat.is_exist_dialog()
-        if flag:
-            chat.click_i_have_read()
-        chat.wait_for_page_load()
+    # @staticmethod
+    # def make_already_in_message_page(reset=False):
+    #     """确保应用在消息页面"""
+    #     LoginPreconditions.select_mobile('IOS-移动', reset)
+    #     # current_mobile().hide_keyboard_if_display()
+    #     time.sleep(1)
+    #     # 如果在消息页，不做任何操作
+    #     mess = MessagePage()
+    #     if mess.is_on_this_page():
+    #         return
+    #     # 进入一键登录页
+    #     else:
+    #         try:
+    #             current_mobile().launch_app()
+    #             mess.wait_for_page_load()
+    #         except:
+    #             # 进入一键登录页
+    #             LoginPreconditions.make_already_in_one_key_login_page()
+    #             #  从一键登录页面登录
+    #             LoginPreconditions.login_by_one_key_login()
+    #
+    # @staticmethod
+    # def enter_private_chat_page(reset=False):
+    #     """进入单聊会话页面"""
+    #     # 登录进入消息页面
+    #     LoginPreconditions.make_already_in_message_page(reset)
+    #     mess = MessagePage()
+    #     # 点击‘通讯录’
+    #     mess.open_contacts_page()
+    #     contacts = ContactsPage()
+    #     time.sleep(4)
+    #     names = contacts.get_contacts_name()
+    #     if '本机' in names:
+    #         names.remove('本机')
+    #     chat = SingleChatPage()
+    #     cdp = ContactDetailsPage()
+    #     # 不存在联系则创建联系人
+    #     if not names:
+    #         contacts.click_add()
+    #         ccp = CreateContactPage()
+    #         ccp.wait_for_page_load()
+    #         name = "atest" + str(random.randint(100, 999))
+    #         number = "147752" + str(time.time())[-5:]
+    #         ccp.create_contact(name, number)
+    #     # else:
+    #     #     contacts.select_people_by_name(names[0])
+    #     cdp.wait_for_page_load()
+    #     # 点击消息进入单聊会话页面
+    #     cdp.click_message_icon()
+    #     # 如果弹框用户须知则点击处理
+    #     flag = chat.is_exist_dialog()
+    #     if flag:
+    #         chat.click_i_have_read()
+    #     chat.wait_for_page_load()
 
 
 class WorkbenchPreconditions(LoginPreconditions):
@@ -169,27 +169,27 @@ class WorkbenchPreconditions(LoginPreconditions):
         team_name = "ateam" + phone_number[-4:]
         return team_name
 
-    @staticmethod
-    def create_team(team_name=None, user_name="admin"):
-        """创建团队"""
-        if not team_name:
-            team_name = WorkbenchPreconditions.get_team_name()
-        team = CreateTeamPage()
-        team.input_team_name(team_name)
-        team.choose_location()
-        team.choose_industry()
-        team.input_real_name(user_name)
-        # 立即创建团队
-        team.click_immediately_create_team()
-        # 点击完成设置工作台
-        team.wait_for_setting_workbench_page_load()
-        team.click_finish_setting_workbench()
-        team.wait_for_create_team_success_page_load()
-        # 进入工作台
-        team.click_enter_workbench()
-        workbench = WorkbenchPage()
-        workbench.wait_for_page_load()
-
+    # @staticmethod
+    # def create_team(team_name=None, user_name="admin"):
+    #     """创建团队"""
+    #     if not team_name:
+    #         team_name = WorkbenchPreconditions.get_team_name()
+    #     team = CreateTeamPage()
+    #     team.input_team_name(team_name)
+    #     team.choose_location()
+    #     team.choose_industry()
+    #     team.input_real_name(user_name)
+    #     # 立即创建团队
+    #     team.click_immediately_create_team()
+    #     # 点击完成设置工作台
+    #     team.wait_for_setting_workbench_page_load()
+    #     team.click_finish_setting_workbench()
+    #     team.wait_for_create_team_success_page_load()
+    #     # 进入工作台
+    #     team.click_enter_workbench()
+    #     workbench = WorkbenchPage()
+    #     workbench.wait_for_page_load()
+    #
     # @staticmethod
     # def enter_organization_page(reset=False):
     #     """从消息进入组织架构页面"""

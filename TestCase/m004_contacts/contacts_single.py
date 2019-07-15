@@ -57,6 +57,16 @@ class Preconditions(LoginPreconditions):
         """后台运行"""
         current_mobile().press_home_key()
 
+    @staticmethod
+    def make_already_in_call_page(reset=False):
+        """确保应用在通话页面"""
+        LoginPreconditions.select_mobile('IOS-移动', reset)
+        current_mobile().hide_keyboard_if_display()
+        time.sleep(1)
+        # 如果在消息页，不做任何操作
+        call_page = CallPage()
+        if call_page.is_on_this_page():
+            return
 
 # noinspection PyBroadException
 class ContactlocalPage(TestCase):
@@ -69,12 +79,13 @@ class ContactlocalPage(TestCase):
     def default_setUp(self):
         """确保每个用例开始之前在通讯录界面"""
         warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.connect_mobile('Android-移动')
+        Preconditions.connect_mobile('IOS-移动')
         Preconditions.make_already_in_call_page()
-        FooterPage().open_contact_page()
-        contact = ContactsPage()
-        contact.permission_box_processing()
-        contact.remove_mask_c(1)
+        FooterPage().open_contacts_page()
+        # # 开通权限
+        # contact = ContactsPage()
+        # contact.permission_box_processing()
+        # contact.remove_mask_c(1)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_001(self):
@@ -88,28 +99,28 @@ class ContactlocalPage(TestCase):
         """
         contact_page = ContactsPage()
         # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist_c('通讯录_标题'), True)
+        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         # 展开家庭网
         if not contact_page.if_home_net_expand():
-            contact_page.click_locator_key_c('家庭网_展开_收起')
+            contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list_c('联系人号码')[0].click()
+        contact_page.get_elements_list('联系人号码')[0].click()
         time.sleep(3)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_头像'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_备注'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_电话'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_视频'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_添加桌面'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_备注名'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_备注修改'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_归属地'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_长号'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_短号标签'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_短号'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_更多'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_更多编辑'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_规则'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_头像'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_电话按钮'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_视频按钮'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_设置备注名'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注修改'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_手机号码'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_短号'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_短号内容'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_更多'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_更多编辑'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_电话规则'), True)
+        # self.assertEqual(contact_page.is_element_already_exist('联系人_添加桌面'), True)
+        # self.assertEqual(contact_page.is_element_already_exist('联系人_归属地'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_002(self):
@@ -123,7 +134,7 @@ class ContactlocalPage(TestCase):
         """
         contact_page = ContactsPage()
         # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist_c('通讯录_标题'), True)
+        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         # 展开家庭网
         if not contact_page.if_home_net_expand():
             contact_page.click_locator_key_c('家庭网_展开_收起')
