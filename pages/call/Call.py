@@ -147,6 +147,7 @@ class CallPage(FooterPage):
         '视频_切到语音通话': (MobileBy.IOS_PREDICATE, 'name=="切到语音通话"'),
         '视频_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
         '视频_切换摄像头': (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
+        '视频_未接听': (MobileBy.IOS_PREDICATE, 'name=="对方不在线，暂时无法接听，请稍后重试。"'),
 
         # 视频-语音界面
         '语音_名称': (MobileBy.XPATH,

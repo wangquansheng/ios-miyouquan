@@ -367,58 +367,229 @@ class CallPageTest(TestCase):
                 # 若没有失败标志，测试执行成功
                 print('Test Success')
 
-    # =================================
+    # ================test_call_00019=================
 
-    @tags('ALL', 'CMCC_double', 'call')  # pass
-    def test_call_00020(self):
-        """
-            1、联网正常已登录
-            2、对方离线
-            3、当前页通话记录详情
-            点击视频通话---点击取消---进入拨打视频通话界面，并弹出提示窗，“通话结束”---返回通话记录详情页
-        """
-        call = CallPage()
-        # 关闭广告弹框
-        call.close_click_home_advertisement()
+    @TestLogger.log('主叫手机')
+    def call_00019_01(self, dic):
         try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
             call.wait_for_page_load()
-            # 被叫手机初始化
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_p2p_video(dic['cards'])
+                    print('打电话了')
+                    time.sleep(25)
+                    c = 2 * 60
+                    while c > 0:
+                        if not call.is_element_already_exist('视频_未接听'):
+                            # 2秒检测一次
+                            c -= 1
+                            time.sleep(0.2)
+                            continue
+                        else:
+                            # 执行成功，写入成功标志
+                            dic['res3'] = 'success'
+                            break
+                    else:
+                        raise
+
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_00019_02(self, dic):
+        try:
+            # 初始化被叫手机
             Preconditions.initialize_class('IOS-移动-移动')
-            # 被叫手机号码
+            call = CallPage()
+            call.wait_for_page_load()
+            # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
-            # 切换主叫手机
-            time.sleep(0.5)
-            Preconditions.select_mobile('IOS-移动')
-            # 主叫拨打视频电话, 添加通话记录
-            call.pick_up_p2p_video(cards)
-            time.sleep(3)
-            call.click_video_hangup()
-            if call.on_this_page_common('无密友圈_确定'):
-                call.click_locator_key('无密友圈_取消')
-            # 点击第一条，跳转到详情页面
-            time.sleep(2)
-            call.click_tag_detail_first_element('[视频通话]')
-            time.sleep(1)
-            self.assertEqual(call.on_this_page_call_detail(), True)
-            # 1. 点击视频通话按钮
-            call.click_locator_key('详情_视频按钮')
-            time.sleep(1)
-            # if call.on_this_page_flow():
-            #     call.set_not_reminders()
-            #     time.sleep(1)
-            #     call.click_locator_key('流量_继续拨打')
-            time.sleep(3)
-            call.click_video_hangup()
-            if call.on_this_page_common('无密友圈_确定'):
-                call.click_locator_key('无密友圈_取消')
-            time.sleep(3)
-            self.assertEqual(call.on_this_page_call_detail(), True)
-        finally:
-            # 切换被叫手机
-            Preconditions.select_mobile('IOS-移动-移动')
-            time.sleep(2)
-            Preconditions.disconnect_mobile('IOS-移动-移动')
-            # call.set_network_status(0)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # # 循环检测60次 * 2s
+            # n = 1 * 60
+            # while n > 0:
+            #     # 循环判断元素是否存在
+            #     if not call.is_element_exist('视频接听_接听'):
+            #         n -= 1
+            #         time.sleep(2)
+            #         continue
+            #     else:
+            #         # 接听视频电话
+            #         self.assertEqual(self.to_pick_phone_video(), True)
+            #         time.sleep(6)
+            #         call.check_element_tap_screen('视频_时长')
+            #         call.click_locator_key('视频_挂断')
+            #         dic['hang_up'] = 'success'
+                    # 写入测试成功标志
+            dic['res2'] = 'success'
+                    # break
+            # else:
+            #     # 失败后抛出异常
+            #     raise
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00019(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_00019_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_00019_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
+
+    # ================test_call_00020=================
+
+    @TestLogger.log('主叫手机')
+    def call_00020_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_p2p_video(dic['cards'])
+                    print('打电话了')
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+            c = 1 * 60
+            while c > 0:
+                if ('hang_up' not in dic.keys()) or (dic['hang_up'] != 'success') or \
+                        (not call.is_element_already_exist('通话_文案_HEAD')):
+                    c -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    self.assertEqual(call.is_element_already_exist('通话_文案_HEAD'), True)
+                    # 执行成功，写入成功标志
+                    dic['res3'] = 'success'
+                    break
+            else:
+                raise
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_00020_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                # 循环判断元素是否存在
+                if not call.is_element_exist('视频接听_接听'):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 接听视频电话
+                    self.assertEqual(self.to_pick_phone_video(), True)
+                    time.sleep(6)
+                    call.check_element_tap_screen('视频_时长')
+                    call.click_locator_key('视频_挂断')
+                    dic['hang_up'] = 'success'
+                    # 写入测试成功标志
+                    dic['res2'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00020(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_00020_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_00020_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
+
+    # ================test_call_00048=================
 
     @TestLogger.log('主叫手机')
     def call_00048_01(self, dic):
@@ -540,6 +711,8 @@ class CallPageTest(TestCase):
         finally:
             call.check_element_tap_screen('视频_时长')
             call.click_locator_key('视频_挂断')
+
+    # =================================
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00049(self):
