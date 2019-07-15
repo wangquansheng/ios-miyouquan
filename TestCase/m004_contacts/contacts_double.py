@@ -35,91 +35,11 @@ class Preconditions(object):
     """
 
     @staticmethod
-    def select_single_cmcc_android_4g_client():
-        """
-        启动
-        1、4G，安卓客户端
-        2、移动卡
-        :return:
-        """
-        client = switch_to_mobile(REQUIRED_MOBILES['测试机'])
-        client.connect_mobile()
-
-    @staticmethod
     def select_mobile(category):
         """选择手机手机"""
         client = switch_to_mobile(REQUIRED_MOBILES[category])
         client.connect_mobile()
         return client
-
-    @staticmethod
-    def select_assisted_mobile2():
-        """切换到单卡、异网卡Android手机 并启动应用"""
-        switch_to_mobile(REQUIRED_MOBILES['辅助机2'])
-        current_mobile().connect_mobile()
-
-    @staticmethod
-    def make_already_in_one_key_login_page():
-        """
-        1、已经进入一键登录页
-        :return:
-        """
-        # 如果当前页面已经是一键登录页，不做任何操作
-        one_key = OneKeyLoginPage()
-        if one_key.is_on_this_page():
-            return
-        # 如果当前页不是引导页第一页，重新启动app
-        guide_page = GuidePage()
-        time.sleep(2)
-        guide_page.click_always_allow()
-        one_key.wait_for_page_load(30)
-
-    @staticmethod
-    def login_by_one_key_login():
-        """
-        从一键登录页面登录
-        :return:
-        """
-        # 等待号码加载完成后，点击一键登录
-        one_key = OneKeyLoginPage()
-        one_key.wait_for_page_load()
-        # one_key.wait_for_tell_number_load(60)
-        one_key.click_one_key_login()
-        time.sleep(2)
-        if one_key.is_text_present('用户协议和隐私保护'):
-            one_key.click_agree_user_aggrement()
-            time.sleep(1)
-            # one_key.click_agree_login_by_number()
-        call_page = CallPage()
-        call_page.is_element_already_exist('通话')
-        time.sleep(2)
-        call_page.remove_mask(2)
-
-    @staticmethod
-    def app_start_for_the_first_time():
-        """首次启动APP（使用重置APP代替）"""
-        current_mobile().reset_app()
-
-    @staticmethod
-    def terminate_app():
-        """
-        强制关闭app,退出后台
-        :return:
-        """
-        app_id = current_driver().capabilities['appPackage']
-        current_mobile().terminate_app(app_id)
-
-    @staticmethod
-    def background_app(seconds):
-        """后台运行"""
-        current_mobile().background_app(seconds)
-
-    @staticmethod
-    def reset_and_relaunch_app():
-        """首次启动APP（使用重置APP代替）"""
-        app_package = 'com.cmic.college'
-        current_driver().activate_app(app_package)
-        current_mobile().reset_app()
 
     @staticmethod
     def make_already_in_call_page():
@@ -132,36 +52,50 @@ class Preconditions(object):
         call_page = CallPage()
         if call_page.is_on_this_page():
             return
-        # 如果当前页面已经是一键登录页，进行一键登录页面
-        one_key = OneKeyLoginPage()
-        try:
-            one_key.wait_until(
-                condition=lambda d: one_key.is_text_present('一键登录'),
-                timeout=15
-            )
-        except:
-            pass
-        if one_key.is_text_present('一键登录'):
-            Preconditions.login_by_one_key_login()
-        # 如果当前页不是引导页第一页，重新启动app
-        else:
-            try:
-                current_mobile().terminate_app('com.cmic.college', timeout=2000)
-            except Exception:
-                traceback.print_exc()
-                pass
-            current_mobile().launch_app()
-            try:
-                call_page.wait_until(
-                    condition=lambda d: call_page.is_on_this_page(),
-                    timeout=3
-                )
-                return
-            except TimeoutException:
-                pass
-            Preconditions.reset_and_relaunch_app()
-            Preconditions.make_already_in_one_key_login_page()
-            Preconditions.login_by_one_key_login()
+        # # 如果当前页面已经是一键登录页，进行一键登录页面
+        # one_key = OneKeyLoginPage()
+        # try:
+        #     one_key.wait_until(
+        #         condition=lambda d: one_key.is_text_present('一键登录'),
+        #         timeout=15
+        #     )
+        # except:
+        #     pass
+        # if one_key.is_text_present('一键登录'):
+        #     Preconditions.login_by_one_key_login()
+        # # 如果当前页不是引导页第一页，重新启动app
+        # else:
+        #     try:
+        #         current_mobile().terminate_app('com.cmic.college', timeout=2000)
+        #     except Exception:
+        #         traceback.print_exc()
+        #         pass
+        #     current_mobile().launch_app()
+        #     try:
+        #         call_page.wait_until(
+        #             condition=lambda d: call_page.is_on_this_page(),
+        #             timeout=3
+        #         )
+        #         return
+        #     except TimeoutException:
+        #         pass
+        #     Preconditions.reset_and_relaunch_app()
+        #     Preconditions.make_already_in_one_key_login_page()
+        #     Preconditions.login_by_one_key_login()
+    #
+    # @staticmethod
+    # def get_current_activity_name():
+    #     import os, sys
+    #     global findExec
+    #     findExec = 'findstr' if sys.platform == 'win32' else 'grep'
+    #     device_name = current_driver().capabilities['deviceName']
+    #     cmd = 'adb -s %s shell dumpsys window | %s mCurrentFocus' % (device_name, findExec)
+    #     res = os.popen(cmd)
+    #     time.sleep(2)
+    #     # 截取出activity名称 == ''为第三方软件
+    #     current_activity = res.read().split('u0 ')[-1].split('/')[0]
+    #     res.close()
+    #     return current_activity
 
     @staticmethod
     def make_sure_in_after_login_callpage():
@@ -169,29 +103,16 @@ class Preconditions(object):
         current_mobile().wait_until_not(condition=lambda d: current_mobile().is_text_present('正在登录...'), timeout=20)
 
     @staticmethod
-    def get_current_activity_name():
-        import os, sys
-        global findExec
-        findExec = 'findstr' if sys.platform == 'win32' else 'grep'
-        device_name = current_driver().capabilities['deviceName']
-        cmd = 'adb -s %s shell dumpsys window | %s mCurrentFocus' % (device_name, findExec)
-        res = os.popen(cmd)
-        time.sleep(2)
-        # 截取出activity名称 == ''为第三方软件
-        current_activity = res.read().split('u0 ')[-1].split('/')[0]
-        res.close()
-        return current_activity
-
-    @staticmethod
     def initialize_class(moudel):
         """确保每个用例开始之前在通话界面界面"""
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile(moudel)
         Preconditions.make_already_in_call_page()
-        FooterPage().open_contact_page()
-        contact = ContactsPage()
-        contact.permission_box_processing()
-        contact.remove_mask(1)
+        FooterPage().open_contacts_page()
+        # #
+        # contact = ContactsPage()
+        # contact.permission_box_processing()
+        # contact.remove_mask(1)
 
     @staticmethod
     def close_system_update():
@@ -201,6 +122,64 @@ class Preconditions(object):
             call.click_text('稍后')
             time.sleep(1)
             call.click_text('取消')
+
+    # @staticmethod
+    # def make_already_in_one_key_login_page():
+    #     """
+    #     1、已经进入一键登录页
+    #     :return:
+    #     """
+    #     # 如果当前页面已经是一键登录页，不做任何操作
+    #     one_key = OneKeyLoginPage()
+    #     if one_key.is_on_this_page():
+    #         return
+    #     # 如果当前页不是引导页第一页，重新启动app
+    #     guide_page = GuidePage()
+    #     time.sleep(2)
+    #     guide_page.click_always_allow()
+    #     one_key.wait_for_page_load(30)
+    #
+    # @staticmethod
+    # def login_by_one_key_login():
+    #     """
+    #     从一键登录页面登录
+    #     :return:
+    #     """
+    #     # 等待号码加载完成后，点击一键登录
+    #     one_key = OneKeyLoginPage()
+    #     one_key.wait_for_page_load()
+    #     # one_key.wait_for_tell_number_load(60)
+    #     one_key.click_one_key_login()
+    #     time.sleep(2)
+    #     if one_key.is_text_present('用户协议和隐私保护'):
+    #         one_key.click_agree_user_aggrement()
+    #         time.sleep(1)
+    #         # one_key.click_agree_login_by_number()
+    #     call_page = CallPage()
+    #     call_page.is_element_already_exist('通话')
+    #     time.sleep(2)
+    #     call_page.remove_mask(2)
+    #
+    # @staticmethod
+    # def app_start_for_the_first_time():
+    #     """首次启动APP（使用重置APP代替）"""
+    #     current_mobile().reset_app()
+    #
+    # @staticmethod
+    # def terminate_app():
+    #     """
+    #     强制关闭app,退出后台
+    #     :return:
+    #     """
+    #     app_id = current_driver().capabilities['appPackage']
+    #     current_mobile().terminate_app(app_id)
+    #
+    # @staticmethod
+    # def reset_and_relaunch_app():
+    #     """首次启动APP（使用重置APP代替）"""
+    #     app_package = 'com.cmic.college'
+    #     current_driver().activate_app(app_package)
+    #     current_mobile().reset_app()
 
 
 class ContactlocalPage(TestCase):
@@ -240,7 +219,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         # 展开家庭网
         if contact_page.if_home_net_expand():
-            contact_page.click_locator_key('家庭网_展开_收起')
+            contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击联系人
         n = 0
@@ -289,7 +268,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         # 展开家庭网
         if not contact_page.if_home_net_expand():
-            contact_page.click_locator_key('家庭网_展开_收起')
+            contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
         n = 0
@@ -309,10 +288,10 @@ class ContactlocalPage(TestCase):
         contact_page.click_locator_key('家庭网_详细_备注修改')
         self.assertEqual(contact_page.is_text_present('修改备注名'), True)
         # 清空输入框内容
-        contact_page.edit_clear('编辑备注_输入框')
+        contact_page.edit_clear('家庭网_备注修改_文本框')
         name = '备注'
-        contact_page.input_text('编辑备注_输入框', name)
-        contact_page.click_locator_key('编辑备注_保存')
+        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.click_locator_key('家庭网_备注修改_完成')
         time.sleep(2)
         contact_page.click_locator_key('联系人_视频')
         contact_page.is_text_present('正在等待对方接听', default_timeout=20)
@@ -337,7 +316,7 @@ class ContactlocalPage(TestCase):
         # 展开家庭网
         # 展开家庭网
         if not contact_page.if_home_net_expand():
-            contact_page.click_locator_key('家庭网_展开_收起')
+            contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
         self.assertEqual(contact_page.is_element_already_exist('家庭网_管理'), False)
@@ -369,7 +348,7 @@ class ContactlocalPage(TestCase):
         time.sleep(1)
         # 展开家庭网
         # if contact_page.if_home_net_expand():
-        #     contact_page.click_locator_key('家庭网_展开_收起')
+        #     contact_page.click_locator_key('通讯录_家庭网_展开')
         #     time.sleep(1)
         # 点击联系人
         n = 0
@@ -415,7 +394,7 @@ class ContactlocalPage(TestCase):
         time.sleep(1)
         # 展开家庭网
         # if contact_page.if_home_net_expand():
-        #     contact_page.click_locator_key('家庭网_展开_收起')
+        #     contact_page.click_locator_key('通讯录_家庭网_展开')
         #     time.sleep(1)
         # 点击联系人
         n = 0

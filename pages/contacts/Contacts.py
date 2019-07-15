@@ -29,7 +29,11 @@ class ContactsPage(FooterPage):
         '联系人': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]'),
         '联系人_列表': (MobileBy.XPATH, ''),
         '家庭网_列表': (MobileBy.XPATH, ''),
-        '搜索_列表': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::*'),
+        '搜索_列表': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following-sibling::XCUIElementTypeCell'),
+        '搜索_列表1': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[1]'),
+        '搜索_列表2': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[2]'),
+        # //XCUIElementTypeStaticText[@name="联系人"]/following-sibling::XCUIElementTypeStaticText[@name="my contact call icon"]
+        # //XCUIElementTypeStaticText[@name="联系人"]/following::*/XCUIElementTypeStaticText[@name="my contact call icon"]
 
         # 联系人
         '联系人_详细_返回': (MobileBy.ACCESSIBILITY_ID, 'contact info back normal@2x'),
@@ -69,6 +73,7 @@ class ContactsPage(FooterPage):
         '家庭网_详细_电话按钮': (MobileBy.ACCESSIBILITY_ID, 'my call white n@2x'),
         '家庭网_详细_视频按钮': (MobileBy.ACCESSIBILITY_ID, 'my profile ic vedio n@2x'),
         '家庭网_详细_设置备注名': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="设置备注名"]'),
+        '家庭网_详细_备注名文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="设置备注名"]/following-sibling::*[1]'),
         '家庭网_详细_备注修改': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="设置备注名"]/following-sibling::*[2]'),
         '家庭网_详细_手机号码': (MobileBy.IOS_PREDICATE, 'name=="手机号码"'),
         '家庭网_详细_短号': (MobileBy.IOS_PREDICATE, 'name=="短号"'),
@@ -81,7 +86,7 @@ class ContactsPage(FooterPage):
         '家庭网_备注修改_标题': (MobileBy.IOS_PREDICATE, '//XCUIElementTypeOther[@name="修改备注名称"]'),
         '家庭网_备注修改_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
         '家庭网_备注修改_完成': (MobileBy.IOS_PREDICATE, 'name=="完成"'),
-        '家庭网_备注修改_备注文本框': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
+        '家庭网_备注修改_文本框': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
         '家庭网_备注修改_清除': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="清除文本"]'),
 
         # 搜索
@@ -102,41 +107,6 @@ class ContactsPage(FooterPage):
         '通话': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="通话"]'),
         '通讯录': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="通讯录"]'),
         '我': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="我"]'),
-
-        # 通讯录页面
-        # '通讯录标题': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="通讯录"]'),
-        # '搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
-        # '群聊': (MobileBy.ACCESSIBILITY_ID, '群聊'),
-        # '公众号': (MobileBy.ACCESSIBILITY_ID, '公众号'),
-        # '创建团队': (MobileBy.ACCESSIBILITY_ID, '创建团队'),
-        # '全部团队': (MobileBy.ACCESSIBILITY_ID, '全部团队'),
-        # '默认团队': (MobileBy.ACCESSIBILITY_ID, '默认团队'),
-        # '设置': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="默认团队"]/XCUIElementTypeButton'),
-        #
-        # '团队头像': (MobileBy.ACCESSIBILITY_ID, 'cc_contacts_organization_classA'),
-        # '团队名称': (MobileBy.XPATH,''),
-        # #搜索结果
-        # '输入关键字快速搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="输入关键字快速搜索"])[1]'),
-        # '搜索结果列表1': (MobileBy.XPATH,
-        #             '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'),
-        # '搜索结果-团队联系人头像': (MobileBy.XPATH, '(//XCUIElementTypeImage[@name="cc_chat_personal_default"])'),
-        # '手机联系人': (MobileBy.ACCESSIBILITY_ID, '手机联系人'),
-        # '手机联系人头像':(MobileBy.XPATH,'//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeImage'),
-        # '群聊联系人头像': (MobileBy.XPATH,'(//XCUIElementTypeImage[@name="cc_chat_group_default"])[1]'),
-        # '和飞信新闻公众号头像': (MobileBy.XPATH,'//XCUIElementTypeImage[@name="/var/mobile/Containers/Data/Application/3FF94A5C-59E9-4E2B-AA59-79FEC854AC76/Library/RCSData/headimage/4cc45369622d4a44066beafd18633c55_(null)"]'),
-        # '查看更多1': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="查看更多"])[1]'),
-        # '查看更多2': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="查看更多"])[2]'),
-        #
-        # # 手机联系人界面
-        # '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
-        # '搜索手机联系人': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeTextField'),
-        # '+号': (MobileBy.ACCESSIBILITY_ID, 'cc contacts add normal'),
-        # '标签分组': (MobileBy.ACCESSIBILITY_ID, '标签分组'),
-        # '索引字母容器': (MobileBy.XPATH,
-        #            '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]'),
-        # '列表项': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell'),
-        # '联系人头像': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeImage'),
-        # '本地联系人搜索结果': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell'),
 
     }
 
