@@ -77,6 +77,13 @@ class ContactsPage(FooterPage):
         '家庭网_详细_更多编辑': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="更多"]/following-sibling::*[2]'),
         '家庭网_详细_电话规则': (MobileBy.IOS_PREDICATE, 'name=="电话规则说明"'),
 
+        # 家庭网 备注修改
+        '家庭网_备注修改_标题': (MobileBy.IOS_PREDICATE, '//XCUIElementTypeOther[@name="修改备注名称"]'),
+        '家庭网_备注修改_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '家庭网_备注修改_完成': (MobileBy.IOS_PREDICATE, 'name=="完成"'),
+        '家庭网_备注修改_备注文本框': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
+        '家庭网_备注修改_清除': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="清除文本"]'),
+
         # 搜索
         '搜索_搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
         '搜索_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),

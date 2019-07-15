@@ -93,7 +93,7 @@ class Preconditions(object):
         call_page = CallPage()
         call_page.is_element_already_exist('通话')
         time.sleep(2)
-        call_page.remove_mask_c(2)
+        call_page.remove_mask(2)
 
     @staticmethod
     def app_start_for_the_first_time():
@@ -191,13 +191,13 @@ class Preconditions(object):
         FooterPage().open_contact_page()
         contact = ContactsPage()
         contact.permission_box_processing()
-        contact.remove_mask_c(1)
+        contact.remove_mask(1)
 
     @staticmethod
     def close_system_update():
         """确保每个用例开始之前在通话界面界面"""
         call = CallPage()
-        if call.is_text_present_c('系统更新'):
+        if call.is_text_present('系统更新'):
             call.click_text('稍后')
             time.sleep(1)
             call.click_text('取消')
@@ -218,7 +218,7 @@ class ContactlocalPage(TestCase):
         FooterPage().open_contact_page()
         contact = ContactsPage()
         contact.permission_box_processing()
-        contact.remove_mask_c(1)
+        contact.remove_mask(1)
 
     @tags('ALL', 'CMCC_double', 'contact')
     def test_member_014(self):
@@ -229,24 +229,24 @@ class ContactlocalPage(TestCase):
             查看联系人详情元素	复用家庭网详情页面内容，去掉短号栏
         """
         contact_page = ContactsPage()
-        contact_page.is_element_already_exist_c('通讯录_标题')
+        contact_page.is_element_already_exist('通讯录_标题')
         # 初始化被叫手机
         Preconditions.initialize_class('Android-移动-N')
         # 获取手机号码
-        cards = contact_page.get_cards_c(CardType.CHINA_MOBILE)[0]
+        cards = contact_page.get_cards(CardType.CHINA_MOBILE)[0]
         # 切换主叫手机
         Preconditions.select_mobile('Android-移动')
         # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist_c('通讯录_标题'), True)
+        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         # 展开家庭网
         if contact_page.if_home_net_expand():
-            contact_page.click_locator_key_c('家庭网_展开_收起')
+            contact_page.click_locator_key('家庭网_展开_收起')
             time.sleep(1)
         # 点击联系人
         n = 0
         flag = False
         while n < 8:
-            for contact in contact_page.get_elements_list_c('联系人号码'):
+            for contact in contact_page.get_elements_list('家庭网_列表'):
                 if cards == contact.text:
                     contact.click()
                     flag = True
@@ -256,18 +256,18 @@ class ContactlocalPage(TestCase):
             contact_page.page_up()
             n += 1
         time.sleep(3)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_头像'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_备注'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_电话'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_视频'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_添加桌面'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_备注名'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_备注修改'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_归属地'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_长号'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_更多'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_更多编辑'), True)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_规则'), True)
+        self.assertEqual(contact_page.is_element_already_exist('联系人_头像'), True)
+        self.assertEqual(contact_page.is_element_already_exist('联系人_备注'), True)
+        self.assertEqual(contact_page.is_element_already_exist('联系人_电话'), True)
+        self.assertEqual(contact_page.is_element_already_exist('联系人_视频'), True)
+        self.assertEqual(contact_page.is_element_already_exist('联系人_添加桌面'), True)
+        self.assertEqual(contact_page.is_element_already_exist('联系人_备注名'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注修改'), True)
+        self.assertEqual(contact_page.is_element_already_exist('联系人_归属地'), True)
+        self.assertEqual(contact_page.is_element_already_exist('联系人_长号'), True)
+        self.assertEqual(contact_page.is_element_already_exist('联系人_更多'), True)
+        self.assertEqual(contact_page.is_element_already_exist('联系人_更多编辑'), True)
+        self.assertEqual(contact_page.is_element_already_exist('联系人_规则'), True)
 
     @tags('ALL', 'CMCC_double', 'contact')
     def test_member_030(self):
@@ -278,24 +278,24 @@ class ContactlocalPage(TestCase):
             查看联系人详情元素	复用家庭网详情页面内容，去掉短号栏
         """
         contact_page = ContactsPage()
-        contact_page.is_element_already_exist_c('通讯录_标题')
+        contact_page.is_element_already_exist('通讯录_标题')
         # 初始化被叫手机
         Preconditions.initialize_class('Android-移动-N')
         # 获取手机号码
-        cards = contact_page.get_cards_c(CardType.CHINA_MOBILE)[0]
+        cards = contact_page.get_cards(CardType.CHINA_MOBILE)[0]
         # 切换主叫手机
         Preconditions.select_mobile('Android-移动')
         # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist_c('通讯录_标题'), True)
+        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         # 展开家庭网
         if not contact_page.if_home_net_expand():
-            contact_page.click_locator_key_c('家庭网_展开_收起')
+            contact_page.click_locator_key('家庭网_展开_收起')
             time.sleep(1)
         # 点击家庭网第一个联系人
         n = 0
         flag = False
         while n < 8:
-            for contact in contact_page.get_elements_list_c('联系人号码'):
+            for contact in contact_page.get_elements_list('家庭网_列表'):
                 if cards == contact.text:
                     contact.click()
                     flag = True
@@ -306,19 +306,19 @@ class ContactlocalPage(TestCase):
             n += 1
         time.sleep(3)
         # 修改备注
-        contact_page.click_locator_key_c('联系人_备注修改')
-        self.assertEqual(contact_page.is_text_present_c('修改备注名'), True)
+        contact_page.click_locator_key('家庭网_详细_备注修改')
+        self.assertEqual(contact_page.is_text_present('修改备注名'), True)
         # 清空输入框内容
-        contact_page.edit_clear_c('编辑备注_输入框')
+        contact_page.edit_clear('编辑备注_输入框')
         name = '备注'
-        contact_page.input_text_c('编辑备注_输入框', name)
-        contact_page.click_locator_key_c('编辑备注_保存')
+        contact_page.input_text('编辑备注_输入框', name)
+        contact_page.click_locator_key('编辑备注_保存')
         time.sleep(2)
-        contact_page.click_locator_key_c('联系人_视频')
-        contact_page.is_text_present_c('正在等待对方接听', default_timeout=20)
-        self.assertEqual(contact_page.is_text_present_c(name), True)
-        if contact_page.is_element_already_exist_c('视频页面_挂断'):
-            contact_page.click_locator_key_c('视频页面_挂断')
+        contact_page.click_locator_key('联系人_视频')
+        contact_page.is_text_present('正在等待对方接听', default_timeout=20)
+        self.assertEqual(contact_page.is_text_present(name), True)
+        if contact_page.is_element_already_exist('视频页面_挂断'):
+            contact_page.click_locator_key('视频页面_挂断')
 
     @tags('ALL', 'CMCC_double', 'contact')
     def test_member_00112(self):
@@ -333,14 +333,14 @@ class ContactlocalPage(TestCase):
         contact_page = ContactsPage()
         Preconditions.initialize_class('Android-移动-N')
         # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist_c('通讯录_标题', default_timeout=20), True)
+        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题', default_timeout=20), True)
         # 展开家庭网
         # 展开家庭网
         if not contact_page.if_home_net_expand():
-            contact_page.click_locator_key_c('家庭网_展开_收起')
+            contact_page.click_locator_key('家庭网_展开_收起')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        self.assertEqual(contact_page.is_element_already_exist_c('家庭网_管理'), False)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_管理'), False)
 
     @tags('ALL', 'CMCC_double', 'contact')
     def test_member_00117_01(self):
@@ -357,25 +357,25 @@ class ContactlocalPage(TestCase):
             3、跳转至对应的联系人详情页（密友详情页、家庭网成员详情页、陌生人详情页）"
         """
         contact_page = ContactsPage()
-        contact_page.is_element_already_exist_c('通讯录_标题')
+        contact_page.is_element_already_exist('通讯录_标题')
         # 初始化被叫手机
         Preconditions.initialize_class('Android-移动-N')
         # 获取手机号码
-        cards = contact_page.get_cards_c(CardType.CHINA_MOBILE)[0]
+        cards = contact_page.get_cards(CardType.CHINA_MOBILE)[0]
         # 切换主叫手机
         Preconditions.select_mobile('Android-移动')
         # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist_c('通讯录_标题'), True)
+        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         time.sleep(1)
         # 展开家庭网
         # if contact_page.if_home_net_expand():
-        #     contact_page.click_locator_key_c('家庭网_展开_收起')
+        #     contact_page.click_locator_key('家庭网_展开_收起')
         #     time.sleep(1)
         # 点击联系人
         n = 0
         flag = False
         while n < 8:
-            for contact in contact_page.get_elements_list_c('联系人号码'):
+            for contact in contact_page.get_elements_list('家庭网_列表'):
                 if cards == contact.text:
                     contact_page.click_to_call(cards)
                     flag = True
@@ -403,25 +403,25 @@ class ContactlocalPage(TestCase):
             3、跳转至对应的联系人详情页（密友详情页、家庭网成员详情页、陌生人详情页）"
         """
         contact_page = ContactsPage()
-        contact_page.is_element_already_exist_c('通讯录_标题')
+        contact_page.is_element_already_exist('通讯录_标题')
         # 初始化被叫手机
         Preconditions.initialize_class('Android-移动-N')
         # 获取手机号码
-        cards = contact_page.get_cards_c(CardType.CHINA_MOBILE)[0]
+        cards = contact_page.get_cards(CardType.CHINA_MOBILE)[0]
         # 切换主叫手机
         Preconditions.select_mobile('Android-移动')
         # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist_c('通讯录_标题'), True)
+        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         time.sleep(1)
         # 展开家庭网
         # if contact_page.if_home_net_expand():
-        #     contact_page.click_locator_key_c('家庭网_展开_收起')
+        #     contact_page.click_locator_key('家庭网_展开_收起')
         #     time.sleep(1)
         # 点击联系人
         n = 0
         flag = False
         while n < 8:
-            for contact in contact_page.get_elements_list_c('联系人号码'):
+            for contact in contact_page.get_elements_list('家庭网_列表'):
                 if cards == contact.text:
                     contact.click()
                     flag = True
@@ -431,7 +431,7 @@ class ContactlocalPage(TestCase):
             contact_page.page_up()
             n += 1
         time.sleep(3)
-        contact_page.is_text_present_c('电话规则说明')
+        contact_page.is_text_present('电话规则说明')
 
     @tags('ALL', 'CMCC_double', 'contact')
     def test_member_00119(self):
@@ -442,18 +442,18 @@ class ContactlocalPage(TestCase):
             1、展示该号码的搜索记录
         """
         contact_page = ContactsPage()
-        contact_page.is_element_already_exist_c('通讯录_标题')
+        contact_page.is_element_already_exist('通讯录_标题')
         # 初始化被叫手机
         Preconditions.initialize_class('Android-移动-N')
         # 获取手机号码
-        cards = contact_page.get_cards_c(CardType.CHINA_MOBILE)[0]
+        cards = contact_page.get_cards(CardType.CHINA_MOBILE)[0]
         # 切换主叫手机
         Preconditions.select_mobile('Android-移动')
         # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist_c('通讯录_标题'), True)
+        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         time.sleep(1)
-        contact_page.click_locator_key_c('搜索')
+        contact_page.click_locator_key('搜索')
         time.sleep(0.5)
-        contact_page.input_text_c('搜索_搜索框', cards)
+        contact_page.input_text('搜索_搜索框', cards)
         time.sleep(0.8)
-        self.assertEqual(cards == contact_page.get_elements_list_c('搜索_联系人号码')[0].text, True)
+        self.assertEqual(cards == contact_page.get_elements_list('搜索_家庭网_列表')[0].text, True)

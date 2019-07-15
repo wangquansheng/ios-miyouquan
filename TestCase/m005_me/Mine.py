@@ -391,7 +391,7 @@ class Meprofile(TestCase):
     #     me_page = MinePage()
     #     me_page.click_locator_key('网上营业厅')
     #     self.assertTrue(me_page.check_wait_text_exits('网上营业厅'))
-    #     me_page.click_locator_key_c('我_二级页面_相同返回')
+    #     me_page.click_locator_key('我_二级页面_相同返回')
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0017(self):
