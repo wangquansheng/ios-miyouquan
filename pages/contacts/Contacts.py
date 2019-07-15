@@ -202,7 +202,7 @@ class ContactsPage(FooterPage):
             for el in els:
                 contacts_name.append(el.text)
         else:
-            raise AssertionError("No m005_contacts, please add m005_contacts in address book.")
+            raise AssertionError("No m004_contacts, please add m004_contacts in address book.")
         if "和通讯录" in contacts_name:
             contacts_name.remove("和通讯录")
         if "和飞信电话" in contacts_name:
@@ -254,7 +254,7 @@ class ContactsPage(FooterPage):
     #         for el in els:
     #             phones.append(el.text)
     #     else:
-    #         raise AssertionError("m005_contacts is empty!")
+    #         raise AssertionError("m004_contacts is empty!")
     #     return phones
 
     def page_up(self):
@@ -275,7 +275,7 @@ class ContactsPage(FooterPage):
             for el in els:
                 contacts_name.append(el.text)
         else:
-            raise AssertionError("No m005_contacts, please add m005_contacts in address book.")
+            raise AssertionError("No m004_contacts, please add m004_contacts in address book.")
         flag = True
         current = 0
         while flag:

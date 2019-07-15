@@ -141,7 +141,7 @@ class localContactPage(BasePage):
             for el in els:
                 contacts_name.append(el.text)
         else:
-            raise AssertionError("No m005_contacts, please add m005_contacts in address book.")
+            raise AssertionError("No m004_contacts, please add m004_contacts in address book.")
         if "和通讯录" in contacts_name:
             contacts_name.remove("和通讯录")
         if "和飞信电话" in contacts_name:

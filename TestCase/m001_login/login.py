@@ -1,7 +1,5 @@
-from selenium.common.exceptions import TimeoutException
-
 from library.core.TestCase import TestCase
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
+from library.core.utils.applicationcache import switch_to_mobile
 from library.core.utils.testcasefilter import tags
 
 from pages import *
