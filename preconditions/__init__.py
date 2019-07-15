@@ -13,11 +13,11 @@ def connect_mobile(category):
     return client
 
 
-def disconnect_mobile(category):
-    """选择手机手机"""
-    client = switch_to_mobile(category)
-    client.disconnect_mobile()
-    return client
+# def disconnect_mobile(category):
+#     """选择手机手机"""
+#     client = switch_to_mobile(category)
+#     client.disconnect_mobile()
+#     return client
 
 
 def make_already_in_one_key_login_page():

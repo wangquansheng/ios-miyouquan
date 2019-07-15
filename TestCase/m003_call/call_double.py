@@ -3,11 +3,8 @@ import warnings
 import datetime
 import traceback
 import threading
+import multiprocessing
 
-from selenium.common.exceptions import TimeoutException
-
-from pages.guide import GuidePage
-from pages.login.OneKeyLogin import OneKeyLoginPage
 from pages.call.Call import CallPage
 
 from library.core.TestCase import TestCase
@@ -15,7 +12,6 @@ from library.core.utils.applicationcache import current_mobile, current_driver, 
 from library.core.utils.testcasefilter import tags
 from library.core.common.simcardtype import CardType
 from library.core.TestLogger import TestLogger
-
 
 REQUIRED_MOBILES = {
     'Android-移动-N': 'M960BDQN229CH',
@@ -204,38 +200,36 @@ class Preconditions(object):
         return client
 
 
+# noinspection PyShadowingBuiltins,PyBroadException,PyUnresolvedReferences
 class CallPageTest(TestCase):
     """Call 模块--全量"""
 
     def default_setUp(self):
-        """确保每个用例开始之前在通话界面界面"""
-        Preconditions.initialize_class('IOS-移动')
+        """前置方法，禁用ResourceWarning提示"""
+        warnings.simplefilter('ignore', ResourceWarning)
 
     def default_tearDown(self):
+        """后置方法，断开所有手机"""
         Preconditions.disconnect_mobile('IOS-移动')
+        Preconditions.disconnect_mobile('IOS-移动-移动')
 
-    @TestLogger.log('切换手机，接听视频电话')
+    @TestLogger.log('接听视频电话')
     def to_pick_phone_video(self):
         call = CallPage()
-        # 切换被叫手机
-        Preconditions.select_mobile('IOS-移动-移动')
         time.sleep(1)
-        # call.click_screen_center()
-        # call.click_video_answer()
-        call.click_locator_key('视频接听_接听')
-        count = 20
+        count = 30
         try:
             while count > 0:
                 # 如果在视频通话界面，接听视频
-                call.click_screen_center()
-                if call.is_element_already_exist('视频_切到语音通话'):
-                    print('接听视频-->', datetime.datetime.now().date().strftime('%Y-%m-%d'),
+                if call.is_element_already_exist('视频接听_接听'):
+                    call.click_locator_key('视频接听_接听')
+                    print('接听视频电话-->', datetime.datetime.now().date().strftime('%Y-%m-%d'),
                           datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
                     return True
                 else:
                     count -= 1
                     # 1s检测一次，20s没有接听，则失败
-                    print(count, '切换手机，接听电话 --->', datetime.datetime.now().date().strftime('%Y-%m-%d'),
+                    print(count, '接听视频电话 --->', datetime.datetime.now().date().strftime('%Y-%m-%d'),
                           datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
                     time.sleep(0.5)
                     continue
@@ -247,7 +241,135 @@ class CallPageTest(TestCase):
                   datetime.datetime.now().time().strftime("%H-%M-%S-%f"))
             return False
 
+    # ===============test_call_00010==================
+
+    @TestLogger.log('主叫手机')
+    def call_00010_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_p2p_video(dic['cards'])
+                    print('打电话了')
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+            c = 1 * 60
+            while c > 0:
+                if ('hang_up' not in dic.keys()) or (dic['hang_up'] != 'success') or \
+                        (not call.is_element_already_exist('通话_文案_HEAD')):
+                    # if not call.is_element_already_exist('通话_文案_HEAD'):
+                    # continue
+                    c -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    call.click_tag_detail_first_element('[视频通话]')
+                    # 判断
+                    time.sleep(1)
+                    self.assertEqual(call.on_this_page_call_detail(), True)
+                    # 详情_通话  详情_视频 详情_返回
+                    self.assertEqual(call.is_element_already_exist('详情_通话'), True)
+                    self.assertEqual(call.is_element_already_exist('详情_视频按钮'), True)
+                    self.assertEqual(call.is_element_already_exist('详情_返回'), True)
+                    # 头像  名字  通话时间  通话类型
+                    self.assertEqual(call.is_element_already_exist('详情_头像'), True)
+                    self.assertEqual(call.is_element_already_exist('详情_名称'), True)
+                    self.assertEqual(call.is_element_already_exist('详情_通话时间'), True)
+                    self.assertEqual(call.is_element_already_exist('详情_通话时长'), True)
+                    self.assertEqual(call.is_text_present('通话记录(视频通话)'), True)
+                    # 执行成功，写入成功标志
+                    dic['res3'] = 'success'
+                    break
+            else:
+                raise
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_00010_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                # 循环判断元素是否存在
+                if not call.is_element_exist('视频接听_接听'):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 接听视频电话
+                    self.assertEqual(self.to_pick_phone_video(), True)
+                    time.sleep(6)
+                    call.check_element_tap_screen('视频_时长')
+                    call.click_locator_key('视频_挂断')
+                    dic['hang_up'] = 'success'
+                    # 写入测试成功标志
+                    dic['res2'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
     @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00010(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_00010_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_00010_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
+
+    # =================================
+
+    @tags('ALL', 'CMCC_double', 'call')  # pass
     def test_call_00020(self):
         """
             1、联网正常已登录
@@ -298,27 +420,97 @@ class CallPageTest(TestCase):
             Preconditions.disconnect_mobile('IOS-移动-移动')
             # call.set_network_status(0)
 
+    @TestLogger.log('主叫手机')
+    def call_00048_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_p2p_video(dic['cards'])
+                    print('打电话了')
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_00048_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                # 循环判断元素是否存在
+                if not call.is_element_exist('视频接听_接听'):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 接听视频电话
+                    self.assertEqual(self.to_pick_phone_video(), True)
+                    # 验证检验项目
+                    self.assertEqual(self.check_video_call_00048(), True)
+                    # 写入测试成功标志
+                    dic['res2'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_00048(self):
-        """
-            1、被叫方接到申请后点击“接听”
-            2、点击“切换语音通话”按钮
-            3、被叫方接到申请后点击“接听”
-            4、点击静音按钮
-        """
-        call = CallPage()
-        call.wait_for_page_load()
-        # 初始化被叫手机
-        Preconditions.initialize_class('IOS-移动-移动')
-        # 获取手机号码
-        cards = call.get_cards(CardType.CHINA_MOBILE)
-        # 切换主叫手机
-        Preconditions.select_mobile('IOS-移动')
-        # 拨打视频电话
-        call.pick_up_p2p_video(cards)
-        # 等待返回结果
-        self.assertEqual(self.to_pick_phone_video(), True)
-        self.assertEqual(self.check_video_call_00048(), True)
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_00048_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_00048_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
 
     @TestLogger.log()
     def check_video_call_00048(self):
@@ -333,20 +525,20 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         try:
-            call.click_screen_center()
+            call.check_element_tap_screen('视频_时长')
             call.click_locator_key('视频_免提')
             time.sleep(1)
-            call.click_screen_center()
+            call.check_element_tap_screen('视频_时长')
             call.click_locator_key('视频_静音')
             time.sleep(1)
-            call.click_screen_center()
+            call.check_element_tap_screen('视频_时长')
             self.assertEqual(call.is_element_already_exist('视频_静音'), True)
             return True
         except Exception:
             traceback.print_exc()
             return False
         finally:
-            call.click_screen_center()
+            call.check_element_tap_screen('视频_时长')
             call.click_locator_key('视频_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
@@ -3371,4 +3563,3 @@ class CallPageTest(TestCase):
                              and call.is_text_present('12560', default_timeout=0.5), True)
         finally:
             call.hang_up_the_call()
-

@@ -114,12 +114,8 @@ class CallPage(FooterPage):
         '视频呼叫_字母': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeOther'),
         '视频呼叫_字母第一个': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="C"]'),
         '视频呼叫_字母C': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="C"]'),
-        '视频呼叫_搜索_文本框': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
-                                        '/../XCUIElementTypeTextField'),
-        '视频呼叫_搜索_号码列表': (MobileBy.XPATH,
-                         '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
-                         '/../../../XCUIElementTypeOther/XCUIElementTypeTable'
-                         '/XCUIElementTypeCell/XCUIElementTypeImage[2]'),
+        '视频呼叫_搜索_文本框': (MobileBy.IOS_PREDICATE, 'type=="XCUIElementTypeTextField"'),
+        '视频呼叫_搜索_号码列表': (MobileBy.XPATH, '(//XCUIElementTypeTable)[2]/XCUIElementTypeCell'),
         '视频呼叫_最多只能选择8个人': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
 
         # 视频主叫
@@ -328,7 +324,9 @@ class CallPage(FooterPage):
 
     @TestLogger.log("通话页面点击删除按钮")
     def click_delete_key(self, text):
-        locator = (MobileBy.XPATH, "//*[contains(@name,'%s')]/../XCUIElementTypeOther/XCUIElementTypeButton[@name='删除']" % text)
+        locator = (
+            MobileBy.XPATH,
+            "//*[contains(@name,'%s')]/../XCUIElementTypeOther/XCUIElementTypeButton[@name='删除']" % text)
         self.click_element(locator)
 
     @TestLogger.log("通话页面点击删除按钮，删除所有")
@@ -528,6 +526,16 @@ class CallPage(FooterPage):
     def is_element_present(self, locator):
         return self._is_element_present(self.__locators[locator])
 
+    @TestLogger.log("判断页面元素是否存在")
+    def is_element_exist(self, locator):
+        try:
+            el = self.get_elements(self.__locators[locator])
+            if len(el) > 0:
+                return True
+            return False
+        except:
+            return False
+
     @TestLogger.log("页面应该包含元素")
     def click_keyboard(self):
         self.click_element(self.__locators['拨号键盘'])
@@ -564,6 +572,11 @@ class CallPage(FooterPage):
         x_percentage = (375 / 2) / 375 * 100
         y_percentage = (667 / 2) / 667 * 100
         self.click_coordinate(x_percentage, y_percentage)
+
+    @TestLogger.log("没有元素时点击屏幕")
+    def check_element_tap_screen(self, locator):
+        if not self.is_element_already_exist(locator):
+            self.click_screen_center()
 
     @TestLogger.log("视频通话结束弹出框")
     def click_video_hangup(self):
@@ -740,6 +753,7 @@ class CallPage(FooterPage):
     def pick_up_p2p_video(self, cards):
         self.click_locator_key('+')
         self.click_locator_key('视频通话')
+        # self.click_locator_key(self.__locators['视频呼叫_搜索_文本框'])
         self.input_text(self.__locators['视频呼叫_搜索_文本框'], cards)
         time.sleep(1)
         self.get_elements(self.__locators['视频呼叫_搜索_号码列表'])[0].click()
@@ -941,3 +955,7 @@ class CallPage(FooterPage):
             if self.is_element_present("无密友圈_取消"):
                 self.click_locator_key('无密友圈_取消')
                 time.sleep(1)
+
+    @TestLogger.log('查找所有元素')
+    def get_elements_list(self, locator):
+        return self.get_elements(self.__locators[locator])
