@@ -194,10 +194,10 @@ class ContactlocalPage(TestCase):
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('Android-移动')
         Preconditions.make_already_in_call_page()
-        FooterPage().open_contact_page()
-        contact = ContactsPage()
-        contact.permission_box_processing()
-        contact.remove_mask(1)
+        FooterPage().open_contacts_page()
+        # contact = ContactsPage()
+        # contact.permission_box_processing()
+        # contact.remove_mask(1)
 
     @tags('ALL', 'CMCC_double', 'contact')
     def test_member_014(self):
@@ -294,7 +294,7 @@ class ContactlocalPage(TestCase):
         contact_page.click_locator_key('家庭网_备注修改_完成')
         time.sleep(2)
         contact_page.click_locator_key('联系人_视频')
-        contact_page.is_text_present('正在等待对方接听', default_timeout=20)
+        contact_page.is_text_present('正在等待对方接听')
         self.assertEqual(contact_page.is_text_present(name), True)
         if contact_page.is_element_already_exist('视频页面_挂断'):
             contact_page.click_locator_key('视频页面_挂断')

@@ -29,21 +29,6 @@ class Preconditions(LoginPreconditions):
     分解前置条件
     """
 
-    #
-    # @staticmethod
-    # def terminate_app():
-    #     """
-    #     强制关闭app,退出后台
-    #     :return:
-    #     """
-    #     app_id = current_driver().desired_capability['appPackage']
-    #     current_mobile().termiate_app(app_id)
-    #
-    # @staticmethod
-    # def background_app():
-    #     """后台运行"""
-    #     current_mobile().press_home_key()
-
     @staticmethod
     def connect_mobile(category):
         """选择手机手机"""
@@ -61,6 +46,20 @@ class Preconditions(LoginPreconditions):
         call_page = CallPage()
         if call_page.is_on_this_page():
             return
+    #
+    # @staticmethod
+    # def terminate_app():
+    #     """
+    #     强制关闭app,退出后台
+    #     :return:
+    #     """
+    #     app_id = current_driver().desired_capability['appPackage']
+    #     current_mobile().termiate_app(app_id)
+    #
+    # @staticmethod
+    # def background_app():
+    #     """后台运行"""
+    #     current_mobile().press_home_key()
 
 
 # noinspection PyBroadException

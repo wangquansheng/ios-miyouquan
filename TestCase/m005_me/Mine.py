@@ -127,6 +127,8 @@ class Meprofile(TestCase):
     def test_me_0001(self):
         """资料页面的字段可显示并且可以编辑"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         time.sleep(1)
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
@@ -152,6 +154,8 @@ class Meprofile(TestCase):
     def test_me_0002(self):
         """编辑资料页面里面点击头像"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(1)
@@ -166,6 +170,8 @@ class Meprofile(TestCase):
     def test_me_0003(self):
         """编辑资料页面昵称里面输入sql语句"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         self.assertEqual(me_page.is_on_this_page(), True)
         time.sleep(1)
         me_page.click_locator_key('我_请完善您的资料_图片')
@@ -187,6 +193,8 @@ class Meprofile(TestCase):
     def test_me_0004(self):
         """编辑资料页面昵称里面输入字符串"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(1)
@@ -202,6 +210,8 @@ class Meprofile(TestCase):
     def test_me_0005(self):
         """编辑资料页面昵称里面输入数字"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(1)
@@ -221,6 +231,8 @@ class Meprofile(TestCase):
     def test_me_0006(self):
         """点击性别选项选择性别"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(0.5)
@@ -246,6 +258,8 @@ class Meprofile(TestCase):
     def test_me_0007(self):
         """编辑年龄选项选择年龄"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
         # 修改昵称
@@ -272,6 +286,8 @@ class Meprofile(TestCase):
     def test_me_0008(self):
         """编辑标签选项选择标签"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(0.5)
@@ -290,6 +306,8 @@ class Meprofile(TestCase):
     def test_me_0009(self):
         """编辑职业选项选择职业"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         self.assertEqual(me_page.is_on_this_page(), True)
         me_page.click_locator_key('我_请完善您的资料_图片')
         time.sleep(0.5)
@@ -346,6 +364,8 @@ class Meprofile(TestCase):
     def test_me_0013(self):
         """验证活动中心页面正常打开"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         time.sleep(1)
         me_page.click_locator_key('我_活动中心_详情')
         # 加载页面
@@ -358,6 +378,8 @@ class Meprofile(TestCase):
     def test_me_0014(self):
         """验证卡券页面正常打开"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         time.sleep(1)
         self.assertEqual(me_page.is_on_this_page(), True)
         # 加载页面, 使用name查找不到
@@ -373,6 +395,8 @@ class Meprofile(TestCase):
     def test_me_0015(self):
         """验证积分页面正常打开"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         time.sleep(1)
         self.assertEqual(me_page.is_on_this_page(), True)
         time.sleep(1)
@@ -397,8 +421,12 @@ class Meprofile(TestCase):
     def test_me_0017(self):
         """验证邀请有礼正常打开"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         time.sleep(1)
         self.assertEqual(me_page.is_on_this_page(), True)
+        time.sleep(0.5)
+        me_page.click_ad_close()
         time.sleep(1)
         me_page.click_locator_key('我_邀请有奖_详情')
         time.sleep(5)
@@ -410,8 +438,12 @@ class Meprofile(TestCase):
     def test_me_0018(self):
         """验证帮助与反馈正常打开"""
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         time.sleep(1)
         self.assertEqual(me_page.is_on_this_page(), True)
+        time.sleep(0.5)
+        me_page.click_ad_close()
         time.sleep(1)
         me_page.click_locator_key('我_帮助与反馈_详情')
         time.sleep(5)
@@ -426,6 +458,8 @@ class Meprofile(TestCase):
         3、在我模块-设置页面"	点击退出当前账号	成功退出登录显示，并跳转至登录页
         """
         me_page = MinePage()
+        time.sleep(0.5)
+        me_page.click_ad_close()
         time.sleep(1)
         self.assertEqual(me_page.is_on_this_page(), True)
         if me_page.is_element_already_exist('我_设置_详情'):

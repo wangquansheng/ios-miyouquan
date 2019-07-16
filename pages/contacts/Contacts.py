@@ -28,12 +28,15 @@ class ContactsPage(FooterPage):
         # 列表
         '联系人': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]'),
         '联系人_列表': (MobileBy.XPATH, ''),
+        '联系人_列表1': (MobileBy.XPATH, ''),
+        '联系人_列表2': (MobileBy.XPATH, ''),
         '家庭网_列表': (MobileBy.XPATH, ''),
         '搜索_列表': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following-sibling::XCUIElementTypeCell'),
         '搜索_列表1': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[1]'),
         '搜索_列表2': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[2]'),
         # //XCUIElementTypeStaticText[@name="联系人"]/following-sibling::XCUIElementTypeStaticText[@name="my contact call icon"]
-        # //XCUIElementTypeStaticText[@name="联系人"]/following::*/XCUIElementTypeStaticText[@name="my contact call icon"]
+        # //XCUIElementTypeStaticText[@name="联系人"]/following-sibling::/XCUIElementTypeStaticText[@name="my contact call icon"]
+        # 
 
         # 联系人
         '联系人_详细_返回': (MobileBy.ACCESSIBILITY_ID, 'contact info back normal@2x'),

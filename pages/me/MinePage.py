@@ -135,6 +135,9 @@ class MinePage(FooterPage):
         '我_退出登录_确认': (MobileBy.XPATH, '(//*[@name="退出登录"])[2]'),
         '一键登录': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="本机号码一键登录"])[1]'),
 
+        # 广告
+        '我_广告_关闭': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "ad_cancel@2x.png"'),
+
     }
 
     @TestLogger.log('获取元素文本内容')
@@ -333,6 +336,12 @@ class MinePage(FooterPage):
     def click_collection(self):
         """点击收藏按钮"""
         self.click_element(self.__locators['收藏'])
+
+    @TestLogger.log("点击广告关闭按钮")
+    def click_ad_close(self):
+        """点击广告关闭按钮"""
+        if self.is_element_already_exist('我_广告_关闭'):
+            self.click_locator_key('我_广告_关闭')
 
     # @TestLogger.log()
     # def click_help_menu(self, timeout=60):
