@@ -40,9 +40,6 @@ __all__ = [
     "Scan1Page",
     "SelectContactPage",
     'GroupChatSetFindChatContentPage',
-    'LabelGroupingPage',
-    'LableGroupDetailPage',
-    'LabelGroupingChatPage',
     'SelectHeContactsPage',
     'SelectHeContactsDetailPage',
     'ChatFilePage',
@@ -57,9 +54,6 @@ from .SingleChatSet import SingleChatSetPage
 from .FindChatRecord import FindChatRecordPage
 from .CreateGroupName import CreateGroupNamePage
 from .GroupChat import GroupChatPage
-from .LabelGrouping import LabelGroupingPage
-from .LabelGroupingChat import LabelGroupingChatPage
-from .LableGroupDetail import LableGroupDetailPage
 from .SelectContacts import SelectContactsPage
 from .SelectLocalContacts import SelectLocalContactsPage
 from .SelectOneGroup import SelectOneGroupPage

@@ -4,6 +4,7 @@ from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 import time
 
+
 class GuidePage(BasePage):
     """fg"""
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.SplashActivity'
