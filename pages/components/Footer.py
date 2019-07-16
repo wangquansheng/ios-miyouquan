@@ -3,6 +3,8 @@ from appium.webdriver.common.mobileby import MobileBy
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 
+import time
+
 
 class FooterPage(BasePage):
     """主页页脚标签栏(消息页面)"""
@@ -13,11 +15,24 @@ class FooterPage(BasePage):
         '通话': (MobileBy.IOS_PREDICATE, 'name="通话"'),
         '通讯录': (MobileBy.IOS_PREDICATE, 'name="通讯录"'),
         '我': (MobileBy.IOS_PREDICATE, 'name="我"'),
+
+        # 升级
+        '立即升级': (MobileBy.IOS_PREDICATE, 'name="立即升级"'),
+        '暂不升级': (MobileBy.IOS_PREDICATE, 'name="暂不升级"'),
+
     }
+
+    @TestLogger.log("关闭升级弹出框")
+    def click_upgrade_close(self):
+        if self._is_element_present(self.__class__.__locators['暂不升级']):
+            self.click_element(self.__locators['暂不升级'])
+            time.sleep(0.5)
 
     @TestLogger.log()
     def open_me_page(self):
         """切换到标签页：我"""
+        time.sleep(0.5)
+        self.click_upgrade_close()
         self.click_element(self.__locators['我'])
 
     @TestLogger.log()

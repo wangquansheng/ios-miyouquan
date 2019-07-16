@@ -1,10 +1,5 @@
 __all__ = [
-    'ContactDetailsPage',
-    'ContactListSearchPage',
     'ContactsPage',
-    'CreateContactPage',
-    'GroupListPage',
-    'GroupListSearchPage',
     'GuidePage',
     'PermissionListPage',
     'OneKeyLoginPage',
@@ -72,12 +67,7 @@ from .chat import ChatProfilePage
 from .chat import ChatSelectFilePage
 from .chat import ChatSelectLocalFilePage
 from .chat import PicVideoPage
-from .contacts import ContactDetailsPage
-from .contacts import ContactListSearchPage
 from .contacts import ContactsPage
-from .contacts import CreateContactPage
-from .contacts import GroupListPage
-from .contacts import GroupListSearchPage
 from .groupset import GroupChatSetFindChatContentPage
 from .groupset import GroupChatSetManagerPage
 from .groupset import GroupChatSetModifyMyCardPage

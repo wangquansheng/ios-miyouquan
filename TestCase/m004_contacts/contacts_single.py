@@ -99,7 +99,7 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list('家庭网_列表电话1').click()
         time.sleep(3)
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_头像'), True)
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)

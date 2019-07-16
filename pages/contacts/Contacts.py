@@ -26,17 +26,25 @@ class ContactsPage(FooterPage):
         '通讯录_列表_打电话': (MobileBy.ACCESSIBILITY_ID, 'my contact call icon'),
 
         # 列表
+        # '家庭网_列表': (MobileBy.XPATH, ''),
+        '家庭网_列表1': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[1]'),
+        '家庭网_列表2': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[2]'),
+        '家庭网_列表电话1': (MobileBy.XPATH,
+                      '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[1]/*[@name="my contact call icon"]'),
+        '家庭网_列表电话2': (MobileBy.XPATH,
+                      '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[2]/*[@name="my contact call icon"]'),
+        '家庭网_列表文本1': (MobileBy.XPATH,
+                      '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
+        '家庭网_列表文本2': (MobileBy.XPATH,
+                      '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[2]/XCUIElementTypeStaticText[1]'),
         '联系人': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]'),
-        '联系人_列表': (MobileBy.XPATH, ''),
-        '联系人_列表1': (MobileBy.XPATH, ''),
-        '联系人_列表2': (MobileBy.XPATH, ''),
-        '家庭网_列表': (MobileBy.XPATH, ''),
-        '搜索_列表': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following-sibling::XCUIElementTypeCell'),
-        '搜索_列表1': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[1]'),
-        '搜索_列表2': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[2]'),
-        # //XCUIElementTypeStaticText[@name="联系人"]/following-sibling::XCUIElementTypeStaticText[@name="my contact call icon"]
-        # //XCUIElementTypeStaticText[@name="联系人"]/following-sibling::/XCUIElementTypeStaticText[@name="my contact call icon"]
-        # 
+        # '联系人_列表': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[*]'),
+        '联系人_列表1': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[1]'),
+        '联系人_列表2': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[2]'),
+        '联系人_列表电话1': (MobileBy.XPATH,
+                      '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[1]/*[@name="my contact call icon"]'),
+        '联系人_列表电话2': (MobileBy.XPATH,
+                      '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[2]/*[@name="my contact call icon"]'),
 
         # 联系人
         '联系人_详细_返回': (MobileBy.ACCESSIBILITY_ID, 'contact info back normal@2x'),
@@ -154,11 +162,9 @@ class ContactsPage(FooterPage):
     @TestLogger.log("家庭网是否展开")
     def if_home_net_expand(self) -> bool:
         """判断家庭网是否展开"""
-        locator = (MobileBy.XPATH,
-                   '//XCUIElementTypeStaticText[@name="联系人"]/../')
         try:
-            # 密友圈占用1行
-            return len(self.get_elements(locator)) > 1
+            locator = self.__class__.__locators["家庭网_列表电话1"]
+            return len(self.get_elements(locator)) > 0
         except :
             return False
 

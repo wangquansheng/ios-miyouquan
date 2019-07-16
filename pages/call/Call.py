@@ -255,6 +255,8 @@ class CallPage(FooterPage):
 
     def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
         """默认使用activity作为判断页面是否加载的条件，继承类应该重写该方法"""
+        self.click_upgrade_close()
+        # 通话
         self.wait_until(
             lambda d: self.is_element_present('通话_通话_TAB'),
             timeout,
@@ -314,6 +316,7 @@ class CallPage(FooterPage):
 
     @TestLogger.log('是否在通话页面')
     def is_on_this_page(self):
+        self.click_upgrade_close()
         el = self.get_elements(self.__locators['拨号键盘'])
         if len(el) > 0:
             return True
