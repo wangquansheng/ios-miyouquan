@@ -3,9 +3,9 @@ import uuid
 import time
 import warnings
 
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException
 from library.core.TestCase import TestCase
-from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
+from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.utils.testcasefilter import tags
 from pages import *
 from preconditions.BasePreconditions import LoginPreconditions
@@ -37,6 +37,13 @@ class Preconditions(LoginPreconditions):
         return client
 
     @staticmethod
+    def disconnect_mobile(category):
+        """选择手机手机"""
+        client = switch_to_mobile(category)
+        client.disconnect_mobile()
+        return client
+
+    @staticmethod
     def make_already_in_call_page(reset=False):
         """确保应用在通话页面"""
         LoginPreconditions.select_mobile('IOS-移动', reset)
@@ -46,7 +53,7 @@ class Preconditions(LoginPreconditions):
         call_page = CallPage()
         if call_page.is_on_this_page():
             return
-    #
+
     # @staticmethod
     # def terminate_app():
     #     """
@@ -66,9 +73,9 @@ class Preconditions(LoginPreconditions):
 class ContactlocalPage(TestCase):
     """本地通讯录界面"""
 
-    @classmethod
-    def setUp_class(cls):
-        warnings.simplefilter('ignore', ResourceWarning)
+    # @classmethod
+    # def setUp_class(cls):
+    #     warnings.simplefilter('ignore', ResourceWarning)
 
     def default_setUp(self):
         """确保每个用例开始之前在通讯录界面"""
@@ -80,6 +87,9 @@ class ContactlocalPage(TestCase):
         # contact = ContactsPage()
         # contact.permission_box_processing()
         # contact.remove_mask(1)
+
+    def default_tearDown(self):
+        Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_001(self):
@@ -97,9 +107,9 @@ class ContactlocalPage(TestCase):
         # 展开家庭网
         if not contact_page.if_home_net_expand():
             contact_page.click_locator_key('通讯录_家庭网_展开')
-            time.sleep(1)
+            time.sleep(2)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表电话1').click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(3)
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_头像'), True)
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)
@@ -134,13 +144,15 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(3)
         contact_page.click_locator_key('家庭网_详细_备注修改')
+        time.sleep(0.5)
         self.assertEqual(contact_page.is_element_already_exist('家庭网_备注修改_标题'), True)
         time.sleep(1)
         contact_page.click_locator_key('家庭网_备注修改_返回')
-        self.assertEqual(contact_page.is_element_already_exist('联系人_添加桌面'), True)
+        time.sleep(1)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_003(self):
@@ -161,15 +173,18 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
-        time.sleep(3)
+        contact_page.get_elements_list_click('家庭网_列表文本1')
+        time.sleep(2)
         contact_page.click_locator_key('家庭网_详细_备注修改')
+        time.sleep(0.5)
         self.assertEqual(contact_page.is_element_already_exist('家庭网_备注修改_标题'), True)
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        contact_page.click_input_clear()
         name = uuid.uuid4().__str__().replace('-', '')
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
+        time.sleep(1)
         contact_page.click_locator_key('家庭网_备注修改_完成')
-        self.assertEqual(contact_page.is_element_already_exist('联系人_添加桌面', default_timeout=30), True)
+        time.sleep(1)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_004(self):
@@ -187,31 +202,38 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(1)
         contact_page.click_locator_key('家庭网_详细_备注修改')
+        time.sleep(0.5)
         self.assertEqual(contact_page.is_element_already_exist('家庭网_备注修改_标题'), True)
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        contact_page.click_input_clear()
         name = '中文备注'
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
         contact_page.click_locator_key('家庭网_备注修改_完成')
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本', default_timeout=30), True)
+        time.sleep(0.5)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
         self.assertEqual(name == contact_page.get_element_text('家庭网_详细_备注名文本'), True)
+        time.sleep(0.5)
         contact_page.click_locator_key('家庭网_详细_备注修改')
         time.sleep(1)
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        contact_page.click_input_clear()
         name = 'EnglishNickName'
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
         contact_page.click_locator_key('家庭网_备注修改_完成')
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本', default_timeout=30), True)
+        time.sleep(0.5)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
         self.assertEqual(name == contact_page.get_element_text('家庭网_详细_备注名文本'), True)
+        time.sleep(0.5)
         contact_page.click_locator_key('家庭网_详细_备注修改')
         time.sleep(1)
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        contact_page.click_input_clear()
         name = '!@#$%^&*('
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
+        time.sleep(0.5)
         contact_page.click_locator_key('家庭网_备注修改_完成')
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本', default_timeout=30), True)
+        time.sleep(0.5)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
         self.assertEqual(name == contact_page.get_element_text('家庭网_详细_备注名文本'), True)
 
     @tags('ALL', 'CMCC', 'contact')
@@ -230,18 +252,18 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(3)
         # 修改备注
         contact_page.click_locator_key('家庭网_详细_备注修改')
         self.assertEqual(contact_page.is_text_present('修改备注名'), True)
         # 清空输入框内容
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        contact_page.click_input_clear()
         name = '   '
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
         contact_page.click_locator_key('家庭网_备注修改_完成')
         try:
-            contact_page.get_one_element('家庭网_详细_备注名文本')
+            contact_page.get_one_element_c('家庭网_详细_备注名文本')
         except NoSuchElementException:
             print("Pass")
         except Exception:
@@ -263,17 +285,19 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(3)
         # 修改备注
         contact_page.click_locator_key('家庭网_详细_备注修改')
         self.assertEqual(contact_page.is_text_present('修改备注名'), True)
         # 清空输入框内容
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        time.sleep(1)
+        contact_page.click_input_clear()
         name = 'select now()'
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
         contact_page.click_locator_key('家庭网_备注修改_完成')
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本', default_timeout=30), True)
+        time.sleep(1)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
         self.assertEqual(name == contact_page.get_element_text('家庭网_详细_备注名文本'), True)
 
     @tags('ALL', 'CMCC', 'contact')
@@ -292,15 +316,16 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(3)
         # 修改备注
         contact_page.click_locator_key('家庭网_详细_备注修改')
         self.assertEqual(contact_page.is_text_present('修改备注名'), True)
+        time.sleep(1)
         # 清空输入框内容
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        contact_page.click_input_clear()
         name = "<a href='baidu.com'>aa</a>"
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
         contact_page.click_locator_key('家庭网_备注修改_完成')
         contact_page.is_toast_exist('备注失败，请重新输入', timeout=5)
 
@@ -317,17 +342,17 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(3)
         # 修改备注
         contact_page.click_locator_key('家庭网_详细_备注修改')
         self.assertEqual(contact_page.is_text_present('修改备注名'), True)
         # 清空输入框内容
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        contact_page.click_input_clear()
         name = '正确的备注'
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
         contact_page.click_locator_key('家庭网_备注修改_完成')
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本', default_timeout=30), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
         self.assertEqual(name == contact_page.get_element_text('家庭网_详细_备注名文本'), True)
 
     @tags('ALL', 'CMCC', 'contact')
@@ -343,17 +368,17 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(3)
         # 修改备注
         contact_page.click_locator_key('家庭网_详细_备注修改')
         self.assertEqual(contact_page.is_text_present('修改备注名'), True)
         # 清空输入框内容
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        contact_page.click_input_clear()
         name = '正确的备注'
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
         contact_page.click_locator_key('家庭网_备注修改_完成')
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本', default_timeout=30), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
         self.assertEqual(name == contact_page.get_element_text('家庭网_详细_备注名文本'), True)
 
     # @tags('ALL', 'CMCC')
@@ -374,7 +399,7 @@ class ContactlocalPage(TestCase):
     #         contact_page.click_locator_key('通讯录_家庭网_展开')
     #         time.sleep(1)
     #     # 点击家庭网第一个联系人
-    #     contact_page.get_elements_list('家庭网_列表')[0].click()
+    #     contact_page.get_elements_list_click('家庭网_列表文本1')
     #     time.sleep(3)
     #     # 验证规则
     #     contact_page.click_locator_key('联系人_规则')
@@ -383,7 +408,7 @@ class ContactlocalPage(TestCase):
     #     time.sleep(1)
     #     contact_page.click_locator_key('联系人_规则返回')
     #     time.sleep(0.5)
-    #     self.assertEqual(contact_page.is_element_already_exist('联系人_添加桌面'), True)
+    #     self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_0011(self):
@@ -402,7 +427,7 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(3)
         # 拨打电话
         contact_page.click_locator_key('联系人_电话')
@@ -432,17 +457,17 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(3)
         # 修改备注
         contact_page.click_locator_key('家庭网_详细_备注修改')
         self.assertEqual(contact_page.is_text_present('修改备注名'), True)
         # 清空输入框内容
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        contact_page.click_input_clear()
         name = '修改的备注'
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
         contact_page.click_locator_key('家庭网_备注修改_完成')
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本', default_timeout=30), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
         # 拨打电话
         contact_page.click_locator_key('联系人_电话')
         contact_page.is_element_already_exist('视频页面_状态', default_timeout=10)
@@ -473,17 +498,17 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(3)
         # 修改备注
         contact_page.click_locator_key('家庭网_详细_备注修改')
         self.assertEqual(contact_page.is_text_present('修改备注名'), True)
         # 清空输入框内容
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        contact_page.click_input_clear()
         name = '修改的备注'
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
         contact_page.click_locator_key('家庭网_备注修改_完成')
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本', default_timeout=30), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
         # 拨打电话
         contact_page.click_locator_key('联系人_电话')
         contact_page.is_element_already_exist('视频页面_状态', default_timeout=10)
@@ -546,13 +571,13 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(3)
         # 修改备注
         contact_page.click_locator_key('家庭网_详细_备注修改')
         self.assertEqual(contact_page.is_text_present('修改备注名'), True)
         contact_page.click_locator_key('编辑备注_返回')
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本', default_timeout=30), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_0029(self):
@@ -570,15 +595,15 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(3)
         # 修改备注
         contact_page.click_locator_key('家庭网_详细_备注修改')
         self.assertEqual(contact_page.is_text_present('修改备注名'), True)
         # 清空输入框内容
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        contact_page.click_input_clear()
         name = '   '
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
         contact_page.click_locator_key('家庭网_备注修改_完成')
         try:
             contact_page.get_one_element('家庭网_详细_备注名文本')
@@ -621,9 +646,9 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.get_elements_list('家庭网_列表')[0].click()
+        contact_page.get_elements_list_click('家庭网_列表文本1')
         time.sleep(1)
-        self.assertEqual(contact_page.is_element_already_exist('联系人_添加桌面'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_0042(self):
@@ -644,7 +669,7 @@ class ContactlocalPage(TestCase):
         contact_page.click_locator_key('家庭网_管理')
         time.sleep(1)
         contact_page.click_locator_key('家庭网_添加成员')
-        contact_page.input_text('家庭网_输入手机号', '15FSsFS%&dfg12sfdf54sfds11')
+        contact_page.input_locator_text('家庭网_输入手机号', '15FSsFS%&dfg12sfdf54sfds11')
         self.assertEqual(contact_page.get_element_text('家庭网_输入手机号'), True)
 
     # @tags('ALL', 'CMCC', 'contact')
@@ -694,7 +719,7 @@ class ContactlocalPage(TestCase):
         contact_page.click_locator_key('家庭网_通讯录')
         time.sleep(0.5)
         self.assertEqual(contact_page.is_text_present('选择号码'), True)
-        contact_page.input_text('家庭网_通讯录_搜索框', '13800138001')
+        contact_page.input_locator_text('家庭网_通讯录_搜索框', '13800138001')
         time.sleep(0.5)
         self.assertEqual(contact_page.get_elements_count('家庭网_通讯录_号码') > 0, True)
 
@@ -719,7 +744,7 @@ class ContactlocalPage(TestCase):
         contact_page.click_locator_key('家庭网_添加成员')
         time.sleep(0.5)
         self.assertEqual('false' == contact_page.get_element_attr('家庭网_添加成员_确定', 'enabled'), True)
-        # contact_page.input_text('家庭网_输入手机号', '138')
+        # contact_page.input_locator_text('家庭网_输入手机号', '138')
         # self.assertEqual('true' == contact_page.get_element_attr('家庭网_添加成员_确定', 'enabled'), True)
 
     @tags('ALL', 'CMCC', 'contact')
@@ -743,7 +768,7 @@ class ContactlocalPage(TestCase):
         contact_page.click_locator_key('家庭网_添加成员')
         time.sleep(1)
         # self.assertEqual('false' == contact_page.get_element_attr('家庭网_添加成员_确定', 'enabled'), True)
-        contact_page.input_text('家庭网_输入手机号', '138')
+        contact_page.input_locator_text('家庭网_输入手机号', '138')
         self.assertEqual('true' == contact_page.get_element_attr('家庭网_添加成员_确定', 'enabled'), True)
 
     @tags('ALL', 'CMCC', 'contact')
@@ -996,7 +1021,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist_c('通讯录_标题', default_timeout=20), True)
         contact_page.click_locator_key_c('搜索')
         time.sleep(0.5)
-        contact_page.input_text_c('搜索_搜索框', '138')
+        contact_page.input_locator_text_c('搜索_搜索框', '138')
         time.sleep(0.8)
         self.assertEqual(contact_page.get_elements_count_c('搜索_家庭网_列表') > 0, True)
 
@@ -1013,7 +1038,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist_c('通讯录_标题', default_timeout=20), True)
         contact_page.click_locator_key_c('搜索')
         time.sleep(0.5)
-        contact_page.input_text_c('搜索_搜索框', '13800008888')
+        contact_page.input_locator_text_c('搜索_搜索框', '13800008888')
         time.sleep(0.8)
         self.assertEqual(contact_page.is_text_present_c('无该联系人'), True)
 
@@ -1103,11 +1128,11 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist_c('通讯录_标题', default_timeout=20), True)
         contact_page.click_locator_key_c('搜索')
         time.sleep(0.5)
-        contact_page.input_text_c('搜索_搜索框', '138')
+        contact_page.input_locator_text_c('搜索_搜索框', '138')
         time.sleep(1)
         contact_page.get_elements_list_c('搜索_家庭网_列表')[0].click()
         time.sleep(1)
-        self.assertEqual(contact_page.is_element_already_exist_c('联系人_添加桌面'), True)
+        self.assertEqual(contact_page.is_element_already_exist_c('家庭网_详细_用户名'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_00155(self):

@@ -288,9 +288,9 @@ class ContactlocalPage(TestCase):
         contact_page.click_locator_key('家庭网_详细_备注修改')
         self.assertEqual(contact_page.is_text_present('修改备注名'), True)
         # 清空输入框内容
-        contact_page.edit_clear('家庭网_备注修改_文本框')
+        contact_page.click_input_clear()
         name = '备注'
-        contact_page.input_text('家庭网_备注修改_文本框', name)
+        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
         contact_page.click_locator_key('家庭网_备注修改_完成')
         time.sleep(2)
         contact_page.click_locator_key('联系人_视频')
@@ -433,6 +433,6 @@ class ContactlocalPage(TestCase):
         time.sleep(1)
         contact_page.click_locator_key('搜索')
         time.sleep(0.5)
-        contact_page.input_text('搜索_搜索框', cards)
+        contact_page.input_locator_text('搜索_搜索框', cards)
         time.sleep(0.8)
         self.assertEqual(cards == contact_page.get_elements_list('搜索_家庭网_列表')[0].text, True)

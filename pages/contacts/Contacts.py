@@ -26,7 +26,6 @@ class ContactsPage(FooterPage):
         '通讯录_列表_打电话': (MobileBy.ACCESSIBILITY_ID, 'my contact call icon'),
 
         # 列表
-        # '家庭网_列表': (MobileBy.XPATH, ''),
         '家庭网_列表1': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[1]'),
         '家庭网_列表2': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[2]'),
         '家庭网_列表电话1': (MobileBy.XPATH,
@@ -38,13 +37,16 @@ class ContactsPage(FooterPage):
         '家庭网_列表文本2': (MobileBy.XPATH,
                       '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[2]/XCUIElementTypeStaticText[1]'),
         '联系人': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]'),
-        # '联系人_列表': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[*]'),
         '联系人_列表1': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[1]'),
         '联系人_列表2': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[2]'),
         '联系人_列表电话1': (MobileBy.XPATH,
                       '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[1]/*[@name="my contact call icon"]'),
         '联系人_列表电话2': (MobileBy.XPATH,
                       '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[2]/*[@name="my contact call icon"]'),
+        '联系人_列表文本1': (MobileBy.XPATH,
+                      '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
+        '联系人_列表文本2': (MobileBy.XPATH,
+                      '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[2]/XCUIElementTypeStaticText[1]'),
 
         # 联系人
         '联系人_详细_返回': (MobileBy.ACCESSIBILITY_ID, 'contact info back normal@2x'),
@@ -83,9 +85,9 @@ class ContactsPage(FooterPage):
                                        '/preceding-sibling::*[1]/XCUIElementTypeStaticText[1]'),
         '家庭网_详细_电话按钮': (MobileBy.ACCESSIBILITY_ID, 'my call white n@2x'),
         '家庭网_详细_视频按钮': (MobileBy.ACCESSIBILITY_ID, 'my profile ic vedio n@2x'),
-        '家庭网_详细_设置备注名': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="设置备注名"]'),
-        '家庭网_详细_备注名文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="设置备注名"]/following-sibling::*[1]'),
-        '家庭网_详细_备注修改': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="设置备注名"]/following-sibling::*[2]'),
+        '家庭网_详细_设置备注名': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
+        '家庭网_详细_备注名文本': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
+        '家庭网_详细_备注修改': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeButton[1]'),
         '家庭网_详细_手机号码': (MobileBy.IOS_PREDICATE, 'name=="手机号码"'),
         '家庭网_详细_短号': (MobileBy.IOS_PREDICATE, 'name=="短号"'),
         '家庭网_详细_短号内容': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="短号"]/following-sibling::*[1]'),
@@ -94,7 +96,7 @@ class ContactsPage(FooterPage):
         '家庭网_详细_电话规则': (MobileBy.IOS_PREDICATE, 'name=="电话规则说明"'),
 
         # 家庭网 备注修改
-        '家庭网_备注修改_标题': (MobileBy.IOS_PREDICATE, '//XCUIElementTypeOther[@name="修改备注名称"]'),
+        '家庭网_备注修改_标题': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="修改备注名称"]'),
         '家庭网_备注修改_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
         '家庭网_备注修改_完成': (MobileBy.IOS_PREDICATE, 'name=="完成"'),
         '家庭网_备注修改_文本框': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
@@ -133,6 +135,10 @@ class ContactsPage(FooterPage):
         except:
             return False
 
+    @TestLogger.log('获取元素')
+    def get_one_element_c(self, locator):
+        return self.mobile.get_element(self.__locators[locator])
+
     @TestLogger.log("点击locators对应的元素")
     def click_locator_key(self, locator):
         self.click_element(self.__locators[locator])
@@ -142,9 +148,32 @@ class ContactsPage(FooterPage):
         """当前页面是否包含此元素"""
         return self._is_element_present(self.__locators[text])
 
+    @TestLogger.log("获得元素的文本")
+    def get_element_text(self, locator):
+        return self.get_text(self.__locators[locator])
+
     @TestLogger.log("获得元素对应的数量")
-    def get_elements_list(self, locator):
-        return self.get_elements(self.__class__.get_locators(self, locator))
+    def get_elements_list_click(self, locator):
+        elements = self.get_elements(self.__locators[locator])
+        if len(elements) > 0:
+            elements[0].click()
+            time.sleep(2)
+            return True
+        else:
+            return False
+
+    @TestLogger.log("点击包含文本的元素")
+    def input_locator_text(self, locator, text):
+        """输入文本"""
+        return self.input_text(self.__locators[locator], text)
+
+    @TestLogger.log("清空文本")
+    def click_input_clear(self):
+        if self.is_element_already_exist('家庭网_备注修改_文本框'):
+            time.sleep(0.5)
+            if self.is_element_already_exist('家庭网_备注修改_清除'):
+                self.click_locator_key('家庭网_备注修改_清除')
+                time.sleep(1)
 
     @TestLogger.log()
     def is_on_this_page(self):
