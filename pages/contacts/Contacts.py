@@ -16,14 +16,28 @@ class ContactsPage(FooterPage):
         '通讯录_群聊': (MobileBy.ACCESSIBILITY_ID, 'my message ic n@2x'),
         '通讯录_密友圈_标题': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="密友圈(不限时长)"]'),
         '通讯录_密友圈_管理': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="管理"])[1]'),
-        '通讯录_密友圈_列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText'),
-        '通讯录_密友圈_列表元素1': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
-        '通讯录_密友圈_列表元素2': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
-        '通讯录_密友圈_添加': (MobileBy.IOS_PREDICATE, 'name=="添加"'),
         '通讯录_家庭网_标题': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="家庭网"])[1]'),
         '通讯录_家庭网_展开': (MobileBy.ACCESSIBILITY_ID, 'my ic unfold n@2x'),
         '通讯录_家庭网_管理': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="管理"])[2]'),
         '通讯录_列表_打电话': (MobileBy.ACCESSIBILITY_ID, 'my contact call icon'),
+
+        # 不限时长
+        '密友圈_不限时长_列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText'),
+        '密友圈_不限时长_列表元素1': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
+        '密友圈_不限时长_列表元素2': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
+        '密友圈_不限时长_添加': (MobileBy.IOS_PREDICATE, 'name=="添加"'),
+
+        # 家庭网 呼叫
+        '呼叫': (MobileBy.IOS_PREDICATE, 'name=="呼叫"'),
+        '取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
+        '呼叫_结束通话': (MobileBy.IOS_PREDICATE, 'name=="结束通话"'),
+        '呼叫_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
+        '呼叫_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
+        '呼叫_添加通话': (MobileBy.IOS_PREDICATE, 'name=="添加通话"'),
+        '呼叫_通讯录': (MobileBy.IOS_PREDICATE, 'name=="通讯录"'),
+        '呼叫_提示文本': (MobileBy.IOS_PREDICATE, 'value contains "正在呼叫"'),
+        '呼叫_电话号码': (MobileBy.IOS_PREDICATE, 'name=="PHMarqueeView"'),
+        '呼叫_用户正忙': (MobileBy.IOS_PREDICATE, 'name=="PHSingleCallParticipantLabelView_StatusLabel"'),
 
         # 列表
         '家庭网_列表1': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[1]'),
@@ -107,6 +121,16 @@ class ContactsPage(FooterPage):
         '搜索_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
         '搜索_清除文本': (MobileBy.IOS_PREDICATE, 'name="清除文本"'),
 
+        # 飞信电话
+        '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
+        '飞信电话_提示文本': (MobileBy.IOS_PREDICATE, 'name=="请注意接听“飞信电话”来电后将自动呼叫对方"'),
+        '飞信电话_挂断': (MobileBy.IOS_PREDICATE, 'name=="call dial key reject'),
+        '飞信电话_缩小': (MobileBy.IOS_PREDICATE, 'name=="my video zoom"'),
+        '飞信电话_备注': (MobileBy.XPATH, '//XCUIElementTypeImage/following::XCUIElementTypeStaticText[1]'),
+        '飞信电话_号码': (MobileBy.XPATH, '//XCUIElementTypeImage/following::XCUIElementTypeStaticText[2]'),
+        '飞信电话_接受': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
+        '飞信电话_拒绝': (MobileBy.IOS_PREDICATE, 'name=="拒绝"'),
+
         # 消息, 右上角
         '通讯_消息': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="消息"]'),
         '通讯_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
@@ -169,11 +193,9 @@ class ContactsPage(FooterPage):
 
     @TestLogger.log("清空文本")
     def click_input_clear(self):
-        if self.is_element_already_exist('家庭网_备注修改_文本框'):
-            time.sleep(0.5)
-            if self.is_element_already_exist('家庭网_备注修改_清除'):
-                self.click_locator_key('家庭网_备注修改_清除')
-                time.sleep(1)
+        if self.is_element_already_exist('家庭网_备注修改_清除'):
+            self.click_locator_key('家庭网_备注修改_清除')
+            time.sleep(1)
 
     @TestLogger.log()
     def is_on_this_page(self):
@@ -192,6 +214,8 @@ class ContactsPage(FooterPage):
     def if_home_net_expand(self) -> bool:
         """判断家庭网是否展开"""
         try:
+
+
             locator = self.__class__.__locators["家庭网_列表电话1"]
             return len(self.get_elements(locator)) > 0
         except :

@@ -20,7 +20,18 @@ class FooterPage(BasePage):
         '立即升级': (MobileBy.IOS_PREDICATE, 'name="立即升级"'),
         '暂不升级': (MobileBy.IOS_PREDICATE, 'name="暂不升级"'),
 
+        # 广告
+        '广告_通话_关闭': (MobileBy.ACCESSIBILITY_ID, 'my home cancel@2x'),
+
     }
+
+    @TestLogger.log("通话首页弹框关闭广告弹框")
+    def close_click_home_advertisement(self):
+        """通话首页弹框关闭广告弹框"""
+        time.sleep(0.5)
+        if self._is_element_present(self.__class__.__locators['广告_通话_关闭']):
+            self.click_element(self.__locators['广告_通话_关闭'])
+            time.sleep(1)
 
     @TestLogger.log("关闭升级弹出框")
     def click_upgrade_close(self):
@@ -33,6 +44,7 @@ class FooterPage(BasePage):
         """切换到标签页：我"""
         time.sleep(0.5)
         self.click_upgrade_close()
+        self.close_click_home_advertisement()
         self.click_element(self.__locators['我'])
 
     @TestLogger.log()
@@ -43,6 +55,7 @@ class FooterPage(BasePage):
     @TestLogger.log()
     def open_contacts_page(self):
         """切换到标签页：通讯录"""
+        self.close_click_home_advertisement()
         self.click_element(self.__locators['通讯录'])
         # from pages.contacts.Contacts import ContactsPage
         # if ContactsPage().is_text_present('需要使用通讯录权限'):

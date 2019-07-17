@@ -21,8 +21,6 @@ class CallPage(FooterPage):
         # '遮罩1': (MobileBy.ID, ''),
         # '遮罩2': (MobileBy.ID, ''),
 
-        # 广告
-        '广告_通话_关闭': (MobileBy.ACCESSIBILITY_ID, 'my home cancel@2x'),
         # 攻略
         '攻略_通话_id': (MobileBy.ACCESSIBILITY_ID, 'my_banner_gonglue'),
         '攻略_通话_close': (MobileBy.ACCESSIBILITY_ID, 'my cancel copy'),
@@ -271,14 +269,6 @@ class CallPage(FooterPage):
         except:
             print("判断如果键盘已拉起，则收起键盘")
         return self
-
-    @TestLogger.log("通话首页弹框关闭广告弹框")
-    def close_click_home_advertisement(self):
-        """通话首页弹框关闭广告弹框"""
-        time.sleep(1)
-        if self.is_element_already_exist('广告_通话_关闭'):
-            self.click_locator_key('广告_通话_关闭')
-            time.sleep(1)
 
     @TestLogger.log()
     def remove_mask(self):

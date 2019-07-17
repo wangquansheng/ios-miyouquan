@@ -58,6 +58,7 @@ class OneKeyLoginPage(FooterPage):
     def wait_for_page_load(self, timeout=8, auto_accept_alerts=True):
         """等待一键登录页面加载"""
         try:
+            self.close_click_home_advertisement()
             self.click_upgrade_close()
             el = self.get_elements(self.__locators['通话_文案_HEAD'])
             if len(el) > 0:

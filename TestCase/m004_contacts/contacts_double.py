@@ -286,7 +286,7 @@ class ContactlocalPage(TestCase):
         time.sleep(3)
         # 修改备注
         contact_page.click_locator_key('家庭网_详细_备注修改')
-        self.assertEqual(contact_page.is_text_present('修改备注名'), True)
+        self.assertEqual(contact_page.is_element_already_exist('家庭网_备注修改_标题'), True)
         # 清空输入框内容
         contact_page.click_input_clear()
         name = '备注'
@@ -364,7 +364,7 @@ class ContactlocalPage(TestCase):
             contact_page.page_up()
             n += 1
         time.sleep(1)
-        contact_page.hang_up_the_call()
+        contact_page.click_locator_key('呼叫_结束通话')
         time.sleep(2)
 
     @tags('ALL', 'CMCC_double', 'contact')
