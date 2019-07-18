@@ -2874,33 +2874,33 @@ class CallPageTest(TestCase):
     #     """
     #     call = CallPage()
     #     try:
-    #         if call.is_element_already_exist_c('视频界面_时长'):
+    #         if call.is_element_already_exist('视频界面_时长'):
     #             call.tap_screen_center_c('视频界面_小屏')
     #             time.sleep(1)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_免提'), False)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_静音'), False)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_转为语音 '), False)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_涂鸦'), False)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_切换摄像头'), False)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_挂断'), False)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_小屏'), True)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_免提'), False)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_静音'), False)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_转为语音 '), False)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_涂鸦'), False)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_切换摄像头'), False)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_挂断'), False)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_小屏'), True)
     #         else:
     #             call.tap_screen_center_c('视频界面_小屏')
     #             time.sleep(0.5)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_免提'), True)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_静音'), True)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_转为语音 '), True)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_涂鸦'), True)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_切换摄像头'), True)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_挂断'), True)
-    #             self.assertEqual(call.is_element_already_exist_c('视频界面_小屏'), True)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_免提'), True)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_静音'), True)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_转为语音 '), True)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_涂鸦'), True)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_切换摄像头'), True)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_挂断'), True)
+    #             self.assertEqual(call.is_element_already_exist('视频界面_小屏'), True)
     #         return True
     #     except Exception:
     #         traceback.print_exc()
     #         return False
     #     finally:
     #         call.tap_screen_three_point_element_c('视频界面_时长')
-    #         call.click_locator_key_c('视频界面_挂断')
+    #         call.click_locator_key('视频界面_挂断')
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_call_000106(self):
@@ -3320,13 +3320,13 @@ class CallPageTest(TestCase):
     @TestLogger.log('校验结果')
     def check_result_000187(self, call):
         """校验结果"""
-        return call.is_element_already_exist_c('多方视频_头像', default_timeout=0.5) \
-               and call.is_element_already_exist_c('多方视频_呼叫中', default_timeout=0.5) \
-               and call.is_element_already_exist_c('多方视频_翻转摄像头', default_timeout=0.5) \
-               and call.is_element_already_exist_c('多方视频_关闭摄像头', default_timeout=0.5) \
-               and call.is_element_already_exist_c('多方视频_免提', default_timeout=0.5) \
-               and call.is_element_already_exist_c('多方视频_静音', default_timeout=0.5) \
-               and call.is_element_already_exist_c('多方视频_挂断', default_timeout=0.5)
+        return call.is_element_already_exist('多方视频_头像', default_timeout=0.5) \
+               and call.is_element_already_exist('多方视频_呼叫中', default_timeout=0.5) \
+               and call.is_element_already_exist('多方视频_翻转摄像头', default_timeout=0.5) \
+               and call.is_element_already_exist('多方视频_关闭摄像头', default_timeout=0.5) \
+               and call.is_element_already_exist('多方视频_免提', default_timeout=0.5) \
+               and call.is_element_already_exist('多方视频_静音', default_timeout=0.5) \
+               and call.is_element_already_exist('多方视频_挂断', default_timeout=0.5)
 
     # @tags('ALL', 'CMCC_double', 'call')
     # @unittest.skip('浮窗抓取不到')
@@ -3725,9 +3725,9 @@ class CallPageTest(TestCase):
         flag = False
         try:
             for i in range(10):
-                if call.is_element_already_exist_c('回呼_提示文本', default_timeout=0.1):
-                    call.click_locator_key_c('回呼_我知道了')
-                flag = call.is_text_present_c('随后将自动呼叫对方', default_timeout=0.1)
+                if call.is_element_already_exist('回呼_提示文本'):
+                    call.click_locator_key('回呼_我知道了')
+                flag = call.is_text_present_c('随后将自动呼叫对方')
                 if flag:
                     break
             self.assertEqual(flag, True)

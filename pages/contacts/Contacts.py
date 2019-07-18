@@ -20,12 +20,19 @@ class ContactsPage(FooterPage):
         '通讯录_家庭网_展开': (MobileBy.ACCESSIBILITY_ID, 'my ic unfold n@2x'),
         '通讯录_家庭网_管理': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="管理"])[2]'),
         '通讯录_列表_打电话': (MobileBy.ACCESSIBILITY_ID, 'my contact call icon'),
+        '通讯录_不限时长添加': (MobileBy.IOS_PREDICATE, 'name=="添加"'),
+        '通讯录_不限时长列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText'),
+        '通讯录_不限时长列表1': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
+        '通讯录_不限时长列表2': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
 
-        # 不限时长
-        '密友圈_不限时长_列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText'),
-        '密友圈_不限时长_列表元素1': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
-        '密友圈_不限时长_列表元素2': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
-        '密友圈_不限时长_添加': (MobileBy.IOS_PREDICATE, 'name=="添加"'),
+        # 不限时长/管理界面
+        '密友圈_不限时长管理_标题': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="不限时长成员管理"]'),
+        '密友圈_不限时长管理_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '密友圈_不限时长管理_规则': (MobileBy.ACCESSIBILITY_ID, 'my tanhao icon n@2x'),
+        '密友圈_不限时长管理_列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'),
+        '密友圈_不限时长管理_列表1': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+        '密友圈_不限时长管理_解绑': (MobileBy.IOS_PREDICATE, 'name=="解绑"'),
+        '密友圈_不限时长管理_解绑取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
 
         # 家庭网 呼叫
         '呼叫': (MobileBy.IOS_PREDICATE, 'name=="呼叫"'),
@@ -90,8 +97,21 @@ class ContactsPage(FooterPage):
         '家庭网_管理_标题': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="家庭网成员管理"]'),
         '家庭网_管理_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
         '家庭网_管理_感叹号规则': (MobileBy.ACCESSIBILITY_ID, 'ic notice@2x'),
+        '家庭网_管理_感叹号规则返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue pressed@2x'),
         '家庭网_管理_添加': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="添加成员"])[1]'),
         '家庭网_管理_联系人1': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'),
+
+        '家庭网_添加_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '家庭网_添加_确定': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
+        '家庭网_添加_文本': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
+        '家庭网_添加_通讯录': (MobileBy.ACCESSIBILITY_ID, 'ic tx normal'),
+        '家庭网_添加_通讯录_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
+        '家庭网_添加_通讯录_搜索框': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索或输入手机号码"])[1]'),
+        '家庭网_添加_通讯录_搜索列表': (MobileBy.XPATH,
+                            '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell/XCUIElementTypeStaticText[2]'),
+        '家庭网_添加_通讯录_搜索列表1': (MobileBy.XPATH,
+                             '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
+
         '家庭网_详细_返回': (MobileBy.ACCESSIBILITY_ID, 'contact info back normal@2x'),
         '家庭网_详细_头像': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="contact info back normal@2x"]'
                                       '/preceding-sibling::*[1]/XCUIElementTypeImage[2]'),
@@ -109,6 +129,12 @@ class ContactsPage(FooterPage):
         '家庭网_详细_更多编辑': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="更多"]/following-sibling::*[2]'),
         '家庭网_详细_电话规则': (MobileBy.IOS_PREDICATE, 'name=="电话规则说明"'),
 
+        # 家庭网/详细/更多
+        '家庭网_详细_更多性别': (MobileBy.IOS_PREDICATE, 'name="性别"'),
+        '家庭网_详细_更多年龄': (MobileBy.IOS_PREDICATE, 'name="年龄"'),
+        '家庭网_详细_更多职业': (MobileBy.IOS_PREDICATE, 'name="职业"'),
+        '家庭网_详细_更多个性标签': (MobileBy.IOS_PREDICATE, 'name="个性标签"'),
+
         # 家庭网 备注修改
         '家庭网_备注修改_标题': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="修改备注名称"]'),
         '家庭网_备注修改_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
@@ -120,6 +146,8 @@ class ContactsPage(FooterPage):
         '搜索_搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
         '搜索_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
         '搜索_清除文本': (MobileBy.IOS_PREDICATE, 'name="清除文本"'),
+        '搜索_文本': (MobileBy.IOS_PREDICATE, ''),
+        '搜索_列表': (MobileBy.IOS_PREDICATE, ''),
 
         # 飞信电话
         '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
@@ -146,6 +174,41 @@ class ContactsPage(FooterPage):
         '我': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="我"]'),
 
     }
+
+    @TestLogger.log("通话页面点击删除按钮，删除所有")
+    def click_delete_manager_meet(self):
+        time.sleep(1)
+        if self.is_element_already_exist("密友圈_不限时长管理_列表1"):
+            time.sleep(1)
+            # 长滑动，自动出现弹框提示
+            self.swipe_by_direction(self.__locators["密友圈_不限时长管理_列表1"], "left")
+            time.sleep(3)
+            # del_locator = (MobileBy.XPATH, '//XCUIElementTypeButton[@name="解绑"]')
+            # self.click_element(del_locator)
+            # time.sleep(2)
+        # # 检查当前页面
+        # time.sleep(1)
+        # if self.is_element_already_exist('密友圈_不限时长管理_标题'):
+        #     return True
+        # else:
+        #     return False
+
+    @TestLogger.log("获得元素对应的数量")
+    def get_elements_list_c(self, locator):
+        return self.get_elements(self.__locators[locator])
+
+    @TestLogger.log('获取元素的属性')
+    def get_element_attr(self, locator, attr, wait_time=0):
+        """获取元素的属性"""
+        return self.mobile.get_element_attribute(self.__locators[locator], attr, wait_time)
+
+    @TestLogger.log("获得元素对应的数量")
+    def get_elements_count(self, locator):
+        return len(self.get_elements(self.__locators[locator]))
+
+    @TestLogger.log('获取元素')
+    def get_one_element(self, locator):
+        return self.get_elements(self.__locators[locator])
 
     @TestLogger.log('判断元素是否存在')
     def is_element_already_exist(self, locator):
@@ -214,8 +277,6 @@ class ContactsPage(FooterPage):
     def if_home_net_expand(self) -> bool:
         """判断家庭网是否展开"""
         try:
-
-
             locator = self.__class__.__locators["家庭网_列表电话1"]
             return len(self.get_elements(locator)) > 0
         except :

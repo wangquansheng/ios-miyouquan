@@ -312,14 +312,14 @@ class ContactlocalPage(TestCase):
         contact_page = ContactsPage()
         Preconditions.initialize_class('Android-移动-N')
         # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题', default_timeout=20), True)
+        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         # 展开家庭网
         # 展开家庭网
         if not contact_page.if_home_net_expand():
             contact_page.click_locator_key('通讯录_家庭网_展开')
             time.sleep(1)
         # 点击家庭网第一个联系人
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_管理'), False)
+        self.assertEqual(contact_page.is_element_already_exist('通讯录_家庭网_管理'), False)
 
     @tags('ALL', 'CMCC_double', 'contact')
     def test_member_00117_01(self):
@@ -433,6 +433,6 @@ class ContactlocalPage(TestCase):
         time.sleep(1)
         contact_page.click_locator_key('搜索')
         time.sleep(0.5)
-        contact_page.input_locator_text('搜索_搜索框', cards)
+        contact_page.input_locator_text('搜索_文本', cards)
         time.sleep(0.8)
-        self.assertEqual(cards == contact_page.get_elements_list('搜索_家庭网_列表')[0].text, True)
+        self.assertEqual(cards == contact_page.get_elements_list('搜索_列表')[0].text, True)
