@@ -1045,7 +1045,6 @@ class ContactlocalPage(TestCase):
         contact_page = ContactsPage()
         # 确保在通讯录界面
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
-        contact_page.click_locator_key('搜索_搜索')
         time.sleep(0.5)
         contact_page.input_locator_text('搜索_文本', '147')
         time.sleep(0.8)
@@ -1062,11 +1061,10 @@ class ContactlocalPage(TestCase):
         contact_page = ContactsPage()
         # 确保在通讯录界面
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
-        contact_page.click_locator_key('搜索_搜索')
         time.sleep(0.5)
         contact_page.input_locator_text('搜索_文本', '13800008888')
-        time.sleep(0.8)
-        self.assertEqual(contact_page.is_text_present('无该联系人'), True)
+        time.sleep(1)
+        self.assertEqual(contact_page.is_element_already_exist('搜索_无该联系人'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_00121(self):
@@ -1079,9 +1077,10 @@ class ContactlocalPage(TestCase):
         contact_page = ContactsPage()
         # 确保在通讯录界面
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
-        contact_page.click_locator_key('搜索')
-        time.sleep(0.5)
-        self.assertEqual('搜索联系人' == contact_page.get_element_text('搜索_文本'), True)
+        time.sleep(1)
+        contact_page.click_locator_key('搜索_文本')
+        time.sleep(1)
+        self.assertEqual('搜索' == contact_page.get_element_text('搜索_文本'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_00132(self):
@@ -1095,6 +1094,7 @@ class ContactlocalPage(TestCase):
         contact_page = ContactsPage()
         # 确保在通讯录界面
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
+        time.sleep(0.5)
         contact_page.click_locator_key('密友圈_管理')
         time.sleep(0.5)
         self.assertEqual(contact_page.is_text_present('其中非移动号成员体验名额还有'), True)

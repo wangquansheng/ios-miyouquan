@@ -143,11 +143,12 @@ class ContactsPage(FooterPage):
         '家庭网_备注修改_清除': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="清除文本"]'),
 
         # 搜索
-        '搜索_搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
+        '搜索_文本': (MobileBy.IOS_PREDICATE, 'type=="XCUIElementTypeSearchField"'),
         '搜索_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
+        '搜索_无该联系人': (MobileBy.IOS_PREDICATE, 'name="无该联系人"'),
         '搜索_清除文本': (MobileBy.IOS_PREDICATE, 'name="清除文本"'),
-        '搜索_文本': (MobileBy.IOS_PREDICATE, ''),
         '搜索_列表': (MobileBy.IOS_PREDICATE, ''),
+        '搜索_列表1': (MobileBy.IOS_PREDICATE, ''),
 
         # 飞信电话
         '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
