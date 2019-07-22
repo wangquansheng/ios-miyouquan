@@ -669,7 +669,7 @@ DEVICES_CONFIG_WJH = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '15814481872'
+                'CARD_NUMBER': '13641390071'
             },
         ]
     },

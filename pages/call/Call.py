@@ -31,6 +31,8 @@ class CallPage(FooterPage):
         '通话_来电名称': (MobileBy.XPATH, '//XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
         '通话_详情图标': (MobileBy.ACCESSIBILITY_ID, 'call info outline@2x'),
         '通话_第一个联系人': (MobileBy.XPATH, "//XCUIElementTypeTable/XCUIElementTypeCell[1]"),
+        '通话_通话记录列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'),
+
         '通话_归属地': (MobileBy.IOS_PREDICATE, 'name=="通话记录"'),
         '空白文案': (MobileBy.IOS_PREDICATE, 'name=="点击下方，打电话不花钱"'),
         '键盘输入框': (MobileBy.XPATH,
@@ -42,7 +44,7 @@ class CallPage(FooterPage):
         '[飞信电话]': (MobileBy.IOS_PREDICATE, 'name=="[飞信电话] "'),
         '[视频通话]': (MobileBy.IOS_PREDICATE, 'name=="[视频通话] "'),
         '[多方视频]': (MobileBy.IOS_PREDICATE, 'name=="[多方视频] "'),
-        '拨号键盘': (MobileBy.ACCESSIBILITY_ID, 'my dialing nor@2x'),
+        '拨号键盘': (MobileBy.IOS_PREDICATE, 'name contains "my dialing nor"'),
         '+': (MobileBy.ACCESSIBILITY_ID, 'add normal@2x'),
         '视频通话': (MobileBy.IOS_PREDICATE, 'name=="视频通话"'),
         '多方电话': (MobileBy.IOS_PREDICATE, 'name=="多方电话"'),
@@ -50,29 +52,40 @@ class CallPage(FooterPage):
         '通话_搜索_联系人名称': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeStaticText[2]'),
 
         # 通话界面 拨号操作
-        '拨号_呼叫': (MobileBy.ACCESSIBILITY_ID, 'my dialing keyboard nor@2x'),
+        '拨号_呼叫': (MobileBy.IOS_PREDICATE, 'name contains "my dialing keyboard nor"'),
+        '拨号_呼叫_呼叫': (MobileBy.IOS_PREDICATE, 'name=="呼叫"'),
+        '拨号_呼叫_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
         '拨号_删除': (MobileBy.ACCESSIBILITY_ID, 'my dail cannel ic@2x'),
         '拨号_收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic@2x'),
         '拨号_半_收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic c@2x'),
         '拨号_无联系人': (MobileBy.IOS_PREDICATE, 'name=="无该联系人"'),
-        '拨号_文本框': (MobileBy.XPATH,
-                   '//*[@name="my dialing keyboard nor@2x"]/../preceding-sibling::*[3]/XCUIElementTypeTextField'),
-        '拨号_半_文本框': (MobileBy.XPATH,
-                     '//*[@name="my dialing keyboard nor@2x"]/../preceding-sibling::*[2]/XCUIElementTypeTextField'),
+        '拨号_文本框': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
+        '拨号_半_文本框': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
         '拨号_请输入正确号码': (MobileBy.IOS_PREDICATE, 'name=="请输入正确号码"'),
         '拨号_搜索_列表联系人': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
-        'keyboard_1': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_1@2x.png"'),
-        'keyboard_2': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_2@2x.png"'),
-        'keyboard_3': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_3@2x.png"'),
-        'keyboard_4': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_4@2x.png"'),
-        'keyboard_5': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_5@2x.png"'),
-        'keyboard_6': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_6@2x.png"'),
-        'keyboard_7': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_7@2x.png"'),
-        'keyboard_8': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_8@2x.png"'),
-        'keyboard_9': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_9@2x.png"'),
-        'keyboard_0': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_0@2x.png"'),
-        'keyboard_*': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_*@2x.png"'),
-        'keyboard_#': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_call_#@2x.png"'),
+        'keyboard_1': (MobileBy.IOS_PREDICATE, 'name contains "my_call_1"'),
+        'keyboard_2': (MobileBy.IOS_PREDICATE, 'name contains "my_call_2"'),
+        'keyboard_3': (MobileBy.IOS_PREDICATE, 'name contains "my_call_3"'),
+        'keyboard_4': (MobileBy.IOS_PREDICATE, 'name contains "my_call_4"'),
+        'keyboard_5': (MobileBy.IOS_PREDICATE, 'name contains "my_call_5"'),
+        'keyboard_6': (MobileBy.IOS_PREDICATE, 'name contains "my_call_6"'),
+        'keyboard_7': (MobileBy.IOS_PREDICATE, 'name contains "my_call_7"'),
+        'keyboard_8': (MobileBy.IOS_PREDICATE, 'name contains "my_call_8"'),
+        'keyboard_9': (MobileBy.IOS_PREDICATE, 'name contains "my_call_9"'),
+        'keyboard_0': (MobileBy.IOS_PREDICATE, 'name contains "my_call_0"'),
+        'keyboard_*': (MobileBy.IOS_PREDICATE, 'name contains "my_call_*"'),
+        'keyboard_#': (MobileBy.IOS_PREDICATE, 'name contains "my_call_#"'),
+        # 呼叫页面
+        '呼叫_结束通话': (MobileBy.IOS_PREDICATE, 'name=="结束通话"'),
+        '呼叫_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
+        '呼叫_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
+        '呼叫_添加通话': (MobileBy.IOS_PREDICATE, 'name=="添加通话"'),
+        '呼叫_通讯录': (MobileBy.IOS_PREDICATE, 'name=="通讯录"'),
+        '呼叫_提示文本': (MobileBy.IOS_PREDICATE, 'value contains "正在呼叫手机"'),
+        '呼叫_电话号码': (MobileBy.IOS_PREDICATE, 'name=="PHMarqueeView"'),
+        '呼叫_用户正忙': (MobileBy.IOS_PREDICATE, 'name=="PHSingleCallParticipantLabelView_StatusLabel"'),
+        '呼叫_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
+        '呼叫_回拨': (MobileBy.IOS_PREDICATE, 'name=="回拨"'),
 
         # 详情页面
         '详情_返回': (MobileBy.ACCESSIBILITY_ID, 'contact info back normal@2x'),
@@ -141,21 +154,29 @@ class CallPage(FooterPage):
         '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
         '视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
         '视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
-        '视频_画笔': (MobileBy.ACCESSIBILITY_ID, 'doodle off@2x'),
+        '视频_画笔': (MobileBy.IOS_PREDICATE, 'name contains "doodle"'),
         '视频_切到语音通话': (MobileBy.IOS_PREDICATE, 'name=="切到语音通话"'),
         '视频_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
         '视频_切换摄像头': (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
         '视频_未接听': (MobileBy.IOS_PREDICATE, 'name=="对方不在线，暂时无法接听，请稍后重试。"'),
+        '视频_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
 
         # 视频-语音界面
         '语音_名称': (MobileBy.XPATH,
                   '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText[1]'),
         '语音_头像': (MobileBy.XPATH,
-                  '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeImage'),
+                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElement'
+                  'TypeOther[1]/XCUIElementTypeOther[1]/XCUIElementTypeImage'),
+        '语音_备注': (MobileBy.XPATH,
+                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/'
+                  'XCUIElementTypeOther[1]/XCUIElementTypeStaticText[1]'),
+
         '语音_电话': (MobileBy.XPATH,
-                  '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText[2]'),
+                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/'
+                  'XCUIElementTypeOther[1]/XCUIElementTypeStaticText[2]'),
         '语音_时长': (MobileBy.XPATH,
-                  '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText[3]'),
+                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/'
+                  'XCUIElementTypeOther[1]/XCUIElementTypeStaticText[3]'),
         '语音_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
         '语音_切到视频通话': (MobileBy.IOS_PREDICATE, 'name=="切到视频通话"'),
         '语音_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
@@ -325,11 +346,11 @@ class CallPage(FooterPage):
 
     @TestLogger.log("通话页面点击删除按钮，删除所有")
     def click_delete_all_key(self):
-        time.sleep(2)
+        time.sleep(1)
         while self.is_element_already_exist("通话_第一个联系人"):
-            time.sleep(2)
+            # time.sleep(1)
             self.swipe_by_direction(self.__locators["通话_第一个联系人"], "left")
-            time.sleep(5)
+            time.sleep(2)
             del_locator = (MobileBy.XPATH, '//XCUIElementTypeButton[@name="删除"]')
             self.click_element(del_locator)
             time.sleep(2)
@@ -339,6 +360,136 @@ class CallPage(FooterPage):
             return True
         else:
             return False
+
+    @TestLogger.log("通话页面点击删除按钮，删除所有")
+    def clear_all_records(self):
+        del_locator = (MobileBy.NAME, '删除')
+        time.sleep(2)
+        els = self.get_elements(self.__locators['通话_通话记录列表'])
+        for el in els:
+            self.swipe_by_direction_element(el, "left")
+            time.sleep(0.5)
+            self.click_element(del_locator)
+            time.sleep(0.5)
+        # 检查当前页面
+        time.sleep(1)
+        if self.is_element_already_exist(self.__locators['通话_通话_TAB']):
+            return True
+        else:
+            return False
+
+    def swipe_by_direction_element(self, element, direction, duration=0.5, locator2=None):
+        """
+        在元素内滑动
+        :param locator: 定位器
+        :param direction: 方向（left,right,up,down）
+        :param duration: 持续时间ms
+        :return:
+        """
+        rect = element.rect
+        left, right = int(rect['x']) + 1, int(rect['x'] + rect['width']) - 1
+        top, bottom = int(rect['y']) + 1, int(rect['y'] + rect['height']) - 1
+        width = int(rect['width']) - 2
+        height = int(rect['height']) - 2
+
+        if self._get_platform() == 'android':
+            if direction.lower() == 'left':
+                x_start = right
+                x_end = left
+                y_start = (top + bottom) // 2
+                y_end = (top + bottom) // 2
+                self.driver.swipe(x_start, y_start, x_end, y_end, duration)
+            elif direction.lower() == 'right':
+                x_start = left
+                x_end = right
+                y_start = (top + bottom) // 2
+                y_end = (top + bottom) // 2
+                self.driver.swipe(x_start, y_start, x_end, y_end, duration)
+            elif direction.lower() == 'up':
+                x_start = (left + right) // 2
+                x_end = (left + right) // 2
+                y_start = bottom
+                y_end = top
+                self.driver.swipe(x_start, y_start, x_end, y_end, duration)
+            elif direction.lower() == 'down':
+                x_start = (left + right) // 2
+                x_end = (left + right) // 2
+                y_start = top
+                y_end = bottom
+                self.driver.swipe(x_start, y_start, x_end, y_end, duration)
+
+        elif self._get_platform() == 'ios':
+            if direction.lower() == 'left':
+                x_start = right
+                x_end = left
+                y_start = (top + bottom) // 2
+                y_end = (top + bottom) // 2
+                self.driver.execute_script("mobile:dragFromToForDuration",
+                                           {"duration": duration, "element": locator2, "fromX": x_start,
+                                            "fromY": y_start,
+                                            "toX": x_end, "toY": y_end})
+            elif direction.lower() == 'right':
+                x_start = left
+                x_end = right
+                y_start = (top + bottom) // 2
+                y_end = (top + bottom) // 2
+                self.driver.execute_script("mobile:dragFromToForDuration",
+                                           {"duration": duration, "element": locator2, "fromX": x_start,
+                                            "fromY": y_start,
+                                            "toX": x_end, "toY": y_end})
+            elif direction.lower() == 'up':
+                x_start = (left + right) // 2
+                x_end = (left + right) // 2
+                y_start = bottom
+                y_end = top
+                self.driver.execute_script("mobile:dragFromToForDuration",
+                                           {"duration": duration, "element": locator2, "fromX": x_start,
+                                            "fromY": y_start,
+                                            "toX": x_end, "toY": y_end})
+            elif direction.lower() == 'down':
+                x_start = (left + right) // 2
+                x_end = (left + right) // 2
+                y_start = top
+                y_end = bottom
+                self.driver.execute_script("mobile:dragFromToForDuration",
+                                           {"duration": duration, "element": locator2, "fromX": x_start,
+                                            "fromY": y_start,
+                                            "toX": x_end, "toY": y_end})
+            elif direction.lower() == 'press':
+                x_start = (left + right) // 2
+                x_end = (left + right) // 2
+                y_start = (top + bottom) // 2
+                y_end = (top + bottom) // 2
+                self.driver.execute_script("mobile:dragFromToForDuration",
+                                           {"duration": duration, "element": locator2, "fromX": x_start,
+                                            "fromY": y_start,
+                                            "toX": x_end, "toY": y_end})
+
+        else:
+            if direction.lower() == 'left':
+                x_start = right
+                x_offset = width
+                y_start = (top + bottom) // 2
+                y_offset = 0
+                self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
+            elif direction.lower() == 'right':
+                x_start = left
+                x_offset = width
+                y_start = -(top + bottom) // 2
+                y_offset = 0
+                self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
+            elif direction.lower() == 'up':
+                x_start = (left + right) // 2
+                x_offset = 0
+                y_start = bottom
+                y_offset = -height
+                self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
+            elif direction.lower() == 'down':
+                x_start = (left + right) // 2
+                x_offset = 0
+                y_start = top
+                y_offset = height
+                self.driver.swipe(x_start, y_start, x_offset, y_offset, duration)
 
     @TestLogger.log("当前页面是否包含此文本")
     def check_text_exist(self, text):
@@ -730,7 +881,7 @@ class CallPage(FooterPage):
     @TestLogger.log('获取指定运营商类型的手机卡（不传类型返回全部配置的手机卡）')
     def get_cards(self, card_type):
         """返回指定类型卡手机号列表"""
-        return current_mobile().get_cards(card_type)
+        return current_mobile().get_cards(card_type)[0]
 
     @TestLogger.log('视频通话界面用户名称')
     def get_video_text(self, text):
@@ -743,7 +894,7 @@ class CallPage(FooterPage):
         except:
             return False
 
-    @TestLogger.log('拨打一个点对点视频通话')
+    @TestLogger.log('拨打一个点对点视频通话')  # pass
     def pick_up_p2p_video(self, cards):
         self.click_locator_key('+')
         self.click_locator_key('视频通话')
@@ -773,7 +924,8 @@ class CallPage(FooterPage):
                 return True
             else:
                 return False
-        except:
+        except Exception:
+            traceback.print_exc()
             return False
 
     @TestLogger.log('获取元素')
@@ -953,3 +1105,27 @@ class CallPage(FooterPage):
     @TestLogger.log('查找所有元素')
     def get_elements_list(self, locator):
         return self.get_elements(self.__locators[locator])
+
+    @TestLogger.log('查找所有元素')
+    def pick_up_p2p_voice_keep_time(self, cards):
+        if self.is_element_already_exist('拨号键盘'):
+            self.click_locator_key('拨号键盘')
+            time.sleep(2)
+        for i in cards:
+            self.click_locator_key('keyboard_{}'.format(i))
+        time.sleep(1)
+        self.click_locator_key('拨号_呼叫')
+        time.sleep(1)
+        self.click_locator_key('拨号_呼叫_呼叫')
+
+    @TestLogger.log('判断按钮是否被选中')
+    def check_if_button_selected(self, locator):
+        """判断按钮是否被选中"""
+        try:
+            el = self.get_element(self.__locators[locator])
+            if el.text == '1':
+                return True
+            else:
+                return False
+        except Exception:
+            return False
