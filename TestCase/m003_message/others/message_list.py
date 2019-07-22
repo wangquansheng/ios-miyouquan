@@ -1,19 +1,10 @@
-import random
-import re
 import time
-import unittest
-import uuid
 
-from appium.webdriver.common.mobileby import MobileBy
-
-import preconditions
 from library.core.TestCase import TestCase
-from library.core.common.simcardtype import CardType
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile, current_driver
 from library.core.utils.testcasefilter import tags
+
 from pages import *
-from pages.components import BaseChatPage
-from pages.groupset.GroupChatSetPicVideo import GroupChatSetPicVideoPage
 
 from preconditions.BasePreconditions import LoginPreconditions
 

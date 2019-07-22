@@ -1,8 +1,10 @@
 from appium.webdriver.common.mobileby import MobileBy
-import re
+
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
+
 import time
+import re
 
 class GroupChatSetPage(BasePage):
     """群聊设置页面"""

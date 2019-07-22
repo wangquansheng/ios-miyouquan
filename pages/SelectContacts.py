@@ -1,10 +1,14 @@
 from appium.webdriver.common.mobileby import MobileBy
-import re
-import copy
+
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
-import time
+
 from pages.GroupChat import GroupChatPage
+
+import re
+import copy
+import time
+
 
 class SelectContactsPage(BasePage):
     """选择联系人页面"""
@@ -41,19 +45,11 @@ class SelectContactsPage(BasePage):
         '查看更多': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="查看更多"])'),
         # '查看更多2': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="查看更多"])[2]'),
 
-
-
-
         '取消转发': (MobileBy.ACCESSIBILITY_ID, "取消"),
         '确定转发': (MobileBy.ACCESSIBILITY_ID, "确定"),
-        #分享二维码
+        # 分享二维码
         '确定发送': (MobileBy.ACCESSIBILITY_ID, "发送"),
         '取消发送': (MobileBy.ACCESSIBILITY_ID, "取消"),
-
-
-
-
-
 
         'X': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_delect'),
         '聊天电话': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_number'),
@@ -75,7 +71,7 @@ class SelectContactsPage(BasePage):
         "最近聊天消息名称": (MobileBy.ID, "com.chinasofti.rcs:id/tv_name"),
         "联系人横框": (MobileBy.ID, "com.chinasofti.rcs:id/contact_list_item"),
         "搜索框左边选中联系人": (MobileBy.ID, "com.chinasofti.rcs:id/image"),
-       # 'aaa':(MobileBy.XPATH,"*[@text='aaa']"),
+        # 'aaa':(MobileBy.XPATH,"*[@text='aaa']"),
         'aaa':(MobileBy.ID,'com.chinasofti.rcs:id/contact_name'),
 
         "搜索群组":(MobileBy.ID,'com.chinasofti.rcs:id/et_search'),
@@ -212,16 +208,9 @@ class SelectContactsPage(BasePage):
         time.sleep(1)
         self.click_element(self.__class__.__locators[text])
 
-
-
-
-
-
-
     @TestLogger.log("点击右侧字母")
     def click_right_word(self,text='A'):
         self.click_element(self.__locators[text])
-
 
     @TestLogger.log("点击群二维码")
     def click_group_code(self, text='群二维码'):
@@ -234,7 +223,6 @@ class SelectContactsPage(BasePage):
         """点击组名"""
         time.sleep(1)
         self.click_element(self.__locators[text])
-
 
     @TestLogger.log("选择:中软国际科技服务有限公司")
     def click_group_chinasoft(self, text='中软国际科技服务有限公司'):
@@ -259,7 +247,6 @@ class SelectContactsPage(BasePage):
         """点击组名"""
         time.sleep(1)
         self.click_element(self.__locators[text])
-
 
     @TestLogger.log("点击搜索群组")
     def click_group_search(self):

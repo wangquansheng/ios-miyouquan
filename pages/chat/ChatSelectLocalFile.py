@@ -1,9 +1,9 @@
 import os
 import time
+import settings
 
 from appium.webdriver.common.mobileby import MobileBy
 
-import settings
 from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 from . import ChatSelectFilePage

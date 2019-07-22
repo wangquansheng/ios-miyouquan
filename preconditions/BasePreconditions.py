@@ -1,6 +1,3 @@
-import time
-import random
-
 from pages import *
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.common.simcardtype import CardType
