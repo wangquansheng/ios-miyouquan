@@ -73,10 +73,6 @@ class Preconditions(LoginPreconditions):
 class ContactlocalPage(TestCase):
     """本地通讯录界面"""
 
-    # @classmethod
-    # def setUp_class(cls):
-    #     warnings.simplefilter('ignore', ResourceWarning)
-
     def default_setUp(self):
         """确保每个用例开始之前在通讯录界面"""
         warnings.simplefilter('ignore', ResourceWarning)

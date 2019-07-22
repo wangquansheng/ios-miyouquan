@@ -1,16 +1,12 @@
-import traceback
-import unittest
-import uuid
 import time
 import warnings
 
 from library.core.common.simcardtype import CardType
-from selenium.common.exceptions import TimeoutException
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
 from library.core.utils.testcasefilter import tags
+
 from pages import *
-from pages.guide import GuidePage
 from pages.components.Footer import FooterPage
 
 
