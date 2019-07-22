@@ -264,7 +264,6 @@ class GroupChatPage(BaseChatPage):
         """点击元素"""
         self.click_element(self.__class__.__locators[text])
 
-#
     # @TestLogger.log()
     # def press_file_to_do(self, file, text):
     #     """长按指定文件进行操作"""
