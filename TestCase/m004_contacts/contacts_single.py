@@ -7,9 +7,12 @@ from selenium.common.exceptions import NoSuchElementException
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.utils.testcasefilter import tags
-from pages import *
-from preconditions.BasePreconditions import LoginPreconditions
+
 from pages.components.Footer import FooterPage
+from pages import *
+
+from preconditions.BasePreconditions import LoginPreconditions
+
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',

@@ -9,6 +9,7 @@ class Keyboard(BasePage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.MessageDetailActivity'
 
     __locators = {
+
     }
 
     @TestLogger.log('如果键盘弹出，就收回键盘')

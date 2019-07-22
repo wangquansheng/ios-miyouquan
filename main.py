@@ -2,8 +2,6 @@ import os
 import traceback
 import unittest
 
-# from pip._internal import main as install_requirements
-
 # 自动安装依赖
 module_list = os.popen('pip3 freeze').readlines()
 with open('requirements.txt', 'r') as f:

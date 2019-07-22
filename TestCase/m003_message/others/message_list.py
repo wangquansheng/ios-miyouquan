@@ -200,17 +200,17 @@ class MessageListText(TestCase):
         # 2.底部消息图标是否高亮显示
         self.assertEquals(mp.message_icon_is_visiable(), True)
 
-    @tags('ALL', 'CMCC', 'LXD')
-    def test_msg_xiaoliping_B_0006(self):
-        """消息列表进入到会话页面"""
-        msg= MessagePage()
-        time.sleep(2)
-        msg.click_msg_first_list()
-        time.sleep(2)
-        ChatWindowPage().is_on_this_page()
-        #点击返回 返回到消息列表
-        ChatWindowPage().click_back()
-        msg.is_on_this_page()
+    # @tags('ALL', 'CMCC', 'LXD')
+    # def test_msg_xiaoliping_B_0006(self):
+    #     """消息列表进入到会话页面"""
+    #     msg= MessagePage()
+    #     time.sleep(2)
+    #     msg.click_msg_first_list()
+    #     time.sleep(2)
+    #     ChatWindowPage().is_on_this_page()
+    #     #点击返回 返回到消息列表
+    #     ChatWindowPage().click_back()
+    #     msg.is_on_this_page()
 
     # @tags('ALL', 'CMCC', 'LXD')
     # def test_msg_xiaoliping_B_0006(self):

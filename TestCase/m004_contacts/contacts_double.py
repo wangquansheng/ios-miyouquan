@@ -178,6 +178,7 @@ class Preconditions(object):
     #     current_mobile().reset_app()
 
 
+
 class ContactlocalPage(TestCase):
     """本地通讯录界面"""
 

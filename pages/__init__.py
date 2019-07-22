@@ -18,8 +18,10 @@ __all__ = [
     "ChatSelectLocalFilePage",
     'SelectHeContactsDetailPage',
     'CallPage',
+    'MessagePage',
 ]
 
+from .message import MessagePage
 from .GroupChat import GroupChatPage
 from .SelectContacts import SelectContactsPage
 from .SelectLocalContacts import SelectLocalContactsPage

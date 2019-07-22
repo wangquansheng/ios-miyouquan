@@ -1,11 +1,11 @@
 from pages import *
+
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.common.simcardtype import CardType
 
 
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
-    # 'Android-移动': 'single_mobile',
     'IOS-移动': 'iphone',
     'Android-电信': 'single_telecom',
     'Android-联通': 'single_union',
@@ -141,6 +141,14 @@ class LoginPreconditions(object):
 class WorkbenchPreconditions(LoginPreconditions):
     """工作台前置条件"""
 
+    @staticmethod
+    def get_team_name():
+        """获取团队"""
+        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
+        # str=time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
+        team_name = "ateam" + phone_number[-4:]
+        return team_name
+
     # @staticmethod
     # def enter_create_team_page(reset=False):
     #     """从消息进入创建团队页面"""
@@ -157,15 +165,7 @@ class WorkbenchPreconditions(LoginPreconditions):
     #         workbench.click_create_team()
     #     team = CreateTeamPage()
     #     team.wait_for_page_load()
-
-    @staticmethod
-    def get_team_name():
-        """获取团队"""
-        phone_number = current_mobile().get_cards(CardType.CHINA_MOBILE)[0]
-        # str=time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
-        team_name = "ateam" + phone_number[-4:]
-        return team_name
-
+    #
     # @staticmethod
     # def create_team(team_name=None, user_name="admin"):
     #     """创建团队"""
