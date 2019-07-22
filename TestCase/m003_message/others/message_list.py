@@ -48,25 +48,25 @@ class Preconditions(LoginPreconditions):
         :return:
         """
         contacts_page = ContactsPage()
-        detail_page = ContactDetailsPage()
-        try:
-            contacts_page.wait_for_page_load()
-            contacts_page.open_contacts_page()
-        except:
-            Preconditions.make_already_in_message_page(reset=False)
-            contacts_page.open_contacts_page()
-        # 创建联系人
-        contacts_page.click_search_box()
-        contact_search = ContactListSearchPage()
-        contact_search.wait_for_page_load()
-        contact_search.input_search_keyword(name)
-        contact_search.click_back()
-        contacts_page.click_add()
-        create_page = CreateContactPage()
-        create_page.hide_keyboard_if_display()
-        create_page.create_contact(name, number)
-        detail_page.wait_for_page_load()
-        detail_page.click_back_icon()
+        # detail_page = ContactDetailsPage()
+        # try:
+        #     contacts_page.wait_for_page_load()
+        #     contacts_page.open_contacts_page()
+        # except:
+        #     Preconditions.make_already_in_message_page(reset=False)
+        #     contacts_page.open_contacts_page()
+        # # 创建联系人
+        # contacts_page.click_search_box()
+        # contact_search = ContactListSearchPage()
+        # contact_search.wait_for_page_load()
+        # contact_search.input_search_keyword(name)
+        # contact_search.click_back()
+        # contacts_page.click_add()
+        # create_page = CreateContactPage()
+        # create_page.hide_keyboard_if_display()
+        # create_page.create_contact(name, number)
+        # detail_page.wait_for_page_load()
+        # detail_page.click_back_icon()
 
     @staticmethod
     def take_logout_operation_if_already_login():
@@ -80,11 +80,11 @@ class Preconditions(LoginPreconditions):
         me.scroll_to_bottom()
         me.scroll_to_bottom()
         me.click_setting_menu()
-
-        setting = SettingPage()
-        setting.scroll_to_bottom()
-        setting.click_logout()
-        setting.click_ok_of_alert()
+        #
+        # setting = SettingPage()
+        # setting.scroll_to_bottom()
+        # setting.click_logout()
+        # setting.click_ok_of_alert()
 
     @staticmethod
     def reset_and_relaunch_app():
@@ -123,27 +123,26 @@ class Preconditions(LoginPreconditions):
         :return:
         """
         contacts_page = ContactsPage()
-        detail_page = ContactDetailsPage()
-        try:
-            contacts_page.wait_for_page_load()
-            contacts_page.open_contacts_page()
-        except:
-            Preconditions.make_already_in_message_page(reset=False)
-            contacts_page.open_contacts_page()
-        # 创建联系人
-        contacts_page.click_phone_contact()
-        contacts_page.click_search_phone_contact()
-        contacts_page.input_search_keyword(name)
-        if contacts_page.is_contact_in_list():
-            contacts_page.click_back()
-        else:
-            contacts_page.click_add()
-            create_page = CreateContactPage()
-            create_page.create_contact(name, number)
-            time.sleep(2)
-            detail_page.click_back_icon()
-            contacts_page.click_back()
-
+        # detail_page = ContactDetailsPage()
+        # try:
+        #     contacts_page.wait_for_page_load()
+        #     contacts_page.open_contacts_page()
+        # except:
+        #     Preconditions.make_already_in_message_page(reset=False)
+        #     contacts_page.open_contacts_page()
+        # # 创建联系人
+        # contacts_page.click_phone_contact()
+        # contacts_page.click_search_phone_contact()
+        # contacts_page.input_search_keyword(name)
+        # if contacts_page.is_contact_in_list():
+        #     contacts_page.click_back()
+        # else:
+        #     contacts_page.click_add()
+        #     create_page = CreateContactPage()
+        #     create_page.create_contact(name, number)
+        #     time.sleep(2)
+        #     detail_page.click_back_icon()
+        #     contacts_page.click_back()
 
     # @staticmethod
     # def make_sure_it_have_message_list():
@@ -168,9 +167,9 @@ class MessageListText(TestCase):
         mp = MessagePage()
         if mp.is_on_this_page():
             return
-        else:
-            # current_mobile().launch_app()
-            Preconditions.make_already_in_message_page()
+        # else:
+        #     # current_mobile().launch_app()
+        #     Preconditions.make_already_in_message_page()
 
     def default_tearDown(self):
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
@@ -178,12 +177,12 @@ class MessageListText(TestCase):
     @tags('ALL', 'CMCC', 'LXD')
     def test_msg_xiaoliping_B_0003(self):
         """消息列表进入"""
-        mes=MessagePage()
-        #切换到联系页面
+        mes = MessagePage()
+        # 切换到联系页面
         mes.open_contacts_page()
         ContactsPage().is_on_this_page()
         time.sleep(2)
-        #切换到消息页面
+        # 切换到消息页面
         ContactsPage().click_message_icon()
         mes.is_on_this_page()
 
@@ -197,8 +196,8 @@ class MessageListText(TestCase):
         # 1.登录客户端,等待消息列表页面加载
         mp.wait_for_page_load()
         time.sleep(2)
-        # 2.底部消息图标是否高亮显示
-        self.assertEquals(mp.message_icon_is_visiable(), True)
+        # # 2.底部消息图标是否高亮显示
+        # self.assertEquals(mp.message_icon_is_visiable(), True)
 
     # @tags('ALL', 'CMCC', 'LXD')
     # def test_msg_xiaoliping_B_0006(self):
