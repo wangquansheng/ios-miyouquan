@@ -72,7 +72,6 @@ class Preconditions(LoginPreconditions):
     #     current_mobile().press_home_key()
 
 
-# noinspection PyBroadException
 class ContactlocalPage(TestCase):
     """本地通讯录界面"""
 

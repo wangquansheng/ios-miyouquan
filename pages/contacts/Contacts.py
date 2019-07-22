@@ -184,15 +184,6 @@ class ContactsPage(FooterPage):
             # 长滑动，自动出现弹框提示
             self.swipe_by_direction(self.__locators["密友圈_不限时长管理_列表1"], "left")
             time.sleep(3)
-            # del_locator = (MobileBy.XPATH, '//XCUIElementTypeButton[@name="解绑"]')
-            # self.click_element(del_locator)
-            # time.sleep(2)
-        # # 检查当前页面
-        # time.sleep(1)
-        # if self.is_element_already_exist('密友圈_不限时长管理_标题'):
-        #     return True
-        # else:
-        #     return False
 
     @TestLogger.log("获得元素对应的数量")
     def get_elements_list_c(self, locator):
@@ -293,11 +284,6 @@ class ContactsPage(FooterPage):
         """点击返回"""
         self.click_element(self.__class__.__locators['返回'])
 
-    @TestLogger.log('点击+号')
-    def click_add(self):
-        """点击+号"""
-        self.click_element(self.__class__.__locators['+号'])
-
     @TestLogger.log('点击消息')
     def click_message_icon(self):
         """点击消息按钮"""
@@ -314,14 +300,9 @@ class ContactsPage(FooterPage):
         self.input_text(self.__locators['输入关键字快速搜索'], text)
 
     @TestLogger.log("查看控件是否存在")
-    def page_contain_element(self,text='联系人头像'):
+    def page_contain_element(self, text='联系人头像'):
         time.sleep(1)
         return self.page_should_contain_element(self.__locators[text])
-
-    @TestLogger.log("查看控件是否存在")
-    def page_not_contain_element(self,text='联系人头像'):
-        time.sleep(1)
-        return self.page_should_not_contain_element(self.__locators[text])
 
     @TestLogger.log('点击搜索框')
     def click_search_phone_contact(self):
@@ -331,16 +312,6 @@ class ContactsPage(FooterPage):
     @TestLogger.log('输入搜索联系人搜索内容')
     def input_search_keyword(self, keyword):
         self.input_text(self.__locators['搜索联系人'], keyword)
-
-    @TestLogger.log('打开群聊列表')
-    def open_group_chat_list(self):
-        self.click_element(self.__class__.__locators['群聊'])
-
-    @TestLogger.log()
-    def select_contacts_by_name(self, name):
-        """根据名字选择一个联系人"""
-        locator = (MobileBy.ACCESSIBILITY_ID, '%s' % name)
-        self.click_element(locator, max_try=10)
 
     @TestLogger.log()
     def wait_for_page_load(self, timeout=20, auto_accept_alerts=True):
@@ -374,41 +345,6 @@ class ContactsPage(FooterPage):
     @TestLogger.log('点击搜索出的联系人')
     def click_element_contact(self,text='联系人头像'):
         self.click_element(self.__class__.__locators[text])
-
-    @TestLogger.log('判断列表是否存在XXX联系人')
-    def is_contact_in_list(self, name):
-        self.scroll_to_top()
-        groups = self.mobile.list_iterator(self.__locators['搜索结果列表'], self.__locators['列表项'])
-        for group in groups:
-            if group.find_elements(MobileBy.XPATH,
-                                   '(//XCUIElementTypeStaticText[@name="%s"])[2]'.format(name)):
-                return True
-        return False
-
-    @TestLogger.log("获取所有联系人名")
-    def get_contacts_name(self):
-        """获取所有联系人名"""
-        max_try = 5
-        current = 0
-        while current < max_try:
-            if self._is_element_present(self.__class__.__locators["联系人名"]):
-                break
-            current += 1
-            self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
-        els = self.get_elements(self.__class__.__locators["联系人名"])
-        contacts_name = []
-        if els:
-            for el in els:
-                contacts_name.append(el.text)
-        else:
-            raise AssertionError("No m004_contacts, please add m004_contacts in address book.")
-        if "和通讯录" in contacts_name:
-            contacts_name.remove("和通讯录")
-        if "和飞信电话" in contacts_name:
-            contacts_name.remove("和飞信电话")
-        if "本机" in contacts_name:
-            contacts_name.remove("本机")
-        return contacts_name
 
     @TestLogger.log()
     def find_element_by_swipe(self, locator, times=15):
@@ -451,56 +387,10 @@ class ContactsPage(FooterPage):
         self.driver.execute_script('mobile: swipe', {'direction': 'down'})
 
     @TestLogger.log()
-    def get_all_contacts_name(self):
-        """获取所有联系人名"""
-        els = self.get_elements(self.__class__.__locators["联系人名"])
-        contacts_name = []
-        if els:
-            for el in els:
-                contacts_name.append(el.text)
-        else:
-            raise AssertionError("No m004_contacts, please add m004_contacts in address book.")
-        flag = True
-        current = 0
-        while flag:
-            current += 1
-            if current > 20:
-                return
-            self.page_up()
-            els = self.get_elements(self.__class__.__locators["联系人名"])
-            for el in els:
-                if el.text not in contacts_name:
-                    contacts_name.append(el.text)
-                    flag = True
-                else:
-                    flag = False
-        return contacts_name
-
-    @TestLogger.log()
-    def click_label_grouping(self):
-        """点击标签分组"""
-        self.click_element(self.__class__.__locators['标签分组'])
-
-    @TestLogger.log()
-    def click_and_address(self):
-        """点击和通讯录"""
-        self.click_element(self.__class__.__locators['和通讯录'])
-
-    @TestLogger.log()
-    def click_and_address(self):
-        """点击和通讯录"""
-        self.click_element(self.__class__.__locators['和通讯录'])
-
-    @TestLogger.log()
     def click_always_allowed(self):
         """获取通讯录权限点击始终允许"""
         if self.get_elements(self.__class__.__locators['弹出框点击允许']):
             self.click_element(self.__class__.__locators['弹出框点击允许'])
-
-    @TestLogger.log()
-    def click_allow(self):
-        """点击始终允许"""
-        self.click_element(self.__class__.__locators['始终允许'])
 
     @TestLogger.log("处理SIM联系人弹框")
     def click_sim_contact(self):
@@ -514,16 +404,116 @@ class ContactsPage(FooterPage):
         """点击返回"""
         self.click_element(self.__class__.__locators['群聊列表返回'])
 
-    @TestLogger.log()
-    def wait_for_contacts_page_load(self, timeout=20, auto_accept_alerts=True):
-        """等待通讯录页面加载"""
-        try:
-            self.wait_until(
-                timeout=timeout,
-                auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self._is_element_present(self.__class__.__locators["+号"])
-            )
-        except:
-            raise AssertionError("页面在{}s内，没有加载成功".format(str(timeout)))
-        return self
-
+    #
+    # @TestLogger.log('点击+号')
+    # def click_add(self):
+    #     """点击+号"""
+    #     self.click_element(self.__class__.__locators['+号'])
+    #
+    # @TestLogger.log("查看控件是否存在")
+    # def page_not_contain_element(self,text='联系人头像'):
+    #     time.sleep(1)
+    #     return self.page_should_not_contain_element(self.__locators[text])
+    #
+    # @TestLogger.log('打开群聊列表')
+    # def open_group_chat_list(self):
+    #     self.click_element(self.__class__.__locators['群聊'])
+    #
+    # @TestLogger.log()
+    # def select_contacts_by_name(self, name):
+    #     """根据名字选择一个联系人"""
+    #     locator = (MobileBy.ACCESSIBILITY_ID, '%s' % name)
+    #     self.click_element(locator, max_try=10)
+    #
+    # @TestLogger.log()
+    # def wait_for_contacts_page_load(self, timeout=20, auto_accept_alerts=True):
+    #     """等待通讯录页面加载"""
+    #     try:
+    #         self.wait_until(
+    #             timeout=timeout,
+    #             auto_accept_permission_alert=auto_accept_alerts,
+    #             condition=lambda d: self._is_element_present(self.__class__.__locators["+号"])
+    #         )
+    #     except:
+    #         raise AssertionError("页面在{}s内，没有加载成功".format(str(timeout)))
+    #     return self
+    #
+    # @TestLogger.log()
+    # def click_allow(self):
+    #     """点击始终允许"""
+    #     self.click_element(self.__class__.__locators['始终允许'])
+    # @TestLogger.log()
+    # def get_all_contacts_name(self):
+    #     """获取所有联系人名"""
+    #     els = self.get_elements(self.__class__.__locators["联系人名"])
+    #     contacts_name = []
+    #     if els:
+    #         for el in els:
+    #             contacts_name.append(el.text)
+    #     else:
+    #         raise AssertionError("No m004_contacts, please add m004_contacts in address book.")
+    #     flag = True
+    #     current = 0
+    #     while flag:
+    #         current += 1
+    #         if current > 20:
+    #             return
+    #         self.page_up()
+    #         els = self.get_elements(self.__class__.__locators["联系人名"])
+    #         for el in els:
+    #             if el.text not in contacts_name:
+    #                 contacts_name.append(el.text)
+    #                 flag = True
+    #             else:
+    #                 flag = False
+    #     return contacts_name
+    #
+    # @TestLogger.log()
+    # def click_label_grouping(self):
+    #     """点击标签分组"""
+    #     self.click_element(self.__class__.__locators['标签分组'])
+    #
+    # @TestLogger.log()
+    # def click_and_address(self):
+    #     """点击和通讯录"""
+    #     self.click_element(self.__class__.__locators['和通讯录'])
+    #
+    # @TestLogger.log()
+    # def click_and_address(self):
+    #     """点击和通讯录"""
+    #     self.click_element(self.__class__.__locators['和通讯录'])
+    #
+    # @TestLogger.log('判断列表是否存在XXX联系人')
+    # def is_contact_in_list(self, name):
+    #     self.scroll_to_top()
+    #     groups = self.mobile.list_iterator(self.__locators['搜索结果列表'], self.__locators['列表项'])
+    #     for group in groups:
+    #         if group.find_elements(MobileBy.XPATH,
+    #                                '(//XCUIElementTypeStaticText[@name="%s"])[2]'.format(name)):
+    #             return True
+    #     return False
+    #
+    # @TestLogger.log("获取所有联系人名")
+    # def get_contacts_name(self):
+    #     """获取所有联系人名"""
+    #     max_try = 5
+    #     current = 0
+    #     while current < max_try:
+    #         if self._is_element_present(self.__class__.__locators["联系人名"]):
+    #             break
+    #         current += 1
+    #         self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
+    #     els = self.get_elements(self.__class__.__locators["联系人名"])
+    #     contacts_name = []
+    #     if els:
+    #         for el in els:
+    #             contacts_name.append(el.text)
+    #     else:
+    #         raise AssertionError("No m004_contacts, please add m004_contacts in address book.")
+    #     if "和通讯录" in contacts_name:
+    #         contacts_name.remove("和通讯录")
+    #     if "和飞信电话" in contacts_name:
+    #         contacts_name.remove("和飞信电话")
+    #     if "本机" in contacts_name:
+    #         contacts_name.remove("本机")
+    #     return contacts_name

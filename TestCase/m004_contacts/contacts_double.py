@@ -29,6 +29,31 @@ class Preconditions(object):
     """
     分解前置条件
     """
+    @staticmethod
+    def make_sure_in_after_login_callpage():
+        Preconditions.make_already_in_call_page()
+        current_mobile().wait_until_not(condition=lambda d: current_mobile().is_text_present('正在登录...'), timeout=20)
+
+    @staticmethod
+    def initialize_class(moudel):
+        """确保每个用例开始之前在通话界面界面"""
+        warnings.simplefilter('ignore', ResourceWarning)
+        Preconditions.select_mobile(moudel)
+        Preconditions.make_already_in_call_page()
+        FooterPage().open_contacts_page()
+        # #
+        # contact = ContactsPage()
+        # contact.permission_box_processing()
+        # contact.remove_mask(1)
+
+    @staticmethod
+    def close_system_update():
+        """确保每个用例开始之前在通话界面界面"""
+        call = CallPage()
+        if call.is_text_present('系统更新'):
+            call.click_text('稍后')
+            time.sleep(1)
+            call.click_text('取消')
 
     @staticmethod
     def select_mobile(category):
@@ -92,33 +117,7 @@ class Preconditions(object):
     #     current_activity = res.read().split('u0 ')[-1].split('/')[0]
     #     res.close()
     #     return current_activity
-
-    @staticmethod
-    def make_sure_in_after_login_callpage():
-        Preconditions.make_already_in_call_page()
-        current_mobile().wait_until_not(condition=lambda d: current_mobile().is_text_present('正在登录...'), timeout=20)
-
-    @staticmethod
-    def initialize_class(moudel):
-        """确保每个用例开始之前在通话界面界面"""
-        warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.select_mobile(moudel)
-        Preconditions.make_already_in_call_page()
-        FooterPage().open_contacts_page()
-        # #
-        # contact = ContactsPage()
-        # contact.permission_box_processing()
-        # contact.remove_mask(1)
-
-    @staticmethod
-    def close_system_update():
-        """确保每个用例开始之前在通话界面界面"""
-        call = CallPage()
-        if call.is_text_present('系统更新'):
-            call.click_text('稍后')
-            time.sleep(1)
-            call.click_text('取消')
-
+    #
     # @staticmethod
     # def make_already_in_one_key_login_page():
     #     """
@@ -176,7 +175,6 @@ class Preconditions(object):
     #     app_package = 'com.cmic.college'
     #     current_driver().activate_app(app_package)
     #     current_mobile().reset_app()
-
 
 
 class ContactlocalPage(TestCase):
