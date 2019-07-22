@@ -5,6 +5,7 @@ from library.core.BasePage import BasePage
 from library.core.TestLogger import TestLogger
 from selenium.common.exceptions import NoSuchElementException
 
+
 class SelectLocalContactsPage(BasePage):
     """选择联系人->本地联系人 页面"""
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.ContactsSelectActivity'

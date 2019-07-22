@@ -15,55 +15,26 @@ __all__ = [
     'SelectContactsPage',
     'SelectOneGroupPage',
     'SelectLocalContactsPage',
-    'CreateGroupNamePage',
     'GroupChatPage',
     'SingleChatPage',
-    "ChatAudioPage",
-    "ChatGIFPage",
     "ChatMorePage",
-    "ChatPhotoPage",
     "ChatPicPage",
-    "ChatPicEditPage",
-    "ChatPicPreviewPage",
     "ChatSelectFilePage",
     "ChatSelectLocalFilePage",
-    "ChatProfilePage",
-    "ChatLocationPage",
-    "BuildGroupChatPage",
-    "MyQRCodePage",
-    "ScanPage",
-    "Scan1Page",
-    "SelectContactPage",
     'GroupChatSetFindChatContentPage',
-    'SelectHeContactsPage',
     'SelectHeContactsDetailPage',
-    'ChatFilePage',
-    'FindChatRecordPage',
-    'SingleChatSetPage',
     'PicVideoPage',
     'CallPage',
 ]
 
-from .ChatFile import ChatFilePage
-from .SingleChatSet import SingleChatSetPage
-from .FindChatRecord import FindChatRecordPage
-from .CreateGroupName import CreateGroupNamePage
 from .GroupChat import GroupChatPage
 from .SelectContacts import SelectContactsPage
 from .SelectLocalContacts import SelectLocalContactsPage
 from .SelectOneGroup import SelectOneGroupPage
-from .SelectHeContacts import SelectHeContactsPage
 from .SelectHeContactsDetail import SelectHeContactsDetailPage
 from .SingleChat import SingleChatPage
-from .chat import ChatAudioPage
-from .chat import ChatGIFPage
-from .chat import ChatLocationPage
 from .chat import ChatMorePage
-from .chat import ChatPhotoPage
-from .chat import ChatPicEditPage
 from .chat import ChatPicPage
-from .chat import ChatPicPreviewPage
-from .chat import ChatProfilePage
 from .chat import ChatSelectFilePage
 from .chat import ChatSelectLocalFilePage
 from .chat import PicVideoPage
@@ -81,9 +52,4 @@ from .login import OneKeyLoginPage
 from .login import SmsLoginPage
 from .me import MinePage
 from .me import SmsSettingPage
-from .others import BuildGroupChatPage
-from .others import MyQRCodePage
-from .others import Scan1Page
-from .others import ScanPage
-from .others import SelectContactPage
 from .call import CallPage
