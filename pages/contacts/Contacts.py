@@ -130,10 +130,10 @@ class ContactsPage(FooterPage):
         '家庭网_详细_电话规则': (MobileBy.IOS_PREDICATE, 'name=="电话规则说明"'),
 
         # 家庭网/详细/更多
-        '家庭网_详细_更多性别': (MobileBy.IOS_PREDICATE, 'name="性别"'),
-        '家庭网_详细_更多年龄': (MobileBy.IOS_PREDICATE, 'name="年龄"'),
-        '家庭网_详细_更多职业': (MobileBy.IOS_PREDICATE, 'name="职业"'),
-        '家庭网_详细_更多个性标签': (MobileBy.IOS_PREDICATE, 'name="个性标签"'),
+        '家庭网_详细_更多性别': (MobileBy.IOS_PREDICATE, 'name=="性别"'),
+        '家庭网_详细_更多年龄': (MobileBy.IOS_PREDICATE, 'name=="年龄"'),
+        '家庭网_详细_更多职业': (MobileBy.IOS_PREDICATE, 'name=="职业"'),
+        '家庭网_详细_更多个性标签': (MobileBy.IOS_PREDICATE, 'name=="个性标签"'),
 
         # 家庭网 备注修改
         '家庭网_备注修改_标题': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="修改备注名称"]'),
@@ -145,10 +145,10 @@ class ContactsPage(FooterPage):
         # 搜索
         '搜索_文本': (MobileBy.IOS_PREDICATE, 'type=="XCUIElementTypeSearchField"'),
         '搜索_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
-        '搜索_无该联系人': (MobileBy.IOS_PREDICATE, 'name="无该联系人"'),
-        '搜索_清除文本': (MobileBy.IOS_PREDICATE, 'name="清除文本"'),
-        '搜索_列表': (MobileBy.IOS_PREDICATE, ''),
-        '搜索_列表1': (MobileBy.IOS_PREDICATE, ''),
+        '搜索_无该联系人': (MobileBy.IOS_PREDICATE, 'name=="无该联系人"'),
+        '搜索_清除文本': (MobileBy.IOS_PREDICATE, 'name=="清除文本"'),
+        # '搜索_列表': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell'),
+        '搜索_列表1': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell[1]'),
 
         # 飞信电话
         '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
@@ -166,8 +166,8 @@ class ContactsPage(FooterPage):
         '通讯_+': (MobileBy.ACCESSIBILITY_ID, 'my xiaoxi jiahao@2x'),
         '通讯_搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
         '通讯_好友列表': (MobileBy.ACCESSIBILITY_ID, 'my ic haoyouliebiao n@2x'),
-        '通讯_群聊': (MobileBy.IOS_PREDICATE, 'name="群聊"'),
-        '通讯_公众号': (MobileBy.IOS_PREDICATE, 'name="公众号"'),
+        '通讯_群聊': (MobileBy.IOS_PREDICATE, 'name=="群聊"'),
+        '通讯_公众号': (MobileBy.IOS_PREDICATE, 'name=="公众号"'),
 
         # 底部标签栏
         '通话': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="通话"]'),

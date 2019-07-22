@@ -1047,8 +1047,8 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         time.sleep(0.5)
         contact_page.input_locator_text('搜索_文本', '147')
-        time.sleep(0.8)
-        self.assertEqual(contact_page.get_elements_count('搜索_列表') > 0, True)
+        time.sleep(2)
+        self.assertEqual(contact_page.get_elements_count('搜索_列表1') > 0, True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_00120(self):
@@ -1063,7 +1063,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         time.sleep(0.5)
         contact_page.input_locator_text('搜索_文本', '13800008888')
-        time.sleep(1)
+        time.sleep(3)
         self.assertEqual(contact_page.is_element_already_exist('搜索_无该联系人'), True)
 
     @tags('ALL', 'CMCC', 'contact')
@@ -1095,7 +1095,7 @@ class ContactlocalPage(TestCase):
         # 确保在通讯录界面
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         time.sleep(0.5)
-        contact_page.click_locator_key('密友圈_管理')
+        contact_page.click_locator_key('通讯录_密友圈_管理')
         time.sleep(0.5)
         self.assertEqual(contact_page.is_text_present('其中非移动号成员体验名额还有'), True)
 
@@ -1111,21 +1111,11 @@ class ContactlocalPage(TestCase):
         contact_page = ContactsPage()
         # 确保在通讯录界面
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
-        els = contact_page.get_elements_list_c('不限时长_昵称')
-        n = 5
-        while n > 0:
-            for el in els:
-                if '添加' == el.text:
-                    el.click()
-                    break
-            else:
-                n -= 1
-                print(n)
-                contact_page.press_and_move_to_left(els[-2])
-                continue
-            break
+        # 滑动
         time.sleep(1)
-        self.assertEqual(contact_page.get_elements_count('不限时长_添加联系人') > 0, True)
+        contact_page.click_locator_key('通讯录_不限时长添加')
+        time.sleep(1)
+        self.assertEqual(contact_page.get_elements_count('密友圈_不限时长管理_列表1') > 0, True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_00146(self):
@@ -1152,15 +1142,15 @@ class ContactlocalPage(TestCase):
         contact_page = ContactsPage()
         # 确保在通讯录界面
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
-        contact_page.click_locator_key('搜索')
-        time.sleep(0.5)
-        contact_page.input_locator_text('搜索_文本', '138')
         time.sleep(1)
-        contact_page.get_elements_list_c('搜索_列表')[0].click()
+        contact_page.input_locator_text('搜索_文本', '147')
+        time.sleep(1)
+        contact_page.click_locator_key('搜索_列表1')
         time.sleep(1)
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)
 
-    @tags('ALL', 'CMCC', 'contact')
+    # @tags('ALL', 'CMCC', 'contact')
+    @unittest.skip('添加桌面图标没有')
     def test_member_00155(self):
         """
             1、登录密友圈
@@ -1176,6 +1166,6 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         contact_page.click_locator_key('添加桌面图标')
         time.sleep(0.5)
-        if contact_page.is_text_present_c('已尝试添加到桌面'):
+        if contact_page.is_text_present('已尝试添加到桌面'):
             contact_page.click_text('去开启')
 
