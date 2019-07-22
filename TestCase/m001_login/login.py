@@ -108,7 +108,8 @@ class LoginTest(TestCase):
     @tags('ALL', 'CMCC', 'login')
     def test_login_0001(self):
         """
-            取消首次登录时登录按钮的置灰显示	"1、正常网络
+            取消首次登录时登录按钮的置灰显示：
+            1、正常网络
             2、当前在一键登录页面
             3、用户首次登录"	"1、查看页面显示
             2、点击本机号码一键登录按钮
@@ -148,10 +149,10 @@ class LoginTest(TestCase):
     @tags('ALL', 'CMCC', 'me')
     def test_login_0003(self):
         """ 非首次登陆
-            "1、正常网络
+            1、正常网络
             2、当前在一键登录页面
             3、用户非首次登录"	"1、点击一键登陆
-            2、点击确认使用XX号码登录"	成功登陆密友，进入通话页面
+            4、点击确认使用XX号码登录"	成功登陆密友，进入通话页面
         """
         login = OneKeyLoginPage()
         login.wait_for_page_load()
