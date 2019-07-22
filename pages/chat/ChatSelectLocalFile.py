@@ -14,61 +14,61 @@ class ChatSelectLocalFilePage(BasePage):
     ACTIVITY = 'com.cmicc.module_message.ui.activity.ChooseLocalFileActivity'
 
     __locators = {'': (MobileBy.ID, ''),
-                  'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
-                  'android:id/content': (MobileBy.ID, 'android:id/content'),
-                  'com.chinasofti.rcs:id/pop_10g_window_drop_view': (
-                  MobileBy.ID, 'com.chinasofti.rcs:id/pop_10g_window_drop_view'),
-                  'com.chinasofti.rcs:id/select_picture_custom_toolbar': (
-                  MobileBy.ID, 'com.chinasofti.rcs:id/select_picture_custom_toolbar'),
-                  '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/left_back'),
-                  'com.chinasofti.rcs:id/select_picture_custom_toolbar_back_btn': (
-                  MobileBy.ID, 'com.chinasofti.rcs:id/select_picture_custom_toolbar_back_btn'),
-                  'SD卡内存': (MobileBy.ID, 'com.chinasofti.rcs:id/select_picture_custom_toolbar_title_text'),
-                  '列表容器': (MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'),
-                  'com.chinasofti.rcs:id/lv_choose': (MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'),
-                  'com.chinasofti.rcs:id/rl_sd_file': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_sd_file'),
-                  'com.chinasofti.rcs:id/iv_icon_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_icon_layout'),
-                  'com.chinasofti.rcs:id/iv_icon': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_icon'),
-                  'sogou': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
-                  'Xiaomi': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
-                  '2018-11-09 11-06-18-722582.log': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
-                  '410.0B': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_file_size'),
-                  '10:18': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_create_time'),
-                  'com.chinasofti.rcs:id/cb_choose_icon': (MobileBy.ID, 'com.chinasofti.rcs:id/cb_choose_icon'),
-                  'ReleaseChannel.txt': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
-                  '14.0B': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_file_size'),
-                  '11-09 10:07': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_create_time'),
-                  'test_video.mp4': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
-                  '2.2M': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_file_size'),
-                  '文件大小': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_file_size'),
-                  '选择文件大小': (MobileBy.XPATH, "//android.widget.CheckBox[@checked='true']/preceding-sibling::android.widget.RelativeLayout/*[@resource-id='com.chinasofti.rcs:id/textview_file_size']"),
-                  '10:19': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_create_time'),
-                  'txt文件': (MobileBy.XPATH, '//*[contains(@text,".txt")]'),
-                  'jpg文件': (MobileBy.XPATH, '//*[contains(@text,".jpg")]'),
-                  'xlsx文件': (MobileBy.XPATH, '//*[contains(@text,".xlsx")]'),
-                  'pdf文件': (MobileBy.XPATH, '//*[contains(@text,".pdf")]'),
-                  'mp4文件': (MobileBy.XPATH, '//*[contains(@text,".mp4")]'),
-                  'docx文件': (MobileBy.XPATH, '//*[contains(@text,".docx")]'),
-                  'avi文件': (MobileBy.XPATH, '//*[contains(@text,".avi")]'),
-                  'BPG文件': (MobileBy.XPATH, '//*[contains(@text,".BPG")]'),
-                  'com.chinasofti.rcs:id/rl_panel': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_panel'),
-                  '已选: 2.2M': (MobileBy.XPATH, '//*[contains(@text,"已选:")]'),
-                  '发送': (MobileBy.ID, 'com.chinasofti.rcs:id/button_send'),
-                  '继续发送': (MobileBy.XPATH, '//*[@text="继续发送"]'),
-                  # 视频选择页面
-                  '视频': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
-                  # 照片选择页面
-                  '照片': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
-                  # 音乐选择页面
-                  '音乐': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
-                  # 每月10G免流特权弹窗
-                  '继续发送按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/continue_call'),
-                  '订购免流特权': (MobileBy.ID, 'com.chinasofti.rcs:id/get_mian_liu_permission'),
-                  '以后不再提示': (MobileBy.ID, 'com.chinasofti.rcs:id/pop_window_not_pop_btn'),
-                  '返回上一级': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
-                  '文件显示大小':(MobileBy.ID, 'com.chinasofti.rcs:id/textview_select_file_size'),
-                  '文件按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/cb_choose_icon')
-                  }
+        'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
+        'android:id/content': (MobileBy.ID, 'android:id/content'),
+        'com.chinasofti.rcs:id/pop_10g_window_drop_view': (
+        MobileBy.ID, 'com.chinasofti.rcs:id/pop_10g_window_drop_view'),
+        'com.chinasofti.rcs:id/select_picture_custom_toolbar': (
+        MobileBy.ID, 'com.chinasofti.rcs:id/select_picture_custom_toolbar'),
+        '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/left_back'),
+        'com.chinasofti.rcs:id/select_picture_custom_toolbar_back_btn': (
+        MobileBy.ID, 'com.chinasofti.rcs:id/select_picture_custom_toolbar_back_btn'),
+        'SD卡内存': (MobileBy.ID, 'com.chinasofti.rcs:id/select_picture_custom_toolbar_title_text'),
+        '列表容器': (MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'),
+        'com.chinasofti.rcs:id/lv_choose': (MobileBy.ID, 'com.chinasofti.rcs:id/lv_choose'),
+        'com.chinasofti.rcs:id/rl_sd_file': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_sd_file'),
+        'com.chinasofti.rcs:id/iv_icon_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_icon_layout'),
+        'com.chinasofti.rcs:id/iv_icon': (MobileBy.ID, 'com.chinasofti.rcs:id/iv_icon'),
+        'sogou': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
+        'Xiaomi': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
+        '2018-11-09 11-06-18-722582.log': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
+        '410.0B': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_file_size'),
+        '10:18': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_create_time'),
+        'com.chinasofti.rcs:id/cb_choose_icon': (MobileBy.ID, 'com.chinasofti.rcs:id/cb_choose_icon'),
+        'ReleaseChannel.txt': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
+        '14.0B': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_file_size'),
+        '11-09 10:07': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_create_time'),
+        'test_video.mp4': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
+        '2.2M': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_file_size'),
+        '文件大小': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_file_size'),
+        '选择文件大小': (MobileBy.XPATH, "//android.widget.CheckBox[@checked='true']/preceding-sibling::android.widget.RelativeLayout/*[@resource-id='com.chinasofti.rcs:id/textview_file_size']"),
+        '10:19': (MobileBy.ID, 'com.chinasofti.rcs:id/textview_create_time'),
+        'txt文件': (MobileBy.XPATH, '//*[contains(@text,".txt")]'),
+        'jpg文件': (MobileBy.XPATH, '//*[contains(@text,".jpg")]'),
+        'xlsx文件': (MobileBy.XPATH, '//*[contains(@text,".xlsx")]'),
+        'pdf文件': (MobileBy.XPATH, '//*[contains(@text,".pdf")]'),
+        'mp4文件': (MobileBy.XPATH, '//*[contains(@text,".mp4")]'),
+        'docx文件': (MobileBy.XPATH, '//*[contains(@text,".docx")]'),
+        'avi文件': (MobileBy.XPATH, '//*[contains(@text,".avi")]'),
+        'BPG文件': (MobileBy.XPATH, '//*[contains(@text,".BPG")]'),
+        'com.chinasofti.rcs:id/rl_panel': (MobileBy.ID, 'com.chinasofti.rcs:id/rl_panel'),
+        '已选: 2.2M': (MobileBy.XPATH, '//*[contains(@text,"已选:")]'),
+        '发送': (MobileBy.ID, 'com.chinasofti.rcs:id/button_send'),
+        '继续发送': (MobileBy.XPATH, '//*[@text="继续发送"]'),
+        # 视频选择页面
+        '视频': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
+        # 照片选择页面
+        '照片': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
+        # 音乐选择页面
+        '音乐': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_file_name'),
+        # 每月10G免流特权弹窗
+        '继续发送按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/continue_call'),
+        '订购免流特权': (MobileBy.ID, 'com.chinasofti.rcs:id/get_mian_liu_permission'),
+        '以后不再提示': (MobileBy.ID, 'com.chinasofti.rcs:id/pop_window_not_pop_btn'),
+        '返回上一级': (MobileBy.ID, 'com.chinasofti.rcs:id/btn_back_actionbar'),
+        '文件显示大小':(MobileBy.ID, 'com.chinasofti.rcs:id/textview_select_file_size'),
+        '文件按钮': (MobileBy.ID, 'com.chinasofti.rcs:id/cb_choose_icon')
+    }
 
     @TestLogger.log()
     def click_back(self):

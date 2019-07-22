@@ -6,7 +6,7 @@ from library.core.TestLogger import TestLogger
 class GroupChatSetPage(BasePage):
     """群聊设置页面"""
 
-    __locators={
+    __locators = {
         '查找聊天内容': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_serarch_chat_record'),
         '返回': (MobileBy.ID, 'com.chinasofti.rcs:id/left_back'),
     }
@@ -36,3 +36,4 @@ class GroupChatSetPage(BasePage):
                 message
             )
         return self
+

@@ -4,9 +4,11 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.support import expected_conditions as ec
 
 from library.core.TestLogger import TestLogger
+
 from pages.components.Footer import FooterPage
-import time
 from pages.contacts.Contacts import ContactsPage
+
+import time
 
 
 class MessagePage(FooterPage):
@@ -19,8 +21,8 @@ class MessagePage(FooterPage):
         "搜索": (MobileBy.ACCESSIBILITY_ID, '搜索'),
         "消息列表1": (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'),
         "消息列表-对话消息头像": (MobileBy.ACCESSIBILITY_ID, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeImage'),
-        '大佬1':(MobileBy.ACCESSIBILITY_ID, '大佬1'),
-        #搜索页面
+        '大佬1': (MobileBy.ACCESSIBILITY_ID, '大佬1'),
+        # 搜索页面
         "输入关键字快速搜索": (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="输入关键字快速搜索"])[1]'),
         "团队联系人列表": (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
         "手机联系人头像": (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[2]/XCUIElementTypeImage'),
@@ -83,19 +85,17 @@ class MessagePage(FooterPage):
         "版本更新": (MobileBy.ID, 'com.chinasofti.rcs:id/dialog_title'),
         "以后再说": (MobileBy.ID, "com.chinasofti.rcs:id/btn_cancel"),
         '立即更新': (MobileBy.ID, "com.chinasofti.rcs:id/btn_ok"),
-        '创建群聊':(MobileBy.ID,"com.chinasofti.rcs:id/creategroup"),
-        "选择手机联系人":(MobileBy.XPATH,"//*[contains(@text,'选择手机联系人')]"),
-        "确定2":(MobileBy.ID,"com.chinasofti.rcs:id/tv_sure"),
-        "群聊名":(MobileBy.ID,"com.chinasofti.rcs:id/et_group_name"),
+        '创建群聊': (MobileBy.ID, "com.chinasofti.rcs:id/creategroup"),
+        "选择手机联系人": (MobileBy.XPATH, "//*[contains(@text,'选择手机联系人')]"),
+        "确定2": (MobileBy.ID, "com.chinasofti.rcs:id/tv_sure"),
+        "群聊名": (MobileBy.ID, "com.chinasofti.rcs:id/et_group_name"),
     }
-
 
     @TestLogger.log()
     def press_and_move_left(self, element='大佬1'):
         """按住并向左滑动"""
         # b=self.get_element_attribute(self.__class__.__locators[element],"bounds")
         self.press_and_move_to_left(self.__class__.__locators[element])
-
 
     @TestLogger.log()
     def click_add_icon(self):
@@ -106,7 +106,6 @@ class MessagePage(FooterPage):
     def click_search_box(self):
         """点击搜索框"""
         self.click_element(self.__locators['搜索'])
-
 
     @TestLogger.log()
     def input_search_text(self,text):
@@ -128,8 +127,6 @@ class MessagePage(FooterPage):
     def click_msg_first_list(self):
         self.click_element(self.__class__.__locators["消息列表1"])
         time.sleep(1)
-
-
 
     @TestLogger.log("点击创建群聊")
     def click_create_group(self):
@@ -159,7 +156,6 @@ class MessagePage(FooterPage):
     def click_sure_button(self):
         self.click_element(self.__locators["确定2"])
         time.sleep(1)
-
 
     @TestLogger.log('检查顶部搜索框是否显示')
     def assert_search_box_is_display(self, max_wait_time=5):

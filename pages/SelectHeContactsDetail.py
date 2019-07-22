@@ -11,69 +11,68 @@ class SelectHeContactsDetailPage(BasePage):
     """选择和通讯录联系人页面"""
     ACTIVITY = 'com.cmicc.module_enterprise.ui.activity.EnterPriseContactSelectInnerActivity'
 
-    __locators = {'返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
-                  '选择联系人': (MobileBy.ACCESSIBILITY_ID, '选择联系人'),
-                  '搜索当前组织': (MobileBy.XPATH,
-                             '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextField'),
-                  '团队联系人列表第一个': (MobileBy.XPATH,
-                                 '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
-                  '团队联系人列表第二个': (MobileBy.XPATH,
-                                 '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+    __locators = {
+        '返回': (MobileBy.ACCESSIBILITY_ID, 'back'),
+        '选择联系人': (MobileBy.ACCESSIBILITY_ID, '选择联系人'),
+        '搜索当前组织': (MobileBy.XPATH,
+                 '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTextField'),
+        '团队联系人列表第一个': (MobileBy.XPATH,
+                     '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+        '团队联系人列表第二个': (MobileBy.XPATH,
+                     '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
 
-                  '发送名片': (MobileBy.ACCESSIBILITY_ID, '发送名片'),
-                  # 搜索结果
-                  '搜索结果-联系人头像': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_personal_default'),
-                  '搜索结果列表': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell'),
+        '发送名片': (MobileBy.ACCESSIBILITY_ID, '发送名片'),
 
-                  'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
-                  'android:id/content': (MobileBy.ID, 'android:id/content'),
-                  'com.chinasofti.rcs:id/actionbar_enterprise_contactselect_activity': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/actionbar_enterprise_contactselect_activity'),
-                  'com.chinasofti.rcs:id/btn_close_actionbar': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/btn_close_actionbar'),
-                  'com.chinasofti.rcs:id/layout_search_enterprise_contactSelect_activity': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/layout_search_enterprise_contactSelect_activity'),
-                  '搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
-                  'com.chinasofti.rcs:id/layout_nomal_enterprise_contactSelect_activity': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/layout_nomal_enterprise_contactSelect_activity'),
-                  'com.chinasofti.rcs:id/breadCrumbs_enterprise_contactSelect_activity': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/breadCrumbs_enterprise_contactSelect_activity'),
-                  'com.chinasofti.rcs:id/breadcrumbs_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/breadcrumbs_layout'),
-                  '和通讯录': (MobileBy.ID, 'android:id/title'),
-                  'android:id/icon': (MobileBy.ID, 'android:id/icon'),
-                  'myteam': (MobileBy.ID, 'android:id/title'),
-                  'com.chinasofti.rcs:id/enterprise_fragment_contactSelect_activity': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/enterprise_fragment_contactSelect_activity'),
-                  'android:id/list': (MobileBy.ID, 'android:id/list'),
-                  'com.chinasofti.rcs:id/layout_personal_contactlist': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/layout_personal_contactlist'),
-                  'com.chinasofti.rcs:id/img_icon_contactlist': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_contactlist'),
-                  'com.chinasofti.rcs:id/line_search_contactlist': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/line_search_contactlist'),
-                  'axzq': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
-                  '13510772034': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_position_personal_contactlist'),
-                  '测试号': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
-                  '14775290489': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_position_personal_contactlist'),
-                  '张三': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
-                  '联系人名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
-                  'com.chinasofti.rcs:id/line_big_contactlist': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/line_big_contactlist'),
-                  'com.chinasofti.rcs:id/layout_department_contactlist': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/layout_department_contactlist'),
-                  'com.chinasofti.rcs:id/img_icon_department': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_department'),
-                  '测试一部': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
-                  '部门名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
-                  'com.chinasofti.rcs:id/img_right_department': (
-                      MobileBy.ID, 'com.chinasofti.rcs:id/img_right_department'),
-                  'com.chinasofti.rcs:id/line_contactlist1': (MobileBy.ID, 'com.chinasofti.rcs:id/line_contactlist1'),
-                  # 选择一个和通讯录联系人转发消息时的弹框
-                  '发送给': (MobileBy.XPATH, "//*[contains(@text, '发送给')]"),
-                  '取消': (MobileBy.XPATH, "//*[contains(@text, '取消')]"),
-                  '确定': (MobileBy.XPATH, "//*[contains(@text, '确定')]"),
-                  '企业层级': (MobileBy.ID, "android:id/title"),
-                  }
+        # 搜索结果
+        '搜索结果-联系人头像': (MobileBy.ACCESSIBILITY_ID, 'cc_chat_personal_default'),
+        '搜索结果列表': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="和飞信"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[3]/XCUIElementTypeTable/XCUIElementTypeCell'),
+
+        'com.chinasofti.rcs:id/action_bar_root': (MobileBy.ID, 'com.chinasofti.rcs:id/action_bar_root'),
+        'android:id/content': (MobileBy.ID, 'android:id/content'),
+        'com.chinasofti.rcs:id/actionbar_enterprise_contactselect_activity': (
+          MobileBy.ID, 'com.chinasofti.rcs:id/actionbar_enterprise_contactselect_activity'),
+        'com.chinasofti.rcs:id/btn_close_actionbar': (
+          MobileBy.ID, 'com.chinasofti.rcs:id/btn_close_actionbar'),
+        'com.chinasofti.rcs:id/layout_search_enterprise_contactSelect_activity': (
+          MobileBy.ID, 'com.chinasofti.rcs:id/layout_search_enterprise_contactSelect_activity'),
+        '搜索': (MobileBy.ID, 'com.chinasofti.rcs:id/contact_search_bar'),
+        'com.chinasofti.rcs:id/layout_nomal_enterprise_contactSelect_activity': (
+          MobileBy.ID, 'com.chinasofti.rcs:id/layout_nomal_enterprise_contactSelect_activity'),
+        'com.chinasofti.rcs:id/breadCrumbs_enterprise_contactSelect_activity': (
+          MobileBy.ID, 'com.chinasofti.rcs:id/breadCrumbs_enterprise_contactSelect_activity'),
+        'com.chinasofti.rcs:id/breadcrumbs_layout': (MobileBy.ID, 'com.chinasofti.rcs:id/breadcrumbs_layout'),
+        '和通讯录': (MobileBy.ID, 'android:id/title'),
+        'android:id/icon': (MobileBy.ID, 'android:id/icon'),
+        'myteam': (MobileBy.ID, 'android:id/title'),
+        'com.chinasofti.rcs:id/enterprise_fragment_contactSelect_activity': (
+          MobileBy.ID, 'com.chinasofti.rcs:id/enterprise_fragment_contactSelect_activity'),
+        'android:id/list': (MobileBy.ID, 'android:id/list'),
+        'com.chinasofti.rcs:id/layout_personal_contactlist': (
+          MobileBy.ID, 'com.chinasofti.rcs:id/layout_personal_contactlist'),
+        'com.chinasofti.rcs:id/img_icon_contactlist': (
+          MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_contactlist'),
+        'com.chinasofti.rcs:id/line_search_contactlist': (
+          MobileBy.ID, 'com.chinasofti.rcs:id/line_search_contactlist'),
+        'axzq': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
+        '13510772034': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_position_personal_contactlist'),
+        '测试号': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
+        '14775290489': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_position_personal_contactlist'),
+        '张三': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
+        '联系人名': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_name_personal_contactlist'),
+        'com.chinasofti.rcs:id/line_big_contactlist': (MobileBy.ID, 'com.chinasofti.rcs:id/line_big_contactlist'),
+        'com.chinasofti.rcs:id/layout_department_contactlist': (MobileBy.ID, 'com.chinasofti.rcs:id/layout_department_contactlist'),
+        'com.chinasofti.rcs:id/img_icon_department': (MobileBy.ID, 'com.chinasofti.rcs:id/img_icon_department'),
+        '测试一部': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
+        '部门名称': (MobileBy.ID, 'com.chinasofti.rcs:id/tv_title_department'),
+        'com.chinasofti.rcs:id/img_right_department': (MobileBy.ID, 'com.chinasofti.rcs:id/img_right_department'),
+        'com.chinasofti.rcs:id/line_contactlist1': (MobileBy.ID, 'com.chinasofti.rcs:id/line_contactlist1'),
+
+        # 选择一个和通讯录联系人转发消息时的弹框
+        '发送给': (MobileBy.XPATH, "//*[contains(@text, '发送给')]"),
+        '取消': (MobileBy.XPATH, "//*[contains(@text, '取消')]"),
+        '确定': (MobileBy.XPATH, "//*[contains(@text, '确定')]"),
+        '企业层级': (MobileBy.ID, "android:id/title"),
+    }
 
     @TestLogger.log()
     def click_first_he_contact(self):
@@ -199,7 +198,6 @@ class SelectHeContactsDetailPage(BasePage):
             current += 1
             self.swipe_by_percent_on_screen(50, 70, 50, 30, 700)
         self.click_element(locator)
-
 
     @TestLogger.log()
     def click_department_name(self, name):
