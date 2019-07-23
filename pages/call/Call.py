@@ -138,9 +138,9 @@ class CallPage(FooterPage):
 
         # 视频被叫
         '视频接听_头像': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[3]'),
-        '视频接听_电话号码': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[2]'),
-        '视频接听_地域': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[1]'),
-        '视频接听_邀请你进行网络视频通话': (MobileBy.IOS_PREDICATE, 'name=="邀请你进行网络视频通话"'),
+        '视频接听_备注': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[2]'),
+        '视频接听_电话号码': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请你进行网络视频通话"]/preceding-sibling::*[1]'),
+        '视频接听_提示文本': (MobileBy.IOS_PREDICATE, 'name=="邀请你进行网络视频通话"'),
         '视频接听_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
         '视频接听_接听': (MobileBy.IOS_PREDICATE, 'name=="接听"'),
         '视频接听_拒接': (MobileBy.IOS_PREDICATE, 'name=="拒接"'),
@@ -160,6 +160,8 @@ class CallPage(FooterPage):
         '视频_切换摄像头': (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
         '视频_未接听': (MobileBy.IOS_PREDICATE, 'name=="对方不在线，暂时无法接听，请稍后重试。"'),
         '视频_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
+        '视频_小屏': (MobileBy.XPATH,
+                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[5]'),
 
         # 视频-语音界面
         '语音_名称': (MobileBy.XPATH,
@@ -181,6 +183,11 @@ class CallPage(FooterPage):
         '语音_切到视频通话': (MobileBy.IOS_PREDICATE, 'name=="切到视频通话"'),
         '语音_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
         '语音_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
+        # 语音切视频页面
+        '切视频_头像': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="正在等待对方接受邀请..."]/preceding-sibling::*[3]'),
+        '切视频_提示文本': (MobileBy.IOS_PREDICATE, 'name contains "正在等待对方接受邀请"'),
+        '切视频_电话号码': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="正在等待对方接受邀请..."]/preceding-sibling::*[1]'),
+        '切视频_备注': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="正在等待对方接受邀请..."]/preceding-sibling::*[2]'),
 
         # 视频涂鸦
         '涂鸦_返回': (MobileBy.ACCESSIBILITY_ID, 'doodle on@2x'),

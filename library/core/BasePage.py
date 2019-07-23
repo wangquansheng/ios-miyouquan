@@ -80,9 +80,18 @@ class BasePage(object):
     def get_element_attribute(self, locator, attr, wait_time=0):
         return self.mobile.get_element_attribute(locator, attr, wait_time)
 
-    def is_text_present(self, text):
+    def is_text_present(self, text, default_timeout=1):
         """检查屏幕是否包含文本"""
-        return self.mobile.is_text_present(text)
+        try:
+            self.wait_until(
+                condition=lambda d: self.mobile.is_text_present(text),
+                timeout=default_timeout,
+            )
+            return True
+        except:
+            return False
+
+        # return self.mobile.is_text_present(text)
 
     def _is_element_present(self, locator):
         elements = self.get_elements(locator)
