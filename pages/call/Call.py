@@ -190,26 +190,35 @@ class CallPage(FooterPage):
         '切视频_备注': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="正在等待对方接受邀请..."]/preceding-sibling::*[2]'),
 
         # 视频涂鸦
-        '涂鸦_返回': (MobileBy.ACCESSIBILITY_ID, 'doodle on@2x'),
-        '涂鸦_圆点': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="doodle line@2x"]/preceding-sibling::*[1]'),
-        '涂鸦_线条': (MobileBy.ACCESSIBILITY_ID, 'doodle line@2x'),
-        '涂鸦_表情': (MobileBy.ACCESSIBILITY_ID, 'doodle sticker@2x'),
-        '涂鸦_橡皮': (MobileBy.ACCESSIBILITY_ID, 'doodle eraser@2x'),
-        '涂鸦_删除': (MobileBy.ACCESSIBILITY_ID, 'doodle clear@2x'),
-        '涂鸦_分享': (MobileBy.ACCESSIBILITY_ID, 'doodle share@2x'),
-        '涂鸦_您要清除所有涂鸦': (MobileBy.IOS_PREDICATE, '您要清除所有涂鸦吗？'),
+        '涂鸦_返回': (MobileBy.IOS_PREDICATE, 'name contains "doodle on"'),
+        '涂鸦_圆点': (MobileBy.XPATH, '//XCUIElementTypeButton[contains(@name,"doodle line")]/preceding-sibling::*[1]'),
+        '涂鸦_线条': (MobileBy.IOS_PREDICATE, 'name contains "doodle line"'),
+        '涂鸦_表情': (MobileBy.IOS_PREDICATE, 'name contains "doodle sticker"'),
+        '涂鸦_橡皮': (MobileBy.IOS_PREDICATE, 'name contains "doodle eraser"'),
+        '涂鸦_删除': (MobileBy.IOS_PREDICATE, 'name contains "doodle clear"'),
+        '涂鸦_分享': (MobileBy.IOS_PREDICATE, 'name contains "doodle share"'),
+        '涂鸦_分享到': (MobileBy.IOS_PREDICATE, 'name contains "分享到"'),
+        '涂鸦_您要清除所有涂鸦': (MobileBy.IOS_PREDICATE, 'name=="您要清除所有涂鸦吗？"'),
         '涂鸦_删除_确定': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
         '涂鸦_删除_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
         '涂鸦_橙色': (MobileBy.XPATH,
-                  '//XCUIElementTypeButton[@name="doodle share@2x"]/../following-sibling::*[1]/XCUIElementTypeOther[2]'),
+                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementType'
+                  'Other[1]/XCUIElementTypeOther[3]/XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeOther[1]'),
         '涂鸦_线条_滑动': (MobileBy.XPATH,
-                     '//XCUIElementTypeButton[@name="doodle share@2x"]/../following-sibling::*[1]/XCUIElementTypeSlider'),
+                     '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/XCUIElement'
+                     'TypeOther[4]/XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeSlider'),
         '涂鸦_橡皮_滑动': (MobileBy.XPATH,
-                     '//XCUIElementTypeButton[@name="doodle share@2x"]/../following-sibling::*[1]/XCUIElementTypeSlider'),
-        # '涂鸦_画布': (MobileBy.ACCESSIBILITY_ID, ''),  # 没有
-        # '涂鸦_表情1': (MobileBy.ACCESSIBILITY_ID, ''),      # 没有
+                     '//XCUIElementTypeButton[contains(@name,"doodle share")]/../following-sibling::*[1]/XCUIElementTypeSlider'),
+        '涂鸦_画布': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementType'
+                                  'Window[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[4]'),
+        '涂鸦_表情1': (
+            MobileBy.XPATH,
+            '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/'
+            'XCUIElementTypeOther[3]/XCUIElementTypeOther[2]/XCUIElementTypeOther[1]/XCUIElementTypeOther[4]/XCUIElementTypeCollectionView/XCUIElementTypeCell[1]'),
         # '涂鸦_表情移动框': (MobileBy.ACCESSIBILITY_ID, ''),  # 没有
-        # '涂鸦_滑块': (MobileBy.ACCESSIBILITY_ID, ''),       # 没有
+        '涂鸦_滑块': (MobileBy.XPATH,
+                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[3]/XCUIElement'
+                  'TypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeSlider'),
         # '涂鸦_分享到微信': (MobileBy.ACCESSIBILITY_ID, ''),  # ？？？
 
         # 多方通话联系人选择
@@ -385,7 +394,7 @@ class CallPage(FooterPage):
         else:
             return False
 
-    def swipe_by_direction_element(self, element, direction, duration=0.5, locator2=None):
+    def swipe_by_direction_element(self, locator, direction, duration=0.5, locator2=None):
         """
         在元素内滑动
         :param locator: 定位器
@@ -393,9 +402,10 @@ class CallPage(FooterPage):
         :param duration: 持续时间ms
         :return:
         """
+        element = self.mobile.get_element(self.__locators[locator])
         rect = element.rect
         left, right = int(rect['x']) + 1, int(rect['x'] + rect['width']) - 1
-        top, bottom = int(rect['y']) + 1, int(rect['y'] + rect['height']) - 1
+        top, bottom = int(rect['y']) + 50, int(rect['y'] + rect['height']) - 1
         width = int(rect['width']) - 2
         height = int(rect['height']) - 2
 
@@ -1136,3 +1146,38 @@ class CallPage(FooterPage):
                 return False
         except Exception:
             return False
+
+    def swipe_to_direction(self, locator, direction, duration=0.5, locator2=None):
+        """
+        在元素内滑动
+        :param locator: 定位器
+        :param direction: 方向（left,right）
+        :param duration: 持续时间ms
+        :return:
+        """
+        element = self.get_element(self.__locators[locator])
+        rect = element.rect
+        left, right = int(rect['x']) + 1, int(rect['x'] + rect['width']) - 1
+        top, bottom = int(rect['y']) + 1, int(rect['y'] + rect['height']) - 1
+        width = int(rect['width']) - 2
+        # height = int(rect['height']) - 2
+        value = int(element.text.replace('%', '')) / 100
+
+        if direction.lower() == 'left':
+            x_start = width * value + left
+            x_end = left
+            y_start = (top + bottom) // 2
+            y_end = (top + bottom) // 2
+            self.driver.execute_script("mobile:dragFromToForDuration",
+                                       {"duration": duration, "element": locator2, "fromX": x_start,
+                                        "fromY": y_start,
+                                        "toX": x_end, "toY": y_end})
+        elif direction.lower() == 'right':
+            x_start = width * value + left
+            x_end = width + left
+            y_start = (top + bottom) // 2
+            y_end = (top + bottom) // 2
+            self.driver.execute_script("mobile:dragFromToForDuration",
+                                       {"duration": duration, "element": locator2, "fromX": x_start,
+                                        "fromY": y_start,
+                                        "toX": x_end, "toY": y_end})
