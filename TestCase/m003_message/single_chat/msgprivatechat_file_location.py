@@ -275,6 +275,7 @@ class Preconditions(WorkbenchPreconditions):
         Preconditions.enter_single_chat_page(name)
 
 
+@unittest.skip('')
 class MsgPrivateChatAllTest(TestCase):
 
     # @classmethod

@@ -1,4 +1,5 @@
 import time
+import unittest
 
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile, current_driver
@@ -160,6 +161,7 @@ class Preconditions(LoginPreconditions):
     #         ChatWindowPage()
 
 
+@unittest.skip('')
 class MessageListText(TestCase):
     """消息列表页面"""
 

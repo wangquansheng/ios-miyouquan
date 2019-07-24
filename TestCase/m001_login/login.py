@@ -98,12 +98,12 @@ class LoginTest(TestCase):
     """Login 模块"""
 
     def default_tearDown(self):
-        Preconditions.disconnect_mobile('IOS-移动-移动')
+        Preconditions.disconnect_mobile('IOS-移动')
 
     @staticmethod
     def setUp_test_login_0001():
         warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.select_mobile('IOS-移动-移动')
+        Preconditions.select_mobile('IOS-移动')
 
     @tags('ALL', 'CMCC', 'login')
     def test_login_0001(self):
@@ -135,7 +135,7 @@ class LoginTest(TestCase):
             login.click_locator_key('一键登录_问题_取消')
             print("一键登录失败")
         # 判断当前页面
-        time.sleep(5)
+        time.sleep(6)
         if login.is_element_already_exist('广告_通话_关闭'):
             login.click_locator_key('广告_通话_关闭')
         time.sleep(2)
@@ -144,7 +144,7 @@ class LoginTest(TestCase):
     @staticmethod
     def setUp_test_login_0003():
         warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.select_mobile('IOS-移动-移动')
+        Preconditions.select_mobile('IOS-移动')
 
     @tags('ALL', 'CMCC', 'me')
     def test_login_0003(self):
@@ -159,7 +159,7 @@ class LoginTest(TestCase):
         if login.is_element_already_exist('一键登录'):
             login.click_locator_key('一键登录')
         # 判断当前页面
-        time.sleep(5)
+        time.sleep(6)
         if login.is_element_already_exist('广告_通话_关闭'):
             login.click_locator_key('广告_通话_关闭')
         time.sleep(2)

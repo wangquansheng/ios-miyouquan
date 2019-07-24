@@ -143,6 +143,7 @@ class Preconditions(LoginPreconditions):
         #     contacts_page.click_back()
 
 
+@unittest.skip('')
 class GloableSearchContacts(TestCase):
     """
     搜索-全局搜索-黄彩最

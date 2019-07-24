@@ -30,13 +30,13 @@ class FooterPage(BasePage):
         """通话首页弹框关闭广告弹框"""
         time.sleep(0.5)
         if self._is_element_present(self.__class__.__locators['广告_通话_关闭']):
-            self.click_element(self.__locators['广告_通话_关闭'])
+            self.click_element(self.__class__.__locators['广告_通话_关闭'])
             time.sleep(1)
 
     @TestLogger.log("关闭升级弹出框")
     def click_upgrade_close(self):
         if self._is_element_present(self.__class__.__locators['暂不升级']):
-            self.click_element(self.__locators['暂不升级'])
+            self.click_element(self.__class__.__locators['暂不升级'])
             time.sleep(0.5)
 
     @TestLogger.log()

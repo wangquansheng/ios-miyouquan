@@ -746,7 +746,8 @@ class CallPage(FooterPage):
         视频通话结束弹出框
         :return:
         """
-        self.click_locator_key('视频主叫_挂断')
+        if self.is_element_already_exist('视频主叫_挂断'):
+            self.click_locator_key('视频主叫_挂断')
 
     @TestLogger.log("视频通话接听")
     def click_video_answer(self):
@@ -850,8 +851,9 @@ class CallPage(FooterPage):
         try:
             count = 0
             # 联系人列表大于0，和N个联系人
+            time.sleep(1)
             els = self.get_elements((MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'))
-            time.sleep(2)
+            time.sleep(1)
             if count >= len(els):
                 print('联系人列表为0')
                 return False
@@ -860,6 +862,7 @@ class CallPage(FooterPage):
                 return False
             # 选择联系人, 点击之后页面变化，需重新获取元素
             for cell in range(number):
+                time.sleep(0.5)
                 els = self.get_elements((MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'))
                 els[cell].click()
                 time.sleep(2)
@@ -982,20 +985,23 @@ class CallPage(FooterPage):
         :return:
         """
         # 初始化数据
-        time.sleep(2)
-        if not self.is_text_present("[视频通话]"):
-            self.click_locator_key('+')
-            time.sleep(1)
-            self.click_call('视频通话')
-            self.select_contact_n(1)
-            time.sleep(2)
-            self.click_locator_key('视频呼叫_确定')
-            time.sleep(3)
-            self.click_video_hangup()
-            time.sleep(2)
+        time.sleep(0.5)
+        try:
+            if not self.is_text_present("[视频通话]"):
+                self.click_locator_key('+')
+                time.sleep(0.5)
+                self.click_call('视频通话')
+                time.sleep(0.5)
+                self.select_contact_n(1)
+                time.sleep(2)
+                self.click_locator_key('视频呼叫_确定')
+                time.sleep(2)
+                self.click_video_hangup()
+                time.sleep(1)
+        finally:
             if self.is_element_present("无密友圈_取消"):
                 self.click_locator_key('无密友圈_取消')
-                time.sleep(1)
+                time.sleep(0.5)
 
     @TestLogger.log('添加多方视频记录')
     def test_call_more_video_condition(self):

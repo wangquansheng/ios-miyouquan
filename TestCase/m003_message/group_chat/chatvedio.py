@@ -134,6 +134,7 @@ class Preconditions(WorkbenchPreconditions):
             # shc.click_department_name(workbench_name)
 
 
+@unittest.skip('')
 class MsgGroupChatVideoPicAllTest(TestCase):
 
     # @classmethod

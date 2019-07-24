@@ -1,4 +1,5 @@
 import time
+import unittest
 import warnings
 import datetime
 import traceback
@@ -200,6 +201,7 @@ class Preconditions(object):
         return client
 
 
+@unittest.skip('')
 # noinspection PyShadowingBuiltins,PyBroadException,PyUnresolvedReferences
 class CallPageTest(TestCase):
     """Call 模块--全量"""

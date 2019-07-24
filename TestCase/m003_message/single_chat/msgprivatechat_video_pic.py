@@ -1,4 +1,5 @@
 import time
+import unittest
 
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile
@@ -116,6 +117,7 @@ class Preconditions(WorkbenchPreconditions):
             # shc.click_department_name(workbench_name)
 
 
+@unittest.skip('')
 class MsgPrivateChatVideoPicAllTest(TestCase):
 
     # @classmethod

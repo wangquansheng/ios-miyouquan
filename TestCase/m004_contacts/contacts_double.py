@@ -1,4 +1,5 @@
 import time
+import unittest
 import warnings
 
 from library.core.common.simcardtype import CardType
@@ -177,6 +178,7 @@ class Preconditions(object):
     #     current_mobile().reset_app()
 
 
+@unittest.skip('')
 class ContactlocalPage(TestCase):
     """本地通讯录界面"""
 
