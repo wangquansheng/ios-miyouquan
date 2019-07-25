@@ -201,7 +201,6 @@ class Preconditions(object):
         return client
 
 
-@unittest.skip('')
 # noinspection PyShadowingBuiltins,PyBroadException,PyUnresolvedReferences
 class CallPageTest(TestCase):
     """Call 模块--全量"""

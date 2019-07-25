@@ -23,6 +23,7 @@ class OneKeyLoginPage(FooterPage):
         # 一键登录
         "一键登录_问题_确认": (MobileBy.IOS_PREDICATE, 'name="确定"'),
         "一键登录_问题_取消": (MobileBy.IOS_PREDICATE, 'name="取消"'),
+        "一键登录_短信发送": (MobileBy.IOS_PREDICATE, 'name="sendButton"'),
 
         # 广告
         '广告_通话_关闭': (MobileBy.ACCESSIBILITY_ID, 'my home cancel@2x'),

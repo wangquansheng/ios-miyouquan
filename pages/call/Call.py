@@ -253,6 +253,9 @@ class CallPage(FooterPage):
         # 飞信电话
         '飞信电话_邀请_短信': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
         '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
+        '飞信电话_接受': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
+        '飞信电话_拒绝': (MobileBy.IOS_PREDICATE, 'name=="拒绝"'),
+        '飞信电话_挂断': (MobileBy.IOS_PREDICATE, 'name=="call dial key reject')
 
         # 流量优惠提示框
         # '流量_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
@@ -979,7 +982,7 @@ class CallPage(FooterPage):
         return True
 
     @TestLogger.log('添加视频通话记录')
-    def test_call_video_condition(self):
+    def test_call_video_condition(self, cards='14775451723'):
         """
         添加视频通话记录
         :return:
@@ -991,11 +994,11 @@ class CallPage(FooterPage):
                 self.click_locator_key('+')
                 time.sleep(0.5)
                 self.click_call('视频通话')
+                self.input_locator_text('视频呼叫_搜索_文本框', cards)
+                self.get_elements(self.__locators['视频呼叫_搜索_号码列表'])[0].click()
                 time.sleep(0.5)
-                self.select_contact_n(1)
-                time.sleep(2)
                 self.click_locator_key('视频呼叫_确定')
-                time.sleep(2)
+                time.sleep(1)
                 self.click_video_hangup()
                 time.sleep(1)
         finally:
@@ -1032,25 +1035,32 @@ class CallPage(FooterPage):
         :return:
         """
         # 初始化数据
-        time.sleep(2)
-        self.click_keyboard()
-        time.sleep(3)
-        self.click_keyboard_call('keyboard_1')
-        time.sleep(2)
-        self.click_keyboard_call('keyboard_2')
-        time.sleep(2)
-        self.click_keyboard_call('keyboard_5')
-        time.sleep(2)
-        self.click_keyboard_call('keyboard_6')
-        time.sleep(2)
-        self.click_keyboard_call('keyboard_0')
-        time.sleep(2)
-        self.click_locator_key('拨号_呼叫')
-        time.sleep(5)
-        self.click_locator_key('飞信电话_我知道了')
-        time.sleep(5)
-        self.click_close_more_video_popup()
-        time.sleep(2)
+        if not self.is_text_present("[飞信电话]"):
+            self.click_keyboard()
+            time.sleep(0.5)
+            cards = "12560"
+            for i in cards:
+                self.click_locator_key('keyboard_{}'.format(i))
+            try:
+                self.click_locator_key('拨号_呼叫')
+                time.sleep(1)
+                self.click_locator_key('飞信电话_我知道了')
+            finally:
+                # 睡眠等待弹框切换
+                time.sleep(5)
+                try:
+                    if self.is_element_already_exist('飞信电话_拒绝'):
+                        self.click_locator_key('飞信电话_拒绝')
+                        time.sleep(0.5)
+                except:
+                    pass
+                try:
+                    self.click_close_more_video_popup()
+                except:
+                    pass
+                if self.is_element_already_exist('无密友圈_取消'):
+                    self.click_locator_key('无密友圈_取消')
+                    time.sleep(0.5)
 
     @TestLogger.log('添加飞信电话记录，没有注册')
     def test_call_phone_no_reg_condition(self):
@@ -1072,31 +1082,17 @@ class CallPage(FooterPage):
         :return:
         """
         # 初始化数据
-        time.sleep(2)
+        time.sleep(1)
         self.click_keyboard()
-        time.sleep(3)
-        self.click_keyboard_call('keyboard_1')
-        time.sleep(2)
-        self.click_keyboard_call('keyboard_8')
-        time.sleep(2)
-        self.click_keyboard_call('keyboard_6')
-        time.sleep(2)
-        self.click_keyboard_call('keyboard_0')
-        time.sleep(2)
-        self.click_keyboard_call('keyboard_0')
-        time.sleep(2)
-        self.click_keyboard_call('keyboard_0')
-        time.sleep(2)
-        self.click_keyboard_call('keyboard_0')
-        time.sleep(2)
-        self.click_keyboard_call('keyboard_1')
-        time.sleep(2)
-        self.click_keyboard_call('keyboard_0')
-        time.sleep(2)
+        time.sleep(1)
+        cards = "186000010"
+        for i in cards:
+            self.click_locator_key('keyboard_{}'.format(i))
+        time.sleep(0.5)
         self.click_locator_key('拨号_呼叫')
         time.sleep(3)
         self.click_locator_key('飞信电话_我知道了')
-        time.sleep(2)
+        time.sleep(0.5)
 
     @TestLogger.log('添加多方电话记录')
     def test_call_more_phone_condition(self):

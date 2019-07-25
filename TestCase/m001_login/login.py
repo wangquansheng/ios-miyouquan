@@ -131,9 +131,16 @@ class LoginTest(TestCase):
         login.wait_for_page_load()
         time.sleep(2)
         login.click_locator_key('一键登录')
+        # 一键登录失败
+        time.sleep(3)
         if login.is_element_already_exist('一键登录_问题_确认'):
             login.click_locator_key('一键登录_问题_取消')
             print("一键登录失败")
+        # # 登录发送验证码
+        time.sleep(3)
+        if login.is_element_already_exist('一键登录_短信发送'):
+            login.click_locator_key('一键登录_短信发送')
+            time.sleep(1)
         # 判断当前页面
         time.sleep(6)
         if login.is_element_already_exist('广告_通话_关闭'):

@@ -385,9 +385,9 @@ class CallPageTest(TestCase):
             中部展示通话、视频通话，设置备注名，下方展示手机号码与号码归属地，通话记录（视频通话），
             显示通话类型、通话时长，通话时间点
         """
-        time.sleep(2)
         call = CallPage()
         # 关闭广告弹框
+        time.sleep(2)
         call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 判断是否有通话记录
@@ -450,10 +450,13 @@ class CallPageTest(TestCase):
         if call.is_exist_call_key():
             call.click_hide_keyboard()
             time.sleep(1)
+        # 点击飞信电话
+        time.sleep(0.5)
         call.click_tag_detail_first_element('[飞信电话]')
-        time.sleep(1)
+        time.sleep(2)
         self.assertEqual(call.on_this_page_call_detail(), True)
         # 单击左上角返回按钮
+        time.sleep(0.5)
         call.click_detail_back()
         call.wait_for_page_load()
         self.assertEqual(call.is_on_this_page(), True)
@@ -518,8 +521,8 @@ class CallPageTest(TestCase):
         word_length = len(name)
         word_utf_8 = len(name.encode('utf-8'))
         size = int((word_utf_8 - word_length) / 2 + word_length)
-        self.assertEqual(size > 0, False)
         self.assertEqual(name != call.get_nickname(), True)
+        self.assertEqual(size > 0, False)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00015(self):

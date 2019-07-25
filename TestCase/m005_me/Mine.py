@@ -191,7 +191,7 @@ class Meprofile(TestCase):
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0004(self):
-        """编辑资料页面昵称里面输入字符串"""
+        """编辑资料页面昵称里面输入特殊字符串"""
         me_page = MinePage()
         time.sleep(0.5)
         me_page.click_ad_close()
@@ -472,5 +472,4 @@ class Meprofile(TestCase):
         self.assertTrue(me_page.check_wait_text_exits('本机号码一键登录'))
         time.sleep(2)
         me_page.click_locator_key('一键登录')
-        print('重新登录')
 
