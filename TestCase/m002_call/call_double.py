@@ -6,6 +6,7 @@ import traceback
 import threading
 import multiprocessing
 
+from pages import OneKeyLoginPage
 from pages.call.Call import CallPage
 
 from library.core.TestCase import TestCase
@@ -76,30 +77,34 @@ class Preconditions(object):
     #     guide_page.click_always_allow()
     #     one_key.wait_for_page_load(30)
     #
-    # @staticmethod
-    # def login_by_one_key_login():
-    #     """
-    #     从一键登录页面登录
-    #     :return:
-    #     """
-    #     # 等待号码加载完成后，点击一键登录
-    #     one_key = OneKeyLoginPage()
-    #     one_key.wait_for_page_load()
-    #     # one_key.wait_for_tell_number_load(60)
-    #     one_key.click_one_key_login()
-    #     time.sleep(2)
-    #     if one_key.is_text_present('用户协议和隐私保护'):
-    #         one_key.click_agree_user_aggrement()
-    #         time.sleep(1)
-    #         one_key.click_agree_login_by_number()
-    #
-    #     # 等待通话页面加载
-    #     call_page = CallPage()
-    #     call_page.wait_for_page_call_load()
-    #     call_page.click_always_allow()
-    #     time.sleep(2)
-    #     call_page.remove_mask()
-    #
+    @staticmethod
+    def login_by_one_key_login():
+        """
+        从一键登录页面登录
+        :return:
+        """
+        # 等待号码加载完成后，点击一键登录
+        one_key = OneKeyLoginPage()
+        time.sleep(2)
+        if one_key.is_text_present('一键登录'):
+            one_key.click_text('一键登录')
+            time.sleep(3)
+        # # one_key.wait_for_page_load()
+        # # one_key.wait_for_tell_number_load(60)
+        # one_key.click_one_key_login()
+        # time.sleep(2)
+        # if one_key.is_text_present('用户协议和隐私保护'):
+        #     one_key.click_agree_user_aggrement()
+        #     time.sleep(1)
+        #     one_key.click_agree_login_by_number()
+
+        # 等待通话页面加载
+        # call_page = CallPage()
+        # call_page.wait_for_page_call_load()
+        # call_page.click_always_allow()
+        # time.sleep(2)
+        # call_page.remove_mask()
+
     # @staticmethod
     # def app_start_for_the_first_time():
     #     """首次启动APP（使用重置APP代替）"""
@@ -158,10 +163,10 @@ class Preconditions(object):
         call_page = CallPage()
         if call_page.is_on_this_page():
             return
-        # # 如果当前页面已经是一键登录页，进行一键登录页面
-        # one_key = OneKeyLoginPage()
-        # if one_key.is_on_this_page():
-        #     Preconditions.login_by_one_key_login()
+        # 如果当前页面已经是一键登录页，进行一键登录页面
+        one_key = OneKeyLoginPage()
+        if one_key.is_on_this_page():
+            Preconditions.login_by_one_key_login()
         # # 如果当前页不是引导页第一页，重新启动app
         # else:
         #     try:
@@ -251,6 +256,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -313,6 +319,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -377,6 +384,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -424,6 +432,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -469,6 +478,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -516,6 +526,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -622,6 +633,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -720,6 +732,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -833,6 +846,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -865,6 +879,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -957,6 +972,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -989,6 +1005,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -1057,7 +1074,7 @@ class CallPageTest(TestCase):
         try:
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            self.assertEqual(call.check_if_button_selected('视频_免提'), True)
+            self.assertEqual(call.check_if_button_selected('视频_免提'), False)
             call.check_element_tap_screen('视频_静音')
             self.assertEqual(call.is_element_already_exist('视频_静音'), True)
             return True
@@ -1077,6 +1094,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -1109,6 +1127,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -1196,6 +1215,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -1228,6 +1248,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -1311,6 +1332,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -1343,6 +1365,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -1437,6 +1460,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -1469,6 +1493,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -1564,6 +1589,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -1596,6 +1622,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -1686,6 +1713,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -1718,6 +1746,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -1808,6 +1837,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -1840,6 +1870,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -1926,6 +1957,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -1958,6 +1990,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -2024,7 +2057,7 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         try:
-            time.sleep(2)
+            time.sleep(6)
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
             self.assertEqual(call.is_element_already_exist('视频_通话结束'), True)
@@ -2044,6 +2077,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -2076,6 +2110,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -2161,6 +2196,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -2193,6 +2229,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -2280,6 +2317,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -2327,6 +2365,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -2372,6 +2411,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -2404,6 +2444,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -2491,6 +2532,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -2523,6 +2565,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -2610,6 +2653,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -2642,6 +2686,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -2734,6 +2779,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -2766,6 +2812,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -2845,6 +2892,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -2896,6 +2944,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -2963,6 +3012,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -3014,6 +3064,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -3081,6 +3132,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -3114,6 +3166,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -3172,6 +3225,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -3204,6 +3258,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -3289,6 +3344,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -3321,6 +3377,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -3400,6 +3457,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -3432,6 +3490,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -3508,6 +3567,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -3540,6 +3600,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -3630,6 +3691,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -3662,6 +3724,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -3752,6 +3815,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -3784,6 +3848,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -3870,6 +3935,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -3902,6 +3968,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -3968,7 +4035,7 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         try:
-            time.sleep(2)
+            time.sleep(6)
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
             self.assertEqual(call.is_element_already_exist('视频_通话结束'), True)
@@ -3988,6 +4055,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -4020,6 +4088,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -4105,6 +4174,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -4137,6 +4207,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -4198,7 +4269,7 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         try:
-            time.sleep(2)
+            time.sleep(6)
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
             self.assertEqual(call.is_element_already_exist('视频_通话结束'), True)
@@ -4218,6 +4289,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -4265,6 +4337,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -4310,6 +4383,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -4342,6 +4416,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -4409,11 +4484,12 @@ class CallPageTest(TestCase):
 
     @TestLogger.log('主叫手机')
     def call_00080_01(self, dic):
+        # 主叫手机初始化
+        call = CallPage()
         try:
-            # 主叫手机初始化
             Preconditions.initialize_class('IOS-移动')
-            call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -4478,6 +4554,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -4565,6 +4642,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -4592,11 +4670,12 @@ class CallPageTest(TestCase):
 
     @TestLogger.log('被叫手机')
     def call_00081_02(self, dic):
+        call = CallPage()
         try:
             # 初始化被叫手机
             Preconditions.initialize_class('IOS-移动-移动')
-            call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -4675,7 +4754,8 @@ class CallPageTest(TestCase):
             traceback.print_exc()
             return False
         finally:
-            call.click_locator_key('视频_画笔')
+            if call.is_element_already_exist('涂鸦_返回'):
+                call.click_locator_key('涂鸦_返回')
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
 
@@ -4688,6 +4768,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -4720,6 +4801,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -4798,7 +4880,8 @@ class CallPageTest(TestCase):
             traceback.print_exc()
             return False
         finally:
-            call.click_locator_key('视频_画笔')
+            if call.is_element_already_exist('涂鸦_返回'):
+                call.click_locator_key('涂鸦_返回')
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
 
@@ -4811,6 +4894,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -4843,6 +4927,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -4921,7 +5006,8 @@ class CallPageTest(TestCase):
             traceback.print_exc()
             return False
         finally:
-            call.click_locator_key('视频_画笔')
+            if call.is_element_already_exist('涂鸦_返回'):
+                call.click_locator_key('涂鸦_返回')
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
 
@@ -4934,6 +5020,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -4966,6 +5053,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -5045,7 +5133,8 @@ class CallPageTest(TestCase):
             traceback.print_exc()
             return False
         finally:
-            call.click_locator_key('视频_画笔')
+            if call.is_element_already_exist('涂鸦_返回'):
+                call.click_locator_key('涂鸦_返回')
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
 
@@ -5058,6 +5147,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -5090,6 +5180,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -5169,7 +5260,8 @@ class CallPageTest(TestCase):
             traceback.print_exc()
             return False
         finally:
-            call.click_locator_key('视频_画笔')
+            if call.is_element_already_exist('涂鸦_返回'):
+                call.click_locator_key('涂鸦_返回')
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
 
@@ -5182,6 +5274,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -5214,6 +5307,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -5295,7 +5389,8 @@ class CallPageTest(TestCase):
             traceback.print_exc()
             return False
         finally:
-            call.click_locator_key('视频_画笔')
+            if call.is_element_already_exist('涂鸦_返回'):
+                call.click_locator_key('涂鸦_返回')
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
 
@@ -5308,6 +5403,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -5340,6 +5436,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -5421,7 +5518,8 @@ class CallPageTest(TestCase):
             traceback.print_exc()
             return False
         finally:
-            call.click_locator_key('视频_画笔')
+            if call.is_element_already_exist('涂鸦_返回'):
+                call.click_locator_key('涂鸦_返回')
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
 
@@ -5434,6 +5532,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -5466,6 +5565,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -5549,12 +5649,13 @@ class CallPageTest(TestCase):
             traceback.print_exc()
             return False
         finally:
-            call.click_locator_key('视频_画笔')
+            if call.is_element_already_exist('视频_画笔'):
+                call.click_locator_key('视频_画笔')
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
 
 
-# ================test_call_00087=================
+    # ================test_call_00087=================
 
     @TestLogger.log('主叫手机')
     def call_00087_01(self, dic):
@@ -5563,6 +5664,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 循环检测60次 * 2s
             n = 1 * 60
             while n > 0:
@@ -5595,6 +5697,7 @@ class CallPageTest(TestCase):
             Preconditions.initialize_class('IOS-移动-移动')
             call = CallPage()
             call.wait_for_page_load()
+            call.click_delete_all_key()
             # 获取手机号码
             cards = call.get_cards(CardType.CHINA_MOBILE)
             # 给共享变量中写入变量参数
@@ -5671,6 +5774,1206 @@ class CallPageTest(TestCase):
             return False
         finally:
             call.click_locator_key('涂鸦_画布')
-            call.click_locator_key('视频_画笔')
+            call.click_locator_key('涂鸦_返回')
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
+
+    # ================test_call_00096=================
+
+    @TestLogger.log('主叫手机')
+    def call_00096_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_p2p_video(dic['cards'])
+                    print('打电话了')
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+            c = 1 * 60
+            while c > 0:
+                if ('answer' not in dic.keys()) or (not dic['answer']):
+                    c -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 验证检验项目
+                    self.assertEqual(self.check_video_call_00096(), True)
+                    dic['res4'] = 'success'
+                    break
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_00096_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                # 循环判断元素是否存在
+                if not call.is_element_exist('视频接听_接听'):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 接听视频电话
+                    self.assertEqual(self.to_pick_phone_video(), True)
+                    time.sleep(2)
+                    dic['answer'] = True
+                    # 写入测试成功标志
+                    dic['res2'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00096(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_00096_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_00096_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
+
+    @TestLogger.log()
+    def check_video_call_00096(self):
+        """
+            点击“编辑笔”按钮
+            则在下方依次弹出“线条调色”、“线条粗细”、“橡皮檫粗细”、“清除涂鸦”、“表情贴纸”和“分享”；
+        """
+        call = CallPage()
+        try:
+            time.sleep(6)
+            call.check_element_tap_screen('视频_免提')
+            call.click_locator_key('视频_免提')
+            call.check_element_tap_screen('视频_切到语音通话')
+            call.click_locator_key('视频_画笔')
+            self.assertEqual(call.is_element_already_exist('涂鸦_圆点'), True)
+            self.assertEqual(call.is_element_already_exist('视频_静音'), False)
+            self.assertEqual(call.is_element_already_exist('视频_免提'), False)
+            self.assertEqual(call.is_element_already_exist('视频_挂断'), False)
+            self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), False)
+            return True
+        except Exception:
+            traceback.print_exc()
+            return False
+        finally:
+            call.click_locator_key('涂鸦_画布')
+            call.click_locator_key('涂鸦_返回')
+            call.check_element_tap_screen('视频_挂断')
+            call.click_locator_key('视频_挂断')
+
+    # ================test_call_00097=================
+
+    @TestLogger.log('主叫手机')
+    def call_00097_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_p2p_video(dic['cards'])
+                    print('打电话了')
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+            c = 1 * 60
+            while c > 0:
+                if ('answer' not in dic.keys()) or (not dic['answer']):
+                    c -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 验证检验项目
+                    self.assertEqual(self.check_video_call_00097(), True)
+                    dic['doodle'] = True
+                    break
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_00097_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                # 循环判断元素是否存在
+                if not call.is_element_exist('视频接听_接听'):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 接听视频电话
+                    self.assertEqual(self.to_pick_phone_video(), True)
+                    time.sleep(2)
+                    dic['answer'] = True
+                    # 写入测试成功标志
+                    dic['res2'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+            c = 1 * 60
+            while c > 0:
+                # 循环判断元素是否存在
+                if ('doodle' not in dic.keys()) or (not dic['doodle']):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 检查项目
+                    self.assertEqual(self.check_video_call_00097_b(), True)
+                    time.sleep(2)
+                    # 写入测试成功标志
+                    dic['res3'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00097(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_00097_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_00097_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
+
+    @TestLogger.log()
+    def check_video_call_00097(self):
+        """
+            点击“编辑笔”按钮
+            则在下方依次弹出“线条调色”、“线条粗细”、“橡皮檫粗细”、“清除涂鸦”、“表情贴纸”和“分享”；
+        """
+        call = CallPage()
+        try:
+            time.sleep(6)
+            call.check_element_tap_screen('视频_免提')
+            call.click_locator_key('视频_免提')
+            call.check_element_tap_screen('视频_切到语音通话')
+            call.click_locator_key('视频_画笔')
+            return True
+        except Exception:
+            traceback.print_exc()
+            if call.is_element_already_exist('涂鸦_返回'):
+                call.click_locator_key('涂鸦_返回')
+            call.check_element_tap_screen('视频_挂断')
+            call.click_locator_key('视频_挂断')
+            return False
+
+    @TestLogger.log()
+    def check_video_call_00097_b(self):
+        """
+            点击“编辑笔”按钮
+            则在下方依次弹出“线条调色”、“线条粗细”、“橡皮檫粗细”、“清除涂鸦”、“表情贴纸”和“分享”；
+        """
+        call = CallPage()
+        try:
+            time.sleep(2)
+            self.assertEqual(call.is_element_already_exist('涂鸦_圆点'), True)
+            self.assertEqual(call.is_element_already_exist('视频_静音'), False)
+            self.assertEqual(call.is_element_already_exist('视频_免提'), False)
+            self.assertEqual(call.is_element_already_exist('视频_挂断'), False)
+            self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), False)
+            return True
+        except Exception:
+            traceback.print_exc()
+            return False
+        finally:
+            if call.is_element_already_exist('涂鸦_返回'):
+                call.click_locator_key('涂鸦_返回')
+            call.check_element_tap_screen('视频_挂断')
+            call.click_locator_key('视频_挂断')
+
+    # ================test_call_00098=================
+
+    @TestLogger.log('主叫手机')
+    def call_00098_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_p2p_video(dic['cards'])
+                    print('打电话了')
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+            c = 1 * 60
+            while c > 0:
+                if ('answer' not in dic.keys()) or (not dic['answer']):
+                    c -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 验证检验项目
+                    self.assertEqual(self.check_video_call_00098(), True)
+                    dic['res4'] = 'success'
+                    break
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_00098_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                # 循环判断元素是否存在
+                if not call.is_element_exist('视频接听_接听'):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 接听视频电话
+                    self.assertEqual(self.to_pick_phone_video(), True)
+                    time.sleep(2)
+                    dic['answer'] = True
+                    # 写入测试成功标志
+                    dic['res2'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00098(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_00098_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_00098_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
+
+    @TestLogger.log()
+    def check_video_call_00098(self):
+        """
+            点击“编辑笔”按钮
+            则在下方依次弹出“线条调色”、“线条粗细”、“橡皮檫粗细”、“清除涂鸦”、“表情贴纸”和“分享”；
+        """
+        call = CallPage()
+        try:
+            time.sleep(6)
+            call.check_element_tap_screen('视频_免提')
+            call.click_locator_key('视频_免提')
+            call.check_element_tap_screen('视频_切到语音通话')
+            call.click_locator_key('视频_画笔')
+            time.sleep(2)
+            call.click_locator_key('涂鸦_返回')
+            time.sleep(2)
+            call.check_element_tap_screen('视频_静音')
+            self.assertEqual(call.is_element_already_exist('视频_静音'), True)
+            call.check_element_tap_screen('视频_免提')
+            self.assertEqual(call.is_element_already_exist('视频_免提'), True)
+            call.check_element_tap_screen('视频_挂断')
+            self.assertEqual(call.is_element_already_exist('视频_挂断'), True)
+            call.check_element_tap_screen('视频_切换摄像头')
+            self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), True)
+            return True
+        except Exception:
+            traceback.print_exc()
+            return False
+        finally:
+            if call.is_element_already_exist('涂鸦_返回'):
+                call.click_locator_key('涂鸦_返回')
+            call.check_element_tap_screen('视频_挂断')
+            call.click_locator_key('视频_挂断')
+
+    # ================test_call_00099=================
+
+    @TestLogger.log('主叫手机')
+    def call_00099_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_p2p_video(dic['cards'])
+                    print('打电话了')
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+            c = 1 * 60
+            while c > 0:
+                if ('answer' not in dic.keys()) or (not dic['answer']):
+                    c -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 验证检验项目
+                    self.assertEqual(self.check_video_call_00099(), True)
+                    dic['doodle'] = True
+                    break
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_00099_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                # 循环判断元素是否存在
+                if not call.is_element_exist('视频接听_接听'):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 接听视频电话
+                    self.assertEqual(self.to_pick_phone_video(), True)
+                    time.sleep(2)
+                    dic['answer'] = True
+                    # 写入测试成功标志
+                    dic['res2'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+            c = 1 * 60
+            while c > 0:
+                # 循环判断元素是否存在
+                if ('doodle' not in dic.keys()) or (not dic['doodle']):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 检查项目
+                    self.assertEqual(self.check_video_call_00099_b(), True)
+                    time.sleep(2)
+                    # 写入测试成功标志
+                    dic['res3'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_00099(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_00099_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_00099_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
+
+    @TestLogger.log()
+    def check_video_call_00099(self):
+        """
+            点击“编辑笔”按钮
+            则在下方依次弹出“线条调色”、“线条粗细”、“橡皮檫粗细”、“清除涂鸦”、“表情贴纸”和“分享”；
+        """
+        call = CallPage()
+        try:
+            time.sleep(6)
+            call.check_element_tap_screen('视频_免提')
+            call.click_locator_key('视频_免提')
+            call.check_element_tap_screen('视频_切到语音通话')
+            call.click_locator_key('视频_画笔')
+            time.sleep(2)
+            call.click_locator_key('涂鸦_返回')
+            time.sleep(2)
+            return True
+        except Exception:
+            traceback.print_exc()
+            if call.is_element_already_exist('涂鸦_返回'):
+                call.click_locator_key('涂鸦_返回')
+            call.check_element_tap_screen('视频_挂断')
+            call.click_locator_key('视频_挂断')
+            return False
+
+    @TestLogger.log()
+    def check_video_call_00099_b(self):
+        """
+            点击“编辑笔”按钮
+            则在下方依次弹出“线条调色”、“线条粗细”、“橡皮檫粗细”、“清除涂鸦”、“表情贴纸”和“分享”；
+        """
+        call = CallPage()
+        try:
+            time.sleep(2)
+            call.check_element_tap_screen('视频_静音')
+            self.assertEqual(call.is_element_already_exist('视频_静音'), True)
+            call.check_element_tap_screen('视频_免提')
+            self.assertEqual(call.is_element_already_exist('视频_免提'), True)
+            call.check_element_tap_screen('视频_挂断')
+            self.assertEqual(call.is_element_already_exist('视频_挂断'), True)
+            call.check_element_tap_screen('视频_切换摄像头')
+            self.assertEqual(call.is_element_already_exist('视频_切换摄像头'), True)
+            return True
+        except Exception:
+            traceback.print_exc()
+            return False
+        finally:
+            if call.is_element_already_exist('涂鸦_返回'):
+                call.click_locator_key('涂鸦_返回')
+            call.check_element_tap_screen('视频_挂断')
+            call.click_locator_key('视频_挂断')
+
+    # ================test_call_000103=================
+
+    @TestLogger.log('主叫手机')
+    def call_000103_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_p2p_video(dic['cards'])
+                    print('打电话了')
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_000103_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                # 循环判断元素是否存在
+                if not call.is_element_exist('视频接听_接听'):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 接听视频电话
+                    self.assertEqual(self.to_pick_phone_video(), True)
+                    # 验证检验项目
+                    self.assertEqual(self.check_video_call_000103(), True)
+                    # 写入测试成功标志
+                    dic['res2'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_000103(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_000103_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_000103_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
+
+    @TestLogger.log()
+    def check_video_call_000103(self):
+        """
+            点击“编辑笔”按钮
+            则在下方依次弹出“线条调色”、“线条粗细”、“橡皮檫粗细”、“清除涂鸦”、“表情贴纸”和“分享”；
+        """
+        call = CallPage()
+        try:
+            time.sleep(6)
+            call.check_element_tap_screen('视频_免提')
+            self.assertEqual(call.check_if_button_selected('视频_免提'), True)
+            return True
+        except Exception:
+            traceback.print_exc()
+            return False
+        finally:
+            call.check_element_tap_screen('视频_挂断')
+            call.click_locator_key('视频_挂断')
+
+    # ================test_call_000104=================
+
+    @TestLogger.log('主叫手机')
+    def call_000104_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_p2p_video(dic['cards'])
+                    print('打电话了')
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_000104_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                # 循环判断元素是否存在
+                if not call.is_element_exist('视频接听_接听'):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 接听视频电话
+                    self.assertEqual(self.to_pick_phone_video(), True)
+                    # 验证检验项目
+                    self.assertEqual(self.check_video_call_000104(), True)
+                    # 写入测试成功标志
+                    dic['res2'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_000104(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_000104_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_000104_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
+
+    @TestLogger.log()
+    def check_video_call_000104(self):
+        """
+            点击“编辑笔”按钮
+            则在下方依次弹出“线条调色”、“线条粗细”、“橡皮檫粗细”、“清除涂鸦”、“表情贴纸”和“分享”；
+        """
+        call = CallPage()
+        try:
+            time.sleep(1)
+            call.click_screen_center()
+            self.assertEqual(call.is_element_already_exist('视频_时长'), False)
+            self.assertEqual(call.is_element_already_exist('视频_免提'), False)
+            self.assertEqual(call.is_element_already_exist('视频_静音'), False)
+            self.assertEqual(call.is_element_already_exist('视频_画笔'), False)
+            self.assertEqual(call.is_element_already_exist('视频_挂断'), False)
+            return True
+        except Exception:
+            traceback.print_exc()
+            return False
+        finally:
+            call.check_element_tap_screen('视频_挂断')
+            call.click_locator_key('视频_挂断')
+
+    # ================test_call_000106=================
+
+    @TestLogger.log('主叫手机')
+    def call_000106_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_p2p_video(dic['cards'])
+                    print('打电话了')
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_000106_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                # 循环判断元素是否存在
+                if not call.is_element_exist('视频接听_接听'):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 接听视频电话
+                    self.assertEqual(self.to_pick_phone_video(), True)
+                    # 验证检验项目
+                    self.assertEqual(self.check_video_call_000106(), True)
+                    # 写入测试成功标志
+                    dic['res2'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_000106(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_000106_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_000106_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
+
+    @TestLogger.log()
+    def check_video_call_000106(self):
+        """
+            点击“编辑笔”按钮
+            则在下方依次弹出“线条调色”、“线条粗细”、“橡皮檫粗细”、“清除涂鸦”、“表情贴纸”和“分享”；
+        """
+        call = CallPage()
+        try:
+            time.sleep(6)
+            self.assertEqual(call.is_element_already_exist('视频_时长'), False)
+            self.assertEqual(call.is_element_already_exist('视频_免提'), False)
+            self.assertEqual(call.is_element_already_exist('视频_静音'), False)
+            self.assertEqual(call.is_element_already_exist('视频_画笔'), False)
+            self.assertEqual(call.is_element_already_exist('视频_挂断'), False)
+            return True
+        except Exception:
+            traceback.print_exc()
+            return False
+        finally:
+            call.check_element_tap_screen('视频_挂断')
+            call.click_locator_key('视频_挂断')
+
+
+    # ================test_call_000107=================
+
+    @TestLogger.log('主叫手机')
+    def call_000107_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_p2p_video(dic['cards'])
+                    print('打电话了')
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_000107_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                # 循环判断元素是否存在
+                if not call.is_element_exist('视频接听_接听'):
+                    n -= 1
+                    time.sleep(2)
+                    continue
+                else:
+                    # 接听视频电话
+                    self.assertEqual(self.to_pick_phone_video(), True)
+                    # 验证检验项目
+                    self.assertEqual(self.check_video_call_000107(), True)
+                    # 写入测试成功标志
+                    dic['res2'] = 'success'
+                    break
+            else:
+                # 失败后抛出异常
+                raise
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_000107(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_000107_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_000107_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
+
+    @TestLogger.log()
+    def check_video_call_000107(self):
+        """
+            点击“编辑笔”按钮
+            则在下方依次弹出“线条调色”、“线条粗细”、“橡皮檫粗细”、“清除涂鸦”、“表情贴纸”和“分享”；
+        """
+        call = CallPage()
+        try:
+            time.sleep(6)
+            call.click_screen_center()
+            time.sleep(10)
+            self.assertEqual(call.is_element_already_exist('视频_时长'), False)
+            self.assertEqual(call.is_element_already_exist('视频_免提'), False)
+            self.assertEqual(call.is_element_already_exist('视频_静音'), False)
+            self.assertEqual(call.is_element_already_exist('视频_画笔'), False)
+            self.assertEqual(call.is_element_already_exist('视频_挂断'), False)
+            return True
+        except Exception:
+            traceback.print_exc()
+            return False
+        finally:
+            call.check_element_tap_screen('视频_挂断')
+            call.click_locator_key('视频_挂断')
+
+
+    # ================test_call_000134=================
+
+    @TestLogger.log('主叫手机')
+    def call_000134_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    print('已经获取电话号码')
+                    # 拨打电话
+                    call.pick_up_multi_voice_call(dic['cards'])
+                    print('打电话了')
+                    time.sleep(5)
+                    # 验证检验项目
+                    self.assertEqual(self.check_video_call_000134(), True)
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
+                    break
+            else:
+                # 超时抛出异常
+                raise
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def call_000134_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            call = CallPage()
+            call.wait_for_page_load()
+            call.click_delete_all_key()
+            # 获取手机号码
+            cards = call.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+            # 写入测试成功标志
+            dic['res2'] = 'success'
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_call_000134(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.call_000134_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.call_000134_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
+
+    @TestLogger.log()
+    def check_video_call_000134(self):
+        """
+            点击“编辑笔”按钮
+            则在下方依次弹出“线条调色”、“线条粗细”、“橡皮檫粗细”、“清除涂鸦”、“表情贴纸”和“分享”；
+        """
+        call = CallPage()
+        try:
+            time.sleep(5)
+            self.assertEqual(call.is_element_already_exist('飞信电话_接受'), True)
+            self.assertEqual(call.is_element_already_exist('飞信电话_拒绝'), True)
+            call.click_locator_key('飞信电话_拒绝')
+            time.sleep(5)
+            call.click_locator_key('飞信电话_挂断')
+            call.click_text('确定')
+            return True
+        except Exception:
+            traceback.print_exc()
+            time.sleep(65)
+            return False
+

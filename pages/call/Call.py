@@ -222,13 +222,16 @@ class CallPage(FooterPage):
         # '涂鸦_分享到微信': (MobileBy.ACCESSIBILITY_ID, ''),  # ？？？
 
         # 多方通话联系人选择
-        '多方通话_确定': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar/XCUIElementTypeButton[2]'),
+        '多方通话_确定': (MobileBy.IOS_PREDICATE, 'name contains "确定"'),
         '多方通话_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
-        '多方通话_搜索_文本框': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
-                                        '/../XCUIElementTypeTextField'),
-        '多方通话_电话号码': (MobileBy.XPATH, '//XCUIElementTypeImage[contains(@name, "chat_set_search@2x.png")]'
-                                      '/../../../XCUIElementTypeOther/XCUIElementTypeTable/XCUIElementTypeCell'
-                                      '/XCUIElementTypeImage[2]'),
+        '多方通话_搜索_文本框': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElement'
+                                        'TypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
+                                        'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
+                                        'TypeOther[1]/XCUIElementTypeOther/XCUIElementTypeTextField'),
+        '多方通话_电话号码': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElement'
+                                      'TypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
+                                      'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
+                                      'TypeOther[2]/XCUIElementTypeTable/XCUIElementTypeCell'),
         # 多方通话主叫？？？
 
         # 多方通话被叫？？？
@@ -255,7 +258,7 @@ class CallPage(FooterPage):
         '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
         '飞信电话_接受': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
         '飞信电话_拒绝': (MobileBy.IOS_PREDICATE, 'name=="拒绝"'),
-        '飞信电话_挂断': (MobileBy.IOS_PREDICATE, 'name=="call dial key reject')
+        '飞信电话_挂断': (MobileBy.IOS_PREDICATE, 'name=="call dial key reject"')
 
         # 流量优惠提示框
         # '流量_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
@@ -1183,3 +1186,16 @@ class CallPage(FooterPage):
                                        {"duration": duration, "element": locator2, "fromX": x_start,
                                         "fromY": y_start,
                                         "toX": x_end, "toY": y_end})
+
+    @TestLogger.log('拨打点对点多方电话')
+    def pick_up_multi_voice_call(self, cards):
+        self.click_locator_key('+')
+        self.click_locator_key('多方电话')
+        self.input_text(self.__locators['多方通话_搜索_文本框'], cards)
+        time.sleep(1)
+        self.get_elements(self.__locators['多方通话_电话号码'])[0].click()
+        time.sleep(1)
+        self.click_locator_key('多方通话_确定')
+        time.sleep(0.5)
+        if self.is_text_present('我知道了'):
+            self.click_text('我知道了')
