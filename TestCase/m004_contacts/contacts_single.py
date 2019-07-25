@@ -676,7 +676,7 @@ class ContactlocalPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_0042(self):
-        """特殊字符适配"""
+        """输入框只能输入数字异常"""
         """
             1、正常登陆
             2、网络正常
@@ -848,6 +848,7 @@ class ContactlocalPage(TestCase):
         contact_page.click_locator_key('通讯录_家庭网_管理')
         time.sleep(1)
         contact_page.click_locator_key('家庭网_管理_感叹号规则')
+        time.sleep(1)
         self.assertEqual(contact_page.is_text_present('业务规则'), True)
         contact_page.click_locator_key('家庭网_管理_感叹号规则返回')
         time.sleep(1)
@@ -905,6 +906,7 @@ class ContactlocalPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_0071(self):
+        """解绑人数限制弹框显示时间短"""
         """
             当月已解绑过一名成员后再次解绑第二名成员	"1、非四川移动用户已登录APP；
             2、网络正常；

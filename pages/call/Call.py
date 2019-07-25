@@ -148,7 +148,6 @@ class CallPage(FooterPage):
         '视频接听_切换弹框_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
 
         # 视频通话界面
-        '视频_头像': (MobileBy.ACCESSIBILITY_ID, ''),  # ？？？
         '视频_时长': (MobileBy.XPATH,
                   '//XCUIElementTypeButton[@name="免提"]/../preceding-sibling::*[1]/XCUIElementTypeStaticText'),
         '视频_备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
@@ -234,12 +233,12 @@ class CallPage(FooterPage):
                                       'TypeOther[2]/XCUIElementTypeTable/XCUIElementTypeCell'),
         # 多方通话主叫？？？
 
-        # 多方通话被叫？？？
+        # 多方通话被叫
         '多方通话_是否确定结束多方电话': (MobileBy.IOS_PREDICATE, "name=='是否确定结束多方电话？'"),
         '多方通话_弹框_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
         '多方通话_弹框_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
 
-        # 多方视频主叫？？？
+        # 多方视频主叫
         '多方视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
         '多方视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
         '多方视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
@@ -259,38 +258,6 @@ class CallPage(FooterPage):
         '飞信电话_接受': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
         '飞信电话_拒绝': (MobileBy.IOS_PREDICATE, 'name=="拒绝"'),
         '飞信电话_挂断': (MobileBy.IOS_PREDICATE, 'name=="call dial key reject"')
-
-        # 流量优惠提示框
-        # '流量_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
-        # '流量_去开通': (MobileBy.ID, 'com.cmic.college:id/bt_open'),
-        # '流量_继续拨打': (MobileBy.ID, 'com.cmic.college:id/tv_continue'),
-        # '流量_提示内容': (MobileBy.ID, 'com.cmic.college:id/content'),
-
-        # 多人视频详情页
-        # '详情_多人视频': (MobileBy.ID, 'com.cmic.college:id/rlStartMultipartyVideo'),
-        # '详情_群聊': (MobileBy.ID, 'com.cmic.college:id/rlCreateGroup'),
-        # '群聊_确定': (MobileBy.ID, 'com.cmic.college:id/tv_sure'),
-        # '群聊_返回上一层': (MobileBy.ID, 'com.cmic.college:id/back_arrow'),
-        # '多人_挂断': (MobileBy.ID, 'com.cmic.college:id/end_video_call_btn'),
-        # '信息_聊天框': (MobileBy.ID, 'com.cmic.college:id/et_message'),
-        # '信息_发送': (MobileBy.ID, 'com.cmic.college:id/ib_send'),
-
-        # 福利电话
-        # '页面规则': (MobileBy.ID, 'com.cmic.college:id/action_rule'),
-        # '电话_搜索栏': (MobileBy.ID, 'com.cmic.college:id/action_search'),
-        # '搜索_电话': (MobileBy.ID, 'com.cmic.college:id/search_src_text'),
-        # '搜索_电话显示': (MobileBy.ID, 'com.cmic.college:id/tvPhoneNum'),
-        # '搜索_电话昵称': (MobileBy.ID, 'com.cmic.college:id/tvName'),
-        # '免费时长': (MobileBy.ID, 'com.cmic.college:id/tv_leftDuration'),
-
-        # 邀请使用
-        # '邀请_微信好友': (MobileBy.ID, 'com.cmic.college:id/tv_wechat'),
-        # '邀请_QQ好友': (MobileBy.ID, 'com.cmic.college:id/tv_qq'),
-
-        # 悬浮窗授权提示
-        # '悬浮窗_内容': (MobileBy.XPATH, '//*[contains(@text,"您的手机没有授予悬浮窗权限，请开启后再试")]'),
-        # '暂不开启': (MobileBy.ID, 'android:id/button2'),
-        # '现在去开启': (MobileBy.ID, 'android:id/button1'),
 
     }
 
