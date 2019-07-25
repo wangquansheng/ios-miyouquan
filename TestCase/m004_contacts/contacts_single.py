@@ -186,6 +186,7 @@ class ContactlocalPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_004(self):
+        """特殊字符适配"""
         """
         1、联网正常
         2、已登陆客户端
@@ -675,6 +676,7 @@ class ContactlocalPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_0042(self):
+        """特殊字符适配"""
         """
             1、正常登陆
             2、网络正常
