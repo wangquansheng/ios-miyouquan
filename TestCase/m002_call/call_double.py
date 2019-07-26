@@ -3,7 +3,6 @@ import unittest
 import warnings
 import datetime
 import traceback
-import threading
 import multiprocessing
 
 from pages import OneKeyLoginPage
