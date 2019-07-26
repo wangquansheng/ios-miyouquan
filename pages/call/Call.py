@@ -15,12 +15,6 @@ class CallPage(FooterPage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
     __locators = {
-        # 权限框
-        '禁止': (MobileBy.IOS_PREDICATE, 'name=="禁止"'),
-        '始终允许': (MobileBy.IOS_PREDICATE, 'name=="始终允许"'),
-        # '遮罩1': (MobileBy.ID, ''),
-        # '遮罩2': (MobileBy.ID, ''),
-
         # 攻略
         '攻略_通话_id': (MobileBy.ACCESSIBILITY_ID, 'my_banner_gonglue'),
         '攻略_通话_close': (MobileBy.ACCESSIBILITY_ID, 'my cancel copy'),
@@ -49,6 +43,7 @@ class CallPage(FooterPage):
         '视频通话': (MobileBy.IOS_PREDICATE, 'name=="视频通话"'),
         '多方电话': (MobileBy.IOS_PREDICATE, 'name=="多方电话"'),
         '通话_删除该通话记录': (MobileBy.ACCESSIBILITY_ID, '删除'),
+        '通话_搜索_用户备注': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
         '通话_搜索_联系人名称': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeStaticText[2]'),
 
         # 通话界面 拨号操作
@@ -906,7 +901,12 @@ class CallPage(FooterPage):
     @TestLogger.log("长按操作")
     def long_press_number(self, text):
         """长按"""
-        self.swipe_by_direction(self.__class__.__locators[text], 'press', 5)
+        try:
+            # self.swipe_by_direction(None, 'press', 5, self.__class__.__locators[text])
+            self.swipe_by_direction(self.__class__.__locators[text], 'press', 5)
+        except:
+            print('长按异常，正常执行')
+            pass
 
     @TestLogger.log('判断元素是否存在')
     def is_element_already_exist(self, locator):
@@ -1018,19 +1018,26 @@ class CallPage(FooterPage):
             finally:
                 # 睡眠等待弹框切换
                 time.sleep(5)
-                try:
-                    if self.is_element_already_exist('飞信电话_拒绝'):
-                        self.click_locator_key('飞信电话_拒绝')
-                        time.sleep(0.5)
-                except:
-                    pass
-                try:
-                    self.click_close_more_video_popup()
-                except:
-                    pass
-                if self.is_element_already_exist('无密友圈_取消'):
-                    self.click_locator_key('无密友圈_取消')
-                    time.sleep(0.5)
+                self.test_close_my_phone_calling()
+
+    @TestLogger.log('关闭飞信电话')
+    def test_close_my_phone_calling(self):
+        """关闭飞信电话 """
+        try:
+            if self.is_element_already_exist('飞信电话_拒绝'):
+                self.click_locator_key('飞信电话_拒绝')
+                time.sleep(0.5)
+        except:
+            pass
+        try:
+            if self.is_element_already_exist('飞信电话_挂断'):
+                self.click_locator_key('飞信电话_挂断')
+                time.sleep(0.5)
+        except:
+            pass
+        if self.is_element_already_exist('无密友圈_取消'):
+            self.click_locator_key('无密友圈_取消')
+            time.sleep(0.5)
 
     @TestLogger.log('添加飞信电话记录，没有注册')
     def test_call_phone_no_reg_condition(self):
