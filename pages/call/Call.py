@@ -29,7 +29,7 @@ class CallPage(FooterPage):
         '通话_通话_TAB': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="通话"]'),
         '通话_文案_HEAD': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="通话"]'),
         '通话_来电名称': (MobileBy.XPATH, '//XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
-        '通话_详情图标': (MobileBy.ACCESSIBILITY_ID, 'call info outline@2x'),
+        '通话_详情图标': (MobileBy.IOS_PREDICATE, 'name contains "call info outline"'),
         '通话_第一个联系人': (MobileBy.XPATH, "//XCUIElementTypeTable/XCUIElementTypeCell[1]"),
         '通话_通话记录列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'),
 
@@ -243,10 +243,16 @@ class CallPage(FooterPage):
         '多方视频_免提': (MobileBy.IOS_PREDICATE, 'name=="免提"'),
         '多方视频_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
         '多方视频_关闭摄像头': (MobileBy.IOS_PREDICATE, 'name=="关闭摄像头"'),
+        '多方视频_打开摄像头': (MobileBy.IOS_PREDICATE, 'name=="打开摄像头"'),
         '多方视频_翻转摄像头': (MobileBy.IOS_PREDICATE, 'name=="翻转摄像头"'),
         '多方视频_返回通话': (MobileBy.IOS_PREDICATE, 'name=="点击返回通话"'),
         '多方视频_被_邀请你进行多方视频': (MobileBy.IOS_PREDICATE, 'name=="邀请你进行多方视频"'),
         '多方视频_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
+        '多方视频_可用时长': (MobileBy.IOS_PREDICATE, 'name contains "多方电话可用时长"'),
+        '多方视频_缩放': (MobileBy.IOS_PREDICATE, 'name contains "my video zoom"'),
+        '多方视频_增加成员': (MobileBy.IOS_PREDICATE, 'name contains "my video addmy"'),
+        '多方视频_挂断': (MobileBy.IOS_PREDICATE, 'name contains "call dial key reject"'),
+        '多方视频_接听': (MobileBy.IOS_PREDICATE, 'name contains "call dial key answer"'),
 
         # 弹出框
         '无密友圈_提示文本': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="无密友圈"]'),
@@ -258,7 +264,8 @@ class CallPage(FooterPage):
         '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
         '飞信电话_接受': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
         '飞信电话_拒绝': (MobileBy.IOS_PREDICATE, 'name=="拒绝"'),
-        '飞信电话_挂断': (MobileBy.IOS_PREDICATE, 'name=="call dial key reject"')
+        '飞信电话_挂断': (MobileBy.IOS_PREDICATE, 'name=="call dial key reject"'),
+        '飞信电话_结束通话': (MobileBy.IOS_PREDICATE, 'name contains "结束通话"')
 
         # 流量优惠提示框
         # '流量_不再提醒': (MobileBy.ID, 'com.cmic.college:id/select_checkbox'),
@@ -584,35 +591,35 @@ class CallPage(FooterPage):
         self.swipe_by_direction(locator, "left")
         time.sleep(5)
 
-    @TestLogger.log('确保页面有点对点视频的记录')
-    def make_sure_have_p2p_vedio_record(self):
-        if self.is_text_present('[视频通话]'):
-            return
-        # self.point2point_vedio_call()
-        self.wait_until(
-            condition=lambda d: self.is_text_present("[视频通话]"),
-            timeout=50,
-        )
+    # @TestLogger.log('确保页面有点对点视频的记录')
+    # def make_sure_have_p2p_vedio_record(self):
+    #     if self.is_text_present('[视频通话]'):
+    #         return
+    #     # self.point2point_vedio_call()
+    #     self.wait_until(
+    #         condition=lambda d: self.is_text_present("[视频通话]"),
+    #         timeout=50,
+    #     )
 
-    @TestLogger.log('确保页面有多方视频的记录')
-    def make_sure_have_multiplayer_vedio_record(self):
-        if self.is_text_present('[多方视频]'):
-            return
-        # self.multiplayer_vedio_call()
-        self.wait_until(
-            condition=lambda d: self.is_text_present("[多方视频]"),
-            timeout=50,
-        )
+    # @TestLogger.log('确保页面有多方视频的记录')
+    # def make_sure_have_multiplayer_vedio_record(self):
+    #     if self.is_text_present('[多方视频]'):
+    #         return
+    #     # self.multiplayer_vedio_call()
+    #     self.wait_until(
+    #         condition=lambda d: self.is_text_present("[多方视频]"),
+    #         timeout=50,
+    #     )
 
-    @TestLogger.log('确保页面有点对点通话的记录')
-    def make_sure_have_p2p_voicecall_record(self):
-        if self.is_text_present('飞信电话'):
-            return
-        # self.point2point_voice_call()
-        self.wait_until(
-            condition=lambda d: self.is_text_present("飞信电话"),
-            timeout=8,
-        )
+    # @TestLogger.log('确保页面有点对点通话的记录')
+    # def make_sure_have_p2p_voicecall_record(self):
+    #     if self.is_text_present('飞信电话'):
+    #         return
+    #     # self.point2point_voice_call()
+    #     self.wait_until(
+    #         condition=lambda d: self.is_text_present("飞信电话"),
+    #         timeout=8,
+    #     )
 
     @TestLogger.log("检查点对点视频通话详细页")
     def check_vedio_call_detail_page(self):
@@ -924,17 +931,29 @@ class CallPage(FooterPage):
     def pick_up_p2p_video(self, cards):
         self.click_locator_key('+')
         self.click_locator_key('视频通话')
-        # self.click_locator_key(self.__locators['视频呼叫_搜索_文本框'])
         self.input_text(self.__locators['视频呼叫_搜索_文本框'], cards)
         time.sleep(1)
         self.get_elements(self.__locators['视频呼叫_搜索_号码列表'])[0].click()
         time.sleep(1)
         self.click_locator_key('视频呼叫_确定')
         time.sleep(0.5)
-        # if self.on_this_page_common('流量_继续拨打'):
-        #     self.click_locator_key('流量_继续拨打')
         if self.on_this_page_common('无密友圈_确定'):
             self.click_locator_key('无密友圈_取消')
+
+    @TestLogger.log('拨打一个点对点视频通话')  # pass
+    def pick_up_multi_video(self, cards):
+        self.click_locator_key('+')
+        self.click_locator_key('视频通话')
+        self.input_text(self.__locators['视频呼叫_搜索_文本框'], cards)
+        time.sleep(1)
+        self.get_elements(self.__locators['视频呼叫_搜索_号码列表'])[0].click()
+        time.sleep(1)
+        self.input_text(self.__locators['视频呼叫_搜索_文本框'], '13800138000')
+        time.sleep(1)
+        self.get_elements(self.__locators['视频呼叫_搜索_号码列表'])[0].click()
+        time.sleep(1)
+        self.click_locator_key('视频呼叫_确定')
+        time.sleep(0.5)
 
     @TestLogger.log("长按操作")
     def long_press_number(self, text):
@@ -1189,6 +1208,7 @@ class CallPage(FooterPage):
 
     @TestLogger.log('拨打点对点多方电话')
     def pick_up_multi_voice_call(self, cards):
+        time.sleep(1)
         self.click_locator_key('+')
         self.click_locator_key('多方电话')
         self.input_text(self.__locators['多方通话_搜索_文本框'], cards)
@@ -1199,3 +1219,22 @@ class CallPage(FooterPage):
         time.sleep(0.5)
         if self.is_text_present('我知道了'):
             self.click_text('我知道了')
+
+    @TestLogger.log('获取多方电话可用时长')
+    def get_times(self):
+        self.click_locator_key('+')
+        self.click_locator_key('多方电话')
+        time.sleep(2)
+        text = self.get_element(self.__locators['多方视频_可用时长']).text
+        self.click_locator_key('多方通话_取消')
+        import re
+        return int(re.sub(r'\D', "", text))
+
+    @TestLogger.log('获取多方电话可用时长')
+    def click_first_record(self):
+        locator = (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElement'
+                                   'TypeWindow[1]/XCUIElementTypeOther/XCUIElement'
+                                   'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
+                                   'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementType'
+                                   'Table/XCUIElementTypeCell[1]')
+        self.get_elements(locator)[0].click()
