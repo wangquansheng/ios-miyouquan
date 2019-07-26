@@ -1309,13 +1309,13 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         if call.is_on_this_page():
             call.click_show_keyboard()
-        time.sleep(1)
+            time.sleep(0.5)
         # 输入文字自动搜索
         cards = "536"
         for i in cards:
             call.click_locator_key('keyboard_{}'.format(i))
         # 判断键盘
-        time.sleep(2)
+        time.sleep(0.5)
         self.assertEqual(call.is_element_already_exist('拨号_收起键盘'), True)
         self.assertEqual(call.is_element_already_exist('拨号_呼叫'), True)
         self.assertEqual(call.is_element_already_exist('拨号_删除'), True)
@@ -1388,12 +1388,13 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         if call.is_on_this_page():
             call.click_show_keyboard()
+            time.sleep(0.5)
         # 输入文字"123"自动搜索
         input_text_source = '123'
         for i in input_text_source:
             call.click_locator_key('keyboard_{}'.format(i))
         # 收起键盘
-        time.sleep(1)
+        time.sleep(0.5)
         call.click_locator_key('拨号_收起键盘')
         # 拨号盘半挂起
         time.sleep(1)
@@ -1417,6 +1418,7 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         if call.is_on_this_page():
             call.click_show_keyboard()
+            time.sleep(0.5)
         # 输入文字
         input_text_source = '3*#'
         for i in input_text_source:
@@ -1494,7 +1496,6 @@ class CallPageTest(TestCase):
         input_text = call.get_element_text('拨号_文本框')
         self.assertEqual(input_text_source == input_text, True)
 
-
     @tags('ALL', 'CMCC', 'call')
     def test_call_000172(self):
         """
@@ -1512,6 +1513,7 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         if call.is_on_this_page():
             call.click_show_keyboard()
+            time.sleep(0.5)
         # 输入文字, 删除一个字母
         input_text_delete = '123'
         input_text_source = '1234'
@@ -1546,13 +1548,14 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         if call.is_on_this_page():
             call.click_show_keyboard()
+            time.sleep(0.5)
         # 输入文字
         input_len = 15
         input_text_source = '1234567891234567'
         for i in input_text_source:
             call.click_locator_key('keyboard_{}'.format(i))
         # 点击清除键一下
-        time.sleep(1)
+        time.sleep(0.5)
         input_text = call.get_element_text('拨号_文本框')
         self.assertEqual(input_len == len(input_text), True)
 
