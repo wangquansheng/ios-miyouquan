@@ -122,6 +122,8 @@ class Meprofile(TestCase):
 
     def default_tearDown(self):
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+        # 关闭idevice log
+        FooterPage().kill_device_syslog()
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0001(self):

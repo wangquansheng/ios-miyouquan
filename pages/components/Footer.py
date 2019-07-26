@@ -1,3 +1,5 @@
+import subprocess
+
 from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.BasePage import BasePage
@@ -25,9 +27,22 @@ class FooterPage(BasePage):
         '始终允许': (MobileBy.IOS_PREDICATE, 'name=="始终允许"'),
 
         # 广告
-        '广告_通话_关闭': (MobileBy.ACCESSIBILITY_ID, 'my home cancel@2x'),
+        '广告_通话_关闭': (MobileBy.IOS_PREDICATE, 'name contains "my home cancel"'),
 
     }
+
+    @TestLogger.log("ios设备日志运行卡死")
+    def kill_device_syslog(self):
+        """
+        ios获取设备运行时log，appium运行时会占用大量的脚本机cpu，所以每次都杀死所有的idevicesyslog进程，可以有效防止ios设备运行卡死
+        出现原因：由于每次appium启动ios配置服务时，会有一个获取ios log的cap参数clearSystemFiles，官网文档已删除，但是最新版的appium
+        还是在使用这段代码，但是不走那个关闭逻辑了
+        :param udid:
+        :return:
+        """
+        command = "pkill idevicesyslog"
+        subprocess.Popen(command, shell=True, stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE).stdout.readlines()
 
     @TestLogger.log("通话首页弹框关闭广告弹框")
     def close_click_home_advertisement(self):

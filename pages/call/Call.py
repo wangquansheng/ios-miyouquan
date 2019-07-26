@@ -58,6 +58,7 @@ class CallPage(FooterPage):
         '拨号_半_文本框': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
         '拨号_请输入正确号码': (MobileBy.IOS_PREDICATE, 'name=="请输入正确号码"'),
         '拨号_搜索_列表联系人': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell/XCUIElementTypeStaticText[1]'),
+        '拨号_搜索_列表联系人详细': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeButton[1]'),
         'keyboard_1': (MobileBy.IOS_PREDICATE, 'name contains "my_call_1"'),
         'keyboard_2': (MobileBy.IOS_PREDICATE, 'name contains "my_call_2"'),
         'keyboard_3': (MobileBy.IOS_PREDICATE, 'name contains "my_call_3"'),
@@ -70,6 +71,7 @@ class CallPage(FooterPage):
         'keyboard_0': (MobileBy.IOS_PREDICATE, 'name contains "my_call_0"'),
         'keyboard_*': (MobileBy.IOS_PREDICATE, 'name contains "my_call_*"'),
         'keyboard_#': (MobileBy.IOS_PREDICATE, 'name contains "my_call_#"'),
+
         # 呼叫页面
         '呼叫_结束通话': (MobileBy.IOS_PREDICATE, 'name=="结束通话"'),
         '呼叫_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
@@ -177,6 +179,7 @@ class CallPage(FooterPage):
         '语音_切到视频通话': (MobileBy.IOS_PREDICATE, 'name=="切到视频通话"'),
         '语音_静音': (MobileBy.IOS_PREDICATE, 'name=="静音"'),
         '语音_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
+
         # 语音切视频页面
         '切视频_头像': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="正在等待对方接受邀请..."]/preceding-sibling::*[3]'),
         '切视频_提示文本': (MobileBy.IOS_PREDICATE, 'name contains "正在等待对方接受邀请"'),
@@ -213,7 +216,6 @@ class CallPage(FooterPage):
         '涂鸦_滑块': (MobileBy.XPATH,
                   '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[3]/XCUIElement'
                   'TypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeSlider'),
-        # '涂鸦_分享到微信': (MobileBy.ACCESSIBILITY_ID, ''),  # ？？？
 
         # 多方通话联系人选择
         '多方通话_确定': (MobileBy.IOS_PREDICATE, 'name contains "确定"'),
@@ -226,6 +228,11 @@ class CallPage(FooterPage):
                                       'TypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
                                       'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
                                       'TypeOther[2]/XCUIElementTypeTable/XCUIElementTypeCell'),
+        '多方通话_搜索_电话号码列表1': (MobileBy.XPATH,
+                            '//XCUIElementTypeNavigationBar[@name="多方电话"]/following-sibling::*[1]'
+                            '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]'
+                            '/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
+
         # 多方通话主叫？？？
 
         # 多方通话被叫
@@ -511,9 +518,9 @@ class CallPage(FooterPage):
         if not self.is_element_already_exist(text):
             return False
         # 获取通话列表所有数据
-        time.sleep(2)
+        time.sleep(0.5)
         elements_list = self.get_elements(self.__locators[text])
-        time.sleep(2)
+        time.sleep(1)
         elements_list[0].click()
         time.sleep(2)
         return True
@@ -959,7 +966,7 @@ class CallPage(FooterPage):
                 self.click_locator_key('视频呼叫_确定')
                 time.sleep(1)
                 self.click_video_hangup()
-                time.sleep(1)
+                time.sleep(2)
         finally:
             if self.is_element_present("无密友圈_取消"):
                 self.click_locator_key('无密友圈_取消')
@@ -972,20 +979,20 @@ class CallPage(FooterPage):
         :return:
         """
         # 初始化数据
-        time.sleep(2)
+        time.sleep(0.5)
         if not self.is_text_present("[多方视频]"):
             self.click_locator_key('+')
-            time.sleep(2)
+            time.sleep(1)
             self.click_call('视频通话')
             self.select_contact_n(2)
-            time.sleep(2)
+            time.sleep(1)
             self.click_locator_key('视频呼叫_确定')
             time.sleep(3)
             self.click_close_more_video_popup()
             time.sleep(2)
             if self.is_element_present("无密友圈_取消"):
                 self.click_locator_key('无密友圈_取消')
-                time.sleep(1)
+                time.sleep(0.5)
 
     @TestLogger.log('添加飞信电话记录')
     def test_call_phone_condition(self):

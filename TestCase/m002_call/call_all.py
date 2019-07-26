@@ -5,7 +5,7 @@ from pages.call.Call import CallPage
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile
 from library.core.utils.testcasefilter import tags
-
+from pages.components import FooterPage
 
 REQUIRED_MOBILES = {
     'Android-移动-N': 'M960BDQN229CH',
@@ -203,6 +203,8 @@ class CallPageTest(TestCase):
 
     def default_tearDown(self):
         Preconditions.disconnect_mobile('IOS-移动')
+        # 关闭idevice log
+        FooterPage().kill_device_syslog()
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_0001(self):
@@ -1498,6 +1500,7 @@ class CallPageTest(TestCase):
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000172(self):
+        """长按清除键"""
         """
             1、点击清除键一下
             2、长按清除键
@@ -1575,16 +1578,16 @@ class CallPageTest(TestCase):
         if call.is_on_this_page():
             call.click_show_keyboard()
             time.sleep(0.5)
-        # 输入文字
-        call.click_keyboard_call('keyboard_1')
         try:
+            # 输入文字
+            call.click_keyboard_call('keyboard_1')
             # 选择第一个
             call.click_search_phone_first_element('拨号_搜索_列表联系人')
             if call.is_element_already_exist('飞信电话_我知道了'):
                 call.click_locator_key('飞信电话_我知道了')
         finally:
             # 睡眠等待弹框切换
-            time.sleep(5)
+            time.sleep(6)
             call.test_close_my_phone_calling()
 
     @tags('ALL', 'CMCC', 'call')
@@ -1604,18 +1607,15 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         if call.is_on_this_page():
             call.click_show_keyboard()
+            time.sleep(0.5)
         # 输入文字
+        input_text_source = '147'
+        for i in input_text_source:
+            call.click_locator_key('keyboard_{}'.format(i))
+        # 选择第一个
+        call.click_locator_key('拨号_搜索_列表联系人详细')
         time.sleep(1)
-        call.click_keyboard_call('keyboard_2')
-        try:
-            # 选择第一个
-            call.click_search_phone_first_element('拨号_搜索_列表联系人')
-            if call.is_element_already_exist('飞信电话_我知道了'):
-                call.click_locator_key('飞信电话_我知道了')
-        finally:
-            # 睡眠等待弹框切换
-            time.sleep(5)
-            call.test_close_my_phone_calling()
+        self.assertEqual(call.is_element_already_exist('详情_返回'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000184(self):
@@ -1739,8 +1739,10 @@ class CallPageTest(TestCase):
         time.sleep(0.5)
         call.click_locator_key('多方电话')
         # 按首字母搜索
+        time.sleep(0.5)
         call.input_locator_text('多方通话_搜索_文本框', '14775')
-        self.assertEqual(call.is_element_already_exist('多方通话_电话号码'), True)
+        time.sleep(3)
+        self.assertEqual(call.is_element_already_exist('多方通话_搜索_电话号码列表1'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000220(self):
@@ -1830,9 +1832,8 @@ class CallPageTest(TestCase):
         call.wait_for_page_load()
         # 清空以前的通话记录
         self.assertEqual(call.click_delete_all_key(), True)
-        time.sleep(0.5)
         # 保证页面只有一条通话记录
-        time.sleep(1)
+        time.sleep(0.5)
         call.test_call_phone_condition()
         if call.is_element_already_exist('无密友圈_确定'):
             call.click_locator_key('无密友圈_取消')
@@ -1841,6 +1842,30 @@ class CallPageTest(TestCase):
         time.sleep(2)
         self.assertEqual(call.is_element_already_exist('[飞信电话]'), True)
         self.assertEqual(call.is_element_already_exist('通话_归属地'), True)
+
+    @tags('ALL', 'CMCC', 'call')
+    def test_call_000272(self):
+        """
+            1、弹出上部是过渡页中部文案“请注意接听“密友圈电话”来电，系统将自动呼叫对方。”我知道了按钮
+            2、跳转至回呼过渡页面"
+        """
+        call = CallPage()
+        call.wait_for_page_load()
+        time.sleep(0.5)
+        if call.is_on_this_page():
+            call.click_show_keyboard()
+            time.sleep(0.5)
+        cards = "12560"
+        for i in cards:
+            call.click_locator_key('keyboard_{}'.format(i))
+        try:
+            call.click_locator_key('拨号_呼叫')
+            time.sleep(1)
+            call.click_locator_key('飞信电话_我知道了')
+        finally:
+            # 睡眠等待弹框切换
+            time.sleep(6)
+            call.test_close_my_phone_calling()
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000296(self):
