@@ -1796,24 +1796,23 @@ class CallPageTest(TestCase):
         # 确保有视频通话
         if not call.is_element_already_exist('[视频通话]'):
             call.test_call_video_condition()
-        time.sleep(3)
+        time.sleep(2)
         self.assertEqual(call.is_element_already_exist('通话_通话_TAB'), True)
         # 确保有飞信电话
-        time.sleep(1)
+        time.sleep(0.5)
         if not call.is_element_already_exist('[飞信电话]'):
             call.test_call_phone_condition()
             if call.is_element_already_exist('无密友圈_确定'):
                 call.click_locator_key('无密友圈_取消')
-        time.sleep(3)
+        time.sleep(2)
         self.assertEqual(call.is_element_already_exist('通话_通话_TAB'), True)
         # 确保有多方视频通话记录
-        time.sleep(1)
+        time.sleep(0.5)
         if not call.is_element_already_exist('[多方视频]'):
             call.test_call_more_video_condition()
-        time.sleep(3)
+        time.sleep(2)
         self.assertEqual(call.is_element_already_exist('通话_通话_TAB'), True)
         # 确保有多方电话
-        time.sleep(2)
         call.test_call_more_phone_condition()
         # 当前页面
         time.sleep(1)

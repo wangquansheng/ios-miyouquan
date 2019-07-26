@@ -1104,25 +1104,36 @@ class CallPage(FooterPage):
         :return:
         """
         # 初始化数据
-        time.sleep(1)
+        time.sleep(0.5)
         if not self.is_text_present("[多方电话]"):
             self.click_locator_key('+')
-            time.sleep(2)
+            time.sleep(0.5)
             self.click_call('多方电话')
             self.select_contact_n(1)
-            time.sleep(3)
+            time.sleep(1)
             self.click_locator_key('视频呼叫_确定')
             time.sleep(2)
             self.click_locator_key('飞信电话_我知道了')
-            time.sleep(3)
-            self.click_close_more_video_popup()
-            time.sleep(3)
-            if self.is_element_already_exist('多方通话_是否确定结束多方电话'):
-                self.click_locator_key('多方通话_弹框_确定')
-            time.sleep(2)
+            # 包括飞信电话
+            time.sleep(5)
+            try:
+                if self.is_element_already_exist('飞信电话_拒绝'):
+                    self.click_locator_key('飞信电话_拒绝')
+                    time.sleep(0.5)
+            except:
+                pass
+            # 结束通话
+            try:
+                self.click_close_more_video_popup()
+                time.sleep(1.5)
+                if self.is_element_already_exist('多方通话_是否确定结束多方电话'):
+                    self.click_locator_key('多方通话_弹框_确定')
+                    time.sleep(0.5)
+            except:
+                pass
             if self.is_element_present("无密友圈_取消"):
                 self.click_locator_key('无密友圈_取消')
-                time.sleep(1)
+                time.sleep(0.5)
 
     @TestLogger.log('查找所有元素')
     def get_elements_list(self, locator):
