@@ -149,11 +149,13 @@ class ContactsPage(FooterPage):
         '搜索_清除文本': (MobileBy.IOS_PREDICATE, 'name=="清除文本"'),
         # '搜索_列表': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell'),
         '搜索_列表1': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell[1]'),
+        '搜索_详细_用户名': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my call white n@2x"]'
+                                      '/preceding-sibling::*[1]/XCUIElementTypeStaticText[1]'),
 
         # 飞信电话
         '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
         '飞信电话_提示文本': (MobileBy.IOS_PREDICATE, 'name=="请注意接听“飞信电话”来电后将自动呼叫对方"'),
-        '飞信电话_挂断': (MobileBy.IOS_PREDICATE, 'name=="call dial key reject'),
+        '飞信电话_挂断': (MobileBy.IOS_PREDICATE, 'name=="call dial key reject"'),
         '飞信电话_缩小': (MobileBy.IOS_PREDICATE, 'name=="my video zoom"'),
         '飞信电话_备注': (MobileBy.XPATH, '//XCUIElementTypeImage/following::XCUIElementTypeStaticText[1]'),
         '飞信电话_号码': (MobileBy.XPATH, '//XCUIElementTypeImage/following::XCUIElementTypeStaticText[2]'),

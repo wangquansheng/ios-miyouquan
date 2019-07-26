@@ -43,7 +43,7 @@ class MinePage(FooterPage):
         '我_资料_编辑资料': (MobileBy.IOS_PREDICATE, 'name="编辑资料"'),
         '我_资料_取消': (MobileBy.IOS_PREDICATE, 'name="取消"'),
         '我_资料_保存': (MobileBy.IOS_PREDICATE, 'name="保存"'),
-        '我_资料_图像': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "my_profile_editor_camera@2x.png"'),
+        '我_资料_图像': (MobileBy.IOS_PREDICATE, 'name contains "my_profile_editor_camera"'),
         # 资料 - 个人图像
         '我_个人图像_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
         '我_个人图像_详情': (MobileBy.ACCESSIBILITY_ID, 'icon more@2x'),

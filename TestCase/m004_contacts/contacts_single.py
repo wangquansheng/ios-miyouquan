@@ -186,6 +186,7 @@ class ContactlocalPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_004(self):
+        """特殊字符适配"""
         """
         1、联网正常
         2、已登陆客户端
@@ -560,15 +561,17 @@ class ContactlocalPage(TestCase):
         try:
             self.assertEqual(flag, True)
         finally:
+            # 飞信电话 拒绝
+            time.sleep(5)
             try:
                 if contact_page.is_element_already_exist('飞信电话_拒绝'):
                     contact_page.click_locator_key('飞信电话_拒绝')
                     time.sleep(1)
-            except Exception:
-                print('飞信电话拒绝点击异常')
+            except:
+                pass
             try:
                 contact_page.click_locator_key('飞信电话_挂断')
-            except Exception:
+            except:
                 pass
 
     @tags('ALL', 'CMCC', 'contact')
@@ -593,7 +596,7 @@ class ContactlocalPage(TestCase):
         contact_page.click_locator_key('家庭网_详细_备注修改')
         time.sleep(1)
         self.assertEqual(contact_page.is_element_already_exist('家庭网_备注修改_标题'), True)
-        contact_page.click_locator_key('编辑备注_返回')
+        contact_page.click_locator_key('家庭网_备注修改_返回')
         time.sleep(1)
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
 
@@ -673,6 +676,7 @@ class ContactlocalPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_0042(self):
+        """输入框只能输入数字异常"""
         """
             1、正常登陆
             2、网络正常
@@ -844,6 +848,7 @@ class ContactlocalPage(TestCase):
         contact_page.click_locator_key('通讯录_家庭网_管理')
         time.sleep(1)
         contact_page.click_locator_key('家庭网_管理_感叹号规则')
+        time.sleep(1)
         self.assertEqual(contact_page.is_text_present('业务规则'), True)
         contact_page.click_locator_key('家庭网_管理_感叹号规则返回')
         time.sleep(1)
@@ -901,6 +906,7 @@ class ContactlocalPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_0071(self):
+        """解绑人数限制弹框显示时间短"""
         """
             当月已解绑过一名成员后再次解绑第二名成员	"1、非四川移动用户已登录APP；
             2、网络正常；
@@ -977,13 +983,14 @@ class ContactlocalPage(TestCase):
         try:
             self.assertEqual(flag, True)
         finally:
-            time.sleep(3)
+            # 飞信电话 拒绝
+            time.sleep(5)
             try:
                 if contact_page.is_element_already_exist('飞信电话_拒绝'):
                     contact_page.click_locator_key('飞信电话_拒绝')
                     time.sleep(1)
             except Exception:
-                print('飞信电话拒绝点击异常')
+                pass
             try:
                 contact_page.click_locator_key('飞信电话_挂断')
             except Exception:
@@ -1050,6 +1057,7 @@ class ContactlocalPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_00120(self):
+        """控件元素值无法获取"""
         """
             1、联网正常
             2、已登陆客户端
@@ -1061,8 +1069,8 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         time.sleep(0.5)
         contact_page.input_locator_text('搜索_文本', '13800008888')
-        time.sleep(3)
-        self.assertEqual(contact_page.is_element_already_exist('搜索_无该联系人'), True)
+        time.sleep(5)
+        self.assertEqual(contact_page.is_text_present('无该联系人'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_00121(self):
@@ -1126,7 +1134,8 @@ class ContactlocalPage(TestCase):
         contact_page = ContactsPage()
         # 确保在通讯录界面
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
-        self.assertEqual(contact_page.get_elements_count('家庭网_列表') > 0, True)
+        self.assertEqual(contact_page.get_elements_count('家庭网_列表1') > 0, True)
+        self.assertEqual(contact_page.get_elements_count('联系人_列表1') > 0, True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_00152(self):
@@ -1145,7 +1154,7 @@ class ContactlocalPage(TestCase):
         time.sleep(1)
         contact_page.click_locator_key('搜索_列表1')
         time.sleep(1)
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)
+        self.assertEqual(contact_page.is_element_already_exist('搜索_详细_用户名'), True)
 
     # @tags('ALL', 'CMCC', 'contact')
     @unittest.skip('添加桌面图标没有')

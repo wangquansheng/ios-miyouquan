@@ -20,6 +20,10 @@ class FooterPage(BasePage):
         '立即升级': (MobileBy.IOS_PREDICATE, 'name="立即升级"'),
         '暂不升级': (MobileBy.IOS_PREDICATE, 'name="暂不升级"'),
 
+        # 权限框
+        '禁止': (MobileBy.IOS_PREDICATE, 'name=="禁止"'),
+        '始终允许': (MobileBy.IOS_PREDICATE, 'name=="始终允许"'),
+
         # 广告
         '广告_通话_关闭': (MobileBy.ACCESSIBILITY_ID, 'my home cancel@2x'),
 

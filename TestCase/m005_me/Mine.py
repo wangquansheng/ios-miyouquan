@@ -401,9 +401,12 @@ class Meprofile(TestCase):
         self.assertEqual(me_page.is_on_this_page(), True)
         time.sleep(1)
         me_page.click_locator_key('我_积分_详情')
-        time.sleep(3)
+        # 积分详情页面
+        time.sleep(5)
         me_page.wait_for_element_load('我_积分_积分')
-        if me_page.is_text_present('已连续签到'):
+        # 我知道了弹框
+        time.sleep(2)
+        if me_page.is_text_present('我知道了'):
             me_page.click_text('我知道了')
         # 积分
         self.assertTrue(me_page.is_element_already_exist('我_积分_积分'))
@@ -458,18 +461,22 @@ class Meprofile(TestCase):
         3、在我模块-设置页面"	点击退出当前账号	成功退出登录显示，并跳转至登录页
         """
         me_page = MinePage()
-        time.sleep(0.5)
-        me_page.click_ad_close()
-        time.sleep(1)
-        self.assertEqual(me_page.is_on_this_page(), True)
-        if me_page.is_element_already_exist('我_设置_详情'):
-            me_page.click_locator_key('我_设置_详情')
-        time.sleep(2)
-        me_page.click_locator_key('我_设置_退出登录')
-        time.sleep(2)
-        me_page.click_locator_key('我_退出登录_确认')
-        time.sleep(5)
-        self.assertTrue(me_page.check_wait_text_exits('本机号码一键登录'))
-        time.sleep(2)
-        me_page.click_locator_key('一键登录')
+        try:
+            time.sleep(0.5)
+            me_page.click_ad_close()
+            time.sleep(1)
+            self.assertEqual(me_page.is_on_this_page(), True)
+            if me_page.is_element_already_exist('我_设置_详情'):
+                me_page.click_locator_key('我_设置_详情')
+            time.sleep(2)
+            me_page.click_locator_key('我_设置_退出登录')
+            time.sleep(2)
+            me_page.click_locator_key('我_退出登录_确认')
+            time.sleep(5)
+            self.assertTrue(me_page.check_wait_text_exits('本机号码一键登录'))
+            time.sleep(1)
+        finally:
+            if me_page.is_element_already_exist('一键登录'):
+                me_page.click_locator_key('一键登录')
+                time.sleep(5)
 
