@@ -553,36 +553,6 @@ class CallPage(FooterPage):
         self.swipe_by_direction(locator, "left")
         time.sleep(5)
 
-    # @TestLogger.log('确保页面有点对点视频的记录')
-    # def make_sure_have_p2p_vedio_record(self):
-    #     if self.is_text_present('[视频通话]'):
-    #         return
-    #     # self.point2point_vedio_call()
-    #     self.wait_until(
-    #         condition=lambda d: self.is_text_present("[视频通话]"),
-    #         timeout=50,
-    #     )
-
-    # @TestLogger.log('确保页面有多方视频的记录')
-    # def make_sure_have_multiplayer_vedio_record(self):
-    #     if self.is_text_present('[多方视频]'):
-    #         return
-    #     # self.multiplayer_vedio_call()
-    #     self.wait_until(
-    #         condition=lambda d: self.is_text_present("[多方视频]"),
-    #         timeout=50,
-    #     )
-
-    # @TestLogger.log('确保页面有点对点通话的记录')
-    # def make_sure_have_p2p_voicecall_record(self):
-    #     if self.is_text_present('飞信电话'):
-    #         return
-    #     # self.point2point_voice_call()
-    #     self.wait_until(
-    #         condition=lambda d: self.is_text_present("飞信电话"),
-    #         timeout=8,
-    #     )
-
     @TestLogger.log("检查点对点视频通话详细页")
     def check_vedio_call_detail_page(self):
         # 检查视频按钮/电话按钮
