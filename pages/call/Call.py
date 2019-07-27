@@ -844,13 +844,14 @@ class CallPage(FooterPage):
                 return False
             # 选择联系人, 点击之后页面变化，需重新获取元素
             for cell in range(number):
-                time.sleep(0.5)
-                els = self.get_elements((MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'))
-                els[cell].click()
                 time.sleep(2)
-                # 向上滑动
+                els = self.get_elements((MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[%s]' % (cell+1)))
+                # 休眠等待节点生产
+                time.sleep(1)
+                els[0].click()
+                time.sleep(4)
+                # 向上滑动，百分比
                 if cell > 0 and (0 == cell % 5):
-                    # xp=(appium x)/375, yp=(appium y)/667
                     x_source = 180 / 375 * 100
                     y_source = 380 / 667 * 100
                     x_target = 180 / 375 * 100
@@ -859,10 +860,10 @@ class CallPage(FooterPage):
                     time.sleep(2)
             # 最多选择8个联系人
             if 8 < number:
-                time.sleep(5)
+                time.sleep(0.5)
                 if self.is_element_present("视频呼叫_最多只能选择8个人"):
                     self.click_locator_key("视频呼叫_最多只能选择8个人")
-                    time.sleep(2)
+                    time.sleep(0.5)
                     return True
                 else:
                     return False
