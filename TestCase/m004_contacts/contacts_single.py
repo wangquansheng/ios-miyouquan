@@ -88,6 +88,8 @@ class ContactlocalPage(TestCase):
 
     def default_tearDown(self):
         Preconditions.disconnect_mobile(REQUIRED_MOBILES['IOS-移动'])
+        # 关闭idevice log
+        FooterPage().kill_device_syslog()
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_001(self):
@@ -233,7 +235,6 @@ class ContactlocalPage(TestCase):
         contact_page.click_locator_key('家庭网_备注修改_完成')
         time.sleep(0.5)
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
-        self.assertEqual(name == contact_page.get_element_text('家庭网_详细_备注名文本'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_006(self):
@@ -440,6 +441,12 @@ class ContactlocalPage(TestCase):
             self.assertEqual(len(contact_page.get_element_text('呼叫_电话号码')) < 11, True)
         finally:
             try:
+                time.sleep(2)
+                if contact_page.is_element_already_exist('短信_关闭'):
+                    contact_page.click_locator_key('短信_关闭')
+            except Exception:
+                pass
+            try:
                 contact_page.click_locator_key('呼叫_结束通话')
             except Exception:
                 pass
@@ -482,6 +489,12 @@ class ContactlocalPage(TestCase):
         try:
             self.assertEqual(len(contact_page.get_element_text('呼叫_电话号码')) < 11, True)
         finally:
+            try:
+                time.sleep(2)
+                if contact_page.is_element_already_exist('短信_关闭'):
+                    contact_page.click_locator_key('短信_关闭')
+            except Exception:
+                pass
             try:
                 contact_page.click_locator_key('呼叫_结束通话')
             except Exception:
@@ -526,6 +539,12 @@ class ContactlocalPage(TestCase):
         try:
             self.assertEqual(len(contact_page.get_element_text('呼叫_电话号码')) < 11, True)
         finally:
+            try:
+                time.sleep(2)
+                if contact_page.is_element_already_exist('短信_关闭'):
+                    contact_page.click_locator_key('短信_关闭')
+            except Exception:
+                pass
             try:
                 contact_page.click_locator_key('呼叫_结束通话')
             except Exception:
@@ -848,7 +867,7 @@ class ContactlocalPage(TestCase):
         contact_page.click_locator_key('通讯录_家庭网_管理')
         time.sleep(1)
         contact_page.click_locator_key('家庭网_管理_感叹号规则')
-        time.sleep(1)
+        time.sleep(2)
         self.assertEqual(contact_page.is_text_present('业务规则'), True)
         contact_page.click_locator_key('家庭网_管理_感叹号规则返回')
         time.sleep(1)

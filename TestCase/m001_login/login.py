@@ -7,6 +7,8 @@ from pages import *
 import time
 import warnings
 
+from pages.components import FooterPage
+
 REQUIRED_MOBILES = {
     'Android-移动': 'M960BDQN229CH',
     'IOS-移动': 'iphone',
@@ -104,6 +106,8 @@ class LoginTest(TestCase):
     def setUp_test_login_0001():
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('IOS-移动')
+        # 关闭idevice log
+        FooterPage().kill_device_syslog()
 
     @tags('ALL', 'CMCC', 'login')
     def test_login_0001(self):
@@ -152,6 +156,8 @@ class LoginTest(TestCase):
     def setUp_test_login_0003():
         warnings.simplefilter('ignore', ResourceWarning)
         Preconditions.select_mobile('IOS-移动')
+        # 关闭idevice log
+        FooterPage().kill_device_syslog()
 
     @tags('ALL', 'CMCC', 'me')
     def test_login_0003(self):

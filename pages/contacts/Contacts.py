@@ -171,6 +171,9 @@ class ContactsPage(FooterPage):
         '通讯_群聊': (MobileBy.IOS_PREDICATE, 'name=="群聊"'),
         '通讯_公众号': (MobileBy.IOS_PREDICATE, 'name=="公众号"'),
 
+        # 短信关闭
+        '短信_关闭': (MobileBy.IOS_PREDICATE, 'name=="关闭"'),
+
         # 底部标签栏
         '通话': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="通话"]'),
         '通讯录': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="通讯录"]'),

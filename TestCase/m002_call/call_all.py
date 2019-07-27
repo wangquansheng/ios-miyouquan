@@ -465,7 +465,7 @@ class CallPageTest(TestCase):
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00013(self):
-        """特殊字符适配"""
+        """特殊字符适配不支持<>&"""
         """
             验证通话记录详情页-编辑备注名---正确输入并点击保存（中文、英文、特殊符号）---保存成功
         """
@@ -494,12 +494,12 @@ class CallPageTest(TestCase):
         self.assertEqual(call.check_modify_nickname(name), True)
         # 3. 修改为特殊字符，ios输入限制"&"
         time.sleep(2)
-        name = '汉字English%^&*()_!@#'
+        name = '汉字English%^*()_!@#'
         self.assertEqual(call.check_modify_nickname(name), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00014(self):
-        """超长的字符不显示"""
+        """超长的字符,最长为30"""
         call = CallPage()
         # 关闭广告弹框
         call.close_click_home_advertisement()
@@ -523,7 +523,7 @@ class CallPageTest(TestCase):
         word_utf_8 = len(name.encode('utf-8'))
         size = int((word_utf_8 - word_length) / 2 + word_length)
         self.assertEqual(name != call.get_nickname(), True)
-        self.assertEqual(size > 0, False)
+        self.assertEqual(size > 30, False)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00015(self):
@@ -572,7 +572,7 @@ class CallPageTest(TestCase):
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00017(self):
-        """特殊字符适配"""
+        """特殊字符适配，ios不支持<,>"""
         """
             验证通话记录详情页-编辑备注名---输入html标签并点击保存---保存成功
         """
@@ -593,7 +593,10 @@ class CallPageTest(TestCase):
         # 1. 修改为中文, ios不支持"<",">"
         time.sleep(1)
         name = '<a href="www.baidu.com"/>a<a/>'
-        self.assertEqual(call.check_modify_nickname(name), True)
+        call.check_modify_nickname(name)
+        time.sleep(0.5)
+        nickname = call.get_nickname()
+        self.assertEqual(name.replace("<", "").replace(">", "") == nickname, True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00019(self):
@@ -1582,12 +1585,14 @@ class CallPageTest(TestCase):
             # 输入文字
             call.click_keyboard_call('keyboard_1')
             # 选择第一个
+            time.sleep(1)
             call.click_search_phone_first_element('拨号_搜索_列表联系人')
             if call.is_element_already_exist('飞信电话_我知道了'):
                 call.click_locator_key('飞信电话_我知道了')
+                time.sleep(0.5)
         finally:
             # 睡眠等待弹框切换
-            time.sleep(6)
+            time.sleep(5)
             call.test_close_my_phone_calling()
 
     @tags('ALL', 'CMCC', 'call')

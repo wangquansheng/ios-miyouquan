@@ -206,7 +206,12 @@ class Meprofile(TestCase):
             me_page.input_profile_name('我_资料_昵称文本', r"<>'\"&\n\r")
         else:
             me_page.input_profile_name('我_资料_昵称文本', r"<>'\"&\n\r")
-        self.assertEqual(me_page.is_toast_exist('不能包含特殊字符和表情'), True)
+        time.sleep(1)
+        me_page.click_locator_key('我_资料_保存')
+        for i in range(3):
+            if me_page.is_toast_exist('上传成功', timeout=0.3) \
+                    or me_page.is_toast_exist('正在上传...', timeout=0.3):
+                break
 
     @tags('ALL', 'CMCC', 'me')
     def test_me_0005(self):
