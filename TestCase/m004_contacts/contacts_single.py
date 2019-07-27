@@ -441,7 +441,7 @@ class ContactlocalPage(TestCase):
             self.assertEqual(len(contact_page.get_element_text('呼叫_电话号码')) < 11, True)
         finally:
             try:
-                time.sleep(2)
+                time.sleep(3)
                 if contact_page.is_element_already_exist('短信_关闭'):
                     contact_page.click_locator_key('短信_关闭')
             except Exception:
@@ -490,7 +490,7 @@ class ContactlocalPage(TestCase):
             self.assertEqual(len(contact_page.get_element_text('呼叫_电话号码')) < 11, True)
         finally:
             try:
-                time.sleep(2)
+                time.sleep(3)
                 if contact_page.is_element_already_exist('短信_关闭'):
                     contact_page.click_locator_key('短信_关闭')
             except Exception:

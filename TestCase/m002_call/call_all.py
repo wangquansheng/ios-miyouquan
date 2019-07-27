@@ -219,6 +219,10 @@ class CallPageTest(TestCase):
             call.page_contain_element('通话_来电名称')
         else:
             call.page_should_contain_text('打电话不花钱')
+        try:
+            call.click_delete_all_key()
+        except:
+            pass
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_0002(self):
@@ -572,7 +576,7 @@ class CallPageTest(TestCase):
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00017(self):
-        """特殊字符适配，ios不支持<,>"""
+        """特殊字符适配，ios不支持\"<,>"""
         """
             验证通话记录详情页-编辑备注名---输入html标签并点击保存---保存成功
         """
@@ -596,7 +600,8 @@ class CallPageTest(TestCase):
         call.check_modify_nickname(name)
         time.sleep(0.5)
         nickname = call.get_nickname()
-        self.assertEqual(name.replace("<", "").replace(">", "") == nickname, True)
+        name = name.replace("<", "").replace(">", "").replace('"', "")
+        self.assertEqual(name == nickname, True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00019(self):
