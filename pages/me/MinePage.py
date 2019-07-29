@@ -45,8 +45,8 @@ class MinePage(FooterPage):
         '我_资料_保存': (MobileBy.IOS_PREDICATE, 'name="保存"'),
         '我_资料_图像': (MobileBy.IOS_PREDICATE, 'name contains "my_profile_editor_camera"'),
         # 资料 - 个人图像
-        '我_个人图像_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
-        '我_个人图像_详情': (MobileBy.ACCESSIBILITY_ID, 'icon more@2x'),
+        '我_个人图像_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
+        '我_个人图像_详情': (MobileBy.IOS_PREDICATE, 'name contains "icon more"'),
         '我_个人图像_从手机相册选择': (MobileBy.IOS_PREDICATE, 'name="从手机相册选择"'),
         '我_个人图像_保存到手机': (MobileBy.IOS_PREDICATE, 'name="保存到手机"'),
         # 资料 - 电话号码
@@ -78,7 +78,7 @@ class MinePage(FooterPage):
         '我_下拉框_完成': (MobileBy.IOS_PREDICATE, 'name="完成"'),
 
         # 资料 - 标签
-        '我_资料标签_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '我_资料标签_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
         '我_资料标签_保存': (MobileBy.IOS_PREDICATE, 'name="保存"'),
         '我_资料标签_添加弹框': (MobileBy.ACCESSIBILITY_ID, 'my biaoqian button n'),
         '我_资料标签_添加文本框': (MobileBy.XPATH, '//*[@name="新增标签"]/following-sibling::*[1]'),
@@ -94,49 +94,49 @@ class MinePage(FooterPage):
         '我_资料标签_我知道了': (MobileBy.IOS_PREDICATE, 'name="我知道了"'),
 
         # 资料 - 职业
-        '我_资料职业_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '我_资料职业_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
         '我_资料职业_列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'),
         '我_资料职业_1': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]'),
         '我_资料职业_2': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[2]'),
 
         # 二级页面
-        '我_二级页面_相同返回':  (MobileBy.ACCESSIBILITY_ID, 'me back blue pressed@2x'),
+        '我_二级页面_相同返回':  (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # tab 积分
         '我_积分_积分': (MobileBy.IOS_PREDICATE, 'name="积分"'),
-        '我_积分_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue pressed@2x'),
+        '我_积分_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # tab 每日资讯
         '我_每日资讯_每日资讯': (MobileBy.IOS_PREDICATE, 'name="每日资讯"'),
-        '我_每日资讯_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue pressed@2x'),
+        '我_每日资讯_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
         '我_每日资讯_皇冠': (MobileBy.XPATH,
-                      '//XCUIElementTypeButton[@name="me back blue pressed@2x"]/following-sibling::*[2]'),
+                      '//XCUIElementTypeButton[contains(@name, "me back blue pressed")]/following-sibling::*[2]'),
 
         # tab 活动中心
         '我_活动中心_活动中心': (MobileBy.IOS_PREDICATE, 'name="活动中心"'),
-        '我_活动中心_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue pressed@2x'),
+        '我_活动中心_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # tab 卡劵
         '我_卡劵_卡劵': (MobileBy.IOS_PREDICATE, 'name="我的卡券"'),
-        '我_卡劵_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue pressed@2x'),
+        '我_卡劵_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # tab 邀请有奖
         '我_邀请有奖_邀请有奖': (MobileBy.IOS_PREDICATE, 'name="邀请有奖"'),
-        '我_邀请有奖_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue pressed@2x'),
+        '我_邀请有奖_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # tab 帮助与反馈
         '我_帮助与反馈_帮助与反馈': (MobileBy.IOS_PREDICATE, 'name="帮助与反馈"'),
-        '我_帮助与反馈_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue pressed@2x'),
+        '我_帮助与反馈_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # 设置
         '我_设置_设置': (MobileBy.IOS_PREDICATE, 'name="帮助与反馈"'),
-        '我_设置_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue pressed@2x'),
+        '我_设置_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
         '我_设置_退出登录': (MobileBy.IOS_PREDICATE, 'name="退出登录"'),
         '我_退出登录_确认': (MobileBy.XPATH, '(//*[@name="退出登录"])[2]'),
         '一键登录': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="本机号码一键登录"])[1]'),
 
         # 广告
-        '我_广告_关闭': (MobileBy.IOS_PREDICATE, 'name ENDSWITH "ad_cancel@2x.png"'),
+        '我_广告_关闭': (MobileBy.IOS_PREDICATE, 'name contains "ad_cancel"'),
 
     }
 
