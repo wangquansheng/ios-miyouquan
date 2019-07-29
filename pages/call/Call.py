@@ -212,7 +212,6 @@ class CallPage(FooterPage):
             MobileBy.XPATH,
             '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/'
             'XCUIElementTypeOther[3]/XCUIElementTypeOther[2]/XCUIElementTypeOther[1]/XCUIElementTypeOther[4]/XCUIElementTypeCollectionView/XCUIElementTypeCell[1]'),
-        # '涂鸦_表情移动框': (MobileBy.ACCESSIBILITY_ID, ''),  # 没有
         '涂鸦_滑块': (MobileBy.XPATH,
                   '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[3]/XCUIElement'
                   'TypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeSlider'),
@@ -232,8 +231,6 @@ class CallPage(FooterPage):
                             '//XCUIElementTypeNavigationBar[@name="多方电话"]/following-sibling::*[1]'
                             '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]'
                             '/XCUIElementTypeTable/XCUIElementTypeCell[1]'),
-
-        # 多方通话主叫？？？
 
         # 多方通话被叫
         '多方通话_是否确定结束多方电话': (MobileBy.IOS_PREDICATE, "name=='是否确定结束多方电话？'"),
@@ -261,7 +258,6 @@ class CallPage(FooterPage):
         '无密友圈_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
 
         # 飞信电话
-        # '飞信电话_邀请_短信': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
         '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
         '飞信电话_接受': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
         '飞信电话_拒绝': (MobileBy.IOS_PREDICATE, 'name=="拒绝"'),
