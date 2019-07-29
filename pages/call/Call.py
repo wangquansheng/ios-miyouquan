@@ -912,7 +912,7 @@ class CallPage(FooterPage):
         if self.on_this_page_common('无密友圈_确定'):
             self.click_locator_key('无密友圈_取消')
 
-    @TestLogger.log('拨打一个点对点视频通话')  # pass
+    @TestLogger.log('拨打一个点对点视频通话')
     def pick_up_multi_video(self, cards):
         self.click_locator_key('+')
         self.click_locator_key('视频通话')
@@ -930,7 +930,6 @@ class CallPage(FooterPage):
     @TestLogger.log("长按操作")
     def long_press_number(self, text, default_time=3):
         """长按"""
-        # self.swipe_by_direction(self.__class__.__locators[text], 'press', default_time)
         try:
             self.swipe_by_direction(self.__class__.__locators[text], 'press', default_time)
         except:

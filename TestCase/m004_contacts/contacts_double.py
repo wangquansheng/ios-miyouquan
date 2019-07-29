@@ -197,7 +197,7 @@ class ContactlocalPage(TestCase):
         # contact.remove_mask(1)
 
     @tags('ALL', 'CMCC_double', 'contact')
-    def test_member_014(self):
+    def test_contact_014(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -246,7 +246,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('联系人_规则'), True)
 
     @tags('ALL', 'CMCC_double', 'contact')
-    def test_member_030(self):
+    def test_contact_030(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -297,7 +297,7 @@ class ContactlocalPage(TestCase):
             contact_page.click_locator_key('视频页面_挂断')
 
     @tags('ALL', 'CMCC_double', 'contact')
-    def test_member_00112(self):
+    def test_contact_00112(self):
         """
             1、联网正常
             2、已登陆客户端（家庭网主号）
@@ -319,7 +319,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('通讯录_家庭网_管理'), False)
 
     @tags('ALL', 'CMCC_double', 'contact')
-    def test_member_00117_01(self):
+    def test_contact_00117_01(self):
         """
             "1、联网正常
             2、已登陆客户端（已打开通讯录权限）
@@ -365,7 +365,7 @@ class ContactlocalPage(TestCase):
         time.sleep(2)
 
     @tags('ALL', 'CMCC_double', 'contact')
-    def test_member_00117_02(self):
+    def test_contact_00117_02(self):
         """
             "1、联网正常
             2、已登陆客户端（已打开通讯录权限）
@@ -410,7 +410,7 @@ class ContactlocalPage(TestCase):
         contact_page.is_text_present('电话规则说明')
 
     @tags('ALL', 'CMCC_double', 'contact')
-    def test_member_00119(self):
+    def test_contact_00119(self):
         """
             1、联网正常
             2、已登陆客户端
