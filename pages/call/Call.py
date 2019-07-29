@@ -39,7 +39,7 @@ class CallPage(FooterPage):
         '[视频通话]': (MobileBy.IOS_PREDICATE, 'name=="[视频通话] "'),
         '[多方视频]': (MobileBy.IOS_PREDICATE, 'name=="[多方视频] "'),
         '拨号键盘': (MobileBy.IOS_PREDICATE, 'name contains "my dialing nor"'),
-        '+': (MobileBy.ACCESSIBILITY_ID, 'add normal@2x'),
+        '+': (MobileBy.IOS_PREDICATE, 'name contains "add normal"'),
         '视频通话': (MobileBy.IOS_PREDICATE, 'name=="视频通话"'),
         '多方电话': (MobileBy.IOS_PREDICATE, 'name=="多方电话"'),
         '通话_删除该通话记录': (MobileBy.ACCESSIBILITY_ID, '删除'),
@@ -51,8 +51,8 @@ class CallPage(FooterPage):
         '拨号_呼叫_呼叫': (MobileBy.IOS_PREDICATE, 'name=="呼叫"'),
         '拨号_呼叫_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
         '拨号_删除': (MobileBy.IOS_PREDICATE, 'name contains "my dail cannel ic"'),
-        '拨号_收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic@2x'),
-        '拨号_半_收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic c@2x'),
+        '拨号_收起键盘': (MobileBy.IOS_PREDICATE, 'name contains "my home dail num ic"'),
+        '拨号_半_收起键盘': (MobileBy.IOS_PREDICATE, 'name contains "my home dail num ic c"'),
         '拨号_无联系人': (MobileBy.IOS_PREDICATE, 'name=="无该联系人"'),
         '拨号_文本框': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
         '拨号_半_文本框': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
@@ -85,8 +85,8 @@ class CallPage(FooterPage):
         '呼叫_回拨': (MobileBy.IOS_PREDICATE, 'name=="回拨"'),
 
         # 详情页面
-        '详情_返回': (MobileBy.ACCESSIBILITY_ID, 'contact info back normal@2x'),
-        '详情_多方通话_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '详情_返回': (MobileBy.IOS_PREDICATE, 'name contains "contact info back normal"'),
+        '详情_多方通话_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
         '详情_头像': (MobileBy.XPATH,
                   'XCUIElementTypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
                   '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
@@ -98,9 +98,9 @@ class CallPage(FooterPage):
         '详情_备注内容': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
         '详情_>': (MobileBy.ACCESSIBILITY_ID, '更多信息'),
         '详情_邀请使用': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
-        '详情_通话': (MobileBy.ACCESSIBILITY_ID, 'my call white n@2x'),
-        '详情_视频按钮': (MobileBy.ID, 'my profile ic vedio n@2x'),
-        '详情_发起多方视频': (MobileBy.ACCESSIBILITY_ID, 'chat ic video@2x'),
+        '详情_通话': (MobileBy.IOS_PREDICATE, 'name contains "my call white n"'),
+        '详情_视频按钮': (MobileBy.IOS_PREDICATE, 'name contains "my profile ic vedio n"'),
+        '详情_发起多方视频': (MobileBy.IOS_PREDICATE, 'name contains "chat ic video"'),
         '详情_头像_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeOther[1]/XCUIElementTypeStaticText[2]'),
         '详情_名称_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeOther[1]/XCUIElementTypeStaticText[2]'),
         '详情_通话时长_多方视频': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[3]/XCUIElementTypeStaticText[2]'),
@@ -109,7 +109,7 @@ class CallPage(FooterPage):
 
         # 备注页面
         '备注_保存': (MobileBy.ACCESSIBILITY_ID, '完成'),
-        '备注_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '备注_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
         '备注_修改名称': (MobileBy.XPATH, '//XCUIElementTypeNavigationBar[@name="修改备注名称"]'),
         '备注_清除': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="清除文本"]'),
         '备注_文本': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
