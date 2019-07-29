@@ -18,7 +18,7 @@ class OneKeyLoginPage(FooterPage):
         "一键登录": (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="本机号码一键登录"])[1]'),
 
         # 通话界面
-        '拨号键盘': (MobileBy.ACCESSIBILITY_ID, 'my dialing nor@2x'),
+        '拨号键盘': (MobileBy.IOS_PREDICATE, 'name contains "my dialing nor"'),
 
         # 一键登录
         "一键登录_问题_确认": (MobileBy.IOS_PREDICATE, 'name="确定"'),
@@ -26,7 +26,7 @@ class OneKeyLoginPage(FooterPage):
         "一键登录_短信发送": (MobileBy.IOS_PREDICATE, 'name="sendButton"'),
 
         # 广告
-        '广告_通话_关闭': (MobileBy.ACCESSIBILITY_ID, 'my home cancel@2x'),
+        '广告_通话_关闭': (MobileBy.IOS_PREDICATE, 'name contains "my home cancel"'),
 
         # 已登录
         '通话_文案_HEAD': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="通话"]'),
