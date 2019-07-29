@@ -71,9 +71,9 @@ class ContactsPage(FooterPage):
 
         # 联系人
         '联系人_详细_返回': (MobileBy.IOS_PREDICATE, 'name contains "contact info back normal"'),
-        '联系人_详细_头像': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="contact info back normal@2x"]'
+        '联系人_详细_头像': (MobileBy.XPATH, '//XCUIElementTypeButton[contains(@name, "contact info back normal")]'
                                       '/preceding-sibling::*[1]/XCUIElementTypeImage[2]'),
-        '联系人_详细_用户名': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="contact info back normal@2x"]'
+        '联系人_详细_用户名': (MobileBy.XPATH, '//XCUIElementTypeButton[contains(@name, "contact info back normal")]'
                                        '/preceding-sibling::*[1]/XCUIElementTypeStaticText[1]'),
         '联系人_详细_电话按钮': (MobileBy.IOS_PREDICATE, 'name contains "my call white n"'),
         '联系人_详细_视频按钮': (MobileBy.IOS_PREDICATE, 'name contains "my profile ic vedio n"'),
@@ -113,9 +113,9 @@ class ContactsPage(FooterPage):
                              '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
 
         '家庭网_详细_返回': (MobileBy.IOS_PREDICATE, 'name contains "contact info back normal"'),
-        '家庭网_详细_头像': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="contact info back normal@2x"]'
+        '家庭网_详细_头像': (MobileBy.XPATH, '//XCUIElementTypeButton[contains(@name, "contact info back normal")]'
                                       '/preceding-sibling::*[1]/XCUIElementTypeImage[2]'),
-        '家庭网_详细_用户名': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="contact info back normal@2x"]'
+        '家庭网_详细_用户名': (MobileBy.XPATH, '//XCUIElementTypeButton[contains(@name, "contact info back normal")]'
                                        '/preceding-sibling::*[1]/XCUIElementTypeStaticText[1]'),
         '家庭网_详细_电话按钮': (MobileBy.IOS_PREDICATE, 'name contains "my call white n"'),
         '家庭网_详细_视频按钮': (MobileBy.IOS_PREDICATE, 'name contains "my profile ic vedio n"'),
@@ -149,7 +149,7 @@ class ContactsPage(FooterPage):
         '搜索_清除文本': (MobileBy.IOS_PREDICATE, 'name=="清除文本"'),
         # '搜索_列表': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell'),
         '搜索_列表1': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell[1]'),
-        '搜索_详细_用户名': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my call white n@2x"]'
+        '搜索_详细_用户名': (MobileBy.XPATH, '//XCUIElementTypeButton[contains(@name, "my call white n")]'
                                       '/preceding-sibling::*[1]/XCUIElementTypeStaticText[1]'),
 
         # 飞信电话
