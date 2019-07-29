@@ -13,11 +13,11 @@ class ContactsPage(FooterPage):
         # 通讯录页面
         '通讯录_标题': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="通讯录"]'),
         '通讯录_搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
-        '通讯录_群聊': (MobileBy.ACCESSIBILITY_ID, 'my message ic n@2x'),
+        '通讯录_群聊': (MobileBy.IOS_PREDICATE, 'name contains "my message ic n"'),
         '通讯录_密友圈_标题': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="密友圈(不限时长)"]'),
         '通讯录_密友圈_管理': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="管理"])[1]'),
         '通讯录_家庭网_标题': (MobileBy.XPATH, '(//XCUIElementTypeStaticText[@name="家庭网"])[1]'),
-        '通讯录_家庭网_展开': (MobileBy.ACCESSIBILITY_ID, 'my ic unfold n@2x'),
+        '通讯录_家庭网_展开': (MobileBy.IOS_PREDICATE, 'name contains "my ic unfold n"'),
         '通讯录_家庭网_管理': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="管理"])[2]'),
         '通讯录_列表_打电话': (MobileBy.ACCESSIBILITY_ID, 'my contact call icon'),
         '通讯录_不限时长添加': (MobileBy.IOS_PREDICATE, 'name=="添加"'),
@@ -27,8 +27,8 @@ class ContactsPage(FooterPage):
 
         # 不限时长/管理界面
         '密友圈_不限时长管理_标题': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="不限时长成员管理"]'),
-        '密友圈_不限时长管理_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
-        '密友圈_不限时长管理_规则': (MobileBy.ACCESSIBILITY_ID, 'my tanhao icon n@2x'),
+        '密友圈_不限时长管理_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
+        '密友圈_不限时长管理_规则': (MobileBy.IOS_PREDICATE, 'name contains "my tanhao icon n"'),
         '密友圈_不限时长管理_列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'),
         '密友圈_不限时长管理_列表1': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]'),
         '密友圈_不限时长管理_解绑': (MobileBy.IOS_PREDICATE, 'name=="解绑"'),
@@ -70,13 +70,13 @@ class ContactsPage(FooterPage):
                       '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[2]/XCUIElementTypeStaticText[1]'),
 
         # 联系人
-        '联系人_详细_返回': (MobileBy.ACCESSIBILITY_ID, 'contact info back normal@2x'),
+        '联系人_详细_返回': (MobileBy.IOS_PREDICATE, 'name contains "contact info back normal"'),
         '联系人_详细_头像': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="contact info back normal@2x"]'
                                       '/preceding-sibling::*[1]/XCUIElementTypeImage[2]'),
         '联系人_详细_用户名': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="contact info back normal@2x"]'
                                        '/preceding-sibling::*[1]/XCUIElementTypeStaticText[1]'),
-        '联系人_详细_电话按钮': (MobileBy.ACCESSIBILITY_ID, 'my call white n@2x'),
-        '联系人_详细_视频按钮': (MobileBy.ACCESSIBILITY_ID, 'my profile ic vedio n@2x'),
+        '联系人_详细_电话按钮': (MobileBy.IOS_PREDICATE, 'name contains "my call white n"'),
+        '联系人_详细_视频按钮': (MobileBy.IOS_PREDICATE, 'name contains "my profile ic vedio n"'),
         '联系人_详细_设置备注名': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="设置备注名"]'),
         '联系人_详细_备注修改': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="设置备注名"]/following-sibling::*[2]'),
         '联系人_详细_手机号码': (MobileBy.IOS_PREDICATE, 'name=="手机号码"'),
@@ -85,23 +85,23 @@ class ContactsPage(FooterPage):
 
         # 密友圈
         '密友圈_管理_标题': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="不限时长成员管理"]'),
-        '密友圈_管理_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
-        '密友圈_管理_感叹号规则': (MobileBy.ACCESSIBILITY_ID, 'my tanhao icon n@2x'),
+        '密友圈_管理_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
+        '密友圈_管理_感叹号规则': (MobileBy.IOS_PREDICATE, 'name contains "my tanhao icon n"'),
         '密友圈_管理_提示文案': (MobileBy.XPATH, '//XCUIElementTypeTable/preceding-sibling::*[1]'),
-        '密友圈_管理_添加成员': (MobileBy.ACCESSIBILITY_ID, 'my icon addmember n@2x'),
+        '密友圈_管理_添加成员': (MobileBy.IOS_PREDICATE, 'name contains "my icon addmember n"'),
         '密友圈_管理_成员列表': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'),
         '密友圈_管理_成员1': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]'),
         '密友圈_管理_成员2': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[2]'),
 
         # 家庭网
         '家庭网_管理_标题': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="家庭网成员管理"]'),
-        '家庭网_管理_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
-        '家庭网_管理_感叹号规则': (MobileBy.ACCESSIBILITY_ID, 'ic notice@2x'),
-        '家庭网_管理_感叹号规则返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue pressed@2x'),
+        '家庭网_管理_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
+        '家庭网_管理_感叹号规则': (MobileBy.IOS_PREDICATE, 'name contains "ic notice"'),
+        '家庭网_管理_感叹号规则返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
         '家庭网_管理_添加': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="添加成员"])[1]'),
         '家庭网_管理_联系人1': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'),
 
-        '家庭网_添加_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '家庭网_添加_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
         '家庭网_添加_确定': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
         '家庭网_添加_文本': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
         '家庭网_添加_通讯录': (MobileBy.ACCESSIBILITY_ID, 'ic tx normal'),
@@ -112,13 +112,13 @@ class ContactsPage(FooterPage):
         '家庭网_添加_通讯录_搜索列表1': (MobileBy.XPATH,
                              '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
 
-        '家庭网_详细_返回': (MobileBy.ACCESSIBILITY_ID, 'contact info back normal@2x'),
+        '家庭网_详细_返回': (MobileBy.IOS_PREDICATE, 'name contains "contact info back normal"'),
         '家庭网_详细_头像': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="contact info back normal@2x"]'
                                       '/preceding-sibling::*[1]/XCUIElementTypeImage[2]'),
         '家庭网_详细_用户名': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="contact info back normal@2x"]'
                                        '/preceding-sibling::*[1]/XCUIElementTypeStaticText[1]'),
-        '家庭网_详细_电话按钮': (MobileBy.ACCESSIBILITY_ID, 'my call white n@2x'),
-        '家庭网_详细_视频按钮': (MobileBy.ACCESSIBILITY_ID, 'my profile ic vedio n@2x'),
+        '家庭网_详细_电话按钮': (MobileBy.IOS_PREDICATE, 'name contains "my call white n"'),
+        '家庭网_详细_视频按钮': (MobileBy.IOS_PREDICATE, 'name contains "my profile ic vedio n"'),
         '家庭网_详细_设置备注名': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
         '家庭网_详细_备注名文本': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeStaticText[2]'),
         '家庭网_详细_备注修改': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]/XCUIElementTypeButton[1]'),
@@ -137,7 +137,7 @@ class ContactsPage(FooterPage):
 
         # 家庭网 备注修改
         '家庭网_备注修改_标题': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="修改备注名称"]'),
-        '家庭网_备注修改_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
+        '家庭网_备注修改_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
         '家庭网_备注修改_完成': (MobileBy.IOS_PREDICATE, 'name=="完成"'),
         '家庭网_备注修改_文本框': (MobileBy.XPATH, '//XCUIElementTypeOther/XCUIElementTypeTextField'),
         '家庭网_备注修改_清除': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="清除文本"]'),
@@ -164,10 +164,10 @@ class ContactsPage(FooterPage):
 
         # 消息, 右上角
         '通讯_消息': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="消息"]'),
-        '通讯_返回': (MobileBy.ACCESSIBILITY_ID, 'me back blue normal@2x'),
-        '通讯_+': (MobileBy.ACCESSIBILITY_ID, 'my xiaoxi jiahao@2x'),
+        '通讯_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
+        '通讯_+': (MobileBy.IOS_PREDICATE, 'name contains "my xiaoxi jiahao"'),
         '通讯_搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
-        '通讯_好友列表': (MobileBy.ACCESSIBILITY_ID, 'my ic haoyouliebiao n@2x'),
+        '通讯_好友列表': (MobileBy.IOS_PREDICATE, 'name contains "my ic haoyouliebiao n"'),
         '通讯_群聊': (MobileBy.IOS_PREDICATE, 'name=="群聊"'),
         '通讯_公众号': (MobileBy.IOS_PREDICATE, 'name=="公众号"'),
 
