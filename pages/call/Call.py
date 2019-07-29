@@ -932,11 +932,10 @@ class CallPage(FooterPage):
         time.sleep(0.5)
 
     @TestLogger.log("长按操作")
-    def long_press_number(self, text):
+    def long_press_number(self, text, default_time=3):
         """长按"""
         try:
-            # self.swipe_by_direction(None, 'press', 5, self.__class__.__locators[text])
-            self.swipe_by_direction(self.__class__.__locators[text], 'press', 5)
+            self.swipe_by_direction(self.__class__.__locators[text], 'press', default_time)
         except:
             print('长按异常，正常执行')
             pass

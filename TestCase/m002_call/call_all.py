@@ -1007,7 +1007,7 @@ class CallPageTest(TestCase):
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00041(self):
-        # ios 页面布局获取联系字母整体
+        """ios页面布局获取联系字母整体"""
         """
             点击视频通话图标
             跳转至视频通话选择页面，页面布局左上方返回按钮，多方视频字体，
@@ -1493,11 +1493,10 @@ class CallPageTest(TestCase):
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000170(self):
+        """长按0数字键"""
         """
-        长按0数字键
-        [预期结果]
-        输入框显示“+”符号
-        :return:
+            长按0数字键
+            [预期结果]: 输入框显示“+”符号
         """
         call = CallPage()
         # 关闭广告弹框
@@ -1507,7 +1506,7 @@ class CallPageTest(TestCase):
         if call.is_on_this_page():
             call.click_show_keyboard()
         # 长按0数字键
-        time.sleep(0.5)
+        time.sleep(1)
         input_text_source = '+'
         call.long_press_number("keyboard_0")
         time.sleep(2)
@@ -1547,8 +1546,8 @@ class CallPageTest(TestCase):
         # 长按清除键
         time.sleep(0.5)
         input_text_delete = '直接拨号或拼音搜索'
-        call.long_press_number('拨号_删除')
-        time.sleep(1)
+        call.long_press_number('拨号_删除', 7)
+        time.sleep(2)
         input_text = call.get_element_text('拨号_文本框')
         self.assertEqual(input_text_delete == input_text, True)
 
