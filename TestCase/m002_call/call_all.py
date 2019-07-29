@@ -633,30 +633,26 @@ class CallPageTest(TestCase):
         call.click_locator_key('详情_视频按钮')
         # 对方不在线，大概在25秒左右
         try:
-            time.sleep(20)
+            time.sleep(23)
             count = 40
             while count > 0:
-                exist = call.is_text_present('对方不在线，暂时无法接听，请稍后重试。', default_timeout=0.2)
+                exist = call.is_element_already_exist('视频_未接听')
                 if exist:
                     break
+                time.sleep(0.2)
                 count -= 1
             else:
                 self.assertEqual("测试等待时间异常。", True)
         finally:
             # 对方正忙
-            try:
-                time.sleep(0.5)
-                if call.is_text_present('对方正在通话中'):
-                    call.click_text('确定')
-            except:
-                pass
+            time.sleep(3)
+            if call.is_element_already_exist('视频_未接听'):
+                call.click_locator_key('视频_确定')
+                time.sleep(1)
             # 对方正在通话，同时出现
-            try:
+            if call.is_element_already_exist('视频_正在通话中'):
+                call.click_locator_key('视频_确定')
                 time.sleep(0.5)
-                if call.is_text_present('对方正在通话中'):
-                    call.click_text('确定')
-            except:
-                pass
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00023(self):

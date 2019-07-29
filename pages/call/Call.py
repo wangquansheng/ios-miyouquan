@@ -155,6 +155,8 @@ class CallPage(FooterPage):
         '视频_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
         '视频_切换摄像头': (MobileBy.IOS_PREDICATE, 'name=="切换摄像头"'),
         '视频_未接听': (MobileBy.IOS_PREDICATE, 'name=="对方不在线，暂时无法接听，请稍后重试。"'),
+        '视频_正在通话中': (MobileBy.IOS_PREDICATE, 'name=="对方正在通话中，请稍后再拨。"'),
+        '视频_确定': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
         '视频_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
         '视频_小屏': (MobileBy.XPATH,
                   '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[5]'),
