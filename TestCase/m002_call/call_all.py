@@ -866,6 +866,8 @@ class CallPageTest(TestCase):
         # 关闭广告弹框
         call.close_click_home_advertisement()
         call.wait_for_page_load()
+        # 删除所有
+        call.click_delete_all_key()
         # 点对点通话,判断是否有通话记录,没有创建
         time.sleep(0.5)
         if not call.make_sure_have_p2p_voicecall_record():
@@ -1546,7 +1548,7 @@ class CallPageTest(TestCase):
         # 长按清除键
         time.sleep(0.5)
         input_text_delete = '直接拨号或拼音搜索'
-        call.long_press_number('拨号_删除', 7)
+        call.long_press_number('拨号_删除', 5)
         time.sleep(2)
         input_text = call.get_element_text('拨号_文本框')
         self.assertEqual(input_text_delete == input_text, True)

@@ -50,7 +50,7 @@ class CallPage(FooterPage):
         '拨号_呼叫': (MobileBy.IOS_PREDICATE, 'name contains "my dialing keyboard nor"'),
         '拨号_呼叫_呼叫': (MobileBy.IOS_PREDICATE, 'name=="呼叫"'),
         '拨号_呼叫_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
-        '拨号_删除': (MobileBy.ACCESSIBILITY_ID, 'my dail cannel ic@2x'),
+        '拨号_删除': (MobileBy.IOS_PREDICATE, 'name contains "my dail cannel ic"'),
         '拨号_收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic@2x'),
         '拨号_半_收起键盘': (MobileBy.ACCESSIBILITY_ID, 'my home dail num ic c@2x'),
         '拨号_无联系人': (MobileBy.IOS_PREDICATE, 'name=="无该联系人"'),
@@ -934,6 +934,7 @@ class CallPage(FooterPage):
     @TestLogger.log("长按操作")
     def long_press_number(self, text, default_time=3):
         """长按"""
+        # self.swipe_by_direction(self.__class__.__locators[text], 'press', default_time)
         try:
             self.swipe_by_direction(self.__class__.__locators[text], 'press', default_time)
         except:

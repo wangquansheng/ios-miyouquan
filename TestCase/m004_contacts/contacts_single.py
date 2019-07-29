@@ -257,7 +257,7 @@ class ContactlocalPage(TestCase):
         # 修改备注
         contact_page.click_locator_key('家庭网_详细_备注修改')
         self.assertEqual(contact_page.is_element_already_exist('家庭网_备注修改_标题'), True)
-        # 清空输入框内容
+        # 清空输入框内容∂
         contact_page.click_input_clear()
         name = '   '
         contact_page.input_locator_text('家庭网_备注修改_文本框', name)
@@ -490,7 +490,7 @@ class ContactlocalPage(TestCase):
             self.assertEqual(len(contact_page.get_element_text('呼叫_电话号码')) < 11, True)
         finally:
             try:
-                time.sleep(3)
+                time.sleep(4)
                 if contact_page.is_element_already_exist('短信_关闭'):
                     contact_page.click_locator_key('短信_关闭')
             except Exception:
@@ -540,7 +540,7 @@ class ContactlocalPage(TestCase):
             self.assertEqual(len(contact_page.get_element_text('呼叫_电话号码')) < 11, True)
         finally:
             try:
-                time.sleep(2)
+                time.sleep(4)
                 if contact_page.is_element_already_exist('短信_关闭'):
                     contact_page.click_locator_key('短信_关闭')
             except Exception:
