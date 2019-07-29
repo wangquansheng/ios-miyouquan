@@ -411,9 +411,9 @@ class Meprofile(TestCase):
         time.sleep(5)
         me_page.wait_for_element_load('我_积分_积分')
         # 我知道了弹框
-        time.sleep(2)
-        if me_page.is_text_present('我知道了'):
-            me_page.click_text('我知道了')
+        time.sleep(3)
+        if me_page.is_element_already_exist('我_积分_我知道了'):
+            me_page.click_locator_key('我_积分_我知道了')
         # 积分
         self.assertTrue(me_page.is_element_already_exist('我_积分_积分'))
         me_page.click_locator_key('我_二级页面_相同返回')

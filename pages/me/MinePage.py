@@ -14,84 +14,84 @@ class MinePage(FooterPage):
     ACTIVITY = 'com.cmicc.module_aboutme.ui.activity.UserProfileShowActivity'
 
     __locators = {
-        '页头-我': (MobileBy.IOS_PREDICATE, 'name="我"'),
+        '页头-我': (MobileBy.IOS_PREDICATE, 'name=="我"'),
         '我_头像': (MobileBy.XPATH,
                  '//XCUIElementTypeStaticText[@name="请完善您的资料"]/preceding-sibling::*[1]/XCUIElementTypeImage'),
         '我_名称': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my bianji icon"]/preceding-sibling::*[1]'),
         '我_请完善您的资料_图片': (MobileBy.ACCESSIBILITY_ID, 'my bianji icon'),
         '我_已认证': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my bianji icon"]/following-sibling::*[1]'),
         '我_电话号码': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my bianji icon"]/following-sibling::*[2]'),
-        '我_时长_飞信电话剩余时长': (MobileBy.IOS_PREDICATE, 'name="飞信电话剩余时长"'),
+        '我_时长_飞信电话剩余时长': (MobileBy.IOS_PREDICATE, 'name=="飞信电话剩余时长"'),
         '我_时长_时间': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="请完善您的资料"]/preceding-sibling::*[2]'),
-        '我_时长_分钟': (MobileBy.IOS_PREDICATE, 'name="分钟"'),
-        '我_积分': (MobileBy.IOS_PREDICATE, 'name="积分"'),
+        '我_时长_分钟': (MobileBy.IOS_PREDICATE, 'name=="分钟"'),
+        '我_积分': (MobileBy.IOS_PREDICATE, 'name=="积分"'),
         '我_积分_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="积分"]/following-sibling::*[2]'),
-        '我_每日资讯': (MobileBy.IOS_PREDICATE, 'name="每日资讯"'),
+        '我_每日资讯': (MobileBy.IOS_PREDICATE, 'name=="每日资讯"'),
         '我_每日资讯_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="每日资讯"]/following-sibling::*[1]'),
-        '我_活动中心': (MobileBy.IOS_PREDICATE, 'name="活动中心"'),
+        '我_活动中心': (MobileBy.IOS_PREDICATE, 'name=="活动中心"'),
         '我_活动中心_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="活动中心"]/following-sibling::*[1]'),
-        '我_卡劵': (MobileBy.IOS_PREDICATE, 'name="卡劵"'),
+        '我_卡劵': (MobileBy.IOS_PREDICATE, 'name=="卡劵"'),
         '我_卡劵_详情': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[4]/XCUIElementTypeButton'),
-        '我_邀请有奖': (MobileBy.IOS_PREDICATE, 'name="邀请有奖"'),
+        '我_邀请有奖': (MobileBy.IOS_PREDICATE, 'name=="邀请有奖"'),
         '我_邀请有奖_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="邀请有奖"]/following-sibling::*[1]'),
-        '我_帮助与反馈': (MobileBy.IOS_PREDICATE, 'name="帮助与反馈"'),
+        '我_帮助与反馈': (MobileBy.IOS_PREDICATE, 'name=="帮助与反馈"'),
         '我_帮助与反馈_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="帮助与反馈"]/following-sibling::*[1]'),
-        '我_设置': (MobileBy.IOS_PREDICATE, 'name="设置"'),
+        '我_设置': (MobileBy.IOS_PREDICATE, 'name=="设置"'),
         '我_设置_详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="设置"]/following-sibling::*[1]'),
 
         # 资料
-        '我_资料_编辑资料': (MobileBy.IOS_PREDICATE, 'name="编辑资料"'),
-        '我_资料_取消': (MobileBy.IOS_PREDICATE, 'name="取消"'),
-        '我_资料_保存': (MobileBy.IOS_PREDICATE, 'name="保存"'),
+        '我_资料_编辑资料': (MobileBy.IOS_PREDICATE, 'name=="编辑资料"'),
+        '我_资料_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
+        '我_资料_保存': (MobileBy.IOS_PREDICATE, 'name=="保存"'),
         '我_资料_图像': (MobileBy.IOS_PREDICATE, 'name contains "my_profile_editor_camera"'),
         # 资料 - 个人图像
         '我_个人图像_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
         '我_个人图像_详情': (MobileBy.IOS_PREDICATE, 'name contains "icon more"'),
-        '我_个人图像_从手机相册选择': (MobileBy.IOS_PREDICATE, 'name="从手机相册选择"'),
-        '我_个人图像_保存到手机': (MobileBy.IOS_PREDICATE, 'name="保存到手机"'),
+        '我_个人图像_从手机相册选择': (MobileBy.IOS_PREDICATE, 'name=="从手机相册选择"'),
+        '我_个人图像_保存到手机': (MobileBy.IOS_PREDICATE, 'name=="保存到手机"'),
         # 资料 - 电话号码
-        '我_资料_电话号码': (MobileBy.IOS_PREDICATE, 'name="电话号码"'),
+        '我_资料_电话号码': (MobileBy.IOS_PREDICATE, 'name=="电话号码"'),
         '我_资料_电话号码文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="电话号码"]/following-sibling::*[1]'),
         # 资料 - 昵称
         '我_资料_昵称': (MobileBy.XPATH, '//*[@name="昵称"]'),
         '我_资料_昵称文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="昵称"]/following-sibling::*[2]'),
-        '我_备注_清除': (MobileBy.IOS_PREDICATE, 'name="清除文本"'),
+        '我_备注_清除': (MobileBy.IOS_PREDICATE, 'name=="清除文本"'),
         # 资料 - 性别
-        '我_资料_性别': (MobileBy.IOS_PREDICATE, 'name="性别"'),
+        '我_资料_性别': (MobileBy.IOS_PREDICATE, 'name=="性别"'),
         '我_资料_性别文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="性别"]/following-sibling::*[1]'),
         '我_资料_性别详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="性别"]/following-sibling::*[2]'),
         # 资料 - 年龄
-        '我_资料_年龄': (MobileBy.IOS_PREDICATE, 'name="年龄"'),
+        '我_资料_年龄': (MobileBy.IOS_PREDICATE, 'name=="年龄"'),
         '我_资料_年龄文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="年龄"]/following-sibling::*[1]'),
         '我_资料_年龄详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="年龄"]/following-sibling::*[2]'),
         # 资料 - 我的标签
-        '我_资料_我的标签': (MobileBy.IOS_PREDICATE, 'name="我的标签"'),
+        '我_资料_我的标签': (MobileBy.IOS_PREDICATE, 'name=="我的标签"'),
         '我_资料_我的标签文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="我的标签"]/following-sibling::*[1]'),
         '我_资料_我的标签详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="我的标签"]/following-sibling::*[2]'),
         # 资料 - 职业
-        '我_资料_职业': (MobileBy.IOS_PREDICATE, 'name="职业"'),
+        '我_资料_职业': (MobileBy.IOS_PREDICATE, 'name=="职业"'),
         '我_资料_职业其他': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="职业"]/following-sibling::*[1]'),
         '我_资料_职业文本': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="职业"]/following-sibling::*[2]'),
         '我_资料_职业详情': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="职业"]/following-sibling::*[3]'),
 
         # 下拉框
-        '我_下拉框_完成': (MobileBy.IOS_PREDICATE, 'name="完成"'),
+        '我_下拉框_完成': (MobileBy.IOS_PREDICATE, 'name=="完成"'),
 
         # 资料 - 标签
         '我_资料标签_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
-        '我_资料标签_保存': (MobileBy.IOS_PREDICATE, 'name="保存"'),
+        '我_资料标签_保存': (MobileBy.IOS_PREDICATE, 'name=="保存"'),
         '我_资料标签_添加弹框': (MobileBy.ACCESSIBILITY_ID, 'my biaoqian button n'),
         '我_资料标签_添加文本框': (MobileBy.XPATH, '//*[@name="新增标签"]/following-sibling::*[1]'),
-        '我_资料标签_添加确定': (MobileBy.IOS_PREDICATE, 'name="确定"'),
-        '我_资料标签_添加取消': (MobileBy.IOS_PREDICATE, 'name="取消"'),
+        '我_资料标签_添加确定': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
+        '我_资料标签_添加取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
         '我_资料标签_1': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my biaoqian button n"]/following-sibling::*[1]'),
         '我_资料标签_2': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my biaoqian button n"]/following-sibling::*[2]'),
         '我_资料标签_3': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my biaoqian button n"]/following-sibling::*[3]'),
         '我_资料标签_4': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my biaoqian button n"]/following-sibling::*[4]'),
         '我_资料标签_5': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my biaoqian button n"]/following-sibling::*[5]'),
         '我_资料标签_6': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="my biaoqian button n"]/following-sibling::*[6]'),
-        '我_资料标签_最多选择5个标签': (MobileBy.IOS_PREDICATE, 'name="最多选择5个标签"'),
-        '我_资料标签_我知道了': (MobileBy.IOS_PREDICATE, 'name="我知道了"'),
+        '我_资料标签_最多选择5个标签': (MobileBy.IOS_PREDICATE, 'name=="最多选择5个标签"'),
+        '我_资料标签_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
 
         # 资料 - 职业
         '我_资料职业_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
@@ -103,35 +103,36 @@ class MinePage(FooterPage):
         '我_二级页面_相同返回':  (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # tab 积分
-        '我_积分_积分': (MobileBy.IOS_PREDICATE, 'name="积分"'),
+        '我_积分_积分': (MobileBy.IOS_PREDICATE, 'name=="积分"'),
         '我_积分_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
+        '我_积分_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
 
         # tab 每日资讯
-        '我_每日资讯_每日资讯': (MobileBy.IOS_PREDICATE, 'name="每日资讯"'),
+        '我_每日资讯_每日资讯': (MobileBy.IOS_PREDICATE, 'name=="每日资讯"'),
         '我_每日资讯_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
         '我_每日资讯_皇冠': (MobileBy.XPATH,
                       '//XCUIElementTypeButton[contains(@name, "me back blue pressed")]/following-sibling::*[2]'),
 
         # tab 活动中心
-        '我_活动中心_活动中心': (MobileBy.IOS_PREDICATE, 'name="活动中心"'),
+        '我_活动中心_活动中心': (MobileBy.IOS_PREDICATE, 'name=="活动中心"'),
         '我_活动中心_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # tab 卡劵
-        '我_卡劵_卡劵': (MobileBy.IOS_PREDICATE, 'name="我的卡券"'),
+        '我_卡劵_卡劵': (MobileBy.IOS_PREDICATE, 'name=="我的卡券"'),
         '我_卡劵_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # tab 邀请有奖
-        '我_邀请有奖_邀请有奖': (MobileBy.IOS_PREDICATE, 'name="邀请有奖"'),
+        '我_邀请有奖_邀请有奖': (MobileBy.IOS_PREDICATE, 'name=="邀请有奖"'),
         '我_邀请有奖_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # tab 帮助与反馈
-        '我_帮助与反馈_帮助与反馈': (MobileBy.IOS_PREDICATE, 'name="帮助与反馈"'),
+        '我_帮助与反馈_帮助与反馈': (MobileBy.IOS_PREDICATE, 'name=="帮助与反馈"'),
         '我_帮助与反馈_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # 设置
-        '我_设置_设置': (MobileBy.IOS_PREDICATE, 'name="帮助与反馈"'),
+        '我_设置_设置': (MobileBy.IOS_PREDICATE, 'name=="帮助与反馈"'),
         '我_设置_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
-        '我_设置_退出登录': (MobileBy.IOS_PREDICATE, 'name="退出登录"'),
+        '我_设置_退出登录': (MobileBy.IOS_PREDICATE, 'name=="退出登录"'),
         '我_退出登录_确认': (MobileBy.XPATH, '(//*[@name="退出登录"])[2]'),
         '一键登录': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="本机号码一键登录"])[1]'),
 

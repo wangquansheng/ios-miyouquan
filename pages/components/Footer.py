@@ -14,13 +14,13 @@ class FooterPage(BasePage):
     ACTIVITY = 'com.cmcc.cmrcs.android.ui.activities.HomeActivity'
 
     __locators = {
-        '通话': (MobileBy.IOS_PREDICATE, 'name="通话"'),
-        '通讯录': (MobileBy.IOS_PREDICATE, 'name="通讯录"'),
-        '我': (MobileBy.IOS_PREDICATE, 'name="我"'),
+        '通话': (MobileBy.IOS_PREDICATE, 'name=="通话"'),
+        '通讯录': (MobileBy.IOS_PREDICATE, 'name=="通讯录"'),
+        '我': (MobileBy.IOS_PREDICATE, 'name=="我"'),
 
         # 升级
-        '立即升级': (MobileBy.IOS_PREDICATE, 'name="立即升级"'),
-        '暂不升级': (MobileBy.IOS_PREDICATE, 'name="暂不升级"'),
+        '立即升级': (MobileBy.IOS_PREDICATE, 'name=="立即升级"'),
+        '暂不升级': (MobileBy.IOS_PREDICATE, 'name=="暂不升级"'),
 
         # 权限框
         '禁止': (MobileBy.IOS_PREDICATE, 'name=="禁止"'),

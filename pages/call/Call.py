@@ -265,7 +265,7 @@ class CallPage(FooterPage):
         '飞信电话_结束通话': (MobileBy.IOS_PREDICATE, 'name contains "结束通话"'),
 
         # 邀请 短信发送
-        "邀请_短信发送": (MobileBy.IOS_PREDICATE, 'name="sendButton"'),
+        "邀请_短信发送": (MobileBy.IOS_PREDICATE, 'name=="sendButton"'),
 
     }
 

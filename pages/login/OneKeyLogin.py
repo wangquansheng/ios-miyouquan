@@ -21,18 +21,18 @@ class OneKeyLoginPage(FooterPage):
         '拨号键盘': (MobileBy.IOS_PREDICATE, 'name contains "my dialing nor"'),
 
         # 一键登录
-        "一键登录_问题_确认": (MobileBy.IOS_PREDICATE, 'name="确定"'),
-        "一键登录_问题_取消": (MobileBy.IOS_PREDICATE, 'name="取消"'),
-        "一键登录_短信发送": (MobileBy.IOS_PREDICATE, 'name="sendButton"'),
+        "一键登录_问题_确认": (MobileBy.IOS_PREDICATE, 'name=="确定"'),
+        "一键登录_问题_取消": (MobileBy.IOS_PREDICATE, 'name=="取消"'),
+        "一键登录_短信发送": (MobileBy.IOS_PREDICATE, 'name=="sendButton"'),
 
         # 广告
         '广告_通话_关闭': (MobileBy.IOS_PREDICATE, 'name contains "my home cancel"'),
 
         # 已登录
         '通话_文案_HEAD': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="通话"]'),
-        '我_Tab': (MobileBy.IOS_PREDICATE, 'name="我"'),
-        '我_设置_详情': (MobileBy.IOS_PREDICATE, 'name="设置"'),
-        '我_退出登录': (MobileBy.IOS_PREDICATE, 'name="退出登录"'),
+        '我_Tab': (MobileBy.IOS_PREDICATE, 'name=="我"'),
+        '我_设置_详情': (MobileBy.IOS_PREDICATE, 'name=="设置"'),
+        '我_退出登录': (MobileBy.IOS_PREDICATE, 'name=="退出登录"'),
         '我_退出登录_确认': (MobileBy.XPATH, '(//*[@name="退出登录"])[2]'),
     }
 
