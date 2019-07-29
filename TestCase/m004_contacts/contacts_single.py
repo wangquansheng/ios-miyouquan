@@ -1088,8 +1088,9 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         time.sleep(0.5)
         contact_page.input_locator_text('搜索_文本', '13800008888')
-        time.sleep(5)
-        self.assertEqual(contact_page.is_text_present('无该联系人'), True)
+        time.sleep(3)
+        self.assertEqual(contact_page.is_element_already_exist('无该联系人') or
+                         contact_page.is_element_already_exist('搜索_联系人_无结果'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_member_00121(self):

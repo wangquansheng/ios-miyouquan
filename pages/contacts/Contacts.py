@@ -146,6 +146,7 @@ class ContactsPage(FooterPage):
         '搜索_文本': (MobileBy.IOS_PREDICATE, 'type=="XCUIElementTypeSearchField"'),
         '搜索_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
         '搜索_无该联系人': (MobileBy.IOS_PREDICATE, 'name=="无该联系人"'),
+        '搜索_联系人_无结果': (MobileBy.IOS_PREDICATE, 'name=="无结果"'),
         '搜索_清除文本': (MobileBy.IOS_PREDICATE, 'name=="清除文本"'),
         # '搜索_列表': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell'),
         '搜索_列表1': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell[1]'),

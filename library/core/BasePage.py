@@ -90,7 +90,6 @@ class BasePage(object):
             return True
         except:
             return False
-        # return self.mobile.is_text_present(text)
 
     def _is_element_present(self, locator):
         elements = self.get_elements(locator)
