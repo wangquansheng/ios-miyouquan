@@ -14,16 +14,10 @@ from pages.components.Footer import FooterPage
 
 
 REQUIRED_MOBILES = {
-    'Android-移动': 'M960BDQN229CH',
-    'Android-移动-N': 'M960BDQN229CH_N',
     'IOS-移动': 'iphone',
     'IOS-移动-移动': 'iphone_d',
-    'Android-电信': 'single_telecom',
-    'Android-联通': 'single_union',
-    'Android-移动-联通': 'mobile_and_union',
-    'Android-移动-电信': '',
-    'Android-移动-移动': 'double_mobile',
-    'Android-XX-XX': 'others_double',
+    'Android-移动': 'M960BDQN229CH',
+    'Android-移动-N': 'M960BDQN229CH_N',
 }
 
 

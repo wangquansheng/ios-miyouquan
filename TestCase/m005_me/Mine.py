@@ -11,7 +11,6 @@ import warnings
 import time
 
 REQUIRED_MOBILES = {
-    'Android-移动': 'M960BDQN229CH',
     'IOS-移动': 'iphone',
     'IOS-移动-移动': 'iphone_d',
 }
