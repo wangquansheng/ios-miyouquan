@@ -92,7 +92,7 @@ class ContactlocalPage(TestCase):
         FooterPage().kill_device_syslog()
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_001(self):
+    def test_contact_001(self):
         """
         1、联网正常
         2、已登陆客户端
@@ -127,7 +127,7 @@ class ContactlocalPage(TestCase):
         # self.assertEqual(contact_page.is_element_already_exist('联系人_归属地'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_002(self):
+    def test_contact_002(self):
         """
         1、联网正常
         2、已登陆客户端
@@ -155,7 +155,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_003(self):
+    def test_contact_003(self):
         """
         1、联网正常
         2、已登陆客户端
@@ -187,7 +187,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_004(self):
+    def test_contact_004(self):
         """特殊字符适配"""
         """
         1、联网正常
@@ -237,7 +237,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_006(self):
+    def test_contact_006(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -270,7 +270,7 @@ class ContactlocalPage(TestCase):
             raise RuntimeError('测试失败')
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_007(self):
+    def test_contact_007(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -301,7 +301,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(name == contact_page.get_element_text('家庭网_详细_备注名文本'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_008(self):
+    def test_contact_008(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -331,7 +331,7 @@ class ContactlocalPage(TestCase):
         contact_page.is_toast_exist('备注失败，请重新输入', timeout=5)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_009(self):
+    def test_contact_009(self):
         """
             正确输入并点击保存	保存失败
         """
@@ -358,7 +358,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(name == contact_page.get_element_text('家庭网_详细_备注名文本'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0010(self):
+    def test_contact_0010(self):
         """
             正确输入并点击保存	保存失败
         """
@@ -386,7 +386,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(name == contact_page.get_element_text('家庭网_详细_备注名文本'), True)
 
     # @tags('ALL', 'CMCC')
-    # def test_member_0011(self):
+    # def test_contact_0011(self):
     #     """
     #         1、联网正常
     #         2、已登陆客户端
@@ -415,7 +415,7 @@ class ContactlocalPage(TestCase):
     #     self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0011(self):
+    def test_contact_0011(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -452,7 +452,7 @@ class ContactlocalPage(TestCase):
                 pass
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0012(self):
+    def test_contact_0012(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -501,7 +501,7 @@ class ContactlocalPage(TestCase):
                 pass
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0013(self):
+    def test_contact_0013(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -551,7 +551,7 @@ class ContactlocalPage(TestCase):
                 pass
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0016(self):
+    def test_contact_0016(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -594,7 +594,7 @@ class ContactlocalPage(TestCase):
                 pass
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0028(self):
+    def test_contact_0028(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -620,7 +620,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注名文本'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0029(self):
+    def test_contact_0029(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -656,7 +656,7 @@ class ContactlocalPage(TestCase):
             raise RuntimeError('测试失败')
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0036(self):
+    def test_contact_0036(self):
         """
             家庭网用户非首次登陆APP，密友圈模块显示情况
             1.已登录APP
@@ -673,7 +673,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.get_elements_count('家庭网_列表电话1') > 0, True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0037(self):
+    def test_contact_0037(self):
         """
             1、正常登陆
             2、网络正常
@@ -694,7 +694,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_用户名'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0042(self):
+    def test_contact_0042(self):
         """输入框只能输入数字异常"""
         """
             1、正常登陆
@@ -719,7 +719,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(text_home is not None and text_home.isdigit(), True)
 
     # @tags('ALL', 'CMCC', 'contact')
-    # def test_member_0042(self):
+    # def test_contact_0042(self):
     #     """
     #         1、正常登陆
     #         2、网络正常
@@ -743,7 +743,7 @@ class ContactlocalPage(TestCase):
     #     self.assertEqual(contact_page.is_text_present('选择号码'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0046(self):
+    def test_contact_0046(self):
         """
             1、正常登陆
             2、网络正常
@@ -770,7 +770,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.get_elements_count('家庭网_添加_通讯录_搜索列表1') > 0, True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0047(self):
+    def test_contact_0047(self):
         """
             1、正常登陆
             2、网络正常
@@ -794,7 +794,7 @@ class ContactlocalPage(TestCase):
         # self.assertEqual('true' == contact_page.get_element_attr('家庭网_添加_确定', 'enabled'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0048(self):
+    def test_contact_0048(self):
         """
             1、正常登陆
             2、网络正常
@@ -818,7 +818,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual('true' == contact_page.get_element_attr('家庭网_添加_确定', 'enabled'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0050(self):
+    def test_contact_0050(self):
         """
             1、正常登陆
             2、网络正常
@@ -850,7 +850,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(num == contact_page.get_element_text('家庭网_添加_文本'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0056(self):
+    def test_contact_0056(self):
         """
             "1、正常登陆
             2、网络正常
@@ -874,7 +874,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('家庭网_管理_添加'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0061(self):
+    def test_contact_0061(self):
         """
             "1、正常登陆
             2、网络正常
@@ -898,7 +898,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_更多个性标签'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0065(self):
+    def test_contact_0065(self):
         """
             "1、非广东、四川移动用户已登录APP；
             2、网络正常；
@@ -924,7 +924,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_element_already_exist('密友圈_不限时长管理_标题'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0071(self):
+    def test_contact_0071(self):
         """解绑人数限制弹框显示时间短"""
         """
             当月已解绑过一名成员后再次解绑第二名成员	"1、非四川移动用户已登录APP；
@@ -953,7 +953,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.is_toast_exist('密友圈_不限时长管理_解绑人数'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_00103(self):
+    def test_contact_00103(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -973,7 +973,7 @@ class ContactlocalPage(TestCase):
         contact_page.is_element_already_exist('家庭网_管理_感叹号规则')
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_0107_01(self):
+    def test_contact_0107_01(self):
         """
             1、查看密友圈（不限时长）
             2、点击成员电话icon
@@ -1016,7 +1016,7 @@ class ContactlocalPage(TestCase):
                 pass
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_00107_02(self):
+    def test_contact_00107_02(self):
         """
             1、查看密友圈（不限时长）
             2、点击成员电话icon
@@ -1039,27 +1039,53 @@ class ContactlocalPage(TestCase):
         contact_page.is_text_present('添加不限时长成员')
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_00111(self):
+    def test_contact_00117(self):
         """
-            1、联网正常
-            2、已登陆客户端（家庭网主号）
-            3、当前在通讯录模块页面，已开通家庭网
-            "	"1、查看家庭网列表展示
-            2、点击“管理”"	"1、家庭网列表默认收起状态；
-            2、家庭网主好提供管理入口，点击则进入家庭网成员管理页面；
+            1、查看联系人列表展示
+            2、点击联系人后的电话icon
+            3、点击通讯录页中各列表内的成员；
         """
         contact_page = ContactsPage()
         # 确保在通讯录界面
         self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
         # 展开家庭网
-        self.assertEqual(contact_page.if_home_net_expand(), False)
+        if not contact_page.if_home_net_expand():
+            contact_page.click_locator_key('通讯录_家庭网_展开')
+            time.sleep(1)
         # 点击家庭网第一个联系人
-        contact_page.click_locator_key('通讯录_家庭网_管理')
+        contact_page.get_elements_list_click('家庭网_列表电话1')
+        if contact_page.is_element_already_exist('呼叫'):
+            time.sleep(0.5)
+            contact_page.click_locator_key('呼叫')
+            time.sleep(2)
+            contact_page.click_viedo_close_phone()
+            time.sleep(0.5)
+        elif contact_page.is_element_already_exist('飞信电话_我知道了'):
+            contact_page.click_locator_key('飞信电话_我知道了')
+            time.sleep(6)
+            contact_page.click_fetion_close_phone()
+            time.sleep(0.5)
+        # 点击联系人第一个联系人
+        contact_page.get_elements_list_click('联系人_列表电话1')
+        if contact_page.is_element_already_exist('呼叫'):
+            time.sleep(0.5)
+            contact_page.click_locator_key('呼叫')
+            time.sleep(2)
+            contact_page.click_viedo_close_phone()
+            time.sleep(0.5)
+        elif contact_page.is_element_already_exist('飞信电话_我知道了'):
+            contact_page.click_locator_key('飞信电话_我知道了')
+            time.sleep(6)
+            contact_page.click_fetion_close_phone()
+            time.sleep(0.5)
+        # 点击联系人，查看联系人详情
+        time.sleep(0.5)
+        contact_page.click_locator_key('联系人_列表文本1')
         time.sleep(1)
-        contact_page.is_text_present('家庭网成员管理')
+        self.assertEqual(contact_page.is_element_already_exist('联系人_详细_头像'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_00118(self):
+    def test_contact_00118(self):
         """
             1、联网正常
             2、已登陆客户端
@@ -1075,7 +1101,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.get_elements_count('搜索_列表1') > 0, True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_00120(self):
+    def test_contact_00120(self):
         """控件元素值无法获取"""
         """
             1、联网正常
@@ -1093,7 +1119,7 @@ class ContactlocalPage(TestCase):
                          contact_page.is_element_already_exist('搜索_联系人_无结果'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_00121(self):
+    def test_contact_00121(self):
         """
             1.已登录APP
             2.网络断网
@@ -1109,7 +1135,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual('搜索' == contact_page.get_element_text('搜索_文本'), True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_00132(self):
+    def test_contact_00132(self):
         """
             顶部新增“添加异网成员资格”剩余个数提示	"1、已登录密友圈
             2、网络正常
@@ -1127,7 +1153,7 @@ class ContactlocalPage(TestCase):
 
     # @tags('ALL', 'CMCC', 'contact')
     @unittest.skip('元素无法滑动')
-    def test_member_00145(self):
+    def test_contact_00145(self):
         """
             1、已登录密友圈
             2、网络正常
@@ -1144,7 +1170,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.get_elements_count('密友圈_不限时长管理_列表1') > 0, True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_00146(self):
+    def test_contact_00146(self):
         """
             1、已登录密友圈
             2、网络正常
@@ -1158,7 +1184,7 @@ class ContactlocalPage(TestCase):
         self.assertEqual(contact_page.get_elements_count('联系人_列表1') > 0, True)
 
     @tags('ALL', 'CMCC', 'contact')
-    def test_member_00152(self):
+    def test_contact_00152(self):
         """
             对通讯录列表搜索结果新增按钮	"1、正常网络状态下
             2、已登录密友圈
@@ -1178,7 +1204,7 @@ class ContactlocalPage(TestCase):
 
     # @tags('ALL', 'CMCC', 'contact')
     @unittest.skip('添加桌面图标没有')
-    def test_member_00155(self):
+    def test_contact_00155(self):
         """
             1、登录密友圈
             2、跳转通讯录界面"	"1、跳转通讯录tab

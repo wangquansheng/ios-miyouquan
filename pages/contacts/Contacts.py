@@ -172,6 +172,12 @@ class ContactsPage(FooterPage):
         '通讯_群聊': (MobileBy.IOS_PREDICATE, 'name=="群聊"'),
         '通讯_公众号': (MobileBy.IOS_PREDICATE, 'name=="公众号"'),
 
+        # 电话
+        '结束通话': (MobileBy.IOS_PREDICATE, 'name contains "结束通话"'),
+        # 无密友圈 确定
+        '无密友圈_确定': (MobileBy.IOS_PREDICATE, "name=='确定'"),
+        '无密友圈_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
+
         # 短信关闭
         '短信_关闭': (MobileBy.IOS_PREDICATE, 'name=="关闭"'),
 
@@ -181,6 +187,33 @@ class ContactsPage(FooterPage):
         '我': (MobileBy.XPATH, '//XCUIElementTypeButton[@name="我"]'),
 
     }
+
+    @TestLogger.log("视频通话结束弹出框")
+    def click_viedo_close_phone(self):
+        """
+        视频通话结束弹出框
+        :return:
+        """
+        if self.is_element_already_exist('结束通话'):
+            self.click_locator_key('结束通话')
+
+    @TestLogger.log("关闭飞信电话")
+    def click_fetion_close_phone(self):
+        try:
+            if self.is_element_already_exist('飞信电话_拒绝'):
+                self.click_locator_key('飞信电话_拒绝')
+                time.sleep(0.5)
+        except:
+            pass
+        try:
+            if self.is_element_already_exist('飞信电话_挂断'):
+                self.click_locator_key('飞信电话_挂断')
+                time.sleep(0.5)
+        except:
+            pass
+        if self.is_element_already_exist('无密友圈_取消'):
+            self.click_locator_key('无密友圈_取消')
+            time.sleep(0.5)
 
     @TestLogger.log("通话页面点击删除按钮，删除所有")
     def click_delete_manager_meet(self):
