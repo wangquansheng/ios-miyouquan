@@ -1,7 +1,0 @@
-venv/
-.idea/
-.vscode/
-report/
-report.html
-*.pyc
-__pycache__/

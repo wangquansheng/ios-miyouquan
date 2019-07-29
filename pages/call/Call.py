@@ -261,12 +261,15 @@ class CallPage(FooterPage):
         '无密友圈_取消': (MobileBy.IOS_PREDICATE, "name=='取消'"),
 
         # 飞信电话
-        '飞信电话_邀请_短信': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
+        # '飞信电话_邀请_短信': (MobileBy.ACCESSIBILITY_ID, '邀请使用'),
         '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
         '飞信电话_接受': (MobileBy.IOS_PREDICATE, 'name=="接受"'),
         '飞信电话_拒绝': (MobileBy.IOS_PREDICATE, 'name=="拒绝"'),
         '飞信电话_挂断': (MobileBy.IOS_PREDICATE, 'name=="call dial key reject"'),
-        '飞信电话_结束通话': (MobileBy.IOS_PREDICATE, 'name contains "结束通话"')
+        '飞信电话_结束通话': (MobileBy.IOS_PREDICATE, 'name contains "结束通话"'),
+
+        # 邀请 短信发送
+        "邀请_短信发送": (MobileBy.IOS_PREDICATE, 'name="sendButton"'),
 
     }
 
@@ -560,35 +563,38 @@ class CallPage(FooterPage):
         self.swipe_by_direction(locator, "left")
         time.sleep(5)
 
-    @TestLogger.log('确保页面有点对点视频的记录')
+    @TestLogger.log('确保页面有点对点视频记录')
     def make_sure_have_p2p_vedio_record(self):
         if self.is_text_present('[视频通话]'):
-            return
+            return True
         # self.point2point_vedio_call()
-        self.wait_until(
-            condition=lambda d: self.is_text_present("[视频通话]"),
-            timeout=10,
-        )
+        # self.wait_until(
+        #     condition=lambda d: self.is_text_present("[视频通话]"),
+        #     timeout=10,
+        # )
+        return self.is_element_already_exist('[视频通话]')
 
-    @TestLogger.log('确保页面有多方视频的记录')
+    @TestLogger.log('确保页面有多方视频记录')
     def make_sure_have_multiplayer_vedio_record(self):
         if self.is_text_present('[多方视频]'):
-            return
+            return True
         # self.multiplayer_vedio_call()
-        self.wait_until(
-            condition=lambda d: self.is_text_present("[多方视频]"),
-            timeout=10,
-        )
+        # self.wait_until(
+        #     condition=lambda d: self.is_text_present("[多方视频]"),
+        #     timeout=10,
+        # )
+        return self.is_element_already_exist('[多方视频]')
 
-    @TestLogger.log('确保页面有点对点通话的记录')
+    @TestLogger.log('确保页面有飞信电话记录')
     def make_sure_have_p2p_voicecall_record(self):
-        if self.is_text_present('飞信电话'):
-            return
+        if self.is_text_present('[飞信电话]'):
+            return True
         # self.point2point_voice_call()
-        self.wait_until(
-            condition=lambda d: self.is_text_present("飞信电话"),
-            timeout=10,
-        )
+        # self.wait_until(
+        #     condition=lambda d: self.is_text_present("飞信电话"),
+        #     timeout=10,
+        # )
+        return self.is_element_already_exist('[飞信电话]')
 
     @TestLogger.log("检查点对点视频通话详细页")
     def check_vedio_call_detail_page(self):
@@ -979,7 +985,7 @@ class CallPage(FooterPage):
         return True
 
     @TestLogger.log('添加视频通话记录')
-    def test_call_video_condition(self, cards='14775451723'):
+    def test_call_video(self, cards='14775451723'):
         """
         添加视频通话记录
         :return:
@@ -1003,8 +1009,29 @@ class CallPage(FooterPage):
                 self.click_locator_key('无密友圈_取消')
                 time.sleep(0.5)
 
+    @TestLogger.log('添加未注册视频通话记录')
+    def test_call_video_no(self, cards='13800'):
+        """添加未注册视频通话记录"""
+        # 初始化数据
+        time.sleep(0.5)
+        try:
+            self.click_locator_key('+')
+            time.sleep(0.5)
+            self.click_call('视频通话')
+            self.input_locator_text('视频呼叫_搜索_文本框', cards)
+            self.get_elements(self.__locators['视频呼叫_搜索_号码列表'])[0].click()
+            time.sleep(0.5)
+            self.click_locator_key('视频呼叫_确定')
+            time.sleep(1)
+            self.click_video_hangup()
+            time.sleep(2)
+        finally:
+            if self.is_element_present("无密友圈_取消"):
+                self.click_locator_key('无密友圈_取消')
+                time.sleep(0.5)
+
     @TestLogger.log('添加多方视频记录')
-    def test_call_more_video_condition(self):
+    def test_call_more_video(self):
         """
         添加多方视频记录
         :return:
@@ -1044,7 +1071,7 @@ class CallPage(FooterPage):
                 self.click_locator_key('飞信电话_我知道了')
             finally:
                 # 睡眠等待弹框切换
-                time.sleep(5)
+                time.sleep(6)
                 self.test_close_my_phone_calling()
 
     @TestLogger.log('关闭飞信电话')
