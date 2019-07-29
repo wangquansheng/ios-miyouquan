@@ -1,6 +1,9 @@
+import traceback
+
 from appium.webdriver.common.mobileby import MobileBy
 
 from library.core.TestLogger import TestLogger
+from library.core.utils.applicationcache import current_mobile
 from pages.components import FooterPage
 import time
 
@@ -83,6 +86,14 @@ class ContactsPage(FooterPage):
         '联系人_详细_短号': (MobileBy.IOS_PREDICATE, 'name=="短号"'),
         '联系人_详细_电话规则': (MobileBy.IOS_PREDICATE, 'name=="电话规则说明"'),
 
+        '联系人_详情_头像': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElement'
+                                      'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
+                                      'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeImage[3]'),
+        '联系人_详情_用户名': (
+            MobileBy.XPATH, '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElement'
+                                    'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
+                                    'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeStaticText[1]'),
+
         # 密友圈
         '密友圈_管理_标题': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="不限时长成员管理"]'),
         '密友圈_管理_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
@@ -152,6 +163,12 @@ class ContactsPage(FooterPage):
         '搜索_列表1': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell[1]'),
         '搜索_详细_用户名': (MobileBy.XPATH, '//XCUIElementTypeButton[contains(@name, "my call white n")]'
                                       '/preceding-sibling::*[1]/XCUIElementTypeStaticText[1]'),
+        # 视频主叫
+        '视频主叫_头像': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="网络视频通话呼叫中..."]/preceding-sibling::*[3]'),
+        '视频主叫_名称': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="网络视频通话呼叫中..."]/preceding-sibling::*[2]'),
+        '视频主叫_电话': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="网络视频通话呼叫中..."]/preceding-sibling::*[1]'),
+        '视频主叫_网络视频通话呼叫中': (MobileBy.IOS_PREDICATE, 'name=="网络视频通话呼叫中..."'),
+        '视频主叫_挂断': (MobileBy.IOS_PREDICATE, 'name=="挂断"'),
 
         # 飞信电话
         '飞信电话_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
@@ -168,6 +185,7 @@ class ContactsPage(FooterPage):
         '通讯_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue normal"'),
         '通讯_+': (MobileBy.IOS_PREDICATE, 'name contains "my xiaoxi jiahao"'),
         '通讯_搜索': (MobileBy.XPATH, '(//XCUIElementTypeSearchField[@name="搜索"])[1]'),
+        '通讯录_搜索框结果第一条': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="搜索结果"]/XCUIElementTypeCell[1]'),
         '通讯_好友列表': (MobileBy.IOS_PREDICATE, 'name contains "my ic haoyouliebiao n"'),
         '通讯_群聊': (MobileBy.IOS_PREDICATE, 'name=="群聊"'),
         '通讯_公众号': (MobileBy.IOS_PREDICATE, 'name=="公众号"'),
@@ -250,7 +268,8 @@ class ContactsPage(FooterPage):
                 return True
             else:
                 return False
-        except:
+        except Exception:
+            traceback.print_exc()
             return False
 
     @TestLogger.log('获取元素')
@@ -310,7 +329,7 @@ class ContactsPage(FooterPage):
         try:
             locator = self.__class__.__locators["家庭网_列表电话1"]
             return len(self.get_elements(locator)) > 0
-        except :
+        except:
             return False
 
     @TestLogger.log("点击联系人")
@@ -353,13 +372,12 @@ class ContactsPage(FooterPage):
         self.input_text(self.__locators['搜索联系人'], keyword)
 
     @TestLogger.log()
-    def wait_for_page_load(self, timeout=20, auto_accept_alerts=True):
+    def wait_for_page_load(self, timeout=20):
         """等待通讯录页面加载"""
         try:
             self.wait_until(
                 timeout=timeout,
-                auto_accept_permission_alert=auto_accept_alerts,
-                condition=lambda d: self._is_element_present(self.__class__.__locators["+号"])
+                condition=lambda d: self.is_text_present('家庭网')
             )
         except:
             raise AssertionError("页面在{}s内，没有加载成功".format(str(timeout)))
@@ -382,7 +400,7 @@ class ContactsPage(FooterPage):
         return self.get_elements(self.__class__.__locators[text])
 
     @TestLogger.log('点击搜索出的联系人')
-    def click_element_contact(self,text='联系人头像'):
+    def click_element_contact(self, text='联系人头像'):
         self.click_element(self.__class__.__locators[text])
 
     @TestLogger.log()
@@ -442,6 +460,21 @@ class ContactsPage(FooterPage):
     def click_return(self):
         """点击返回"""
         self.click_element(self.__class__.__locators['群聊列表返回'])
+
+    @TestLogger.log('获取指定运营商类型的手机卡（不传类型返回全部配置的手机卡）')
+    def get_cards(self, card_type):
+        """返回指定类型卡手机号列表"""
+        return current_mobile().get_cards(card_type)[0]
+
+    # @TestLogger.log('获取元素列表')
+    # def get_elements(self, locator):
+    #     return self.get_elements(self.__locators[locator])
+
+    @TestLogger.log('根据cards点击元素')
+    def click_by_cards(self, cards):
+        self.input_text(self.__locators['通讯_搜索'], cards)
+        time.sleep(1)
+        self.get_element(self.__locators['通讯录_搜索框结果第一条']).click()
 
     #
     # @TestLogger.log('点击+号')

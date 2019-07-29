@@ -1,7 +1,9 @@
+import multiprocessing
 import time
-import unittest
+import traceback
 import warnings
 
+from library.core.TestLogger import TestLogger
 from library.core.common.simcardtype import CardType
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile, current_driver, switch_to_mobile
@@ -30,31 +32,19 @@ class Preconditions(object):
     """
     分解前置条件
     """
-    @staticmethod
-    def make_sure_in_after_login_callpage():
-        Preconditions.make_already_in_call_page()
-        current_mobile().wait_until_not(condition=lambda d: current_mobile().is_text_present('正在登录...'), timeout=20)
 
     @staticmethod
-    def initialize_class(moudel):
-        """确保每个用例开始之前在通话界面界面"""
-        warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.select_mobile(moudel)
-        Preconditions.make_already_in_call_page()
-        FooterPage().open_contacts_page()
-        # #
-        # contact = ContactsPage()
-        # contact.permission_box_processing()
-        # contact.remove_mask(1)
-
-    @staticmethod
-    def close_system_update():
-        """确保每个用例开始之前在通话界面界面"""
-        call = CallPage()
-        if call.is_text_present('系统更新'):
-            call.click_text('稍后')
-            time.sleep(1)
-            call.click_text('取消')
+    def login_by_one_key_login():
+        """
+        从一键登录页面登录
+        :return:
+        """
+        # 等待号码加载完成后，点击一键登录
+        one_key = OneKeyLoginPage()
+        time.sleep(2)
+        if one_key.is_text_present('一键登录'):
+            one_key.click_text('一键登录')
+            time.sleep(3)
 
     @staticmethod
     def select_mobile(category):
@@ -74,362 +64,295 @@ class Preconditions(object):
         call_page = CallPage()
         if call_page.is_on_this_page():
             return
-        # # 如果当前页面已经是一键登录页，进行一键登录页面
-        # one_key = OneKeyLoginPage()
-        # try:
-        #     one_key.wait_until(
-        #         condition=lambda d: one_key.is_text_present('一键登录'),
-        #         timeout=15
-        #     )
-        # except:
-        #     pass
-        # if one_key.is_text_present('一键登录'):
-        #     Preconditions.login_by_one_key_login()
-        # # 如果当前页不是引导页第一页，重新启动app
-        # else:
-        #     try:
-        #         current_mobile().terminate_app('com.cmic.college', timeout=2000)
-        #     except Exception:
-        #         traceback.print_exc()
-        #         pass
-        #     current_mobile().launch_app()
-        #     try:
-        #         call_page.wait_until(
-        #             condition=lambda d: call_page.is_on_this_page(),
-        #             timeout=3
-        #         )
-        #         return
-        #     except TimeoutException:
-        #         pass
-        #     Preconditions.reset_and_relaunch_app()
-        #     Preconditions.make_already_in_one_key_login_page()
-        #     Preconditions.login_by_one_key_login()
-    #
-    # @staticmethod
-    # def get_current_activity_name():
-    #     import os, sys
-    #     global findExec
-    #     findExec = 'findstr' if sys.platform == 'win32' else 'grep'
-    #     device_name = current_driver().capabilities['deviceName']
-    #     cmd = 'adb -s %s shell dumpsys window | %s mCurrentFocus' % (device_name, findExec)
-    #     res = os.popen(cmd)
-    #     time.sleep(2)
-    #     # 截取出activity名称 == ''为第三方软件
-    #     current_activity = res.read().split('u0 ')[-1].split('/')[0]
-    #     res.close()
-    #     return current_activity
-    #
-    # @staticmethod
-    # def make_already_in_one_key_login_page():
-    #     """
-    #     1、已经进入一键登录页
-    #     :return:
-    #     """
-    #     # 如果当前页面已经是一键登录页，不做任何操作
-    #     one_key = OneKeyLoginPage()
-    #     if one_key.is_on_this_page():
-    #         return
-    #     # 如果当前页不是引导页第一页，重新启动app
-    #     guide_page = GuidePage()
-    #     time.sleep(2)
-    #     guide_page.click_always_allow()
-    #     one_key.wait_for_page_load(30)
-    #
-    # @staticmethod
-    # def login_by_one_key_login():
-    #     """
-    #     从一键登录页面登录
-    #     :return:
-    #     """
-    #     # 等待号码加载完成后，点击一键登录
-    #     one_key = OneKeyLoginPage()
-    #     one_key.wait_for_page_load()
-    #     # one_key.wait_for_tell_number_load(60)
-    #     one_key.click_one_key_login()
-    #     time.sleep(2)
-    #     if one_key.is_text_present('用户协议和隐私保护'):
-    #         one_key.click_agree_user_aggrement()
-    #         time.sleep(1)
-    #         # one_key.click_agree_login_by_number()
-    #     call_page = CallPage()
-    #     call_page.is_element_already_exist('通话')
-    #     time.sleep(2)
-    #     call_page.remove_mask(2)
-    #
-    # @staticmethod
-    # def app_start_for_the_first_time():
-    #     """首次启动APP（使用重置APP代替）"""
-    #     current_mobile().reset_app()
-    #
-    # @staticmethod
-    # def terminate_app():
-    #     """
-    #     强制关闭app,退出后台
-    #     :return:
-    #     """
-    #     app_id = current_driver().capabilities['appPackage']
-    #     current_mobile().terminate_app(app_id)
-    #
-    # @staticmethod
-    # def reset_and_relaunch_app():
-    #     """首次启动APP（使用重置APP代替）"""
-    #     app_package = 'com.cmic.college'
-    #     current_driver().activate_app(app_package)
-    #     current_mobile().reset_app()
+        # 如果当前页面已经是一键登录页，进行一键登录页面
+        one_key = OneKeyLoginPage()
+        if one_key.is_on_this_page():
+            Preconditions.login_by_one_key_login()
+
+    @staticmethod
+    def make_sure_in_after_login_callpage():
+        Preconditions.make_already_in_call_page()
+        # current_mobile().wait_until_not(condition=lambda d: current_mobile().is_text_present('正在登录'), timeout=20)
+        fp = FooterPage()
+        fp.open_contacts_page()
+        # current_mobile().wait_until(condition=lambda d: current_mobile().is_text_present('家庭网'), timeout=20)
 
 
-@unittest.skip('')
+    @staticmethod
+    def initialize_class(moudel):
+        """确保每个用例开始之前在通讯录界面"""
+        warnings.simplefilter('ignore', ResourceWarning)
+        Preconditions.select_mobile(moudel)
+        Preconditions.make_sure_in_after_login_callpage()
+
+    @staticmethod
+    def disconnect_mobile(category):
+        """断开手机连接"""
+        client = switch_to_mobile(REQUIRED_MOBILES[category])
+        client.disconnect_mobile()
+        return client
+
+
+# noinspection PyUnresolvedReferences
 class ContactlocalPage(TestCase):
     """本地通讯录界面"""
 
-    @classmethod
-    def setUp_class(cls):
-        warnings.simplefilter('ignore', ResourceWarning)
-
     def default_setUp(self):
-        """确保每个用例开始之前在通讯录界面"""
         warnings.simplefilter('ignore', ResourceWarning)
-        Preconditions.select_mobile('Android-移动')
-        Preconditions.make_already_in_call_page()
-        FooterPage().open_contacts_page()
-        # contact = ContactsPage()
-        # contact.permission_box_processing()
-        # contact.remove_mask(1)
 
-    @tags('ALL', 'CMCC_double', 'contact')
-    def test_member_014(self):
-        """
-            1、联网正常
-            2、已登陆客户端
-            3、在通讯录-联系人详情页面
-            查看联系人详情元素	复用家庭网详情页面内容，去掉短号栏
-        """
-        contact_page = ContactsPage()
-        contact_page.is_element_already_exist('通讯录_标题')
-        # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
-        # 获取手机号码
-        cards = contact_page.get_cards(CardType.CHINA_MOBILE)[0]
-        # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
-        # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
-        # 展开家庭网
-        if contact_page.if_home_net_expand():
-            contact_page.click_locator_key('通讯录_家庭网_展开')
-            time.sleep(1)
-        # 点击联系人
-        n = 0
-        flag = False
-        while n < 8:
-            for contact in contact_page.get_elements_list('家庭网_列表'):
-                if cards == contact.text:
-                    contact.click()
-                    flag = True
+    def default_tearDown(self):
+        """断开所有手机"""
+        Preconditions.disconnect_mobile('IOS-移动')
+        Preconditions.disconnect_mobile('IOS-移动-移动')
+
+    # ===============test_contact_00014==================
+
+    @TestLogger.log('主叫手机')
+    def contact_00014_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            contact_page = ContactsPage()
+            contact_page.wait_for_page_load()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    contact_page.click_by_cards(dic['cards'])
+                    time.sleep(5)
+                    self.assertEqual(contact_page.is_element_already_exist('联系人_详情_头像'), True)
+                    self.assertEqual(contact_page.is_element_already_exist('联系人_详情_用户名'), True)
+                    self.assertEqual(contact_page.is_element_already_exist('联系人_详细_电话按钮'), True)
+                    self.assertEqual(contact_page.is_element_already_exist('联系人_详细_视频按钮'), True)
+                    self.assertEqual(contact_page.is_element_already_exist('联系人_详细_设置备注名'), True)
+                    self.assertEqual(contact_page.is_element_already_exist('联系人_详细_备注修改'), True)
+                    self.assertEqual(contact_page.is_element_already_exist('联系人_详细_手机号码'), True)
+                    self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_更多'), True)
+                    self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_更多编辑'), True)
+                    self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_电话规则'), True)
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
                     break
-            if flag:
-                break
-            contact_page.page_up()
-            n += 1
-        time.sleep(3)
-        self.assertEqual(contact_page.is_element_already_exist('联系人_头像'), True)
-        self.assertEqual(contact_page.is_element_already_exist('联系人_备注'), True)
-        self.assertEqual(contact_page.is_element_already_exist('联系人_电话'), True)
-        self.assertEqual(contact_page.is_element_already_exist('联系人_视频'), True)
-        self.assertEqual(contact_page.is_element_already_exist('联系人_添加桌面'), True)
-        self.assertEqual(contact_page.is_element_already_exist('联系人_备注名'), True)
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_详细_备注修改'), True)
-        self.assertEqual(contact_page.is_element_already_exist('联系人_归属地'), True)
-        self.assertEqual(contact_page.is_element_already_exist('联系人_长号'), True)
-        self.assertEqual(contact_page.is_element_already_exist('联系人_更多'), True)
-        self.assertEqual(contact_page.is_element_already_exist('联系人_更多编辑'), True)
-        self.assertEqual(contact_page.is_element_already_exist('联系人_规则'), True)
+            else:
+                # 超时抛出异常
+                raise
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def contact_00014_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            contact_page = ContactsPage()
+            contact_page.wait_for_page_load()
+            # 获取手机号码
+            cards = contact_page.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
 
     @tags('ALL', 'CMCC_double', 'contact')
-    def test_member_030(self):
-        """
-            1、联网正常
-            2、已登陆客户端
-            3、在通讯录-联系人详情页面
-            查看联系人详情元素	复用家庭网详情页面内容，去掉短号栏
-        """
-        contact_page = ContactsPage()
-        contact_page.is_element_already_exist('通讯录_标题')
-        # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
-        # 获取手机号码
-        cards = contact_page.get_cards(CardType.CHINA_MOBILE)[0]
-        # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
-        # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
-        # 展开家庭网
-        if not contact_page.if_home_net_expand():
-            contact_page.click_locator_key('通讯录_家庭网_展开')
-            time.sleep(1)
-        # 点击家庭网第一个联系人
-        n = 0
-        flag = False
-        while n < 8:
-            for contact in contact_page.get_elements_list('家庭网_列表'):
-                if cards == contact.text:
-                    contact.click()
-                    flag = True
+    def test_contact_00014(self):
+            # 实例化ManagerServer进程，这个进程是阻塞的
+            with multiprocessing.Manager() as manager:
+                # 创建一个用于进程间通信的字典
+                dic = manager.dict()
+                # 实例化进程
+                p1 = multiprocessing.Process(target=self.contact_00014_01, args=(dic,))
+                # 启动进程
+                p1.start()
+                # 实例化进程
+                p2 = multiprocessing.Process(target=self.contact_00014_02, args=(dic,))
+                # 启动进程
+                p2.start()
+                # 进程阻塞
+                p1.join()
+                p2.join()
+                # 等待子进程都执行完毕后，判断是否有执行失败的标志
+                if 'fail' in dic.values():
+                    raise RuntimeError('Test Fail')
+                else:
+                    # 若没有失败标志，测试执行成功
+                    print('Test Success')
+
+    # ===============test_contact_00030==================
+
+    @TestLogger.log('主叫手机')
+    def contact_00030_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            contact_page = ContactsPage()
+            contact_page.wait_for_page_load()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    contact_page.click_by_cards(dic['cards'])
+                    time.sleep(2)
+                    contact_page.click_locator_key('联系人_详细_视频按钮')
+                    time.sleep(3)
+                    self.assertEqual(contact_page.is_text_present('网络视频通话呼叫中'), True)
+                    time.sleep(5)
+                    contact_page.click_locator_key('视频主叫_挂断')
+                    dic['call_up'] = True
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
                     break
-            if flag:
-                break
-            contact_page.page_up()
-            n += 1
-        time.sleep(3)
-        # 修改备注
-        contact_page.click_locator_key('家庭网_详细_备注修改')
-        self.assertEqual(contact_page.is_element_already_exist('家庭网_备注修改_标题'), True)
-        # 清空输入框内容
-        contact_page.click_input_clear()
-        name = '备注'
-        contact_page.input_locator_text('家庭网_备注修改_文本框', name)
-        contact_page.click_locator_key('家庭网_备注修改_完成')
-        time.sleep(2)
-        contact_page.click_locator_key('联系人_视频')
-        contact_page.is_text_present('正在等待对方接听')
-        self.assertEqual(contact_page.is_text_present(name), True)
-        if contact_page.is_element_already_exist('视频页面_挂断'):
-            contact_page.click_locator_key('视频页面_挂断')
+            else:
+                # 超时抛出异常
+                raise
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
+
+    @TestLogger.log('被叫手机')
+    def contact_00030_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            contact_page = ContactsPage()
+            contact_page.wait_for_page_load()
+            # 获取手机号码
+            cards = contact_page.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
+
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_contact_00030(self):
+            # 实例化ManagerServer进程，这个进程是阻塞的
+            with multiprocessing.Manager() as manager:
+                # 创建一个用于进程间通信的字典
+                dic = manager.dict()
+                # 实例化进程
+                p1 = multiprocessing.Process(target=self.contact_00030_01, args=(dic,))
+                # 启动进程
+                p1.start()
+                # 实例化进程
+                p2 = multiprocessing.Process(target=self.contact_00030_02, args=(dic,))
+                # 启动进程
+                p2.start()
+                # 进程阻塞
+                p1.join()
+                p2.join()
+                # 等待子进程都执行完毕后，判断是否有执行失败的标志
+                if 'fail' in dic.values():
+                    raise RuntimeError('Test Fail')
+                else:
+                    # 若没有失败标志，测试执行成功
+                    print('Test Success')
+
+    # ===============test_contact_000112==================
 
     @tags('ALL', 'CMCC_double', 'contact')
-    def test_member_00112(self):
-        """
-            1、联网正常
-            2、已登陆客户端（家庭网主号）
-            3、当前在通讯录模块页面，已开通家庭网
-            "	"1、查看家庭网列表展示
-            2、点击“管理”"	"1、家庭网列表默认收起状态；
-            2、家庭网主好提供管理入口，点击则进入家庭网成员管理页面；
-        """
-        contact_page = ContactsPage()
-        Preconditions.initialize_class('Android-移动-N')
-        # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
-        # 展开家庭网
-        # 展开家庭网
-        if not contact_page.if_home_net_expand():
-            contact_page.click_locator_key('通讯录_家庭网_展开')
-            time.sleep(1)
-        # 点击家庭网第一个联系人
-        self.assertEqual(contact_page.is_element_already_exist('通讯录_家庭网_管理'), False)
+    def test_contact_00112(self):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            contact_page = ContactsPage()
+            contact_page.wait_for_page_load()
+            self.assertEqual(contact_page.is_element_already_exist('通讯录_家庭网_管理'), False)
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
 
-    @tags('ALL', 'CMCC_double', 'contact')
-    def test_member_00117_01(self):
-        """
-            "1、联网正常
-            2、已登陆客户端（已打开通讯录权限）
-            3、当前在通讯录模块页面，已开通家庭网
-            "	"1、查看联系人列表展示
-            2、点击联系人后的电话icon
-            3、点击通讯录页中各列表内的成员；
-            1、联系人获逻辑取复用福利电话页面,显示在家庭网下方，列表展开显示；
-            联系人后方带有电话icon；
-            2、 点击电话icon,发起电话流程（回拨或者CS电话），打电话逻辑不变；
-            3、跳转至对应的联系人详情页（密友详情页、家庭网成员详情页、陌生人详情页）"
-        """
-        contact_page = ContactsPage()
-        contact_page.is_element_already_exist('通讯录_标题')
-        # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
-        # 获取手机号码
-        cards = contact_page.get_cards(CardType.CHINA_MOBILE)[0]
-        # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
-        # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
-        time.sleep(1)
-        # 展开家庭网
-        # if contact_page.if_home_net_expand():
-        #     contact_page.click_locator_key('通讯录_家庭网_展开')
-        #     time.sleep(1)
-        # 点击联系人
-        n = 0
-        flag = False
-        while n < 8:
-            for contact in contact_page.get_elements_list('家庭网_列表'):
-                if cards == contact.text:
-                    contact_page.click_to_call(cards)
-                    flag = True
+    # ===============test_contact_00119==================
+
+    @TestLogger.log('主叫手机')
+    def contact_00119_01(self, dic):
+        try:
+            # 主叫手机初始化
+            Preconditions.initialize_class('IOS-移动')
+            contact_page = ContactsPage()
+            contact_page.wait_for_page_load()
+            # 循环检测60次 * 2s
+            n = 1 * 60
+            while n > 0:
+                if 'cards' not in dic.keys() or dic['cards'] == '':
+                    n -= 1
+                    # 2秒检测一次
+                    time.sleep(2)
+                    continue
+                else:
+                    contact_page.input_locator_text('通讯_搜索', dic['cards'])
+                    time.sleep(1)
+                    self.assertEqual(contact_page.is_element_already_exist('通讯录_搜索框结果第一条'), True)
+                    # 执行成功，写入成功标志
+                    dic['res1'] = 'success'
                     break
-            if flag:
-                break
-            contact_page.page_up()
-            n += 1
-        time.sleep(1)
-        contact_page.click_locator_key('呼叫_结束通话')
-        time.sleep(2)
+            else:
+                # 超时抛出异常
+                raise
+        except Exception:
+            # 出错捕获异常
+            traceback.print_exc()
+            # 写入失败标志
+            dic['res1'] = 'fail'
 
-    @tags('ALL', 'CMCC_double', 'contact')
-    def test_member_00117_02(self):
-        """
-            "1、联网正常
-            2、已登陆客户端（已打开通讯录权限）
-            3、当前在通讯录模块页面，已开通家庭网
-            "	"1、查看联系人列表展示
-            2、点击联系人后的电话icon
-            3、点击通讯录页中各列表内的成员；
-            1、联系人获逻辑取复用福利电话页面,显示在家庭网下方，列表展开显示；
-            联系人后方带有电话icon；
-            2、 点击电话icon,发起电话流程（回拨或者CS电话），打电话逻辑不变；
-            3、跳转至对应的联系人详情页（密友详情页、家庭网成员详情页、陌生人详情页）"
-        """
-        contact_page = ContactsPage()
-        contact_page.is_element_already_exist('通讯录_标题')
-        # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
-        # 获取手机号码
-        cards = contact_page.get_cards(CardType.CHINA_MOBILE)[0]
-        # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
-        # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
-        time.sleep(1)
-        # 展开家庭网
-        # if contact_page.if_home_net_expand():
-        #     contact_page.click_locator_key('通讯录_家庭网_展开')
-        #     time.sleep(1)
-        # 点击联系人
-        n = 0
-        flag = False
-        while n < 8:
-            for contact in contact_page.get_elements_list('家庭网_列表'):
-                if cards == contact.text:
-                    contact.click()
-                    flag = True
-                    break
-            if flag:
-                break
-            contact_page.page_up()
-            n += 1
-        time.sleep(3)
-        contact_page.is_text_present('电话规则说明')
+    @TestLogger.log('被叫手机')
+    def contact_00119_02(self, dic):
+        try:
+            # 初始化被叫手机
+            Preconditions.initialize_class('IOS-移动-移动')
+            contact_page = ContactsPage()
+            contact_page.wait_for_page_load()
+            # 获取手机号码
+            cards = contact_page.get_cards(CardType.CHINA_MOBILE)
+            # 给共享变量中写入变量参数
+            dic['cards'] = cards
+        except Exception:
+            # 捕获异常
+            traceback.print_exc()
+            # 写入成功标志
+            dic['res2'] = 'fail'
 
-    @tags('ALL', 'CMCC_double', 'contact')
-    def test_member_00119(self):
-        """
-            1、联网正常
-            2、已登陆客户端
-            3、当前通讯录页面"	1、在搜索框中输入“13543418221”
-            1、展示该号码的搜索记录
-        """
-        contact_page = ContactsPage()
-        contact_page.is_element_already_exist('通讯录_标题')
-        # 初始化被叫手机
-        Preconditions.initialize_class('Android-移动-N')
-        # 获取手机号码
-        cards = contact_page.get_cards(CardType.CHINA_MOBILE)[0]
-        # 切换主叫手机
-        Preconditions.select_mobile('Android-移动')
-        # 确保在通讯录界面
-        self.assertEqual(contact_page.is_element_already_exist('通讯录_标题'), True)
-        time.sleep(1)
-        contact_page.click_locator_key('搜索')
-        time.sleep(0.5)
-        contact_page.input_locator_text('搜索_文本', cards)
-        time.sleep(0.8)
-        self.assertEqual(cards == contact_page.get_elements_list('搜索_列表')[0].text, True)
+    @tags('ALL', 'CMCC_double', 'call')
+    def test_contact_00119(self):
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.contact_00119_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.contact_00119_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
