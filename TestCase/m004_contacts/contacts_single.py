@@ -433,10 +433,12 @@ class ContactlocalPage(TestCase):
         try:
             self.assertEqual(len(contact_page.get_element_text('呼叫_电话号码')) < 11, True)
         finally:
+            # 弹出短信提示框
+            time.sleep(5)
             try:
-                time.sleep(3)
                 if contact_page.is_element_already_exist('短信_关闭'):
                     contact_page.click_locator_key('短信_关闭')
+                    time.sleep(0.5)
             except Exception:
                 pass
             try:
@@ -482,10 +484,12 @@ class ContactlocalPage(TestCase):
         try:
             self.assertEqual(len(contact_page.get_element_text('呼叫_电话号码')) < 11, True)
         finally:
+            # 弹出短信提示框
+            time.sleep(5)
             try:
-                time.sleep(4)
                 if contact_page.is_element_already_exist('短信_关闭'):
                     contact_page.click_locator_key('短信_关闭')
+                    time.sleep(0.5)
             except Exception:
                 pass
             try:
@@ -943,7 +947,7 @@ class ContactlocalPage(TestCase):
         contact_page.click_delete_manager_meet()
         time.sleep(0.5)
         contact_page.click_locator_key('密友圈_不限时长管理_解绑')
-        self.assertEqual(contact_page.is_toast_exist('密友圈_不限时长管理_解绑人数'), True)
+        self.assertEqual(contact_page.is_toast_exist('解绑人数已达本月上限') or contact_page.is_toast_exist('解绑成功'), True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_contact_00103(self):
