@@ -1535,7 +1535,6 @@ class CallPageTest(TestCase):
         [预期结果]
             1、输入框显示12345
             2、清除全部输入内容，输入框显示默认字体“直接拨号或拼音搜索”
-        :return:
         """
         call = CallPage()
         # 关闭广告弹框
