@@ -36,6 +36,7 @@ class ContactsPage(FooterPage):
         '密友圈_不限时长管理_列表1': (MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[1]'),
         '密友圈_不限时长管理_解绑': (MobileBy.IOS_PREDICATE, 'name=="解绑"'),
         '密友圈_不限时长管理_解绑取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
+        '密友圈_不限时长管理_解绑人数': (MobileBy.IOS_PREDICATE, 'name=="解绑人数已达本月上限"'),
 
         # 家庭网 呼叫
         '呼叫': (MobileBy.IOS_PREDICATE, 'name=="呼叫"'),

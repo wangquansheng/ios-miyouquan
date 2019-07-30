@@ -1553,7 +1553,7 @@ class CallPageTest(TestCase):
         # 点击清除键一下
         time.sleep(0.5)
         call.click_locator_key('拨号_删除')
-        time.sleep(1)
+        time.sleep(0.5)
         input_text = call.get_element_text('拨号_文本框')
         self.assertEqual(input_text_delete == input_text, True)
         # 长按清除键

@@ -692,7 +692,7 @@ class ContactlocalPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact')
     def test_contact_0042(self):
-        """输入框只能输入数字异常"""
+        """输入框只能输入数字"""
         """
             1、正常登陆
             2、网络正常
@@ -947,7 +947,16 @@ class ContactlocalPage(TestCase):
         contact_page.click_delete_manager_meet()
         time.sleep(0.5)
         contact_page.click_locator_key('密友圈_不限时长管理_解绑')
-        self.assertEqual(contact_page.is_toast_exist('解绑人数已达本月上限') or contact_page.is_toast_exist('解绑成功'), True)
+        i = 5
+        is_success_count = False
+        while i > 0:
+            is_exits = contact_page.is_element_already_exist('密友圈_不限时长管理_解绑人数')
+            is_success = contact_page.is_text_present('解绑成功', default_timeout=0.2)
+            if is_exits or is_success:
+                is_success_count = True
+                break
+            i = i - 1
+        self.assertEqual(is_success_count, True)
 
     @tags('ALL', 'CMCC', 'contact')
     def test_contact_00103(self):
