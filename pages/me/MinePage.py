@@ -104,34 +104,34 @@ class MinePage(FooterPage):
 
         # tab 积分
         '我_积分_积分': (MobileBy.IOS_PREDICATE, 'name=="积分"'),
-        '我_积分_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
+        # '我_积分_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
         '我_积分_我知道了': (MobileBy.IOS_PREDICATE, 'name=="我知道了"'),
 
         # tab 每日资讯
         '我_每日资讯_每日资讯': (MobileBy.IOS_PREDICATE, 'name=="每日资讯"'),
-        '我_每日资讯_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
+        # '我_每日资讯_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
         '我_每日资讯_皇冠': (MobileBy.XPATH,
                       '//XCUIElementTypeButton[contains(@name, "me back blue pressed")]/following-sibling::*[2]'),
 
         # tab 活动中心
         '我_活动中心_活动中心': (MobileBy.IOS_PREDICATE, 'name=="活动中心"'),
-        '我_活动中心_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
+        # '我_活动中心_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # tab 卡劵
         '我_卡劵_卡劵': (MobileBy.IOS_PREDICATE, 'name=="我的卡券"'),
-        '我_卡劵_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
+        # '我_卡劵_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # tab 邀请有奖
         '我_邀请有奖_邀请有奖': (MobileBy.IOS_PREDICATE, 'name=="邀请有奖"'),
-        '我_邀请有奖_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
+        # '我_邀请有奖_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # tab 帮助与反馈
         '我_帮助与反馈_帮助与反馈': (MobileBy.IOS_PREDICATE, 'name=="帮助与反馈"'),
-        '我_帮助与反馈_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
+        # '我_帮助与反馈_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
 
         # 设置
         '我_设置_设置': (MobileBy.IOS_PREDICATE, 'name=="帮助与反馈"'),
-        '我_设置_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
+        # '我_设置_返回': (MobileBy.IOS_PREDICATE, 'name contains "me back blue pressed"'),
         '我_设置_退出登录': (MobileBy.IOS_PREDICATE, 'name=="退出登录"'),
         '我_退出登录_确认': (MobileBy.XPATH, '(//*[@name="退出登录"])[2]'),
         '一键登录': (MobileBy.XPATH, '(//XCUIElementTypeButton[@name="本机号码一键登录"])[1]'),
