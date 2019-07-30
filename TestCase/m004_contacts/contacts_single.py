@@ -947,11 +947,11 @@ class ContactlocalPage(TestCase):
         contact_page.click_delete_manager_meet()
         time.sleep(0.5)
         contact_page.click_locator_key('密友圈_不限时长管理_解绑')
-        i = 5
+        i = 7
         is_success_count = False
         while i > 0:
             is_exits = contact_page.is_element_already_exist('密友圈_不限时长管理_解绑人数')
-            is_success = contact_page.is_text_present('解绑成功', default_timeout=0.2)
+            is_success = contact_page.is_element_already_exist('密友圈_不限时长管理_解绑成功')
             if is_exits or is_success:
                 is_success_count = True
                 break
