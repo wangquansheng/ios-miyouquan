@@ -98,6 +98,8 @@ class ContactlocalPage(TestCase):
         """断开所有手机"""
         Preconditions.disconnect_mobile('IOS-移动')
         Preconditions.disconnect_mobile('IOS-移动-移动')
+        # 关闭idevice log
+        FooterPage().kill_device_syslog()
 
     # ===============test_contact_00014==================
 
@@ -160,27 +162,27 @@ class ContactlocalPage(TestCase):
 
     @tags('ALL', 'CMCC_double', 'contact')
     def test_contact_00014(self):
-            # 实例化ManagerServer进程，这个进程是阻塞的
-            with multiprocessing.Manager() as manager:
-                # 创建一个用于进程间通信的字典
-                dic = manager.dict()
-                # 实例化进程
-                p1 = multiprocessing.Process(target=self.contact_00014_01, args=(dic,))
-                # 启动进程
-                p1.start()
-                # 实例化进程
-                p2 = multiprocessing.Process(target=self.contact_00014_02, args=(dic,))
-                # 启动进程
-                p2.start()
-                # 进程阻塞
-                p1.join()
-                p2.join()
-                # 等待子进程都执行完毕后，判断是否有执行失败的标志
-                if 'fail' in dic.values():
-                    raise RuntimeError('Test Fail')
-                else:
-                    # 若没有失败标志，测试执行成功
-                    print('Test Success')
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.contact_00014_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.contact_00014_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
 
     # ===============test_contact_00030==================
 
@@ -239,27 +241,27 @@ class ContactlocalPage(TestCase):
 
     @tags('ALL', 'CMCC_double', 'call')
     def test_contact_00030(self):
-            # 实例化ManagerServer进程，这个进程是阻塞的
-            with multiprocessing.Manager() as manager:
-                # 创建一个用于进程间通信的字典
-                dic = manager.dict()
-                # 实例化进程
-                p1 = multiprocessing.Process(target=self.contact_00030_01, args=(dic,))
-                # 启动进程
-                p1.start()
-                # 实例化进程
-                p2 = multiprocessing.Process(target=self.contact_00030_02, args=(dic,))
-                # 启动进程
-                p2.start()
-                # 进程阻塞
-                p1.join()
-                p2.join()
-                # 等待子进程都执行完毕后，判断是否有执行失败的标志
-                if 'fail' in dic.values():
-                    raise RuntimeError('Test Fail')
-                else:
-                    # 若没有失败标志，测试执行成功
-                    print('Test Success')
+        # 实例化ManagerServer进程，这个进程是阻塞的
+        with multiprocessing.Manager() as manager:
+            # 创建一个用于进程间通信的字典
+            dic = manager.dict()
+            # 实例化进程
+            p1 = multiprocessing.Process(target=self.contact_00030_01, args=(dic,))
+            # 启动进程
+            p1.start()
+            # 实例化进程
+            p2 = multiprocessing.Process(target=self.contact_00030_02, args=(dic,))
+            # 启动进程
+            p2.start()
+            # 进程阻塞
+            p1.join()
+            p2.join()
+            # 等待子进程都执行完毕后，判断是否有执行失败的标志
+            if 'fail' in dic.values():
+                raise RuntimeError('Test Fail')
+            else:
+                # 若没有失败标志，测试执行成功
+                print('Test Success')
 
     # ===============test_contact_000112==================
 
@@ -350,3 +352,4 @@ class ContactlocalPage(TestCase):
             else:
                 # 若没有失败标志，测试执行成功
                 print('Test Success')
+

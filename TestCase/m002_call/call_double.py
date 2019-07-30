@@ -217,6 +217,8 @@ class CallPageTest(TestCase):
         """后置方法，断开所有手机"""
         Preconditions.disconnect_mobile('IOS-移动')
         Preconditions.disconnect_mobile('IOS-移动-移动')
+        # 关闭idevice log
+        FooterPage().kill_device_syslog()
 
     @TestLogger.log('接听视频电话')
     def to_pick_phone_video(self):
