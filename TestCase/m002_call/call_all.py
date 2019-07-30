@@ -1,4 +1,5 @@
 import time
+import unittest
 import warnings
 from pages.call.Call import CallPage
 
@@ -1000,7 +1001,8 @@ class CallPageTest(TestCase):
         time.sleep(1)
         self.assertEqual(call.on_this_page_common('视频呼叫_字母'), True)
 
-    @tags('ALL', 'CMCC', 'call')
+    # @tags('ALL', 'CMCC', 'call')
+    @unittest.skip('ios页面联系人字母控件内字母')
     def test_call_00041(self):
         """ios页面联系人字母控件内字母"""
         """
@@ -1086,6 +1088,11 @@ class CallPageTest(TestCase):
         self.assertEqual(call.select_contact_n(3), True)
         text = call.get_element_text('视频呼叫_确定')
         self.assertEqual('确定(3/8)' == text, True)
+        # 视频呼叫 取消
+        time.sleep(1)
+        if call.is_element_already_exist('视频呼叫_取消'):
+            call.click_locator_key('视频呼叫_取消')
+            time.sleep(0.5)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_00045(self):
@@ -1104,6 +1111,11 @@ class CallPageTest(TestCase):
         call.is_element_present('视频呼叫_通话选择')
         time.sleep(1)
         self.assertEqual(call.select_contact_n(9), True)
+        # 视频呼叫 取消
+        time.sleep(1)
+        if call.is_element_already_exist('视频呼叫_取消'):
+            call.click_locator_key('视频呼叫_取消')
+            time.sleep(0.5)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000156(self):
@@ -1144,24 +1156,30 @@ class CallPageTest(TestCase):
         call.wait_for_page_load()
         # 判断如果键盘是拉起的，则不需要再次拉起
         if call.is_on_this_page():
-            time.sleep(2)
+            time.sleep(0.5)
             call.click_show_keyboard()
-        # 向左滑动
+            time.sleep(0.5)
+        # 向左滑动, 判断滑动后是否还在此页面
         x_source = 50 / 375 * 100
         y_source = 80 / 667 * 100
         x_target = 50 / 375 * 100
         y_target = 30 / 667 * 100
         call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
-        # 判断滑动后是否还在此页面
-        self.assertEqual(call.is_exist_call_key(), True)
-        # 向右滑动
+        time.sleep(0.5)
+        self.assertEqual(call.is_exist_call_key() or call.is_element_already_exist('通话_文案_HEAD'), True)
+        # 向右滑动, 判断滑动后是否还在此页面
+        if call.is_on_this_page():
+            # 判断如果键盘是拉起的，则不需要再次拉起
+            time.sleep(0.5)
+            call.click_show_keyboard()
+            time.sleep(0.5)
         x_source = 90 / 375 * 100
         y_source = 50 / 667 * 100
         x_target = 20 / 375 * 100
         y_target = 50 / 667 * 100
         call.swipe_by_percent_on_screen(x_source, y_source, x_target, y_target)
-        # 判断滑动后是否还在此页面
-        self.assertEqual(call.is_exist_call_key(), True)
+        time.sleep(0.5)
+        self.assertEqual(call.is_exist_call_key() or call.is_element_already_exist('通话_文案_HEAD'), True)
 
     @tags('ALL', 'CMCC', 'call')
     def test_call_000159(self):
