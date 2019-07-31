@@ -7,6 +7,7 @@ import multiprocessing
 
 from pages import OneKeyLoginPage
 from pages.call.Call import CallPage
+from pages.components.Footer import FooterPage
 
 from library.core.TestCase import TestCase
 from library.core.utils.applicationcache import current_mobile, switch_to_mobile
@@ -7460,7 +7461,8 @@ class CallPageTest(TestCase):
             call.click_locator_key('飞信电话_拒绝')
             time.sleep(5)
             call.click_locator_key('飞信电话_挂断')
-            call.click_text('确定')
+            time.sleep(1)
+            call.click_locator_key('多方通话_弹框_确定')
             return True
         except Exception:
             traceback.print_exc()
@@ -7542,7 +7544,7 @@ class CallPageTest(TestCase):
                     self.assertEqual(self.to_pick_phone_voice(), True)
                     print('电话已接听。。。。')
                     time.sleep(dic['t'] * 60)
-                    call.click_locator_key('飞信电话_结束通话')
+                    call.click_locator_key('呼叫_结束通话')
                     print('飞信电话-----挂断')
                     dic['hang_up'] = True
                     # 写入测试成功标志
