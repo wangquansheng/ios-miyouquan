@@ -1549,8 +1549,8 @@ class CallPageTest(TestCase):
         input_text_source = '1234'
         for i in input_text_source:
             call.click_locator_key('keyboard_{}'.format(i))
-        # 点击清除键一下
         time.sleep(0.5)
+        # 点击清除键一下
         call.click_locator_key('拨号_删除')
         time.sleep(0.5)
         input_text = call.get_element_text('拨号_文本框')
