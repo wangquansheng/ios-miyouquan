@@ -540,6 +540,7 @@ class ContactlocalPage(TestCase):
                 time.sleep(4)
                 if contact_page.is_element_already_exist('短信_关闭'):
                     contact_page.click_locator_key('短信_关闭')
+                    time.sleep(0.5)
             except Exception:
                 pass
             try:
