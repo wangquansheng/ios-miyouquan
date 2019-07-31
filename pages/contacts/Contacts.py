@@ -84,10 +84,12 @@ class ContactsPage(FooterPage):
 
         # 联系人
         '联系人_详细_返回': (MobileBy.IOS_PREDICATE, 'name contains "contact info back normal"'),
-        '联系人_详细_头像': (MobileBy.XPATH, '//XCUIElementTypeButton[contains(@name, "contact info back normal")]'
-                                      '/preceding-sibling::*[1]/XCUIElementTypeImage[2]'),
-        '联系人_详细_用户名': (MobileBy.XPATH, '//XCUIElementTypeButton[contains(@name, "contact info back normal")]'
-                                       '/preceding-sibling::*[1]/XCUIElementTypeStaticText[1]'),
+        '联系人_详细_头像': (MobileBy.XPATH,
+                      '//XCUIElementTypeButton[contains(@name, "contact info back normal")]'
+                      '/preceding-sibling::*[1]/XCUIElementTypeImage[2]'),
+        '联系人_详细_用户名': (MobileBy.XPATH,
+                       '//XCUIElementTypeButton[contains(@name, "contact info back normal")]'
+                       '/preceding-sibling::*[1]/XCUIElementTypeStaticText[1]'),
         '联系人_详细_电话按钮': (MobileBy.IOS_PREDICATE, 'name contains "my call white n"'),
         '联系人_详细_视频按钮': (MobileBy.IOS_PREDICATE, 'name contains "my profile ic vedio n"'),
         '联系人_详细_设置备注名': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="设置备注名"]'),
