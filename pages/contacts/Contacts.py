@@ -55,24 +55,32 @@ class ContactsPage(FooterPage):
         '家庭网_列表1': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[1]'),
         '家庭网_列表2': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[2]'),
         '家庭网_列表电话1': (MobileBy.XPATH,
-                      '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[1]/*[@name="my contact call icon"]'),
+                      '//XCUIElementTypeStaticText[@name="联系人"]'
+                      '/preceding::XCUIElementTypeCell[1]/*[@name="my contact call icon"]'),
         '家庭网_列表电话2': (MobileBy.XPATH,
-                      '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[2]/*[@name="my contact call icon"]'),
+                      '//XCUIElementTypeStaticText[@name="联系人"]'
+                      '/preceding::XCUIElementTypeCell[2]/*[@name="my contact call icon"]'),
         '家庭网_列表文本1': (MobileBy.XPATH,
-                      '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
+                      '//XCUIElementTypeStaticText[@name="联系人"]'
+                      '/preceding::XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
         '家庭网_列表文本2': (MobileBy.XPATH,
-                      '//XCUIElementTypeStaticText[@name="联系人"]/preceding::XCUIElementTypeCell[2]/XCUIElementTypeStaticText[1]'),
+                      '//XCUIElementTypeStaticText[@name="联系人"]'
+                      '/preceding::XCUIElementTypeCell[2]/XCUIElementTypeStaticText[1]'),
         '联系人': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]'),
         '联系人_列表1': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[1]'),
         '联系人_列表2': (MobileBy.XPATH, '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[2]'),
         '联系人_列表电话1': (MobileBy.XPATH,
-                      '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[1]/*[@name="my contact call icon"]'),
+                      '//XCUIElementTypeStaticText[@name="联系人"]'
+                      '/following::XCUIElementTypeCell[1]/*[@name="my contact call icon"]'),
         '联系人_列表电话2': (MobileBy.XPATH,
-                      '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[2]/*[@name="my contact call icon"]'),
+                      '//XCUIElementTypeStaticText[@name="联系人"]'
+                      '/following::XCUIElementTypeCell[2]/*[@name="my contact call icon"]'),
         '联系人_列表文本1': (MobileBy.XPATH,
-                      '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
+                      '//XCUIElementTypeStaticText[@name="联系人"]'
+                      '/following::XCUIElementTypeCell[1]/XCUIElementTypeStaticText[1]'),
         '联系人_列表文本2': (MobileBy.XPATH,
-                      '//XCUIElementTypeStaticText[@name="联系人"]/following::XCUIElementTypeCell[2]/XCUIElementTypeStaticText[1]'),
+                      '//XCUIElementTypeStaticText[@name="联系人"]'
+                      '/following::XCUIElementTypeCell[2]/XCUIElementTypeStaticText[1]'),
 
         # 联系人
         '联系人_详细_返回': (MobileBy.IOS_PREDICATE, 'name contains "contact info back normal"'),
@@ -87,14 +95,16 @@ class ContactsPage(FooterPage):
         '联系人_详细_手机号码': (MobileBy.IOS_PREDICATE, 'name=="手机号码"'),
         '联系人_详细_短号': (MobileBy.IOS_PREDICATE, 'name=="短号"'),
         '联系人_详细_电话规则': (MobileBy.IOS_PREDICATE, 'name=="电话规则说明"'),
-
-        '联系人_详情_头像': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElement'
-                                      'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
-                                      'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeImage[3]'),
-        '联系人_详情_用户名': (
-            MobileBy.XPATH, '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElement'
-                            'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
-                            'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeStaticText[1]'),
+        '联系人_详情_头像': (MobileBy.XPATH,
+                      '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]'
+                      '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
+                      '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
+                      '/XCUIElementTypeOther/XCUIElementTypeImage[3]'),
+        '联系人_详情_用户名': (MobileBy.XPATH,
+                       '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]'
+                       '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
+                       '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
+                       '/XCUIElementTypeOther/XCUIElementTypeStaticText[1]'),
 
         # 密友圈
         '密友圈_管理_标题': (MobileBy.XPATH, '//XCUIElementTypeOther[@name="不限时长成员管理"]'),

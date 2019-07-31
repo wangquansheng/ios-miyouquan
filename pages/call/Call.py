@@ -159,7 +159,8 @@ class CallPage(FooterPage):
         '视频_确定': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
         '视频_通话结束': (MobileBy.IOS_PREDICATE, 'name=="通话结束"'),
         '视频_小屏': (MobileBy.XPATH,
-                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[5]'),
+                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]'
+                  '/XCUIElementTypeOther[1]/XCUIElementTypeOther[5]'),
 
         # 视频-语音界面
         '语音_名称': (MobileBy.XPATH,
@@ -201,34 +202,38 @@ class CallPage(FooterPage):
         '涂鸦_删除_确定': (MobileBy.IOS_PREDICATE, 'name=="确定"'),
         '涂鸦_删除_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
         '涂鸦_橙色': (MobileBy.XPATH,
-                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementType'
-                  'Other[1]/XCUIElementTypeOther[3]/XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeOther[1]'),
+                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]'
+                  '/XCUIElementTypeOther[1]/XCUIElementTypeOther[3]/XCUIElementTypeOther[2]'
+                  '/XCUIElementTypeOther[3]/XCUIElementTypeOther[1]'),
         '涂鸦_线条_滑动': (MobileBy.XPATH,
-                     '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/XCUIElement'
-                     'TypeOther[4]/XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeSlider'),
+                     '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]'
+                     'XCUIElementTypeOther[4]/XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeSlider'),
         '涂鸦_橡皮_滑动': (MobileBy.XPATH,
-                     '//XCUIElementTypeButton[contains(@name,"doodle share")]/../following-sibling::*[1]/XCUIElementTypeSlider'),
+                     '//XCUIElementTypeButton[contains(@name,"doodle share")]'
+                     '/../following-sibling::*[1]/XCUIElementTypeSlider'),
         '涂鸦_画布': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementType'
                                   'Window[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[4]'),
-        '涂鸦_表情1': (
-            MobileBy.XPATH,
-            '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/'
-            'XCUIElementTypeOther[3]/XCUIElementTypeOther[2]/XCUIElementTypeOther[1]/XCUIElementTypeOther[4]/XCUIElementTypeCollectionView/XCUIElementTypeCell[1]'),
+        '涂鸦_表情1': (MobileBy.XPATH,
+                   '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]'
+                   '/XCUIElementTypeOther[3]/XCUIElementTypeOther[2]/XCUIElementTypeOther[1]/XCUIElementTypeOther[4]'
+                   '/XCUIElementTypeCollectionView/XCUIElementTypeCell[1]'),
         '涂鸦_滑块': (MobileBy.XPATH,
-                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]/XCUIElementTypeOther[3]/XCUIElement'
-                  'TypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeSlider'),
+                  '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]/XCUIElementTypeOther[1]'
+                  '/XCUIElementTypeOther[3]/XCUIElementTypeOther[2]/XCUIElementTypeOther[3]/XCUIElementTypeSlider'),
 
         # 多方通话联系人选择
         '多方通话_确定': (MobileBy.IOS_PREDICATE, 'name contains "确定"'),
         '多方通话_取消': (MobileBy.IOS_PREDICATE, 'name=="取消"'),
-        '多方通话_搜索_文本框': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElement'
-                                        'TypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
-                                        'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
-                                        'TypeOther[1]/XCUIElementTypeOther/XCUIElementTypeTextField'),
-        '多方通话_电话号码': (MobileBy.XPATH, '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElement'
-                                      'TypeWindow[1]/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
-                                      'TypeOther/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElement'
-                                      'TypeOther[2]/XCUIElementTypeTable/XCUIElementTypeCell'),
+        '多方通话_搜索_文本框': (MobileBy.XPATH,
+                        '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]'
+                        '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
+                        '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[1]'
+                        '/XCUIElementTypeOther/XCUIElementTypeTextField'),
+        '多方通话_电话号码': (MobileBy.XPATH,
+                      '//XCUIElementTypeApplication[@name="密友圈"]/XCUIElementTypeWindow[1]'
+                      '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther'
+                      '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]'
+                      '/XCUIElementTypeTable/XCUIElementTypeCell'),
         '多方通话_搜索_电话号码列表1': (MobileBy.XPATH,
                             '//XCUIElementTypeNavigationBar[@name="多方电话"]/following-sibling::*[1]'
                             '/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeOther[2]'
