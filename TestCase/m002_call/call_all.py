@@ -1558,7 +1558,7 @@ class CallPageTest(TestCase):
         # 长按清除键
         time.sleep(0.5)
         input_text_delete = '直接拨号或拼音搜索'
-        call.long_press_number('拨号_删除', 5)
+        call.long_press_number('拨号_删除', 3)
         time.sleep(2)
         input_text = call.get_element_text('拨号_文本框')
         self.assertEqual(input_text_delete == input_text, True)
