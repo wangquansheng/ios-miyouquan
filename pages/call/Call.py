@@ -840,12 +840,11 @@ class CallPage(FooterPage):
     def select_contact_n(self, number):
         """选择N个联系人"""
         try:
-            count = 0
             # 联系人列表大于0，和N个联系人
-            time.sleep(0.5)
+            time.sleep(1.5)
             els = self.get_elements((MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'))
-            time.sleep(2)
-            if count >= len(els):
+            time.sleep(3.5)
+            if 0 >= len(els):
                 print('联系人列表为0')
                 return False
             if number > len(els):
