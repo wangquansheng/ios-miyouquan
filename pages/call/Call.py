@@ -841,9 +841,9 @@ class CallPage(FooterPage):
         """选择N个联系人"""
         try:
             # 联系人列表大于0，和N个联系人
-            time.sleep(1.5)
+            time.sleep(4)
             els = self.get_elements((MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell'))
-            time.sleep(3.5)
+            time.sleep(3)
             if 0 >= len(els):
                 print('联系人列表为0')
                 return False
@@ -852,7 +852,7 @@ class CallPage(FooterPage):
                 return False
             # 选择联系人, 点击之后页面变化，需重新获取元素
             for cell in range(number):
-                time.sleep(0.5)
+                time.sleep(1)
                 els = self.get_elements((MobileBy.XPATH, '//XCUIElementTypeTable/XCUIElementTypeCell[%s]' % (cell+1)))
                 time.sleep(2)
                 # 休眠等待节点生产

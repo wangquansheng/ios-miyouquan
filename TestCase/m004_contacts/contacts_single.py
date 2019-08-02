@@ -1109,7 +1109,7 @@ class ContactlocalPage(TestCase):
 
     @tags('ALL', 'CMCC', 'contact')
     def test_contact_00120(self):
-        """控件元素值无法获取"""
+        """获取搜索结果无该联系人"""
         """
             1、联网正常
             2、已登陆客户端
