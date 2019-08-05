@@ -321,18 +321,18 @@ DEVICES_CONFIG_WJH = {
         'CARDS': [
             {
                 'TYPE': CardType.CHINA_MOBILE,
-                'CARD_NUMBER': '14775970982'
+                'CARD_NUMBER': '13641490071'
             },
         ]
     },
     'iphone_d': {
         "MODEL": SupportedModel.iPhone_XR,
-        "SERVER_URL": 'http://127.0.0.1:4725/wd/hub',
+        "SERVER_URL": 'http://127.0.0.1:4724/wd/hub',
         "DEFAULT_CAPABILITY": {
             "platformName": "ios",
             "platformVersion": "12.0.1",
             "deviceName": "iPhone7st",
-            "udid": "13ca1b2deeeac7446f3a0cec3fec65dc6875714a",
+            "udid": "37a09507f12a8a307e592f7e8ed8f50ec160c7da",
             "automationName": "XCUITest",
             "app": "com.cmic.college",
             "xcodeOrgId": "92GST8LVB9",

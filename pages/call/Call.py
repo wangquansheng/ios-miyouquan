@@ -346,15 +346,18 @@ class CallPage(FooterPage):
     @TestLogger.log("通话页面点击删除按钮，删除所有")
     def click_delete_all_key(self):
         time.sleep(1)
-        while self.is_element_already_exist("通话_第一个联系人"):
-            # time.sleep(1)
-            self.swipe_by_direction(self.__locators["通话_第一个联系人"], "left")
-            time.sleep(2)
-            del_locator = (MobileBy.XPATH, '//XCUIElementTypeButton[@name="删除"]')
-            self.click_element(del_locator)
-            time.sleep(2)
-        # 检查当前页面
-        time.sleep(1)
+        try:
+            while self.is_element_already_exist("通话_第一个联系人"):
+                # time.sleep(1)
+                self.swipe_by_direction(self.__locators["通话_第一个联系人"], "left")
+                time.sleep(2)
+                del_locator = (MobileBy.XPATH, '//XCUIElementTypeButton[@name="删除"]')
+                self.click_element(del_locator)
+                time.sleep(2)
+            # 检查当前页面
+            time.sleep(1)
+        except Exception:
+            traceback.print_exc()
         if self.is_element_already_exist('通话_通话_TAB'):
             return True
         else:

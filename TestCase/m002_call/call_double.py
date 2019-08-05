@@ -1004,6 +1004,7 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         try:
+            time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
             time.sleep(1)
@@ -2119,7 +2120,7 @@ class CallPageTest(TestCase):
             call.check_element_tap_screen('视频_挂断')
             call.click_locator_key('视频_挂断')
             self.assertEqual(call.is_element_already_exist('视频_通话结束'), True)
-            time.sleep(5)
+            time.sleep(8)
             self.assertEqual(call.is_element_already_exist('通话_文案_HEAD'), True)
             return True
         except Exception:
@@ -3384,7 +3385,7 @@ class CallPageTest(TestCase):
         call = CallPage()
         try:
             time.sleep(6)
-            call.check_element_tap_screen('视频_切到语音通话')
+            call.check_element_tap_screen('视频_切换摄像头')
             call.click_locator_key('视频_切换摄像头')
             return True
         except Exception:
@@ -4213,7 +4214,8 @@ class CallPageTest(TestCase):
         """
         call = CallPage()
         try:
-            time.sleep(2)
+            time.sleep(6)
+            call.check_element_tap_screen('视频_小屏')
             call.click_locator_key('视频_小屏')
             return True
         except Exception:
@@ -4798,7 +4800,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             time.sleep(1)
             self.assertEqual(call.is_element_already_exist('涂鸦_圆点'), True)
@@ -4924,7 +4927,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             time.sleep(1)
             call.click_locator_key('涂鸦_圆点')
@@ -5050,7 +5054,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             time.sleep(1)
             call.click_locator_key('涂鸦_表情')
@@ -5064,10 +5069,13 @@ class CallPageTest(TestCase):
             traceback.print_exc()
             return False
         finally:
-            if call.is_element_already_exist('涂鸦_返回'):
-                call.click_locator_key('涂鸦_返回')
-            call.check_element_tap_screen('视频_挂断')
-            call.click_locator_key('视频_挂断')
+            try:
+                if call.is_element_already_exist('涂鸦_返回'):
+                    call.click_locator_key('涂鸦_返回')
+                call.check_element_tap_screen('视频_挂断')
+                call.click_locator_key('视频_挂断')
+            except Exception:
+                pass
 
     # ================test_call_00084_01=================
 
@@ -5176,7 +5184,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             time.sleep(1)
             call.click_locator_key('涂鸦_线条')
@@ -5303,7 +5312,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             time.sleep(1)
             call.click_locator_key('涂鸦_线条')
@@ -5430,7 +5440,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             time.sleep(1)
             call.swipe_by_direction_element('涂鸦_画布', 'right')
@@ -5559,7 +5570,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             time.sleep(1)
             call.swipe_by_direction_element('涂鸦_画布', 'right')
@@ -5688,7 +5700,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             time.sleep(1)
             call.swipe_by_direction_element('涂鸦_画布', 'right')
@@ -5819,7 +5832,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             time.sleep(1)
             call.click_locator_key('涂鸦_分享')
@@ -5953,7 +5967,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             self.assertEqual(call.is_element_already_exist('涂鸦_圆点'), True)
             self.assertEqual(call.is_element_already_exist('视频_静音'), False)
@@ -6105,7 +6120,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             return True
         except Exception:
@@ -6258,7 +6274,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             time.sleep(2)
             call.click_locator_key('涂鸦_返回')
@@ -6416,7 +6433,8 @@ class CallPageTest(TestCase):
             time.sleep(6)
             call.check_element_tap_screen('视频_免提')
             call.click_locator_key('视频_免提')
-            call.check_element_tap_screen('视频_切到语音通话')
+            time.sleep(1)
+            call.check_element_tap_screen('视频_画笔')
             call.click_locator_key('视频_画笔')
             time.sleep(2)
             call.click_locator_key('涂鸦_返回')
