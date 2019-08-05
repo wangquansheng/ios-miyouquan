@@ -341,7 +341,6 @@ class CallPageTest(TestCase):
     @tags('ALL', 'CMCC', 'call')
     def test_call_0007(self):
         """跳出下拉框，可选择视频通话与多方电话"""
-        time.sleep(2)
         call = CallPage()
         # 关闭广告弹框
         call.close_click_home_advertisement()
@@ -350,6 +349,7 @@ class CallPageTest(TestCase):
             call.click_hide_keyboard()
             time.sleep(1)
         # 点击加号
+        time.sleep(0.5)
         call.click_locator_key('+')
         time.sleep(2)
         # 判断是否有视频通话与多方电话
@@ -359,12 +359,12 @@ class CallPageTest(TestCase):
     @tags('ALL', 'CMCC', 'call')
     def test_call_0008(self):
         """打开视频通话界面-联系人选择器页面（该页面逻辑与现网保持一致）"""
-        time.sleep(2)
         call = CallPage()
         # 关闭广告弹框
         call.close_click_home_advertisement()
         call.wait_for_page_load()
         # 点击加号
+        time.sleep(0.5)
         call.click_locator_key('+')
         time.sleep(2)
         call.click_locator_key('视频通话')
@@ -400,18 +400,18 @@ class CallPageTest(TestCase):
         call.wait_for_page_load()
         # 判断是否有通话记录
         call.test_call_video()
-        time.sleep(5)
+        time.sleep(2)
         # 判断如果键盘已拉起，则收起键盘
         if call.is_exist_call_key():
             call.click_hide_keyboard()
             time.sleep(1)
         # 视频通话
         call.make_sure_have_p2p_vedio_record()
-        time.sleep(3)
+        time.sleep(2)
         # 通话列表筛选"[视频通话]"
         call.click_tag_detail_first_element('[视频通话]')
-        # 判断参数校验
         time.sleep(2)
+        # 判断参数校验
         self.assertEqual(call.on_this_page_call_detail(), True)
         self.assertEqual(call.check_vedio_call_detail_page(), True)
 
@@ -436,7 +436,6 @@ class CallPageTest(TestCase):
         call.make_sure_have_multiplayer_vedio_record()
         time.sleep(2)
         call.click_tag_detail_first_element('[多方视频]')
-        # 判断
         time.sleep(1)
         # 是否在多方视频详情页面
         self.assertEqual(call.on_this_page_multi_video_detail(), True)
@@ -1015,6 +1014,8 @@ class CallPageTest(TestCase):
         # 关闭广告弹框
         call.close_click_home_advertisement()
         call.wait_for_page_load()
+        # 跳转到联系人选择页面
+        time.sleep(0.5)
         call.click_locator_key('+')
         time.sleep(0.5)
         call.click_locator_key('视频通话')
@@ -1036,12 +1037,13 @@ class CallPageTest(TestCase):
         # 关闭广告弹框
         call.close_click_home_advertisement()
         call.wait_for_page_load()
+        # 跳转到联系人选择页面
+        time.sleep(0.5)
         call.click_locator_key('+')
-        time.sleep(1)
+        time.sleep(0.5)
         call.click_locator_key('视频通话')
         time.sleep(2)
         call.is_element_present('视频呼叫_通话选择')
-        time.sleep(2)
         self.assertEqual(call.select_contact_n(1), True)
         time.sleep(1)
         text = call.get_element_text('视频呼叫_确定')
@@ -1057,13 +1059,14 @@ class CallPageTest(TestCase):
         # 关闭广告弹框
         call.close_click_home_advertisement()
         call.wait_for_page_load()
+        # 跳转到联系人选择页面
+        time.sleep(0.5)
         call.click_locator_key('+')
         time.sleep(0.5)
         call.click_locator_key('视频通话')
         time.sleep(1)
         call.is_element_present('视频呼叫_通话选择')
         # 选择联系人
-        time.sleep(1)
         self.assertEqual(call.select_contact_n(2), True)
         # 校验联系人
         text = call.get_element_text('视频呼叫_确定')
@@ -1079,12 +1082,13 @@ class CallPageTest(TestCase):
         # 关闭广告弹框
         call.close_click_home_advertisement()
         call.wait_for_page_load()
+        # 跳转到联系人选择页面
+        time.sleep(0.5)
         call.click_locator_key('+')
         time.sleep(0.5)
         call.click_locator_key('视频通话')
         time.sleep(1)
         call.is_element_present('视频呼叫_通话选择')
-        time.sleep(1)
         self.assertEqual(call.select_contact_n(3), True)
         text = call.get_element_text('视频呼叫_确定')
         self.assertEqual('确定(3/8)' == text, True)
@@ -1104,12 +1108,13 @@ class CallPageTest(TestCase):
         # 关闭广告弹框
         call.close_click_home_advertisement()
         call.wait_for_page_load()
+        # 跳转到联系人选择页面
+        time.sleep(0.5)
         call.click_locator_key('+')
         time.sleep(0.5)
         call.click_locator_key('视频通话')
         time.sleep(1)
         call.is_element_present('视频呼叫_通话选择')
-        time.sleep(1)
         self.assertEqual(call.select_contact_n(9), True)
         # 视频呼叫 取消
         time.sleep(1)
@@ -1549,8 +1554,8 @@ class CallPageTest(TestCase):
         input_text_source = '1234'
         for i in input_text_source:
             call.click_locator_key('keyboard_{}'.format(i))
-        # 点击清除键一下
         time.sleep(0.5)
+        # 点击清除键一下
         call.click_locator_key('拨号_删除')
         time.sleep(0.5)
         input_text = call.get_element_text('拨号_文本框')
@@ -1558,7 +1563,7 @@ class CallPageTest(TestCase):
         # 长按清除键
         time.sleep(0.5)
         input_text_delete = '直接拨号或拼音搜索'
-        call.long_press_number('拨号_删除', 5)
+        call.long_press_number('拨号_删除', 3)
         time.sleep(2)
         input_text = call.get_element_text('拨号_文本框')
         self.assertEqual(input_text_delete == input_text, True)
@@ -1686,7 +1691,6 @@ class CallPageTest(TestCase):
         call.click_locator_key('+')
         time.sleep(1)
         call.click_locator_key('视频通话')
-        time.sleep(2)
         call.select_contact_n(1)
         time.sleep(2)
         call.click_locator_key('视频呼叫_确定')
@@ -1714,7 +1718,6 @@ class CallPageTest(TestCase):
         call.click_locator_key('+')
         time.sleep(1)
         call.click_locator_key('视频通话')
-        time.sleep(2)
         call.select_contact_n(3)
         time.sleep(2)
         call.click_locator_key('视频呼叫_确定')
@@ -1790,7 +1793,6 @@ class CallPageTest(TestCase):
         result = call.get_element_text('多方通话_确定')
         self.assertEqual('确定' == result, True)
         # 联系人
-        time.sleep(1)
         call.select_contact_n(1)
         time.sleep(1)
         result = call.get_element_text('多方通话_确定')
@@ -1808,7 +1810,6 @@ class CallPageTest(TestCase):
         call.click_locator_key('多方电话')
         time.sleep(1)
         self.assertEqual(call.is_element_already_exist('多方电话'), True)
-        time.sleep(1)
         self.assertEqual(call.select_contact_n(9), True)
 
     @tags('ALL', 'CMCC', 'call')
